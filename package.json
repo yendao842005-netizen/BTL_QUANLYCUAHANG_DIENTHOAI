@@ -1,0 +1,61 @@
+{
+  "name": "node-project-starter",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "lint": "standard --verbose | snazzy",
+    "lintfix": "standard --fix"
+  },
+  "author": {
+    "name": "Fahrur Rifai",
+    "email": "mfahrurrifai@gmail.com",
+    "url": "https://fahrur.dev"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@sentry/node": "^7.0.0",
+    "@sentry/tracing": "^7.0.0",
+    "bcrypt": "^5.1.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "debug": "^4.3.4",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-validator": "^7.0.0",
+    "helmet": "^8.0.0",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "morgan": "^1.10.0",
+    "mssql": "^12.1.0",
+    "mysql2": "^3.15.3",
+    "nodemailer": "^7.0.0",
+    "redis": "^4.6.7",
+    "sequelize": "^6.32.1",
+    "swagger-ui-express": "^5.0.0",
+    "winston": "^3.18.3",
+    "winston-daily-rotate-file": "^5.0.0",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/core": "^7.23.0",
+    "@babel/node": "^7.23.0",
+    "@babel/preset-env": "^7.23.0",
+    "@babel/register": "^7.23.0",
+    "babel-plugin-module-resolver": "^5.0.0",
+    "chai": "^5.0.0",
+    "chai-http": "^5.0.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "sequelize-cli": "^6.6.1"
+  },
+  "engines": {
+    "npm": ">=8",
+    "node": "^18 || ^20"
+  }
+}

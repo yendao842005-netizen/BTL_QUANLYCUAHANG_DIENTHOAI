@@ -113,4 +113,35 @@ export const NhanVienController = {
       res.status(404).json({ message: err.message });
     }
   },
+
+
+  // API: /NhanViens/BaoCao/HieuSuat
+  getPerformanceReport: async (req, res) => {
+    try {
+      // Lấy tham số từ Query String
+      //  ?startDate=2024-01-01&endDate=2024-12-31
+      const { startDate, endDate } = req.query;
+
+      const result = await NhanVienService.analyzePerformance(startDate, endDate);
+      
+      res.json(result);
+    } catch (err) {
+      logger.error("Controller Error: getPerformanceReport failed", err);
+      res.status(500).json({ message: err.message });
+    }
+  },
+
+  // xuat elxel
+  // API: /NhanViens/Export/Excel
+  exportToExcel: async (req, res) => {
+    try {
+      const workbook = await NhanVienService.generateExcel();
+      res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      res.setHeader("Content-Disposition", `attachment; filename=NhanVien_${Date.now()}.xlsx`);
+      await workbook.xlsx.write(res);
+      res.end();
+    } catch (err) {
+      res.status(500).json({ message: "Lỗi xuất Excel: " + err.message });
+    }
+  }
 };

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán hóa đơn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/thanhtoan.css">
+    <!-- link font chu -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <!-- header -->
+        <header class="header">
+            <!-- header-top -->
+            <div class="header-top ">
+                <div class="container">
+                    <div class="header-top1">
+                        <ul>
+                            <li style="border-right: 1px solid var(--text-color); padding-right: 10px;"><a class="hover"
+                                    href="#"><i class="fa-solid fa-phone-flip"></i> Phone: 0868812510</a>
+                            </li>
+                            <li><a class="hover" href="#"><i class="fa-regular fa-envelope"></i>
+                                    Email:yendaodinh842005@gmail.com</a></li>
+    
+                        </ul>
+                    </div>
+                    <div class="header-top2">
+                        <ul>
+                            <li><a class="thongbao hover" href="#"><i class="fa-regular fa-bell"
+                                        style="margin-right: 5px;"></i>Thông báo</a></li>
+                            <li><a href="#" class="hover"><i class="fa-regular fa-circle-question "
+                                        style="margin-right: 5px;"></i>Hỗ
+                                    trợ</a></li>
+                            <li class="Language"> <a href="javascript:void(0)" class="language-select"> Language <i
+                                        class="fa-solid fa-angle-down"></i> </a>
+                                <ul class="Language-option" style="display:none;">
+                                    <li data-value="Tiếng Việt">Tiếng việt </li>
+                                    <li data-value="English">English</li>
+                                </ul>
+                            </li>
+                            <li style="border-right: 1px solid var(--text-color); padding-right: 10px;" id="auth-options1"><a class="hover"
+                                    href="/dangki.html">Đăng kí</a></li>
+                            <li id="auth-options"><a class="hover" href="/dangnhap.html">Đăng nhập</a></li>
+                            <li style="display: none;cursor: pointer;" onclick="logout()" id="logout-option"><a href="#"><i class="fa-solid fa-user" ></i> đăng xuất</a></li>
+                            <script src="js/dangkidangnhapdxuat.js"></script>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <!-- header-main -->
+            <div class="container">
+    
+    
+                <div class="header-main">
+                    <div class="inner-logo">
+                        <a href="/index.html">
+                            <img src="img/img trang chu/logo1.png"
+                                alt="logo">
+                            <span>MobileShop</span>
+                        </a>
+                    </div>
+    
+                    <div class="timkiem">
+                        <div class="timkieminput">
+                            <input type="text" class="input" placeholder="Nhập tên điện thoại, phụ kiện...cần tìm"
+                                style="width: calc(100% - 50px);">
+                            <!-- Xu huong tim kiem -->
+                            <div class="history">
+                                <h3 class="heading">Xu hướng tìm kiếm</h3>
+                                <ul class="list_history">
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>Iphone 16 pro max</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>iPad</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>Điện thoại SamSung</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>Tai nghe</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;"></i>Linh
+                                            kiên điện thoại</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+    
+                    <div class="giohang">
+                        <a href="/giohang.html"><i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
+                            <span class="notice">3</span>
+                        </a>
+                    </div>
+    
+                </div>
+                <div class="header-bottom" style="width: 100%;    ; border-radius: 8px;">
+                    <ul>
+                        <li><a href="/index.html">
+                                <h3>Trang chủ</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Giới thiệu</h3>
+                            </a></li>
+                        <li><a href="/sanpham.html">
+                                <h3>Cửa hàng</h3>
+                            </a></li>
+                        <li><a href="/sanpham.html">
+                                <h3>Sản Phẩm</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Bài viết</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Khách Hàng</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Liên hệ</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Danh sách sản phẩm</h3>
+                            </a></li>
+    
+    
+                    </ul>
+                </div>
+            </div>
+    
+    
+        </header>
+
+        <!-- main -->
+        <div class="main-tt">
+            <div class="container">
+                <div class="maintt">
+                    <div class="main-tt-left">
+                        <div class="main-tt-td">
+                            <h3 style="margin-bottom: 0px;">Thông tin giao hàng</h3>
+                        </div>
+
+                        <div class="nhaptt">
+                            <div class="Hotentt">
+                                <input type="text" id="name" name="text" placeholder="Nhập họ tên">
+                                <div class="error" id="nameError"></div>
+                            </div>
+                            <div class="emsdt">
+                                <div class="email">
+                                    <input type="email" id="email" name="email" placeholder="Nhập email">
+                                    <div class="error" id="emailError"></div>
+                                </div>
+                                <div class="sdt">
+                                    <input type="tel" id="sdt" name="sdt" placeholder="Nhập số điện thoại"
+                                        maxlength="10" pattern="^0\d{9}$" >
+                                    <div class="error" id="sdtError"></div>
+                                </div>
+                            </div>
+                            <div class="diachi">
+                                <input type="text" id="diachi" name="diachi" placeholder="Nhập địa chỉ">
+                                <div class="error" id="diachiError"></div>
+                            </div>
+
+                        </div>
+                        <div class="phuongthuctt">
+                            <h3 style="margin-bottom: 20px;">Phương thức thanh toán</h3>
+                                <ul>
+                                    <li><input type="radio" name="mucgia" id="all" checked style="margin-right: 10px;"><label for="all" style="display: flex;align-items: center"><img  src="img/img thanh toan/thanh-toan-khi-nhan-hang-2135165j32025.webp" alt=""> Thanh toán khi giao hàng</label></li>
+                                    <li><input type="radio" name="mucgia" id="under-2" style="margin-right: 10px;"><label for="under-2" style="display: flex;align-items: center"><img src="img/img thanh toan/shoppe.png" alt=""> Ví ShopeePay</label></li>
+                                    <li><input type="radio" name="mucgia" id="2-4" style="margin-right: 10px;"><label for="2-4" style="display: flex;align-items: center"><img src="img/img thanh toan/chuyen qua ngan hang.png" alt=""> Chuyển qua ngân hàng</label></li>
+                                    <li><input type="radio" name="mucgia" id="4-7" style="margin-right: 10px;"><label for="4-7" style="display: flex;align-items: center"><img src="img/img thanh toan/MoMo_Logo.png" alt=""> Ví MoMo </label></li>
+                                </ul>
+
+                        </div>
+
+                    </div>
+                    <div class="main-tt-right">
+                        <div class="sp">
+                            <table class="list_sp">
+                                <table class="table-top">
+                                    <tbody id="listsp">
+                                        <!-- <tr>
+                                            <td><img width="80px" src="img/img thanh toan/chuyen qua ngan hang.png" alt=""></td>
+                                            <td>iPhone 16 Pro Max</td>
+                                            <td>x1</td>
+                                            <td>3333333đ</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img width="80px" src="img/img thanh toan/chuyen qua ngan hang.png" alt=""></td>
+                                            <td>iPhone 16 Pro Max</td>
+                                            <td>x1</td>
+                                            <td>3333333đ</td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                            </table>
+                        </div>
+                        <div class="thanhtoan">
+                            <div class="table-thanhtoan">
+                                <table class="table-bottom">
+                                  
+                                   <tbody>
+                                        <tr>
+                                            <td>Giá trị sản phẩm: </td>
+                                            <td id="tTong" style="text-align: right;">0</td>
+                                            <script src="js/thanhtoan.js"></script>
+                                        </tr>
+                                        <tr>
+                                            <td>Phí vận chuyển:</td>
+                                            <td style="text-align: right;">Miễn phí</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tổng tiền:</td>
+                                            <td id="spTong" style="text-align: right;">0</td>
+                                            <script src="js/thanhtoan.js"></script>
+                                        </tr>
+                                   </tbody>
+                                </table>
+                                <div class="thdh">
+                                    <button onclick="Thanhtoan()">Thanh toán</button>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-container">
+
+                    <div class="footer1">
+
+                        <h3 class="footer_heading">MobileShop</h3>
+                        <ul class="footer_list">
+
+                            <li><a href="">Địa chỉ: Hưng Yên</a></li>
+                            <li><a href="">Number: 0868812510</a></li>
+                            <li><a href="">Email: yendaodinh842005@gmail.com</a></li>
+                        </ul>
+
+                    </div>
+                    <div class="footer1">
+                        <h3 class="footer_heading">Cửa hàng</h3>
+                        <ul class="footer_list">
+
+                            <li><a href="">Liên hệ</a> </li>
+                            <li><a href="">Thông tin về chúng tôi</a></li>
+                            <li><a href="">Giỏ hàng</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer1">
+                        <h3 class="footer_heading">Khuyến mãi ưu đãi</h3>
+                        <ul class="footer_list">
+
+                            <li style="color: #666;">
+
+                                <label for="fullname">Đăng kí nhận thông tin ở
+                                    đây</label><!--ấn vào họ tên vẫn link vào ô input thuộc tính for-->
+                                <br>
+                                <div style="display: flex;">
+                                    <input id="fullname" required placeholder="Nhập email" name="ho_ten" type="email"
+                                        maxlength="10"
+                                        style="padding: 8px;margin-top: 12px;"><!--hiển thị theo nhiều cách-->
+                                    <div
+                                        style=" align-items: center; display: flex ;margin-top: 12px;border: 1px #000 solid;padding: 0 5px;cursor: pointer; ">
+                                        Đăng kí</div>
+                                </div>
+                            </li>
+
+                            <li style="display: flex;">
+                                <div class="footer_item">
+                                    <a href="" style="color: black;"><i class="fa-brands fa-facebook"></i></a>
+                                </div>
+                                <div class="footer_item">
+                                    <a href="" style="color: black;"><i class="fa-brands fa-instagram"></i></a>
+                                </div>
+                                <div class="footer_item">
+                                    <a href="" style="color: black;"><i class="fa-brands fa-linkedin"></i></a>
+                                </div>
+
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer1">
+                        <h3 class="footer_heading">Địa chỉ</h3>
+                        <ul class="footer_list">
+
+                            <li><iframe class="bando"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59729.553537434054!2d106.02220331783772!3d20.665628398322173!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135c12ae1ec71a3%3A0x4d32999e6a9bb398!2zVHAuIEjGsG5nIFnDqm4sIEjGsG5nIFnDqm4sIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1734952209219!5m2!1svi!2s"
+                                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe></li>
+
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </footer>
+        <script src="js/jquery-3.6.0.min.js"></script>
+        <script src="js/thanhtoan.js"></script>
+
+    </div>
+</body>
+
+</html>

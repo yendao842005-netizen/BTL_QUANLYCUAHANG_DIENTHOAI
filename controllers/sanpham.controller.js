@@ -113,4 +113,54 @@ export const SanPhamController = {
       res.status(404).json({ message: err.message });
     }
   },
+
+  //Hàm thống kê tồn kho
+  // API: /SanPhams/ThongKe/TonKho?threshold=10
+  getInventoryStats: async (req, res) => {
+    try {
+      const { threshold } = req.query; // Lấy tham số từ URL
+      
+      const result = await SanPhamService.getInventoryReport(threshold);
+      
+      res.json({
+        message: "Thống kê tình trạng kho hàng",
+        threshold: threshold || 10, // Trả lại ngưỡng để FE biết đang lọc theo số nào
+        data: result
+      });
+    } catch (err) {
+      logger.error("Controller Error: getInventoryStats failed", err);
+      res.status(500).json({ message: err.message });
+    }
+  },
+
+  
+  // Hàm xuất danh sách sản phẩm ra file Excel
+  // API: /SanPhams/Export/Excel
+  exportToExcel: async (req, res) => {
+    try {
+      const workbook = await SanPhamService.generateExcel();
+
+      // Đặt tên file khi tải về
+      const fileName = `DanhSachSanPham_${Date.now()}.xlsx`;
+
+      // Thiết lập Header để báo trình duyệt đây là file Excel
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      );
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename=${fileName}`
+      );
+
+      // Ghi workbook trực tiếp vào response (stream) thay vì lưu file trên server
+      await workbook.xlsx.write(res);
+      res.end();
+      
+      logger.info("Controller: Export Excel success");
+    } catch (err) {
+      logger.error("Controller Error: exportToExcel failed", err);
+      res.status(500).json({ message: "Lỗi khi xuất file Excel: " + err.message });
+    }
+  }
 };

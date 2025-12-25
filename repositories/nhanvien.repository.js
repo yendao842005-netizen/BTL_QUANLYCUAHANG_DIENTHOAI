@@ -136,4 +136,47 @@ export const NhanVienRepository = {
       throw err;
     }
   },
+  // THỐNG KÊ HIỆU SUẤT NHÂN VIÊN
+  getPerformanceStats: async (startDate, endDate) => {
+    logger.info(`Repository: Getting Employee Performance from ${startDate} to ${endDate}`);
+    try {
+      const db = await pool;
+      
+      // Logic:
+      // 1. LEFT JOIN NhanVien với HoaDon để lấy cả những nhân viên chưa bán được gì (Doanh thu = 0).
+      // 2. Chỉ tính các hóa đơn có TrangThai = 'HoanThanh'.
+      // 3. COALESCE để chuyển giá trị NULL thành 0.
+      
+      const sql = `
+        SELECT 
+          nv.MaNV, 
+          nv.HoTen, 
+          nv.ChucVu,
+          COUNT(hd.MaHD) as SoDonHang,
+          COALESCE(SUM(hd.TongTien), 0) as TongDoanhThu
+        FROM NhanVien nv
+        LEFT JOIN HoaDon hd ON nv.MaNV = hd.MaNV 
+          AND hd.TrangThai = 'HoanThanh'
+          AND hd.NgayLap >= ? 
+          AND hd.NgayLap <= ?
+        GROUP BY nv.MaNV, nv.HoTen, nv.ChucVu
+        ORDER BY TongDoanhThu DESC
+      `;
+
+
+      const [rows] = await db.query(sql, [startDate, endDate]);
+      return rows;
+    } catch (err) {
+      logger.error("Repository Error: getPerformanceStats failed", err);
+      throw err;
+    }
+  },
+
+  //xuat excel
+  getAllForExport: async () => {
+    const db = await pool;
+    // Lấy tất cả nhân viên
+    const [rows] = await db.query("SELECT * FROM NhanVien ORDER BY MaNV ASC");
+    return rows;
+  }
 };

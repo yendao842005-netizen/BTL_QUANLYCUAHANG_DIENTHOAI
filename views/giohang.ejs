@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng</title>
+    <!-- link den css mac dinh(trang normallize) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/trangchu.css">
+    <link rel="stylesheet" href="css/giohang.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <!-- link font chu -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+        <script src="https://kit.fontawesome.com/e06076012c.js" crossorigin="anonymous"></script>
+        <script src="js/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+    <div class="app">
+
+        <!-- header -->
+
+        <header class="header">
+            <!-- header-top -->
+            <div class="header-top ">
+                <div class="container">
+                    <div class="header-top1">
+                        <ul>
+                            <li style="border-right: 1px solid var(--text-color); padding-right: 10px;"><a class="hover"
+                                    href="#"><i class="fa-solid fa-phone-flip"></i> Phone: 0868812510</a>
+                            </li>
+                            <li><a class="hover" href="#"><i class="fa-regular fa-envelope"></i>
+                                    Email:yendaodinh842005@gmail.com</a></li>
+    
+                        </ul>
+                    </div>
+                    <div class="header-top2">
+                        <ul>
+                            <li><a class="thongbao hover" href="#"><i class="fa-regular fa-bell"
+                                        style="margin-right: 5px;"></i>Thông báo</a></li>
+                            <li><a href="#" class="hover"><i class="fa-regular fa-circle-question "
+                                        style="margin-right: 5px;"></i>Hỗ
+                                    trợ</a></li>
+                            <li class="Language"> <a href="javascript:void(0)" class="language-select"> Language <i
+                                        class="fa-solid fa-angle-down"></i> </a>
+                                <ul class="Language-option" style="display:none;">
+                                    <li data-value="Tiếng Việt">Tiếng việt </li>
+                                    <li data-value="English">English</li>
+                                </ul>
+                            </li>
+                            <li style="border-right: 1px solid var(--text-color); padding-right: 10px;" id="auth-options1"><a class="hover"
+                                    href="/dangki.html">Đăng kí</a></li>
+                            <li id="auth-options"><a class="hover" href="/dangnhap.html">Đăng nhập</a></li>
+                            <li style="display: none;cursor: pointer;" onclick="logout()" id="logout-option"><a href="#"><i class="fa-solid fa-user" ></i> đăng xuất</a></li>
+                            <script src="js/dangkidangnhapdxuat.js"></script>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <!-- header-main -->
+            <div class="container">
+    
+    
+                <div class="header-main">
+                    <div class="inner-logo">
+                        <a href="/index.html">
+                            <img src="img/img trang chu/logo1.png"
+                                alt="logo">
+                            <span>MobileShop</span>
+                        </a>
+                    </div>
+    
+                    <div class="timkiem">
+                        <div class="timkieminput">
+                            <input type="text" class="input" placeholder="Nhập tên điện thoại, phụ kiện...cần tìm"
+                                style="width: calc(100% - 50px);">
+                            <!-- Xu huong tim kiem -->
+                            <div class="history">
+                                <h3 class="heading">Xu hướng tìm kiếm</h3>
+                                <ul class="list_history">
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>Iphone 16 pro max</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>iPad</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>Điện thoại SamSung</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>Tai nghe</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;"></i>Linh
+                                            kiên điện thoại</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+    
+                    <div class="giohang">
+                        <a href="/giohang.html"><i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
+                            <span class="notice">3</span>
+                        </a>
+                    </div>
+    
+                </div>
+                <div class="header-bottom" style="width: 100%;    ; border-radius: 8px;">
+                    <ul>
+                        <li><a href="/index.html">
+                                <h3>Trang chủ</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Giới thiệu</h3>
+                            </a></li>
+                        <li><a href="/sanpham.html">
+                                <h3>Cửa hàng</h3>
+                            </a></li>
+                        <li><a href="/sanpham.html">
+                                <h3>Sản Phẩm</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Bài viết</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Khách Hàng</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Liên hệ</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Danh sách sản phẩm</h3>
+                            </a></li>
+    
+    
+                    </ul>
+                </div>
+            </div>
+    
+    
+        </header>
+
+        <!-- Phan noi dung -->
+        <div class="main_gh">
+            <div class="container">
+                <h1 style="padding-top: 50px;margin-top: 0;">Giỏ hàng của bạn</h1>
+                <div class="inner-wrap-gh">
+                    <div class="table-gh">
+                        <table style="width: 100%;padding-bottom: 10px;">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Sản Phẩm</th>
+                                    <th>Đơn giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Số tiền</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="listCart">
+                                <!-- <tr>
+                                    <td style="display: flex;align-items: center;"><img 
+                                            src="img/img trang chi tiet sp/iphone titan1.png" alt="iPhone">
+                                        iPhone 16 Pro
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        33.890.000đ
+                                    </td>
+                                    <td>
+                                        <button style="margin-right: 0;border: none; background-color: #F3F4F6;cursor: pointer;">-</button>
+                                        <input style="margin-right: 0;border: none; background-color: #F3F4F6;cursor: pointer;width: 30px;text-align: center;" type="text" value="1"  class="txtbox-count">
+                                        <button style="margin-right: 0;border: none; background-color: #F3F4F6;cursor: pointer;">+</button>
+
+                                    </td>
+
+                                    <td>33.890.000đ</td>
+
+                                    <td>
+                                        <button style="border: none;cursor: pointer;"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr> -->
+                                
+                            </tbody>
+                        </table>
+
+
+                        <div class="update">
+                            <button onclick="updateCart()">Cập nhật giỏ hàng</button>
+                            <button onclick="XoaCart()">Xóa giỏ hàng</button>
+                            <script src="js/giohang.js"></script>
+                        </div>
+                    </div>
+
+                    <div class="thanhtoan">
+                        <div class="table-thanhtoan">
+                            <table class="table-right">
+                               <thead>
+                                    <tr>
+                                        <th colspan="2">Tóm tắt đơn hàng</th>
+                                    </tr>
+                               </thead>
+                               <tbody>
+                                    <tr>
+                                        <td>Giá trị sản phẩm: </td>
+                                        <td id="tTong" style="text-align: right;">0</td>
+                                        <script src="js/giohang.js"></script>
+                                    </tr>
+                                    <tr>
+                                        <td>Phí vận chuyển:</td>
+                                        <td style="text-align: right;">Miễn phí</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tổng tiền:</td>
+                                        <td id="spTong" style="text-align: right;">0</td>
+                                        <script src="js/giohang.js"></script>
+                                    </tr>
+                               </tbody>
+                            </table>
+                            <div class="thdh">
+                                <button onclick="ThanhToan()">Tiến hành đặt hàng</button>
+                                <button onclick="Sanpham()">Mua thêm sản phẩm</button>
+                                <script src="js/giohang.js"></script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nd5">
+                    <div class="container">
+                        <div class="inner-wrap5">
+                            <div class="Điện thoại"
+                                style="margin-bottom: 10px;display: flex;justify-content: space-between;">
+
+                                <h2>Có thể bạn sẽ thích</h2>
+                                <h2 style="font-size: 18px;"><a href="/sanpham.html">Xem tất cả <i
+                                            class="fa-solid fa-arrow-right"></i></a></h2>
+                            </div>
+                            <div class="spmr">
+                                <div class="spmr1">
+                                    <div class="img_spmr1">
+                                        <div class="img1" style="padding-top: 15px; padding-left: 5px">
+                                            <a href=""><img
+                                                    src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
+                                                    alt="iphone16"></a>
+                                        </div>
+                                        <div class="img2">
+                                            <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
+                                                src="img/img trang chu/ip161.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="thongtin_spmr1">
+                                        <div class="tragop">
+                                            Trả góp 0%
+                                        </div>
+                                        <div class="tt">
+                                            <p style="    margin-bottom: 0;
+                                            text-decoration: line-through;
+                                            font-size: 13px;
+                                            color: #6F7280;">34.990.000 đ</p>
+                                            <h3
+                                                style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
+                                                33.890.000 đ</h3>
+                                            <p style="    margin-top: 0px;
+                                            color: #059568;
+                                            font-size: 12px;">Giảm 1.100.000 đ</p>
+                                            <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a>
+                                            </p>
+                                        </div>
+                                        <div class="color-options">
+                                            <div class="color1"></div>
+                                            <div class="color2"></div>
+                                            <div class="color3"></div>
+
+                                        </div>
+
+                                        <div class="storage-options">
+                                            <button class="selected">256 GB</button>
+                                            <button>512 GB</button>
+                                            <button>1 TB</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="spmr1">
+                                    <div class="img_spmr1">
+                                        <div class="img1" style="padding-top: 15px; padding-left: 5px">
+                                            <a href=""><img
+                                                    src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
+                                                    alt="iphone16"></a>
+                                        </div>
+                                        <div class="img2">
+                                            <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
+                                                src="img/img trang chu/ip161.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="thongtin_spmr1">
+                                        <div class="tragop">
+                                            Trả góp 0%
+                                        </div>
+                                        <div class="tt">
+                                            <p style="    margin-bottom: 0;
+                                            text-decoration: line-through;
+                                            font-size: 13px;
+                                            color: #6F7280;">34.990.000 đ</p>
+                                            <h3
+                                                style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
+                                                33.890.000 đ</h3>
+                                            <p style="    margin-top: 0px;
+                                            color: #059568;
+                                            font-size: 12px;">Giảm 1.100.000 đ</p>
+                                            <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a>
+                                            </p>
+                                        </div>
+                                        <div class="color-options">
+                                            <div class="color1"></div>
+                                            <div class="color2"></div>
+                                            <div class="color3"></div>
+
+                                        </div>
+
+                                        <div class="storage-options">
+                                            <button class="selected">256 GB</button>
+                                            <button>512 GB</button>
+                                            <button>1 TB</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="spmr1">
+                                    <div class="img_spmr1">
+                                        <div class="img1" style="padding-top: 15px; padding-left: 5px">
+                                            <a href=""><img
+                                                    src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
+                                                    alt="iphone16"></a>
+                                        </div>
+                                        <div class="img2">
+                                            <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
+                                                src="img/img trang chu/ip161.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="thongtin_spmr1">
+                                        <div class="tragop">
+                                            Trả góp 0%
+                                        </div>
+                                        <div class="tt">
+                                            <p style="    margin-bottom: 0;
+                                            text-decoration: line-through;
+                                            font-size: 13px;
+                                            color: #6F7280;">34.990.000 đ</p>
+                                            <h3
+                                                style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
+                                                33.890.000 đ</h3>
+                                            <p style="    margin-top: 0px;
+                                            color: #059568;
+                                            font-size: 12px;">Giảm 1.100.000 đ</p>
+                                            <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a>
+                                            </p>
+                                        </div>
+                                        <div class="color-options">
+                                            <div class="color1"></div>
+                                            <div class="color2"></div>
+                                            <div class="color3"></div>
+
+                                        </div>
+
+                                        <div class="storage-options">
+                                            <button class="selected">256 GB</button>
+                                            <button>512 GB</button>
+                                            <button>1 TB</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="spmr1">
+                                    <div class="img_spmr1">
+                                        <div class="img1" style="padding-top: 15px; padding-left: 5px">
+                                            <a href=""><img
+                                                    src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
+                                                    alt="iphone16"></a>
+                                        </div>
+                                        <div class="img2">
+                                            <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
+                                                src="img/img trang chu/ip161.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="thongtin_spmr1">
+                                        <div class="tragop">
+                                            Trả góp 0%
+                                        </div>
+                                        <div class="tt">
+                                            <p style="    margin-bottom: 0;
+                                            text-decoration: line-through;
+                                            font-size: 13px;
+                                            color: #6F7280;">34.990.000 đ</p>
+                                            <h3
+                                                style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
+                                                33.890.000 đ</h3>
+                                            <p style="    margin-top: 0px;
+                                            color: #059568;
+                                            font-size: 12px;">Giảm 1.100.000 đ</p>
+                                            <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a>
+                                            </p>
+                                        </div>
+                                        <div class="color-options">
+                                            <div class="color1"></div>
+                                            <div class="color2"></div>
+                                            <div class="color3"></div>
+
+                                        </div>
+
+                                        <div class="storage-options">
+                                            <button class="selected">256 GB</button>
+                                            <button>512 GB</button>
+                                            <button>1 TB</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="spmr1">
+                                    <div class="img_spmr1">
+                                        <div class="img1" style="padding-top: 15px; padding-left: 5px">
+                                            <a href=""><img
+                                                    src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
+                                                    alt="iphone16"></a>
+                                        </div>
+                                        <div class="img2">
+                                            <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
+                                                src="img/img trang chu/ip161.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="thongtin_spmr1">
+                                        <div class="tragop">
+                                            Trả góp 0%
+                                        </div>
+                                        <div class="tt">
+                                            <p style="    margin-bottom: 0;
+                                            text-decoration: line-through;
+                                            font-size: 13px;
+                                            color: #6F7280;">34.990.000 đ</p>
+                                            <h3
+                                                style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
+                                                33.890.000 đ</h3>
+                                            <p style="    margin-top: 0px;
+                                            color: #059568;
+                                            font-size: 12px;">Giảm 1.100.000 đ</p>
+                                            <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a>
+                                            </p>
+                                        </div>
+                                        <div class="color-options">
+                                            <div class="color1"></div>
+                                            <div class="color2"></div>
+                                            <div class="color3"></div>
+
+                                        </div>
+
+                                        <div class="storage-options">
+                                            <button class="selected">256 GB</button>
+                                            <button>512 GB</button>
+                                            <button>1 TB</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- phan footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-container">
+
+                    <div class="footer1">
+
+                        <h3 class="footer_heading">MobileShop</h3>
+                        <ul class="footer_list">
+
+                            <li><a href="">Địa chỉ: Hưng Yên</a></li>
+                            <li><a href="">Number: 0868812510</a></li>
+                            <li><a href="">Email: yendaodinh842005@gmail.com</a></li>
+                        </ul>
+
+                    </div>
+                    <div class="footer1">
+                        <h3 class="footer_heading">Cửa hàng</h3>
+                        <ul class="footer_list">
+
+                            <li><a href="">Liên hệ</a> </li>
+                            <li><a href="">Thông tin về chúng tôi</a></li>
+                            <li><a href="">Giỏ hàng</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer1">
+                        <h3 class="footer_heading">Khuyến mãi ưu đãi</h3>
+                        <ul class="footer_list">
+
+                            <li style="color: #666;">
+
+                                <label for="fullname">Đăng kí nhận thông tin ở
+                                    đây</label><!--ấn vào họ tên vẫn link vào ô input thuộc tính for-->
+                                <br>
+                                <div style="display: flex;">
+                                    <input id="fullname" required placeholder="Nhập email" name="ho_ten" type="email"
+                                        maxlength="10"
+                                        style="padding: 8px;margin-top: 12px;"><!--hiển thị theo nhiều cách-->
+                                    <div
+                                        style=" align-items: center; display: flex ;margin-top: 12px;border: 1px #000 solid;padding: 0 5px;cursor: pointer; ">
+                                        Đăng kí</div>
+                                </div>
+                            </li>
+
+                            <li style="display: flex;">
+                                <div class="footer_item">
+                                    <a href="" style="color: black;"><i class="fa-brands fa-facebook"></i></a>
+                                </div>
+                                <div class="footer_item">
+                                    <a href="" style="color: black;"><i class="fa-brands fa-instagram"></i></a>
+                                </div>
+                                <div class="footer_item">
+                                    <a href="" style="color: black;"><i class="fa-brands fa-linkedin"></i></a>
+                                </div>
+
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer1">
+                        <h3 class="footer_heading">Địa chỉ</h3>
+                        <ul class="footer_list">
+
+                            <li><iframe class="bando"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59729.553537434054!2d106.02220331783772!3d20.665628398322173!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135c12ae1ec71a3%3A0x4d32999e6a9bb398!2zVHAuIEjGsG5nIFnDqm4sIEjGsG5nIFnDqm4sIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1734952209219!5m2!1svi!2s"
+                                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe></li>
+
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </footer>
+    </div>
+
+
+
+    <script src="js/giohang.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+</body>
+
+</html>

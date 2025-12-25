@@ -1,0 +1,40 @@
+/* chua css dung chung ca bai */
+:root{
+    --white-color:#fff;
+    --black-color:#000;
+    --text-color: #333;
+}
+*{
+    box-sizing: inherit;
+}
+html{
+    line-height: 16px;
+    font-family: "Roboto", serif;
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+}
+.container{
+    width: 100%;
+    max-width: 1260px;
+    margin-left: auto;
+    margin-right: auto;
+    /* 2 cai margin la tu dong can giua */
+}
+/* .grid{
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.grid__full-with{
+    width: 100%;
+}
+
+.grid__row{
+    display: flex;
+    flex: wrap;
+} 
+ 
+*/

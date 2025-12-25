@@ -1,0 +1,436 @@
+.img_comntainer {
+    width: 100%;
+    position: relative;
+    height: auto;
+
+}
+
+.img_comntainer img {
+    width: 100%;
+    height: auto;
+}
+
+.img_comntainer .img-jpg {
+    z-index: 2;
+}
+.img_anh {
+    display: flex;
+    justify-content: space-between;
+    border: 0 solid #e5e7eb;
+    margin-top: 20px;
+    position: relative;
+    img{
+        border-radius: 15px;
+        overflow: hidden;
+        width: 624px;
+        height: 211px;
+    }
+}
+.img_anh .slide-buttonleft{
+    display: none;
+    position: absolute;
+    top:50%;
+    left: -20px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    padding: 15px;
+    background-color: rgb(249, 242, 242);
+    border-radius: 50%;
+}
+.img_anh:hover .slide-buttonleft{
+    display: block;
+    cursor: pointer;
+    
+}
+
+.img_anh .slide-buttonright{
+    display: none;
+    position: absolute;
+    top:50%;
+    right: -20px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    padding: 15px;
+    background-color: rgb(249, 242, 242);
+    border-radius: 50%;
+}
+.img_anh:hover .slide-buttonright{
+    display: block;
+    cursor: pointer;
+    
+}
+
+.img_comntainer .slide-buttonleft{
+    display: none;
+    position: absolute;
+    top:50%;
+    left: 50px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    padding: 15px;
+    background-color: rgb(249, 242, 242);
+    border-radius: 50%;
+}
+.img_comntainer:hover .slide-buttonleft{
+    display: block;
+    cursor: pointer;
+    
+}
+
+.img_comntainer .slide-buttonright{
+    position: absolute;
+    display: none;
+    top:50%;
+    right: 50px;
+    transform: translateY(-50%);
+    font-size: 20px;
+    padding: 15px;
+    background-color: rgb(249, 242, 242);
+    border-radius: 50%;
+}
+.img_comntainer:hover .slide-buttonright{
+    display: block;
+    cursor: pointer;
+}
+
+.nd2 .inner-wrap1{
+    display: flex;
+    margin: 20px 0;
+    justify-content: space-between;
+}
+
+.nd2 .inner-wrap1 .box{
+    height: 252px;
+    width: 20%;
+    
+
+}
+.nd2 .inner-wrap1 .box .box1{
+    margin: 8px ;
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
+    border-radius: 15px;
+    box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.1);
+
+}
+
+.box1 .dienthoai{
+    width: 100%;
+    height: 56px;
+    padding-top:19px ;
+    padding-left: 15px;
+    font-size: 20px;
+    color: var(--text-color);
+    
+}
+.box1 .dienthoai1{
+    display: flex;
+    justify-content: center;
+    width: 100%; height: 180px;
+    align-self: center;
+}
+.box:hover .dienthoai1 img{
+    transform: scale(1.1);
+}
+.box .dienthoai1 img{
+    transition: all 0.6s;
+}
+
+.box1 .box1-1{
+    height: calc(50% - 10px);
+    width: 100%;
+    box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border-radius: 15px;
+}   
+.box1 .box1-1 .phukien{
+    font-size: 20px;
+    padding-top: 17px;
+    padding-left: 18px;
+    margin-right: 27px;
+    color: var(--text-color);
+}
+.box1 .box1-1 .img_phukien{
+    align-self: center;
+}
+.box1-1:hover .img_phukien img{
+    transform: scale(1.1);
+}
+.box .img_phukien img{
+    transition: all 0.6s;
+}
+
+.nd3 .inner-wrap3{
+    
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #431112;
+    
+}
+.nd3 .inner-wrap3 .img_giamgia{
+    width: 100%;
+    /* background-color: white; */
+    img{
+        width: 100%;
+    }
+}
+
+.nd3 .sanpham_giamgia{
+    border-radius: 15px;
+    background-color: white;
+    margin: 0 8px 8px 8px;
+    border: 1px #000 solid;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+.nd3 .sanpham_giamgia .sanpham_giamgia1{
+   
+    width: 24%;
+    
+}
+
+.sanpham_giamgia1 .anh_sanpham{
+    width: 100%;
+    border: 1px #B91C1C solid;
+    border-radius: 15px;
+    img{
+        padding: 0 55px;
+        padding-top: 27px;
+    }
+    
+}
+.sanpham_giamgia1 .anh_sanpham .name_sanpham{
+    padding: 0 43px;
+    text-align: center;
+    color: var(--text-color);
+    font-size: 20px;
+}
+.anh_sanpham:hover  img{
+    transform: scale(1.1);
+}
+.anh_sanpham img{
+    transition: all 0.6s;
+}
+.sanpham_giamgia .thongtin_sp{
+    margin-top: 10px;
+}
+.sanpham_giamgia .thongtin_sp .soluongban{
+    background-color: #EF4444 ;
+    height: 22px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.nd3 .btn {
+    background-color: #d30000;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: 22px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.nd3 .gia_giamgia{
+    display: flex;
+    justify-content: space-between;
+}
+.nd4{
+    margin-top: 35px;
+}
+.nd4 .traoguiyeuthuong {
+    display: flex;
+}
+.nd4 .img_quatang1{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.nd4 .img_quatang1 .img1{
+    width: calc(100% / 3 - 20px / 2);
+    img{
+        width: 100%;
+        border-radius: 15px;
+    }
+}
+.nd5{
+    margin-top: 35px;
+}
+.nd5 .inner-wrap5{
+    border-radius: 15px;
+    box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 15px;
+}
+
+.nd5 .spmr .spmr1{
+    width: calc(100% / 5 - 10px);
+    
+    border-radius: 15px;
+    padding: 6px;
+   
+}
+.nd5 .spmr .spmr1:hover{
+    box-shadow: 0 1px 16px 0 rgba(0, 0, 0, 0.1);
+}
+.nd5 .inner-wrap5 .spmr{
+    
+    display: flex;
+    justify-content: space-between;
+}
+.nd5  .spmr1 .img_spmr1{
+    display: flex;
+}
+.nd5 .thongtin_spmr1 .tragop{
+    width: 40%;
+    padding: 5px;
+    background-color: #E5E7EB;
+    color: #6F7280;
+    border-radius: 15px;
+    font-size: 12px;
+    text-align: center
+}
+
+.nd5 .color-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+.nd5 .color-options  {
+    div{
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+ 
+}
+.nd5 .color-options .color1 {
+    background-color: #d9c1a9;
+}
+
+.nd5 .color-options .color2 {
+    background-color: #e0e0d3;
+}
+
+.nd5 .color-options .color3 {
+    background-color: #a6a6a6;
+}
+.nd5   .storage-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.nd5 .storage-options button {
+   padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    position: relative;
+}
+.nd5   .storage-options button.selected {
+    border: 2px solid red;
+}
+.nd5     .storage-options button.selected::after {
+    content: '\2713';
+    color: red;
+    font-weight: bold;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 1px 2px;
+    font-size: 12px;
+}
+.nd5 .spmr1:hover .img1{
+    transform: scale(1.1);
+}
+.nd5 .spmr1 .img1{
+    transition: all 0.6s;
+}
+.nd6 {
+    margin-top: 20px;
+}
+.nd6 .img_ketnamchonven{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.nd6 .img_ketnamchonven .img_ketnamchonven1{
+    width: calc(100% / 3 - 30px / 2);
+    overflow: hidden;
+    img{
+        width: 100%;
+        border-radius: 15px;
+    }
+}
+
+.nd5 .citt{
+    display: flex;
+}
+.nd5 .citt .dtcl{
+    width: 500px;
+}
+
+.nd7{
+    margin-top: 20px;
+
+}
+.nd7 .inner-wrap7{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    p{
+        text-align: center;
+    }
+}
+
+
+/* Khung chứa ảnh cần có overflow: hidden để không thấy ảnh khi nó trượt ra ngoài */
+.img_comntainer, .img_anh {
+    overflow: hidden;
+    position: relative;
+}
+
+/* Hiệu ứng trượt khi bấm nút Right (Ảnh cũ đi sang trái, ảnh mới từ phải vào) */
+.slide-out-left {
+    animation: slideOutLeft 0.4s forwards cubic-bezier(0.4, 0, 0.2, 1);
+}
+.slide-in-right {
+    animation: slideInRight 0.4s forwards cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hiệu ứng trượt khi bấm nút Left (Ảnh cũ đi sang phải, ảnh mới từ trái vào) */
+.slide-out-right {
+    animation: slideOutRight 0.4s forwards cubic-bezier(0.4, 0, 0.2, 1);
+}
+.slide-in-left {
+    animation: slideInLeft 0.4s forwards cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideOutLeft {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-100%); opacity: 0; }
+}
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+

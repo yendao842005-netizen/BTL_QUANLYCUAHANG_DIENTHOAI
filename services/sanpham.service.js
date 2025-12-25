@@ -1,6 +1,7 @@
 import { SanPhamRepository } from "../repositories/sanpham.repository.js";
 import { SanPhamDTO } from "../dtos/sanpham/sanpham.dto.js";
 import { logger } from "../config/logger.js";
+import ExcelJS from "exceljs";
 
 export const SanPhamService = {
   getAllSanPhams: async () => {
@@ -92,4 +93,72 @@ export const SanPhamService = {
     await SanPhamRepository.delete(MaSP);
     return { message: "SanPham deleted successfully" };
   },
+
+// THỐNG KÊ KHO: Sắp hết hàng & Tồn kho lâu
+  getInventoryReport: async (threshold) => {
+    // Nếu không truyền threshold, mặc định là 10
+    const limit = threshold ? parseInt(threshold) : 10;
+    
+    logger.info(`Service: Generating Inventory Report (Threshold: ${limit})`);
+    
+    const stats = await SanPhamRepository.getInventoryStats(limit);
+    
+    // Có thể xử lý thêm logic phụ ở đây nếu cần (VD: Gắn nhãn 'Cần nhập gấp')
+    const processedLowStock = stats.lowStock.map(sp => ({
+      ...new SanPhamDTO(sp),
+      TrangThai: 'Cần nhập thêm',
+      CanhBao: `Chỉ còn ${sp.SoLuongTon} sản phẩm`
+    }));
+
+    const processedOldStock = stats.oldStock.map(sp => ({
+      ...new SanPhamDTO(sp),
+      TrangThai: 'Khó bán / Tồn lâu',
+      CanhBao: `Đã nhập ${sp.SoNgayTon} ngày`
+    }));
+
+    return {
+      lowStock: processedLowStock, // Danh sách sắp hết
+      oldStock: processedOldStock  // Danh sách tồn lâu
+    };
+  },
+
+  // Tạo file Excel xuất danh sách sản phẩm
+  generateExcel: async () => {
+    logger.info("Service: Generating Excel Workbook");
+
+    // 1. Lấy dữ liệu từ DB
+    const products = await SanPhamRepository.getAllForExport();
+
+    // 2. Tạo Workbook (File Excel ảo)
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Danh Sách Sản Phẩm");
+
+    // 3. Định nghĩa các Cột (Header)
+    worksheet.columns = [
+      { header: "Mã SP", key: "MaSP", width: 10 },
+      { header: "Tên Sản Phẩm", key: "TenSanPham", width: 30 },
+      { header: "Danh Mục", key: "TenDanhMuc", width: 15 },
+      { header: "Nhà Cung Cấp", key: "TenNhaCungCap", width: 20 },
+      { header: "Giá Bán (VNĐ)", key: "GiaBan", width: 15 },
+      { header: "Tồn Kho", key: "SoLuongTon", width: 10 },
+      { header: "Ngày Nhập", key: "NgayNhap", width: 15 },
+      { header: "Mô Tả", key: "MoTa", width: 25 },
+    ];
+
+    // 4. Định dạng Header (In đậm, căn giữa)
+    worksheet.getRow(1).font = { bold: true };
+    worksheet.getRow(1).alignment = { vertical: 'middle', horizontal: 'center' };
+
+    // 5. Đổ dữ liệu vào
+    products.forEach((product) => {
+      worksheet.addRow({
+        ...product,
+        // Format lại ngày tháng cho đẹp nếu cần
+        NgayNhap: new Date(product.NgayNhap).toLocaleDateString("vi-VN") 
+      });
+    });
+
+    // 6. Trả về đối tượng workbook (để Controller ghi ra response)
+    return workbook;
+  }
 };

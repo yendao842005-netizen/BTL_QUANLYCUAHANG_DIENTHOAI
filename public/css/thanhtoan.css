@@ -1,0 +1,125 @@
+.main-tt{
+    background-color: #F3F4F6;
+    padding-bottom: 30px; 
+}
+.maintt{
+    display: flex;
+    justify-content: space-between;
+   
+}
+.main-tt-td{
+    margin-top: 50px;
+}
+.main-tt-left {
+    width: calc(66% - 10px);
+  
+    
+}
+.main-tt-right{
+    width: calc(32% - 10px);
+
+}
+.nhaptt{
+    width: 100%;
+}
+.nhaptt .Hotentt{
+    width: 100%;
+}
+
+.nhaptt .Hotentt {
+    input{
+        width: 100%;
+        padding: 10px;
+        border:  1px #B3B3B3 solid;
+        margin-top: 20px;
+        border-radius: 5px;
+        background-color: white;
+    }
+}
+.nhaptt .emsdt{
+    display: flex;
+    justify-content: space-between;
+}
+.nhaptt .emsdt .email,.nhaptt .emsdt .sdt{
+    width: calc(50% - 10px);
+
+    input{
+        width: 100%;
+        padding: 10px;
+        border:  1px #B3B3B3 solid;
+        border-radius: 5px; 
+        
+    }
+}
+
+.diachi{
+    input{
+        width: 100%;
+        padding: 10px;
+        border:  1px #B3B3B3 solid;
+        border-radius: 5px; 
+        
+    }
+}
+.error {
+    color: red;
+    font-size: 12px;
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.phuongthuctt ul{
+  
+    width: 100% ;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-radius: 5px;
+    li{
+        padding: 15px;
+        border:  1px #B3B3B3 solid;
+        background-color: white;
+        border-collapse: collapse;
+        height: 82px;
+    }
+}
+.phuongthuctt ul{
+    li{
+        display: flex;
+        align-content: center;;
+    }
+}
+.phuongthuctt ul{
+    img{
+        width: 50px;
+    }
+}
+.list_sp{
+    margin-top: 40px;
+    
+}
+table{
+    width: 100%;
+}
+.table-top td{
+    border-bottom: 1px solid #B3B3B3 ;
+    padding: 12px;
+    text-align: left;
+}
+.table-bottom td{
+    padding: 12px;
+}
+.thanhtoan{
+    margin-top: 20px;
+    button{
+        width: 100%;
+        padding: 10px;
+        background-color: white;
+        border:  1px #B3B3B3 solid;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+}
+.thanhtoan button:hover{
+    background-color: #c7c6c6;
+}

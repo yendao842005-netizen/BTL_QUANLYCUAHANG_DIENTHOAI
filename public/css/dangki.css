@@ -1,0 +1,183 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('background-image.jpg') no-repeat center center/cover;
+    background: linear-gradient(135deg, #d0babe, #85787d);
+
+}
+
+.login-container {
+    display: flex;
+    width: 1000px;
+    height: 650px;
+    background-color: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    
+}
+
+.left-panel {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    background: linear-gradient(135deg, #8DA4CD, #A792B2);
+
+}
+
+.left-panel h2 {
+    font-size: 2.5rem;
+    color: white;
+}
+
+.left-panel p {
+    font-size: 1rem;
+    color:white;
+}
+
+.right-panel {
+    flex: 1.5;
+     position: relative;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right-panel .logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.right-panel .logo img {
+    width: 100px;
+}
+.right-panel h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #8DA4CD;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.forgot-password a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.login-button {
+    width: 100%;
+    background: #8DA4CD;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.login-button:hover {
+    background: #ff4c6e;
+}
+
+.social-login {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-login p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.social-login .social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-buttons button {
+    background-color: #eee;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.social-buttons button:hover {
+    background-color: #ddd;
+}
+
+.right-panel .illustration {
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    width: 250px;
+    height: auto;
+}
+
+.right-panel .background-shape {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 500px;
+    height: 500px;
+    background: #eef1ff;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.right-panel .cta {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9rem;
+}
+
+.right-panel .cta a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+.error {
+    color: red;
+    font-size: 12px;
+}

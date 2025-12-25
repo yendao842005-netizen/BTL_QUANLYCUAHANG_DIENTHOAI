@@ -99,4 +99,75 @@ export const KhachHangController = {
       res.status(404).json({ message: err.message });
     }
   },
+
+
+
+  // API: /KhachHangs/VipStats
+  getVipStats: async (req, res) => {
+    try {
+      const result = await KhachHangService.getVipCustomers();
+      res.json(result);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  },
+
+  
+  // API: /KhachHangs/:MaKH/DonHang
+  getOrders: async (req, res) => {
+    try {
+      const { MaKH } = req.params;
+      const result = await KhachHangService.getCustomerOrderHistory(MaKH);
+      res.json(result);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  },
+
+
+  // Xuất Excel toàn bộ khách hàng
+  exportToExcel: async (req, res) => {
+    try {
+      const workbook = await KhachHangService.generateExcel();
+      res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      res.setHeader("Content-Disposition", `attachment; filename=KhachHang_${Date.now()}.xlsx`);
+      await workbook.xlsx.write(res);
+      res.end();
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  },
+
+
+  // API: /KhachHangs/:MaKH/Export/Excel
+  exportCustomerInvoices: async (req, res) => {
+    try {
+      const { MaKH } = req.params;
+      const workbook = await KhachHangService.generateInvoiceExcelForCustomer(MaKH);
+
+      // Đặt tên file: LichSuMuaHang_KH001.xlsx
+      const fileName = `LichSuMuaHang_${MaKH}_${Date.now()}.xlsx`;
+
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      );
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename=${fileName}`
+      );
+
+      await workbook.xlsx.write(res);
+      res.end();
+      
+      logger.info(`Controller: Export Customer ${MaKH} success`);
+    } catch (err) {
+      logger.error("Controller Error: exportCustomerInvoices failed", err);
+      // Nếu lỗi do không có data (như service ném ra), trả về 404 hoặc 400
+      if (err.message.includes("chưa có đơn hàng")) {
+        return res.status(404).json({ message: err.message });
+      }
+      res.status(500).json({ message: "Lỗi hệ thống: " + err.message });
+    }
+  }
 };

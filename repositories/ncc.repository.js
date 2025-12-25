@@ -115,4 +115,28 @@ export const NhaCungCapRepository = {
       throw err;
     }
   },
+
+  //  Lấy danh sách sản phẩm thuộc về NCC này
+  getProductsBySupplier: async (MaNCC) => {
+    logger.info(`Repository: Fetching products for Supplier ${MaNCC}`);
+    try {
+      const db = await pool;
+      const sql = `
+        SELECT * FROM SanPham 
+        WHERE MaNCC = ?
+        ORDER BY SoLuongTon DESC
+      `;
+      const [rows] = await db.query(sql, [MaNCC]);
+      return rows;
+    } catch (err) {
+      logger.error("Repository Error: getProductsBySupplier failed", err);
+      throw err;
+    }
+  },
+  //xuat excel
+  getAllForExport: async () => {
+    const db = await pool;
+    const [rows] = await db.query("SELECT * FROM NhaCungCap");
+    return rows;
+  },
 };

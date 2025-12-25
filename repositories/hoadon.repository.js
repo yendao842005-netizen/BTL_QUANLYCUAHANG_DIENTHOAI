@@ -59,18 +59,74 @@ export const HoaDonRepository = {
   },
 
   // 3. Thống kê tổng doanh thu theo tháng của năm hiện tại
-  getMonthlyRevenue: async (year) => {
+  getMonthlyRevenueByYear: async (year) => {
     try {
       const db = await pool; //
       const query = `
-        SELECT MONTH(NgayLap) as Thang, SUM(TongTien) as DoanhThu 
-        FROM HoaDon 
-        WHERE YEAR(NgayLap) = ? AND TrangThai = 'HoanThanh' 
-        GROUP BY MONTH(NgayLap)
+        SELECT 
+        m.Thang,
+        IFNULL(SUM(hd.TongTien), 0) AS DoanhThu
+      FROM (
+        SELECT 1 AS Thang UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL
+        SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL
+        SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL
+        SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12
+      ) m
+      LEFT JOIN HoaDon hd 
+        ON MONTH(hd.NgayLap) = m.Thang
+        AND YEAR(hd.NgayLap) = ?
+        AND hd.TrangThai = 'HoanThanh'
+      GROUP BY m.Thang
+      ORDER BY m.Thang
       `;
       const [rows] = await db.query(query, [year]);
       return rows;
     } catch (err) { throw err; }
+  },
+  // Doanh thu theo tháng và năm
+getRevenueByMonthYear: async (month, year) => {
+  try {
+    const db = await pool;
+    const query = `
+      SELECT 
+        ? AS Thang,
+        ? AS Nam,
+        IFNULL(SUM(TongTien), 0) AS DoanhThu
+      FROM HoaDon
+      WHERE 
+        MONTH(NgayLap) = ?
+        AND YEAR(NgayLap) = ?
+        AND TrangThai = 'HoanThanh'
+    `;
+    const [rows] = await db.query(query, [month, year, month, year]);
+    return rows[0];
+  } catch (err) {
+    throw err;
+  }
+},
+
+  
+  // Lấy Top 5 sản phẩm bán chạy nhất tháng này
+  getTopSellingProducts: async (month, year) => {
+    const db = await pool;
+    const sql = `
+      SELECT 
+        sp.MaSP, 
+        sp.TenSanPham, 
+        SUM(ct.SoLuong) as TongSoLuongDaBan,
+        SUM(ct.ThanhTien) as TongDoanhThu
+      FROM ChiTietHoaDon ct
+      JOIN HoaDon hd ON ct.MaHD = hd.MaHD
+      JOIN SanPham sp ON ct.MaSP = sp.MaSP
+      WHERE MONTH(hd.NgayLap) = ? 
+        AND YEAR(hd.NgayLap) = ? 
+        AND hd.TrangThai = 'HoanThanh'
+      GROUP BY sp.MaSP, sp.TenSanPham
+      ORDER BY TongSoLuongDaBan DESC
+      LIMIT 5
+    `;
+    const [rows] = await db.query(sql, [month, year]);
+    return rows;
   },
 
   create: async ({ MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu }) => {

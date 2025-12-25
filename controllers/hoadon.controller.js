@@ -41,13 +41,25 @@ export const HoaDonController = {
   },
 
   // API Thống kê doanh thu theo năm
-  getStats: async (req, res) => {
-    try {
-      const year = req.query.year;
-      const stats = await HoaDonService.getRevenueStats(year);
-      res.json(stats);
-    } catch (err) { res.status(500).json({ message: err.message }); }
-  },
+  // getStats: async (req, res) => {
+  //   try {
+  //     const year = req.query.year;
+  //     const stats = await HoaDonService.getRevenueStats(year);
+  //     res.json(stats);
+  //   } catch (err) { res.status(500).json({ message: err.message }); }
+  // },
+
+  // API thống kê doanh thu
+getStats: async (req, res) => {
+  try {
+    const { year, month } = req.query;
+    const stats = await HoaDonService.getRevenueStats(year, month);
+    res.json(stats);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+},
+
 
   // Hàm mới: Xử lý yêu cầu lọc theo ngày từ API
   getByDate: async (req, res) => {
@@ -64,6 +76,21 @@ export const HoaDonController = {
       res.json(result);
     } catch (err) {
       logger.error("Controller Error: getByDate failed", err);
+      res.status(500).json({ message: err.message });
+    }
+  },
+
+  // API lấy Top sản phẩm bán chạy
+  getTopSelling: async (req, res) => {
+    try {
+      // Lấy tham số từ URL: /HoaDons/TopBanChay?month=11&year=2025
+      const { month, year } = req.query;
+
+      const result = await HoaDonService.getTopSellingStats(month, year);
+      
+      res.json(result);
+    } catch (err) {
+      logger.error("Controller Error: getTopSelling failed", err);
       res.status(500).json({ message: err.message });
     }
   },

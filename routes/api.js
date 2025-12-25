@@ -5,7 +5,7 @@ import { Router } from "express";
 const router = Router();
 
 
-// Bài 1 : csdl QLSanPham
+
 
 
 import { NhanVienController } from "../controllers/nhanvien.controller.js";
@@ -20,13 +20,19 @@ import { ChiTietHoaDonController } from "../controllers/chitiethd.controller.js"
 // ==========================================
 // 1. Routes NHÂN VIÊN (NhanVien)
 // ==========================================
+
 router.get("/NhanViens", NhanVienController.getAll);
 router.get("/NhanViens/PhanTrang", NhanVienController.getPaginated);
 router.get("/NhanViens/Search", NhanVienController.search);//http://localhost:3000/api/NhanViens/Search/?hoTen=Nguyen&diaChi=HCM // có thể tìm kiếm theo hoTen, tuNgaySinh,gioiTinh, diaChi, chucVu
+// URL: http://localhost:3000/api/NhanViens/BaoCao/HieuSuat?startDate=2024-01-01&endDate=2024-12-31
+router.get("/NhanViens/BaoCao/HieuSuat", NhanVienController.getPerformanceReport);
+router.get("/NhanViens/Export/Excel", NhanVienController.exportToExcel);//xuất excel toàn bộ nhân viên
 router.get("/NhanViens/:MaNV", NhanVienController.getByMa); // Ma là MaNV (VD: NV001)
 router.post("/NhanViens", NhanVienController.create);
 router.put("/NhanViens/:MaNV", NhanVienController.update);
 router.delete("/NhanViens/:MaNV", NhanVienController.delete);
+
+
 
 
 // ==========================================
@@ -41,6 +47,9 @@ router.delete("/TaiKhoans/:MaTK", TaiKhoanController.delete);
 router.post("/TaiKhoans/Login", TaiKhoanController.postLogin);
 
 
+
+
+
 // ==========================================
 // 3. Routes DANH MỤC (DanhMuc)
 // ==========================================
@@ -53,16 +62,27 @@ router.put("/DanhMucs/:MaDM", DanhMucController.update);
 router.delete("/DanhMucs/:MaDM", DanhMucController.delete);
 
 
+
+
+
 // ==========================================
 // 4. Routes NHÀ CUNG CẤP (NhaCungCap)
 // ==========================================
 router.get("/NhaCungCaps", NhaCungCapController.getAll);
 router.get("/NhaCungCaps/PhanTrang", NhaCungCapController.getPaginated);
+// URL: http://localhost:3000/api/NhaCungCaps/BaoCao/SanPham?MaNCC=NCC01
+router.get("/NhaCungCaps/BaoCao/SanPham", NhaCungCapController.getSupplierReport);
 router.get("/NhaCungCaps/Search", NhaCungCapController.search);
+router.get("/NhaCungCaps/Export/Excel", NhaCungCapController.exportToExcel); // xuất excel toàn bộ nhà cung cấp
 router.get("/NhaCungCaps/:MaNCC", NhaCungCapController.getByMa); // Ma là MaNCC
 router.post("/NhaCungCaps", NhaCungCapController.create);
 router.put("/NhaCungCaps/:MaNCC", NhaCungCapController.update);
 router.delete("/NhaCungCaps/:MaNCC", NhaCungCapController.delete);
+
+
+
+
+
 
 
 // ==========================================
@@ -71,10 +91,23 @@ router.delete("/NhaCungCaps/:MaNCC", NhaCungCapController.delete);
 router.get("/KhachHangs", KhachHangController.getAll);
 router.get("/KhachHangs/PhanTrang", KhachHangController.getPaginated);
 router.get("/KhachHangs/Search", KhachHangController.search);
+// Lấy danh sách VIP (Đặt trên route :MaKH)
+router.get("/KhachHangs/VipStats", KhachHangController.getVipStats); 
+// --- Xuất Excel chi tiết hóa đơn của 1 khách ---
+// URL: http://localhost:3000/api/KhachHangs/KH001/Export/Excel
+router.get("/KhachHangs/:MaKH/Export/Excel", KhachHangController.exportCustomerInvoices);
+// Lấy lịch sử mua của 1 người
+router.get("/KhachHangs/:MaKH/DonHang", KhachHangController.getOrders);
+router.get("/KhachHangs/Export/Excel", KhachHangController.exportToExcel); // xuất excel toàn bộ khách hàng
 router.get("/KhachHangs/:MaKH", KhachHangController.getByMa); // Ma là MaKH
 router.post("/KhachHangs", KhachHangController.create);
 router.put("/KhachHangs/:MaKH", KhachHangController.update);
 router.delete("/KhachHangs/:MaKH", KhachHangController.delete);
+
+
+
+
+
 
 // ==========================================
 // 6. Routes SẢN PHẨM (SanPham)
@@ -83,6 +116,13 @@ router.get("/SanPhams", SanPhamController.getAll);
 // 1. Route phân trang và sắp xếp danh sách (VD: /SanPhams/PhanTrang?page=1&sortBy=GiaBan&order=DESC)
 router.get("/SanPhams/PhanTrang", SanPhamController.getPaginated);
 router.get("/SanPhams/SearchAdvanced", SanPhamController.searchAdvanced);
+
+// ---  Xuất Excel ---
+// URL: http://localhost:3000/api/SanPhams/Export/Excel
+router.get("/SanPhams/Export/Excel", SanPhamController.exportToExcel);
+// ---  Thống kê tồn kho ---
+// URL: http://localhost:3000/api/SanPhams/ThongKe/TonKho?threshold=5
+router.get("/SanPhams/ThongKe/TonKho", SanPhamController.getInventoryStats);
 router.get("/SanPhams/:MaSP", SanPhamController.getByMa); // Ma là MaSP
 
 router.post("/SanPhams", SanPhamController.create);
@@ -94,8 +134,11 @@ router.delete("/SanPhams/:MaSP", SanPhamController.delete);
 // ==========================================
 router.get("/HoaDons", HoaDonController.getAll);
 router.get("/HoaDons/PhanTrang", HoaDonController.getPaginated); //
-router.get("/HoaDons/ThongKe", HoaDonController.getStats); // Thống kê doanh thu
-router.get("/HoaDons/LocTheoNgay", HoaDonController.getByDate);
+router.get("/HoaDons/ThongKe", HoaDonController.getStats); // Thống kê doanh thu theo cả năm hoặc theo tháng+năm http://localhost:3000/api/HoaDons/ThongKe?year=2024&month=4
+router.get("/HoaDons/LocTheoNgay", HoaDonController.getByDate);//?startDate=...&endDate=...
+
+
+router.get("/HoaDons/TopBanChay", HoaDonController.getTopSelling);// URL mẫu: http://localhost:3000/api/HoaDons/TopBanChay?month=4&year=2024
 router.get("/HoaDons/:MaHD", HoaDonController.getByMa); // Ma là MaHD
 router.post("/HoaDons", HoaDonController.create);
 router.put("/HoaDons/:MaHD", HoaDonController.update);

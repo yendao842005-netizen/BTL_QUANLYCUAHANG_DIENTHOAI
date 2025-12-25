@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+        integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/chitiesp.css">
+    <link rel="stylesheet" href="css/trangchu.css">
+    <!-- link font chu -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <script src="js/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="app">
+        <!-- header -->
+        <header class="header">
+            <!-- header-top -->
+            <div class="header-top ">
+                <div class="container">
+                    <div class="header-top1">
+                        <ul>
+                            <li style="border-right: 1px solid var(--text-color); padding-right: 10px;"><a class="hover"
+                                    href="#"><i class="fa-solid fa-phone-flip"></i> Phone: 0868812510</a>
+                            </li>
+                            <li><a class="hover" href="#"><i class="fa-regular fa-envelope"></i>
+                                    Email:yendaodinh842005@gmail.com</a></li>
+    
+                        </ul>
+                    </div>
+                    <div class="header-top2">
+                        <ul>
+                            <li><a class="thongbao hover" href="#"><i class="fa-regular fa-bell"
+                                        style="margin-right: 5px;"></i>Thông báo</a></li>
+                            <li><a href="#" class="hover"><i class="fa-regular fa-circle-question "
+                                        style="margin-right: 5px;"></i>Hỗ
+                                    trợ</a></li>
+                            <li class="Language"> <a href="javascript:void(0)" class="language-select"> Language <i
+                                        class="fa-solid fa-angle-down"></i> </a>
+                                <ul class="Language-option" style="display:none;">
+                                    <li data-value="Tiếng Việt">Tiếng việt </li>
+                                    <li data-value="English">English</li>
+                                </ul>
+                            </li>
+                            <li style="border-right: 1px solid var(--text-color); padding-right: 10px;" id="auth-options1"><a class="hover"
+                                    href="/dangki.html">Đăng kí</a></li>
+                            <li id="auth-options"><a class="hover" href="/dangnhap.html">Đăng nhập</a></li>
+                            <li style="display: none;cursor: pointer;" onclick="logout()" id="logout-option"><a href="#"><i class="fa-solid fa-user" ></i> đăng xuất</a></li>
+                            <script src="js/dangkidangnhapdxuat.js"></script>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <!-- header-main -->
+            <div class="container">
+    
+    
+                <div class="header-main">
+                    <div class="inner-logo">
+                        <a href="/index.html">
+                            <img src="img/img trang chu/logo1.png"
+                                alt="logo">
+                            <span>MobileShop</span>
+                        </a>
+                    </div>
+    
+                    <div class="timkiem">
+                        <div class="timkieminput">
+                            <input type="text" class="input" placeholder="Nhập tên điện thoại, phụ kiện...cần tìm"
+                                style="width: calc(100% - 50px);">
+                            <!-- Xu huong tim kiem -->
+                            <div class="history">
+                                <h3 class="heading">Xu hướng tìm kiếm</h3>
+                                <ul class="list_history">
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>Iphone 16 pro max</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>iPad</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>Điện thoại SamSung</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px;"></i>Tai nghe</a></li>
+                                    <li class="item"><a href="#"><i class="fa-solid fa-magnifying-glass"
+                                                style="font-size: 14px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;"></i>Linh
+                                            kiên điện thoại</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+    
+                    <div class="giohang">
+                        <a href="/giohang.html"><i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
+                            <span class="notice"  >3</span>
+                        
+                        </a>
+                    </div>
+    
+                </div>
+                <div class="header-bottom" style="width: 100%;    ; border-radius: 8px;">
+                    <ul>
+                        <li><a href="/index.html">
+                                <h3>Trang chủ</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Giới thiệu</h3>
+                            </a></li>
+                        <li><a href="/sanpham.html">
+                                <h3>Cửa hàng</h3>
+                            </a></li>
+                        <li><a href="/sanpham.html">
+                                <h3>Sản Phẩm</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Bài viết</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Khách Hàng</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Liên hệ</h3>
+                            </a></li>
+                        <li><a href="#">
+                                <h3>Danh sách sản phẩm</h3>
+                            </a></li>
+    
+    
+                    </ul>
+                </div>
+            </div>
+    
+    
+        </header>
+
+
+
+        <!-- main -->
+        <div class="main">
+
+            <div class="nd1">
+                <div class="container">
+                    <div class="tieude">
+                        <p><a href="/index.html" class="trangchu">Trang chủ</a> / <a href="/index.html"
+                                class="trangchu">Sản phẩm</a> / iPhone 16 Pro</p>
+                    </div>
+
+                    <div class="chitietsp">
+
+                        <div class="chitietsp1">
+                            <button class="pre_btn"><i class="fa-solid fa-chevron-left"></i></button>
+                            <div class="slide_list">
+                                <img  class="img_chitietsp" src="img/img trang chi tiet sp/iphone titan1.png"
+                                    alt="">
+                                <img class="img_chitietsp" src="img/img trang chi tiet sp/iphone titan2.png"
+                                    alt="">
+                                <img class="img_chitietsp" src="img/img trang chi tiet sp/iphone titan3.png"
+                                    alt="">
+                                <img class="img_chitietsp" src="img/img trang chi tiet sp/iphone titan4.png"
+                                    alt="">
+
+                            </div>
+                            <button class="next_btn"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+
+                        <div class="chitietsp2">
+                            <div class="tieude2">
+                                <h1>iPhone 16 Pro</h1>
+                                <p><span class="nd_tieude2">No.00911086 </span> <span class="nd_tieude2"><i
+                                            style="color: #F5CD4B;" class="fa-solid fa-star"></i>5</span><span
+                                        class="nd_tieude2">12 đánh giá</span><span class="nd_tieude2">80 bình
+                                        luận</span></p>
+                                <p style="font-size: 18px;">
+                                <h3>Giá: 33.890.000 đ</h3>
+                                </p>
+                            </div>
+                            <div class="dungluong">
+                                <span class="label">Dung lượng</span>
+                                <div class="options">
+                                    <button class="option">128 GB</button>
+                                    <button class="option">256 GB</button>
+                                    <button class="option">512 GB</button>
+                                </div>
+                            </div>
+                            <div class="ip16_color">
+
+                                <div class="dungluong">
+                                    <span class="label">
+                                        Màu sắc
+                                    </span>
+                                    <div class="options">
+                                       <div class="thaydoitheomau">
+                                        <div class="thuoctinhip">
+                                            <button class="option">
+                                                <div style="display: flex; align-items: center;">
+                                                    <img src="img/img trang chi tiet sp/iphone_16_pro_max_desert_titan_3552a28ae0.png"
+                                                        alt="Titan Sa Mạc" />
+                                                    <div class="text">Titan Sa Mạc</div>
+                                                </div>
+                                            </button>
+                                            <button class="option">
+                                                <div style="display: flex; align-items: center;">
+                                                    <img src="img/img trang chi tiet sp/iphone_16_pro_max_white_titan_ec6c800e82.png"
+                                                        alt="Titan Trắng" />
+                                                    <span class="text">Titan Trắng</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                        <div class="thuoctinhip">
+                                            <button class="option">
+                                                <div style="display: flex; align-items: center;">
+                                                    <img src="img/img trang chi tiet sp/iphone_16_pro_max_natural_titan_1875852ac7.png"
+                                                        alt="Titan Tự nhiên" />
+                                                    <span class="text">Titan Tự nhiên</span>
+                                                </div>
+                                            </button>
+                                            <button class="option">
+                                                <div style="display: flex; align-items: center; ">
+                                                    <img src="img/img trang chi tiet sp/iphone_16_pro_max_natural_titan_1875852ac7.png"
+                                                        alt="Titan Đen" />
+                                                    <span class="text">Titan Đen</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                       </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="mua">
+                                <button
+                                    style="width: 100%; height: 100%; display: block;background-color: #000  ;color: white;border: #000; cursor: pointer;"
+                                    onclick="addToCart({id:'01',image:'img/img trang chi tiet sp/iphone titan1.png', price:500, name:'iPhone 16 Pro'})">
+                                    Mua ngay </button>
+                                <script src="js/giohang.js"></script>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="thongsokythuat" style="background-color: white;">
+                        <h2 style="padding: 5px 10px;">Thông số kỹ thuật</h2>
+                        <div class="specifications">
+                            <h2>Thông tin hàng hóa</h2>
+                            <table>
+                                <tr>
+                                    <td>Xuất xứ</td>
+                                    <td>Việt nam</td>
+                                </tr>
+                                <tr>
+                                    <td>Thời điểm ra mắt</td>
+                                    <td>09/2024</td>
+                                </tr>
+                                <tr>
+                                    <td>Thời gian bảo hành</td>
+                                    <td>12 tháng</td>
+                                </tr>
+                            </table>
+                            <h2>Thiết kế & Trọng lượng</h2>
+                            <table>
+                                <tr>
+                                    <td>Kích thước</td>
+                                    <td>163 × 77.6 × 8.25 mm</td>
+                                </tr>
+                                <tr>
+                                    <td>Trọng lượng sản phẩm</td>
+                                    <td>227 g</td>
+                                </tr>
+                                <tr>
+                                    <td>Chuẩn kháng nước / Bụi bẩn</td>
+                                    <td>IP68</td>
+                                </tr>
+                                <tr>
+                                    <td>Chất liệu</td>
+                                    <td>Khung máy: Titanium</td>
+                                </tr>
+                            </table>
+                            <h2>Bộ xử lý</h2>
+                            <table>
+                                <tr>
+                                    <td>Phiên bản CPU</td>
+                                    <td>Apple A18 Pro</td>
+                                </tr>
+                                <tr>
+                                    <td>Loại CPU</td>
+                                    <td>6 - Core</td>
+                                </tr>
+                                <tr>
+                                    <td>Số nhân</td>
+                                    <td>6</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="thongtinsp">
+                            <h2 style="padding: 5px 10px">Thông tin sản phẩm</h2>
+                            <div class="motasp">
+                                <h2>Mô tả sản phẩm</h2>
+                                <div class="imgmtsp">
+                                    <img src="img/img trang chi tiet sp/1.jpg" alt="">
+                                    <p>iPhone 16 series với 4 phiên bản: iPhone 16, iPhone 16 Plus, iPhone 16 Pro và
+                                        iPhone 16 Pro Max đều có sự nâng cấp đáng kể, trong đó đáng chú ý là nút điều
+                                        khiển camera mới, hệ thống camera tiên tiến, hiệu suất và thời lượng pin vượt
+                                        trội. Trong đó <b>iPhone 16</b> là dòng tiêu chuẩn với thiết kế trẻ trung và
+                                        thời
+                                        thượng cùng cấu hình mượt mà, giá bán phải chăng nhất. iPhone 16 Plus sở hữu
+                                        ngoài màn hình lớn và thời lượng sử dụng pin dài hơn bản iPhone 16 thường. Trong
+                                        đó, đánh dấu bước nhảy vọt về thời lượng pin và sở hữu chip A18 Pro xuất sắc,
+                                        <b>iPhone 16 Pro Max</b> là siêu phẩm đem lại trải nghiệm vượt trội trên mọi
+                                        khía cạnh.
+                                        Sản phẩm gây ấn tượng với viền màn hình siêu mỏng, được trang bị nút Điều Khiển
+                                        Camera mới và có bộ tính năng Apple Intelligence cực kỳ tiện dụng.
+                                    </p>
+
+
+                                    <p style="margin-bottom: 0px;"><b>iPhone 16 series có mấy phiên bản? </b></p>
+                                    <p>
+                                        Như đã nói ở trên, dòng iPhone 16 series có 4 phiên bản, đối với mỗi phiên bản
+                                        lại có nhiều tùy chọn màu sắc và bộ nhớ khác nhau. Các phiên bản chính của
+                                        iPhone 16 series bao gồm:
+                                    </p>
+                                    <ul style="text-align: left; width: 100%;margin-top: 0px;">
+                                        <li> iPhone 16: Chiếc iPhone 16 giá tốt nhất.</li>
+                                        <li> iPhone 16 Plus: Phiên bản màn hình và thời lượng pin lớn hơn iPhone 16.
+                                        </li>
+                                        <li> iPhone 16 Pro: Dòng iPhone thiết kế nhỏ gọn với những tính năng cao cấp
+                                            nhất.</li>
+                                        <li> iPhone 16 Pro Max: Chiếc iPhone màn hình lớn nhất, cao cấp nhất.</li>
+                                    </ul>
+                                    <p style="margin-bottom: 0px;margin-top: 0px;"><b>iPhone 16 Pro Max có gì mới?</b>
+                                    </p>
+                                    <p style="margin-bottom: 0px;"><b>Vẻ đẹp sang trọng của khung vỏ Titan</b></p>
+                                    <p>Gây ấn tượng bởi kiểu dáng thanh lịch, iPhone 16 Pro Max có cấu trúc khung vỏ
+                                        được chế tác kỳ công từ chất liệu Titan Cấp 5 siêu bền và siêu nhẹ. Ngoài ra,
+                                        Apple cũng cải tiến cấu trúc tản nhiệt bên trong thân máy để duy trì hiệu suất
+                                        tốt hơn 20% so với thế hệ cũ, đem đến cho người dùng một thiết bị vừa sang
+                                        trọng, vừa mạnh mẽ.
+
+                                        Ngoài khả năng chống nước và chống bụi đáng kinh ngạc, iPhone 16 Pro Max còn đạt
+                                        đến chuẩn mực mới về độ bền khi sử dụng chất liệu Ceramic Shield bảo vệ cực tốt
+                                        cho màn hình. Sản phẩm lên kệ với các tùy chọn màu sang trọng gồm: Titan Đen,
+                                        Titan Trắng, Titan Tự Nhiên và Titan Sa Mạc. </p>
+                                    <img src="img/img trang chi tiet sp/2.jpg" alt="">
+                                    <p style="margin-bottom: 0px;"><b>Nhiếp ảnh linh hoạt với nút Điều Khiển Camera </b>
+                                    </p>
+                                    <p>Nút Điều Khiển Camera ở cạnh phải iPhone 16 Pro Max là tính năng hoàn toàn mới,
+                                        cho phép chúng ta dễ dàng kích hoạt tác vụ chụp ảnh hoặc quay phim. Bạn chỉ cần
+                                        vuốt nhẹ ngón tay trên nút bấm này là có thể tinh chỉnh các chức năng nhiếp ảnh
+                                        như: phơi sáng, độ sâu trường ảnh, chuyển đổi giữa các ống kính hoặc thu phóng
+                                        kỹ thuật số...
+
+                                        Đây là yếu tố thể hiện sự tinh tế của Apple trong việc nâng cao trải nghiệm quay
+                                        chụp. Mặt ngoài của Nút Điều Khiển Camera được hoàn thiện bằng tinh thể
+                                        sapphire, cho trải nghiệm vuốt chạm mịn màng. Cảm biến bên trong nút bấm sẽ nhận
+                                        diện lực nhấn mạnh/nhẹ từ ngón tay nhằm mô phỏng cơ chế phản hồi, tạo cảm giác
+                                        như đang chụp ảnh bằng camera DSLR.
+
+                                    </p>
+                                    <img src="img/img trang chi tiet sp/4.jpg" alt="">
+                                    <p style="margin-bottom: 0px;"><b>Thể hiện đẳng cấp quay video chuyên nghiệp</b></p>
+                                    <p>Cầm iPhone 16 Pro Max trên tay, trải nghiệm quay phim của bạn sẽ được đưa lên tầm
+                                        cao mới. Sự kết hợp linh hoạt giữa camera Fusion 48MP, chip A18 Pro cùng cảm
+                                        biến quad-pixel tạo điều kiện để người dùng quay video chất lượng 4K Dolby
+                                        Vision ở tốc độ 120 fps.
+
+                                        Hệ thống bốn micro chuẩn studio sẽ lọc tạp âm hiệu quả để đạt chất lượng thu âm
+                                        tốt nhất cho video của bạn. Đặc biệt, iPhone 16 Pro Max còn cung cấp thêm chức
+                                        năng quay video với Âm Thanh Không Gian, khiến cho thanh âm được diễn đạt đã tai
+                                        hơn khi bạn thưởng thức bằng tai nghe AirPods.</p>
+                                    <img src="img/img trang chi tiet sp/3.jpg" alt="">
+                                    <p style="margin-bottom: 0px;"><b>Mua iPhone 16 Pro Max chính hãng tại Mobile Shop
+                                            có lợi thế gì?</b></p>
+                                    <p>FPT Shop chính là địa chỉ uy tín hàng đầu khi mua iPhone 16 Pro Max nói riêng và
+                                        sản phẩm Apple nói chung. FPT Shop luôn là nơi có sản phẩm chính hãng sớm nhất,
+                                        nguồn cung dồi dào để bạn tha hồ lựa chọn. Đặc biệt, các hệ thống bán lẻ như FPT
+                                        Shop sẽ nhanh chóng triển khai chương trình đặt mua iPhone 16 Pro Max, mang đến
+                                        nhiều ưu đãi hấp dẫn cho khách hàng. Đăng ký nhận thông tin và đặt trước iPhone
+                                        16 không chỉ giúp bạn có cơ hội sở hữu thiết bị sớm mà còn nhận được các phần
+                                        quà giá trị đi kèm từ các chuỗi cửa hàng.
+
+                                        Hiện có rất nhiều ưu đãi lớn, chính sách bảo hành tốt dành cho khách hàng đặt
+                                        trước dòng iPhone 16 Pro Max như ưu đãi đến 3 triệu; bảo hành 2 năm; đặc quyền 1
+                                        đổi 1; trả góp đến 24 tháng.</p>
+                                    <p style="margin-top: 0px;">Việc đặt mua iPhone 16 Pro Max tại FPT Shop không chỉ
+                                        đảm bảo bạn là một trong những người đầu tiên sở hữu sản phẩm, mà còn được hưởng
+                                        nhiều lợi ích:</p>
+                                    <ul style="text-align: left; width: 100%;margin-top: 0px;">
+                                        <li> <b>Bảo hành chính hãng:</b> Mobile Shop là đại lý ủy quyền của Apple tại
+                                            Việt Nam, nên bạn hoàn toàn yên tâm về nguồn gốc sản phẩm và chế độ bảo
+                                            hành.</li>
+                                        <li> <b>Ưu đãi hấp dẫn:</b> Khi đặt trước, khách hàng thường nhận được nhiều ưu
+                                            đãi như phụ kiện, giảm giá, hoặc các phần quà giá trị.
+                                        </li>
+                                        <li> <b>Hỗ trợ trả góp:</b> Mobile Shop cung cấp các chương trình mua hàng trả
+                                            góp với lãi suất 0%, giúp bạn dễ dàng tiếp cận với iPhone 16 Pro Max mà
+                                            không lo về chi phí.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="nd5">
+                <div class="container">
+                    <div class="inner-wrap5">
+                        <div class="Điện thoại"
+                            style="margin-bottom: 10px;display: flex;justify-content: space-between;">
+
+                            <h2>Sản phẩm tương tự</h2>
+                            <h2 style="font-size: 18px;"><a href="/sanpham.html">Xem tất cả <i
+                                        class="fa-solid fa-arrow-right"></i></a></h2>
+                        </div>
+                        <div class="spmr">
+                            <div class="spmr1">
+                                <div class="img_spmr1">
+                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
+                                        <a href=""><img src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
+                                                alt="iphone16"></a>
+                                    </div>
+                                    <div class="img2">
+                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
+                                            src="img/img trang chu/ip161.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="thongtin_spmr1">
+                                    <div class="tragop">
+                                        Trả góp 0%
+                                    </div>
+                                    <div class="tt">
+                                        <p style="    margin-bottom: 0;
+                                        text-decoration: line-through;
+                                        font-size: 13px;
+                                        color: #6F7280;">34.990.000 đ</p>
+                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
+                                            33.890.000 đ</h3>
+                                        <p style="    margin-top: 0px;
+                                        color: #059568;
+                                        font-size: 12px;">Giảm 1.100.000 đ</p>
+                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
+                                    </div>
+                                    <div class="color-options">
+                                        <div class="color1"></div>
+                                        <div class="color2"></div>
+                                        <div class="color3"></div>
+
+                                    </div>
+
+                                    <div class="storage-options">
+                                        <button class="selected">256 GB</button>
+                                        <button>512 GB</button>
+                                        <button>1 TB</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="spmr1">
+                                <div class="img_spmr1">
+                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
+                                        <a href=""><img src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
+                                                alt="iphone16"></a>
+                                    </div>
+                                    <div class="img2">
+                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
+                                            src="img/img trang chu/ip161.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="thongtin_spmr1">
+                                    <div class="tragop">
+                                        Trả góp 0%
+                                    </div>
+                                    <div class="tt">
+                                        <p style="    margin-bottom: 0;
+                                        text-decoration: line-through;
+                                        font-size: 13px;
+                                        color: #6F7280;">34.990.000 đ</p>
+                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
+                                            33.890.000 đ</h3>
+                                        <p style="    margin-top: 0px;
+                                        color: #059568;
+                                        font-size: 12px;">Giảm 1.100.000 đ</p>
+                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
+                                    </div>
+                                    <div class="color-options">
+                                        <div class="color1"></div>
+                                        <div class="color2"></div>
+                                        <div class="color3"></div>
+
+                                    </div>
+
+                                    <div class="storage-options">
+                                        <button class="selected">256 GB</button>
+                                        <button>512 GB</button>
+                                        <button>1 TB</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="spmr1">
+                                <div class="img_spmr1">
+                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
+                                        <a href=""><img src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
+                                                alt="iphone16"></a>
+                                    </div>
+                                    <div class="img2">
+                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
+                                            src="img/img trang chu/ip161.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="thongtin_spmr1">
+                                    <div class="tragop">
+                                        Trả góp 0%
+                                    </div>
+                                    <div class="tt">
+                                        <p style="    margin-bottom: 0;
+                                        text-decoration: line-through;
+                                        font-size: 13px;
+                                        color: #6F7280;">34.990.000 đ</p>
+                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
+                                            33.890.000 đ</h3>
+                                        <p style="    margin-top: 0px;
+                                        color: #059568;
+                                        font-size: 12px;">Giảm 1.100.000 đ</p>
+                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
+                                    </div>
+                                    <div class="color-options">
+                                        <div class="color1"></div>
+                                        <div class="color2"></div>
+                                        <div class="color3"></div>
+
+                                    </div>
+
+                                    <div class="storage-options">
+                                        <button class="selected">256 GB</button>
+                                        <button>512 GB</button>
+                                        <button>1 TB</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="spmr1">
+                                <div class="img_spmr1">
+                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
+                                        <a href=""><img src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
+                                                alt="iphone16"></a>
+                                    </div>
+                                    <div class="img2">
+                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
+                                            src="img/img trang chu/ip161.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="thongtin_spmr1">
+                                    <div class="tragop">
+                                        Trả góp 0%
+                                    </div>
+                                    <div class="tt">
+                                        <p style="    margin-bottom: 0;
+                                        text-decoration: line-through;
+                                        font-size: 13px;
+                                        color: #6F7280;">34.990.000 đ</p>
+                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
+                                            33.890.000 đ</h3>
+                                        <p style="    margin-top: 0px;
+                                        color: #059568;
+                                        font-size: 12px;">Giảm 1.100.000 đ</p>
+                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
+                                    </div>
+                                    <div class="color-options">
+                                        <div class="color1"></div>
+                                        <div class="color2"></div>
+                                        <div class="color3"></div>
+
+                                    </div>
+
+                                    <div class="storage-options">
+                                        <button class="selected">256 GB</button>
+                                        <button>512 GB</button>
+                                        <button>1 TB</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="spmr1">
+                                <div class="img_spmr1">
+                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
+                                        <a href=""><img src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
+                                                alt="iphone16"></a>
+                                    </div>
+                                    <div class="img2">
+                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
+                                            src="img/img trang chu/ip161.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="thongtin_spmr1">
+                                    <div class="tragop">
+                                        Trả góp 0%
+                                    </div>
+                                    <div class="tt">
+                                        <p style="    margin-bottom: 0;
+                                        text-decoration: line-through;
+                                        font-size: 13px;
+                                        color: #6F7280;">34.990.000 đ</p>
+                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
+                                            33.890.000 đ</h3>
+                                        <p style="    margin-top: 0px;
+                                        color: #059568;
+                                        font-size: 12px;">Giảm 1.100.000 đ</p>
+                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
+                                    </div>
+                                    <div class="color-options">
+                                        <div class="color1"></div>
+                                        <div class="color2"></div>
+                                        <div class="color3"></div>
+
+                                    </div>
+
+                                    <div class="storage-options">
+                                        <button class="selected">256 GB</button>
+                                        <button>512 GB</button>
+                                        <button>1 TB</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+
+                <div class="footer1">
+
+                    <h3 class="footer_heading">MobileShop</h3>
+                    <ul class="footer_list">
+
+                        <li><a href="">Địa chỉ: Hưng Yên</a></li>
+                        <li><a href="">Number: 0868812510</a></li>
+                        <li><a href="">Email: yendaodinh842005@gmail.com</a></li>
+                    </ul>
+
+                </div>
+                <div class="footer1">
+                    <h3 class="footer_heading">Cửa hàng</h3>
+                    <ul class="footer_list">
+
+                        <li><a href="">Liên hệ</a> </li>
+                        <li><a href="">Thông tin về chúng tôi</a></li>
+                        <li><a href="">Giỏ hàng</a></li>
+                    </ul>
+                </div>
+                <div class="footer1">
+                    <h3 class="footer_heading">Khuyến mãi ưu đãi</h3>
+                    <ul class="footer_list">
+
+                        <li style="color: #666;">
+
+                            <label for="fullname">Đăng kí nhận thông tin ở
+                                đây</label><!--ấn vào họ tên vẫn link vào ô input thuộc tính for-->
+                            <br>
+                            <div style="display: flex;">
+                                <input id="fullname" required placeholder="Nhập email" name="ho_ten" type="email"
+                                    maxlength="10"
+                                    style="padding: 8px;margin-top: 12px;"><!--hiển thị theo nhiều cách-->
+                                <div
+                                    style=" align-items: center; display: flex ;margin-top: 12px;border: 1px #000 solid;padding: 0 5px;cursor: pointer; ">
+                                    Đăng kí</div>
+                            </div>
+                        </li>
+
+                        <li style="display: flex;">
+                            <div class="footer_item">
+                                <a href="" style="color: black;"><i class="fa-brands fa-facebook"></i></a>
+                            </div>
+                            <div class="footer_item">
+                                <a href="" style="color: black;"><i class="fa-brands fa-instagram"></i></a>
+                            </div>
+                            <div class="footer_item">
+                                <a href="" style="color: black;"><i class="fa-brands fa-linkedin"></i></a>
+                            </div>
+
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer1">
+                    <h3 class="footer_heading">Địa chỉ</h3>
+                    <ul class="footer_list">
+
+                        <li><iframe class="bando"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59729.553537434054!2d106.02220331783772!3d20.665628398322173!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135c12ae1ec71a3%3A0x4d32999e6a9bb398!2zVHAuIEjGsG5nIFnDqm4sIEjGsG5nIFnDqm4sIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1734952209219!5m2!1svi!2s"
+                                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe></li>
+
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </footer>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/chitietsp.js"></script>
+    </div>
+</body>
+
+</html>

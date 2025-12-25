@@ -98,4 +98,39 @@ export const NhaCungCapController = {
       res.status(404).json({ message: err.message });
     }
   },
+
+  
+  //  Lấy danh sách sản phẩm thuộc về NCC này
+  // API: /NhaCungCaps/BaoCao/SanPham?MaNCC=...
+  getSupplierReport: async (req, res) => {
+    try {
+      const { MaNCC } = req.query; // Lấy từ URL query string
+
+      if (!MaNCC) {
+        return res.status(400).json({ message: "Vui lòng cung cấp MaNCC" });
+      }
+
+      const result = await NhaCungCapService.getSupplierReport(MaNCC);
+      res.json(result);
+
+    } catch (err) {
+      logger.error("Controller Error: getSupplierReport failed", err);
+      
+      if (err.message.includes("không tồn tại")) {
+        return res.status(404).json({ message: err.message });
+      }
+      res.status(500).json({ message: err.message });
+    }
+  },
+
+  //xuất excel
+  exportToExcel: async (req, res) => {
+    try {
+      const workbook = await NhaCungCapService.generateExcel();
+      res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      res.setHeader("Content-Disposition", `attachment; filename=NhaCungCap_${Date.now()}.xlsx`);
+      await workbook.xlsx.write(res);
+      res.end();
+    } catch (err) { res.status(500).json({ message: err.message }); }
+  }
 };

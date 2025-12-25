@@ -1,7 +1,7 @@
 import { KhachHangRepository } from "../repositories/khachhang.ropository.js";
 import { KhachHangDTO } from "../dtos/khachhang/khachhang.dto.js";
 import { logger } from "../config/logger.js";
-
+import ExcelJS from "exceljs";
 export const KhachHangService = {
   getAllKhachHangs: async () => {
     logger.info("Service: Getting all KhachHangs");
@@ -45,6 +45,12 @@ export const KhachHangService = {
       }
     };
   },
+
+
+
+
+
+
   createKhachHang: async (dto) => {
     logger.info(`Service: Creating new KhachHang ${dto.MaKH}`);
     const created = await KhachHangRepository.create(dto);
@@ -76,4 +82,171 @@ export const KhachHangService = {
     await KhachHangRepository.delete(MaKH);
     return { message: "KhachHang deleted successfully" };
   },
+
+
+
+  // Phân loại khách hàng dựa trên dữ liệu Repo trả về
+  getVipCustomers: async () => {
+    const customers = await KhachHangRepository.getTopSpenders(100);
+    
+    // Logic xử lý dữ liệu tại Service: Gán hạng (Rank)
+    return customers.map(c => {
+      let rank = 'Thành Viên';
+      const spent = Number(c.TongChiTieu);
+      if (spent > 50000000) rank = 'Kim Cương'; // > 50tr
+      else if (spent > 20000000) rank = 'Vàng'; // > 20tr
+      else if (spent > 5000000) rank = 'Bạc';   // > 5tr
+      
+      return { ...c, HangThanhVien: rank };
+    });
+  },
+
+ getCustomerOrderHistory: async (MaKH) => {
+    // 1. Lấy dữ liệu gộp
+    const rawData = await KhachHangRepository.getOrdersAndDetails(MaKH);
+
+    // Trường hợp 1: Khách hàng chưa có đơn hàng nào
+    if (rawData.length === 0) {
+      // Gọi thêm hàm lấy thông tin khách để trả về info cơ bản (dù không có đơn)
+      const customerInfo = await KhachHangRepository.getByMa(MaKH);
+      if (!customerInfo) throw new Error("Khách hàng không tồn tại");
+      
+      return {
+        KhachHang: customerInfo,
+        LichSuMuaHang: []
+      };
+    }
+
+    // Trường hợp 2: Có dữ liệu mua hàng
+    // Lấy thông tin khách từ dòng đầu tiên (vì dòng nào cũng giống nhau phần này)
+    const customerInfo = {
+      MaKH: MaKH,
+      HoTen: rawData[0].HoTen,
+      SoDienThoai: rawData[0].SoDienThoai,
+      Email: rawData[0].Email,
+      DiaChi: rawData[0].DiaChi
+    };
+
+    // Gom nhóm Hóa đơn (Logic cũ)
+    const ordersMap = new Map();
+
+    rawData.forEach(row => {
+      if (!ordersMap.has(row.MaHD)) {
+        ordersMap.set(row.MaHD, {
+          MaHD: row.MaHD,
+          NgayLap: row.NgayLap,
+          TongTien: row.TongTien,
+          TrangThai: row.TrangThai,
+          GhiChu: row.GhiChu,
+          ChiTietSanPham: [] 
+        });
+      }
+
+      const currentOrder = ordersMap.get(row.MaHD);
+      currentOrder.ChiTietSanPham.push({
+        MaSP: row.MaSP,
+        TenSanPham: row.TenSanPham,
+        SoLuong: row.SoLuong,
+        DonGia: row.DonGia,
+        ThanhTien: row.ThanhTien
+      });
+    });
+
+    // TRẢ VỀ CẤU TRÚC MỚI
+    return {
+      KhachHang: customerInfo,            // Phần thông tin khách
+      LichSuMuaHang: Array.from(ordersMap.values()) // Phần danh sách đơn
+    };
+  },
+
+
+  //xuat excel toàn bộ khách hàng
+  generateExcel: async () => {
+    const data = await KhachHangRepository.getAllForExport();
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Khách Hàng");
+
+    worksheet.columns = [
+      { header: "Mã KH", key: "MaKH", width: 10 },
+      { header: "Họ Tên", key: "HoTen", width: 25 },
+      { header: "SĐT", key: "SoDienThoai", width: 15 },
+      { header: "Email", key: "Email", width: 25 },
+      { header: "Địa Chỉ", key: "DiaChi", width: 30 },
+    ];
+    worksheet.getRow(1).font = { bold: true };
+
+    data.forEach(row => worksheet.addRow(row)); // Không cần format ngày tháng vì bảng này không có date quan trọng
+    return workbook;
+  },
+
+
+  generateInvoiceExcelForCustomer: async (MaKH) => {
+    logger.info(`Service: Generating Excel for Customer ${MaKH}`);
+
+    // 1. Lấy dữ liệu
+    const data = await KhachHangRepository.getExportDataByCustomer(MaKH);
+
+    if (data.length === 0) {
+      throw new Error("Khách hàng này chưa có đơn hàng nào hoặc không tồn tại!");
+    }
+
+    // Lấy thông tin chung khách hàng từ dòng đầu tiên (vì các dòng đều giống nhau phần info khách)
+    const customerInfo = data[0];
+
+    // 2. Tạo Workbook
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Lịch Sử Mua Hàng");
+
+    // --- PHẦN 1: THÔNG TIN KHÁCH HÀNG (HEADER REPORT) ---
+    worksheet.mergeCells('A1:E1'); 
+    worksheet.getCell('A1').value = "BÁO CÁO LỊCH SỬ MUA HÀNG";
+    worksheet.getCell('A1').font = { size: 16, bold: true };
+    worksheet.getCell('A1').alignment = { horizontal: 'center' };
+
+    worksheet.getCell('A3').value = "Khách Hàng:";
+    worksheet.getCell('B3').value = customerInfo.HoTen;
+
+    worksheet.getCell('A4').value = "Số Điện Thoại:";
+    worksheet.getCell('B4').value = customerInfo.SoDienThoai;
+
+    worksheet.getCell('A5').value = "Địa Chỉ:";
+    worksheet.getCell('B5').value = customerInfo.DiaChi;
+
+    // --- PHẦN 2: BẢNG CHI TIẾT SẢN PHẨM ---
+    // Bắt đầu từ dòng số 7
+    const headerRow = worksheet.getRow(7);
+    headerRow.values = ["Mã HĐ", "Ngày Lập", "Trạng Thái", "Sản Phẩm", "Số Lượng", "Đơn Giá", "Thành Tiền"];
+    
+    // Format Header bảng
+    headerRow.font = { bold: true, color: { argb: 'FFFFFFFF' } }; // Chữ trắng
+    headerRow.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FF0070C0' } // Nền xanh dương
+    };
+
+    // Đổ dữ liệu
+    data.forEach(item => {
+      worksheet.addRow([
+        item.MaHD,
+        new Date(item.NgayLap).toLocaleDateString("vi-VN"),
+        item.TrangThai,
+        item.TenSanPham,
+        item.SoLuong,
+        item.DonGia,   // Excel tự hiểu là số
+        item.ThanhTien // Excel tự hiểu là số
+      ]);
+    });
+
+    // Chỉnh độ rộng cột cho đẹp
+    worksheet.getColumn(1).width = 15; // Mã HĐ
+    worksheet.getColumn(2).width = 15; // Ngày
+    worksheet.getColumn(3).width = 15; // Trạng thái
+    worksheet.getColumn(4).width = 30; // Tên SP
+    worksheet.getColumn(5).width = 10; // SL
+    worksheet.getColumn(6).width = 15; // Đơn giá
+    worksheet.getColumn(7).width = 15; // Thành tiền
+
+    return workbook;
+  }
 };

@@ -1,0 +1,253 @@
+-- Quan ly cua hang ban dien thoai 
+
+use qlch_dien_thoai;
+
+-- 1. Tạo và sử dụng CSDL
+
+
+-- 2. Bảng Nhân Viên (Tạo trước để Tài khoản và Hóa đơn tham chiếu tới)
+CREATE TABLE NhanVien (
+    MaNV VARCHAR(20) PRIMARY KEY,
+    HoTen VARCHAR(100) NOT NULL,
+    NgaySinh DATE,
+    GioiTinh ENUM('Nam', 'Nu', 'Khac'),
+    SoDienThoai VARCHAR(20) NOT NULL UNIQUE,
+    Email VARCHAR(100),
+    DiaChi VARCHAR(255),
+    ChucVu VARCHAR(50), -- VD: QuanLy, BanHang, Kho
+    LuongCoBan DECIMAL(15, 0),
+    NgayVaoLam DATE DEFAULT (CURRENT_DATE)
+);
+select * from NhanVien;
+-- 3. Bảng Tài khoản (Đăng nhập hệ thống)
+CREATE TABLE TaiKhoan (
+    MaTK VARCHAR(20) PRIMARY KEY,
+    MaNV VARCHAR(20) NOT NULL UNIQUE, -- 1 Nhân viên chỉ có 1 tài khoản
+    TenDangNhap VARCHAR(50) NOT NULL UNIQUE,
+    MatKhau VARCHAR(255) NOT NULL, -- Lưu mã hóa
+    QuyenHan ENUM('QuanLy', 'NhanVien') DEFAULT 'NhanVien',
+    TrangThai BIT DEFAULT 1, -- 1: Hoạt động, 0: Khóa
+    NgayTao DATETIME ,
+    
+    FOREIGN KEY (MaNV) REFERENCES NhanVien(MaNV) ON DELETE CASCADE
+);
+select * from TaiKhoan;
+-- 4. Bảng Danh Mục (iPhone, Samsung, Phụ kiện...)
+CREATE TABLE DanhMuc (
+    MaDM VARCHAR(20) PRIMARY KEY,
+    TenDanhMuc VARCHAR(100) NOT NULL,
+    MoTa TEXT
+);
+select * from DanhMuc;
+-- 5. Bảng Nhà Cung Cấp
+CREATE TABLE NhaCungCap (
+    MaNCC VARCHAR(20) PRIMARY KEY,
+    TenNhaCungCap VARCHAR(100) NOT NULL,
+    NguoiLienHe VARCHAR(50),
+    SoDienThoai VARCHAR(20),
+    DiaChi VARCHAR(255)
+);
+select * from NhaCungCap;
+-- 6. Bảng Khách Hàng 
+CREATE TABLE KhachHang (
+    MaKH VARCHAR(20) PRIMARY KEY,
+    HoTen VARCHAR(100) NOT NULL,
+    SoDienThoai VARCHAR(20) NOT NULL UNIQUE,
+    DiaChi VARCHAR(255),
+    Email VARCHAR(100)
+);
+select * from KhachHang;
+-- 7. Bảng Sản Phẩm
+CREATE TABLE SanPham (
+    MaSP VARCHAR(20) PRIMARY KEY,
+    TenSanPham VARCHAR(255) NOT NULL,
+    MaDM VARCHAR(20), 
+    MaNCC VARCHAR(20), 
+    GiaBan DECIMAL(15, 0) NOT NULL,
+    SoLuongTon INT DEFAULT 0,
+    NgayNhap DATETIME DEFAULT CURRENT_TIMESTAMP,
+    MoTa TEXT,
+    
+    FOREIGN KEY (MaDM) REFERENCES DanhMuc(MaDM) ON DELETE SET NULL,
+    FOREIGN KEY (MaNCC) REFERENCES NhaCungCap(MaNCC) ON DELETE SET NULL
+);
+select * from SanPham;
+-- 8. Bảng Hóa Đơn
+CREATE TABLE HoaDon (
+    MaHD VARCHAR(20) PRIMARY KEY,
+    MaKH VARCHAR(20), 
+    MaNV VARCHAR(20), -- Liên kết với Nhân Viên (người bán)
+    NgayLap DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TongTien DECIMAL(15, 0) DEFAULT 0,
+    TrangThai ENUM('ChoXuLy', 'HoanThanh', 'DaHuy') DEFAULT 'ChoXuLy',
+    GhiChu TEXT,
+    
+    FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH) ON DELETE SET NULL,
+    FOREIGN KEY (MaNV) REFERENCES NhanVien(MaNV) ON DELETE SET NULL
+);
+select * from HoaDon;
+-- 9. Bảng Chi Tiết Hóa Đơn
+CREATE TABLE ChiTietHoaDon (
+    ID INT  PRIMARY KEY, -- Sử dụng ID tự tăng cho tiện quản lý
+    MaHD VARCHAR(20) NOT NULL, 
+    MaSP VARCHAR(20) NOT NULL, 
+    SoLuong INT NOT NULL CHECK (SoLuong > 0),
+    DonGia DECIMAL(15, 0) NOT NULL,
+    ThanhTien DECIMAL(15, 0) GENERATED ALWAYS AS (SoLuong * DonGia) STORED, -- Cột tự động tính toán (MySQL 5.7+)
+    
+    FOREIGN KEY (MaHD) REFERENCES HoaDon(MaHD) ON DELETE CASCADE,
+    FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP)
+);
+select * from ChiTietHoaDon;
+-- 1. Insert NhanVien (15 dòng)
+INSERT INTO NhanVien (MaNV, HoTen, NgaySinh, GioiTinh, SoDienThoai, Email, DiaChi, ChucVu, LuongCoBan, NgayVaoLam) VALUES
+('NV001', 'Nguyen Van An', '1990-01-01', 'Nam', '0901000001', 'an.nguyen@gmail.com', '123 Le Loi, HCM', 'QuanLy', 20000000, '2020-01-01'),
+('NV002', 'Tran Thi Binh', '1995-02-02', 'Nu', '0901000002', 'binh.tran@gmail.com', '456 Nguyen Hue, HCM', 'BanHang', 8000000, '2021-02-15'),
+('NV003', 'Le Van Cuong', '1992-03-03', 'Nam', '0901000003', 'cuong.le@gmail.com', '789 Tran Hung Dao, HCM', 'KyThuat', 10000000, '2021-03-10'),
+('NV004', 'Pham Thi Dung', '1998-04-04', 'Nu', '0901000004', 'dung.pham@gmail.com', '321 Ba Thang Hai, HCM', 'BanHang', 8000000, '2022-04-20'),
+('NV005', 'Hoang Van Em', '1993-05-05', 'Nam', '0901000005', 'em.hoang@gmail.com', '654 Cach Mang Thang 8, HCM', 'Kho', 9000000, '2022-05-05'),
+('NV006', 'Do Thi Phuong', '1997-06-06', 'Nu', '0901000006', 'phuong.do@gmail.com', '987 Vo Van Kiet, HCM', 'KeToan', 12000000, '2020-06-06'),
+('NV007', 'Ngo Van Giau', '1991-07-07', 'Nam', '0901000007', 'giau.ngo@gmail.com', '147 Hai Ba Trung, HN', 'QuanLy', 18000000, '2019-07-07'),
+('NV008', 'Vu Thi Hoa', '1996-08-08', 'Nu', '0901000008', 'hoa.vu@gmail.com', '258 Kim Ma, HN', 'BanHang', 8500000, '2021-08-08'),
+('NV009', 'Dang Van Hung', '1994-09-09', 'Nam', '0901000009', 'hung.dang@gmail.com', '369 Cau Giay, HN', 'KyThuat', 11000000, '2021-09-09'),
+('NV010', 'Bui Thi Kieu', '1999-10-10', 'Nu', '0901000010', 'kieu.bui@gmail.com', '159 Lang Ha, HN', 'BanHang', 8000000, '2023-01-01'),
+('NV011', 'Ly Van Long', '1989-11-11', 'Nam', '0901000011', 'long.ly@gmail.com', '753 Nguyen Trai, HN', 'Kho', 9500000, '2020-11-11'),
+('NV012', 'Trinh Thi Mai', '1995-12-12', 'Nu', '0901000012', 'mai.trinh@gmail.com', '951 Tay Son, HN', 'BanHang', 8200000, '2022-12-12'),
+('NV013', 'Mai Van Nam', '1993-01-13', 'Nam', '0901000013', 'nam.mai@gmail.com', '357 Le Duan, Da Nang', 'KyThuat', 10500000, '2021-01-13'),
+('NV014', 'Cao Thi Oanh', '1998-02-14', 'Nu', '0901000014', 'oanh.cao@gmail.com', '852 Nguyen Van Linh, Da Nang', 'BanHang', 8000000, '2023-02-14'),
+('NV015', 'Duong Van Phuc', '1992-03-15', 'Nam', '0901000015', 'phuc.duong@gmail.com', '123 Hung Vuong, Da Nang', 'BaoVe', 7000000, '2023-03-15');
+
+-- 2. Insert TaiKhoan (15 dòng) - Mật khẩu = user + "123"
+INSERT INTO TaiKhoan (MaTK, MaNV, TenDangNhap, MatKhau, QuyenHan, TrangThai) VALUES
+('TK001', 'NV001', 'admin', 'admin123', 'QuanLy', 1),
+('TK002', 'NV002', 'binhtran', 'binhtran123', 'NhanVien', 1),
+('TK003', 'NV003', 'cuongle', 'cuongle123', 'NhanVien', 1),
+('TK004', 'NV004', 'dungpham', 'dungpham123', 'NhanVien', 1),
+('TK005', 'NV005', 'emhoang', 'emhoang123', 'NhanVien', 1),
+('TK006', 'NV006', 'phuongdo', 'phuongdo123', 'QuanLy', 1),
+('TK007', 'NV007', 'giaungo', 'giaungo123', 'QuanLy', 1),
+('TK008', 'NV008', 'hoavu', 'hoavu123', 'NhanVien', 1),
+('TK009', 'NV009', 'hungdang', 'hungdang123', 'NhanVien', 1),
+('TK010', 'NV010', 'kieubui', 'kieubui123', 'NhanVien', 1),
+('TK011', 'NV011', 'longly', 'longly123', 'NhanVien', 1),
+('TK012', 'NV012', 'maitrinh', 'maitrinh123', 'NhanVien', 0), -- Đã khóa
+('TK013', 'NV013', 'nammai', 'nammai123', 'NhanVien', 1),
+('TK014', 'NV014', 'oanhcao', 'oanhcao123', 'NhanVien', 1),
+('TK015', 'NV015', 'phucduong', 'phucduong123', 'NhanVien', 1);
+
+-- 3. Insert DanhMuc (15 dòng)
+INSERT INTO DanhMuc (MaDM, TenDanhMuc, MoTa) VALUES
+('DM001', 'iPhone', 'Điện thoại Apple iPhone'),
+('DM002', 'Samsung', 'Điện thoại Samsung Galaxy'),
+('DM003', 'Xiaomi', 'Điện thoại Xiaomi, Redmi, Poco'),
+('DM004', 'Oppo', 'Điện thoại Oppo'),
+('DM005', 'Vivo', 'Điện thoại Vivo'),
+('DM006', 'Realme', 'Điện thoại Realme'),
+('DM007', 'Nokia', 'Điện thoại phổ thông và smartphone Nokia'),
+('DM008', 'Sony', 'Điện thoại Sony Xperia'),
+('DM009', 'Asus', 'Điện thoại Asus ROG Phone'),
+('DM010', 'Google Pixel', 'Điện thoại Google'),
+('DM011', 'iPad', 'Máy tính bảng Apple'),
+('DM012', 'Samsung Tab', 'Máy tính bảng Samsung'),
+('DM013', 'Tai nghe', 'Tai nghe Bluetooth, có dây'),
+('DM014', 'Sạc cáp', 'Củ sạc, dây cáp, sạc dự phòng'),
+('DM015', 'Ốp lưng', 'Ốp lưng và bao da');
+
+-- 4. Insert NhaCungCap (15 dòng)
+INSERT INTO NhaCungCap (MaNCC, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi) VALUES
+('NCC001', 'Apple Vietnam', 'Tim Cook', '02812345678', 'Quan 1, HCM'),
+('NCC002', 'Samsung Vina', 'Lee Jae Yong', '02887654321', 'Quan 1, HCM'),
+('NCC003', 'Xiaomi VN', 'Lei Jun', '02412345678', 'Cau Giay, HN'),
+('NCC004', 'Oppo VN', 'Sky Li', '02811122233', 'Quan 7, HCM'),
+('NCC005', 'FPT Trading', 'Nguyen Van FPT', '0909090909', 'Cau Giay, HN'),
+('NCC006', 'Digiworld', 'Tran Van DGW', '0908080808', 'Quan 3, HCM'),
+('NCC007', 'Viettel Store', 'Le Van Viettel', '0988888888', 'Ba Dinh, HN'),
+('NCC008', 'CellphoneS Dist', 'Nguyen Van Cell', '0977777777', 'Thai Ha, HN'),
+('NCC009', 'Hoang Ha Mobile', 'Pham Van Hoang', '0966666666', 'Thanh Xuan, HN'),
+('NCC010', 'The Gioi Di Dong', 'Nguyen Duc Tai', '0955555555', 'Thu Duc, HCM'),
+('NCC011', 'Anker VN', 'Nguyen Van Pin', '0944444444', 'Tan Binh, HCM'),
+('NCC012', 'Sony Electronics', 'Yoshida', '0933333333', 'Quan 1, HCM'),
+('NCC013', 'Asus VN', 'Jonney Shih', '0922222222', 'Quan 10, HCM'),
+('NCC014', 'Nokia HMD', 'Pekka', '0911111111', 'Cau Giay, HN'),
+('NCC015', 'Pisen VN', 'Tran Van Pisen', '0901231231', 'Da Nang');
+
+-- 5. Insert SanPham (15 dòng)
+INSERT INTO SanPham (MaSP, TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap) VALUES
+('SP001', 'iPhone 15 Pro Max 256GB', 'DM001', 'NCC001', 34990000, 50, '2023-10-01'),
+('SP002', 'iPhone 14 Plus 128GB', 'DM001', 'NCC005', 21990000, 30, '2023-09-15'),
+('SP003', 'Samsung Galaxy S24 Ultra', 'DM002', 'NCC002', 31990000, 40, '2024-01-20'),
+('SP004', 'Samsung Galaxy A54 5G', 'DM002', 'NCC002', 8490000, 100, '2023-11-11'),
+('SP005', 'Xiaomi 14 12GB/256GB', 'DM003', 'NCC003', 22990000, 20, '2024-03-10'),
+('SP006', 'Redmi Note 13 Pro', 'DM003', 'NCC006', 7290000, 80, '2024-02-01'),
+('SP007', 'Oppo Reno 11 F 5G', 'DM004', 'NCC004', 8990000, 60, '2024-01-15'),
+('SP008', 'Vivo V29e 5G', 'DM005', 'NCC006', 8990000, 45, '2023-12-05'),
+('SP009', 'Realme 11 Pro+', 'DM006', 'NCC006', 11990000, 35, '2023-10-20'),
+('SP010', 'Nokia 105 4G Pro', 'DM007', 'NCC014', 650000, 200, '2023-08-08'),
+('SP011', 'Sony Xperia 1 V', 'DM008', 'NCC012', 29990000, 10, '2023-09-01'),
+('SP012', 'Asus ROG Phone 8', 'DM009', 'NCC013', 24990000, 15, '2024-01-30'),
+('SP013', 'iPad Air 5 M1 WiFi', 'DM011', 'NCC001', 13990000, 25, '2023-05-15'),
+('SP014', 'Sạc Anker 20W PD', 'DM014', 'NCC011', 350000, 300, '2023-11-20'),
+('SP015', 'Tai nghe AirPods Pro 2', 'DM013', 'NCC001', 5990000, 50, '2023-12-12');
+
+-- 6. Insert KhachHang (15 dòng)
+INSERT INTO KhachHang (MaKH, HoTen, SoDienThoai, DiaChi, Email) VALUES
+('KH001', 'Nguyen Van Khach', '0990000001', 'Go Vap, HCM', 'khach1@gmail.com'),
+('KH002', 'Tran Thi Mua', '0990000002', 'Tan Binh, HCM', 'mua2@gmail.com'),
+('KH003', 'Le Van Sam', '0990000003', 'Quan 3, HCM', 'sam3@gmail.com'),
+('KH004', 'Pham Thi Tieu', '0990000004', 'Quan 1, HCM', 'tieu4@gmail.com'),
+('KH005', 'Hoang Van Dung', '0990000005', 'Binh Thanh, HCM', 'dung5@gmail.com'),
+('KH006', 'Do Thi Xai', '0990000006', 'Thu Duc, HCM', 'xai6@gmail.com'),
+('KH007', 'Ngo Van Tra', '0990000007', 'Dong Da, HN', 'tra7@gmail.com'),
+('KH008', 'Vu Thi Gop', '0990000008', 'Hoan Kiem, HN', 'gop8@gmail.com'),
+('KH009', 'Dang Van Bill', '0990000009', 'Cau Giay, HN', 'bill9@gmail.com'),
+('KH010', 'Bui Thi Don', '0990000010', 'Thanh Xuan, HN', 'don10@gmail.com'),
+('KH011', 'Ly Van Hoa', '0990000011', 'Hai Chau, Da Nang', 'hoa11@gmail.com'),
+('KH012', 'Trinh Thi Phuong', '0990000012', 'Son Tra, Da Nang', 'phuong12@gmail.com'),
+('KH013', 'Mai Van Huy', '0990000013', 'Ninh Kieu, Can Tho', 'huy13@gmail.com'),
+('KH014', 'Cao Thi Lan', '0990000014', 'Bien Hoa, Dong Nai', 'lan14@gmail.com'),
+('KH015', 'Duong Van Dat', '0990000015', 'Thu Dau Mot, Binh Duong', 'dat15@gmail.com');
+
+-- 7. Insert HoaDon (15 dòng)
+INSERT INTO HoaDon (MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu) VALUES
+('HD001', 'KH001', 'NV002', '2024-04-01 08:00:00', 34990000, 'HoanThanh', 'Khách VIP'),
+('HD002', 'KH002', 'NV002', '2024-04-01 09:30:00', 21990000, 'HoanThanh', NULL),
+('HD003', 'KH003', 'NV004', '2024-04-02 10:00:00', 31990000, 'HoanThanh', NULL),
+('HD004', 'KH004', 'NV004', '2024-04-02 14:15:00', 8490000, 'ChoXuLy', 'Giao hàng tận nơi'),
+('HD005', 'KH005', 'NV002', '2024-04-03 16:00:00', 22990000, 'HoanThanh', NULL),
+('HD006', 'KH006', 'NV008', '2024-04-03 17:30:00', 7290000, 'HoanThanh', NULL),
+('HD007', 'KH007', 'NV008', '2024-04-04 08:45:00', 8990000, 'DaHuy', 'Khách đổi ý'),
+('HD008', 'KH008', 'NV010', '2024-04-04 11:00:00', 8990000, 'HoanThanh', NULL),
+('HD009', 'KH009', 'NV010', '2024-04-05 13:20:00', 11990000, 'HoanThanh', NULL),
+('HD010', 'KH010', 'NV010', '2024-04-05 15:45:00', 1300000, 'HoanThanh', 'Mua 2 máy cục gạch'),
+('HD011', 'KH011', 'NV014', '2024-04-06 09:10:00', 29990000, 'HoanThanh', NULL),
+('HD012', 'KH012', 'NV014', '2024-04-06 10:50:00', 24990000, 'ChoXuLy', NULL),
+('HD013', 'KH013', 'NV014', '2024-04-07 14:00:00', 13990000, 'HoanThanh', NULL),
+('HD014', 'KH014', 'NV004', '2024-04-07 16:30:00', 700000, 'HoanThanh', 'Mua 2 sạc'),
+('HD015', 'KH015', 'NV002', '2024-04-08 19:00:00', 5990000, 'HoanThanh', NULL);
+
+-- 8. Insert ChiTietHoaDon (15 dòng)
+-- Lưu ý: ID được điền thủ công từ 1-15, ThanhTien tự động tính
+INSERT INTO ChiTietHoaDon (ID, MaHD, MaSP, SoLuong, DonGia) VALUES
+(1, 'HD001', 'SP001', 1, 34990000),
+(2, 'HD002', 'SP002', 1, 21990000),
+(3, 'HD003', 'SP003', 1, 31990000),
+(4, 'HD004', 'SP004', 1, 8490000),
+(5, 'HD005', 'SP005', 1, 22990000),
+(6, 'HD006', 'SP006', 1, 7290000),
+(7, 'HD007', 'SP007', 1, 8990000),
+(8, 'HD008', 'SP008', 1, 8990000),
+(9, 'HD009', 'SP009', 1, 11990000),
+(10, 'HD010', 'SP010', 2, 650000), -- Mua 2 cái
+(11, 'HD011', 'SP011', 1, 29990000),
+(12, 'HD012', 'SP012', 1, 24990000),
+(13, 'HD013', 'SP013', 1, 13990000),
+(14, 'HD014', 'SP014', 2, 350000), -- Mua 2 sạc
+(15, 'HD015', 'SP015', 1, 5990000);
+-- Truy van bang 
+SELECT * FROM taiKhoan;
+SELECT * FROM DanhMuc;
+SELECT * FROM NhaCungCap;
+SELECT * FROM SanPham;
+SELECT * FROM KhachHang;
+SELECT * FROM HoaDon;
+SELECT * FROM ChiTietHoaDon;

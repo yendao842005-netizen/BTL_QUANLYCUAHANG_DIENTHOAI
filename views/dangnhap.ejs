@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+    integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dangnhap.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+      <!-- link font chu -->
+      <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet">
+    <script src="js/dangnhap.js"></script>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <h2>Welcome Back!</h2>
+            <p>Sign in to access your account and enjoy the best offers.</p>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="logo">
+                <a href="/index.html"><img src="img/img trang chu/logo1.png" alt="Logo"></a>
+            </div>
+            <h2>LOGIN</h2>
+            <form>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="Enter your email">
+                    <div class="error" id="emailError"></div>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                    <div class="error" id="passwordError"></div>
+
+                </div>
+                <div style="display: flex; justify-content: space-between; text-align: center; align-content: center;">
+                    <button type="button" class="login-button" onclick="validateForm()">Login</button>
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                </div>
+            </form>
+
+            <div class="social-login">
+                <p>Or Login with</p>
+                <div class="social-buttons">
+                    <button><i class="fa-brands fa-google" style="margin-right: 3px;"></i>Google</button>
+                    <button><i class="fa-brands fa-facebook" style="margin-right: 3px;"></i>Facebook</button>
+                </div>
+            </div>
+            <div class="cta">
+                <p>
+                    Already have an account? <a href="/dangki.html" style="    color: #8DA4CD;">Sing up</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="js/dangnhap.js"></script>
+</body>
+</html>

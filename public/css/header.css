@@ -1,0 +1,226 @@
+
+/* header */
+.header{
+    background-color: white;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+
+}
+.header .header-top{
+    background-color: #F0F2F5; padding-bottom: 8px;
+    display: flex;
+}
+.header .header-top .container{
+    display: flex;
+    justify-content: space-between;
+    /* margin-bottom: 20px; */
+
+    
+}
+
+.header .header-top ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+    display: flex;
+    li{
+        
+        margin-right: 10px;
+        a{
+            font-size: 14px;
+            color: var(--text-color);
+      
+        }
+    }
+}
+/* .header .header-top ul li .language{
+    border: none;
+    background-color:#F0F2F5;
+    color:var(--text-color);
+} */
+.header .header-main .timkiem{
+    background-color: white;
+    border: 1px #000 solid;
+    flex: 1;
+    height: 40px;
+    margin: 0 20px;
+    align-self: center;
+    border-radius: 8px;
+    display: flex;
+}
+.header .header-main .giohang{
+    align-self: center;
+    font-size: 25px;
+    width: 190px;
+    justify-content: center;
+    display: flex;
+}
+
+
+.header .header-main{
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-top .hover:hover{
+    color: rgba(0, 0, 0, 0.415);
+}
+.header-main .inner-logo img{
+    height: 80px;
+    width: auto;
+    /* margin-right: 10px; */
+}
+
+.header-main .inner-logo span{
+    font-size: 40px;
+    font-weight: 600px;
+    width: 100%;
+    height: 100%;
+}
+.header-main .inner-logo a{
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+}
+.header .header-main .timkiem .timkieminput{
+    flex: 1;
+    position: relative;
+    height: 100%;
+}
+.header .header-main .timkiem .input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    padding: 0 16px;
+}
+.header .header-main .timkiem .search{
+    border: none;
+    height: 30px;
+    width: 40px;
+    align-self:center;
+    margin-right: 5px;
+    border-radius: 8px;
+    
+}
+.header .header-main .timkiem .search:hover{
+    background-color: #adb0b5;
+}
+.search:hover{
+    cursor: pointer;
+}
+.header-top2{
+    position: relative;
+}
+.header-top2 .Language-option{
+    position: absolute;
+    flex-direction: column;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    li{
+        background-color: white;
+        border-radius: 3px;
+        padding: 8px 8px;
+        /* display: inline-blockblock; */
+        cursor: pointer;
+        width: 100%;
+    };
+}
+.header-top2 .Language-option li:hover{
+    background-color: #F0F2F5;
+}
+.Language-option{
+    display: none !important;
+
+}
+.Language-option::after{
+    content: "";
+    display: block ;
+    width: 100%;
+    height: 10px;
+    position: absolute;
+    top:-10px;
+    left: 0;
+}
+.Language:hover  .Language-option{
+    display: block !important;
+}
+
+.timkieminput .history{
+    position: absolute;
+    top:calc(100% + 4px) ;
+    left:0;
+    background-color: white;
+    width: calc(100% - 16px);
+    border-radius: 3px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+    display: none;
+}
+.timkieminput .history .heading{
+    
+    margin: 8px 12px;
+
+}
+.timkieminput .history .list_history {
+    padding: 0;
+    margin-bottom: 0;
+}
+.timkieminput .history .list_history .item{
+    list-style-type: none;
+    padding: 5px 40px;    
+    
+   
+    a{
+        text-decoration: none;
+        color: var(--text-color);
+        display: block;
+    }
+}
+.timkieminput .history .list_history .item:hover{
+    background-color: #F0F2F5;
+}
+
+.input:focus ~ .history{
+    z-index: 3;
+    display: block;
+}
+.giohang{
+    position: relative;
+}
+.giohang .notice{
+    position: absolute;
+    padding: 1px 7px;
+    background-color: white;
+    font-size: 14px;
+    line-height: 14px;
+    border: 1px #000 solid;
+    border-radius: 10px ;
+    top: -9px;
+    right: 70px;
+}
+
+.header-bottom {
+    ul{
+        list-style-type: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+        li{
+            padding-left: 15px;
+            padding-right: 15px;
+            border-radius: 5px;
+            a{
+                color: var(--text-color);
+            }
+        }
+       
+    }
+}
+.header-bottom ul li:hover{
+    background-color: #F0F2F5;
+}
+
+
+/* end header */

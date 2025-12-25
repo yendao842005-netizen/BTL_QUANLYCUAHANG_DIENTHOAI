@@ -1,6 +1,7 @@
 import { pool } from "../config/database.js";
 import { logger } from "../config/logger.js";
 
+
 export const SanPhamRepository = {
   getAll: async () => {
     logger.info("Repository: Fetching all SanPhams");
@@ -136,4 +137,72 @@ export const SanPhamRepository = {
       throw err;
     }
   },
+
+  // THỐNG KÊ KHO: Sắp hết hàng & Tồn kho lâu
+  getInventoryStats: async (threshold = 10) => {
+    logger.info(`Repository: Getting Inventory Stats (Threshold: ${threshold})`);
+    try {
+      const db = await pool;
+      
+      // 1. Query lấy sản phẩm Sắp hết hàng (Low Stock)
+      // Điều kiện: Tồn kho <= ngưỡng và Tồn kho > 0 (nếu = 0 là hết hàng hẳn)
+      const sqlLowStock = `
+        SELECT * FROM SanPham 
+        WHERE SoLuongTon <= ? AND SoLuongTon > 0
+        ORDER BY SoLuongTon ASC
+      `;
+
+      // 2. Query lấy sản phẩm Tồn kho lâu (Dead Stock) - Ví dụ: Nhập hơn 90 ngày chưa bán hết
+      // Logic: Còn hàng (SoLuongTon > 0) VÀ Ngày nhập cách đây quá 90 ngày
+      const sqlOldStock = `
+        SELECT *, DATEDIFF(CURRENT_DATE, NgayNhap) as SoNgayTon
+        FROM SanPham 
+        WHERE SoLuongTon > 0 
+          AND NgayNhap <= DATE_SUB(CURRENT_DATE, INTERVAL 3 MONTH)
+        ORDER BY NgayNhap ASC
+      `;
+
+      // Chạy song song 2 câu lệnh cho nhanh
+      const [lowStockRows] = await db.query(sqlLowStock, [threshold]);
+      const [oldStockRows] = await db.query(sqlOldStock);
+
+      return {
+        lowStock: lowStockRows,
+        oldStock: oldStockRows
+      };
+    } catch (err) {
+      logger.error("Repository Error: getInventoryStats failed", err);
+      throw err;
+    }
+  },
+
+  // hàm xuất excel
+  // Hàm lấy dữ liệu đầy đủ (JOIN bảng) để xuất Excel đẹp hơn
+  getAllForExport: async () => {
+    logger.info("Repository: Fetching all products for Excel export");
+    try {
+      const db = await pool;
+      // Join với DanhMuc và NhaCungCap để lấy tên thay vì chỉ lấy Mã
+      const sql = `
+        SELECT 
+          sp.MaSP,
+          sp.TenSanPham,
+          dm.TenDanhMuc,
+          ncc.TenNhaCungCap,
+          sp.GiaBan,
+          sp.SoLuongTon,
+          sp.NgayNhap,
+          sp.MoTa
+        FROM SanPham sp
+        LEFT JOIN DanhMuc dm ON sp.MaDM = dm.MaDM
+        LEFT JOIN NhaCungCap ncc ON sp.MaNCC = ncc.MaNCC
+        ORDER BY sp.NgayNhap DESC
+      `;
+      const [rows] = await db.query(sql);
+      return rows;
+    } catch (err) {
+      logger.error("Repository Error: getAllForExport failed", err);
+      throw err;
+    }
+  }
 };

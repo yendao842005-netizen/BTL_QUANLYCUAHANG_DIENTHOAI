@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+
+}
+
+body {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #d0babe, #85787d);
+}
+
+.login-container {
+    display: flex;
+    width: 800px;
+    height: 500px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.left-panel {
+    background: linear-gradient(135deg, #8DA4CD, #A792B2);
+    flex: 1;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+}
+
+.left-panel h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.left-panel p {
+    font-size: 1rem;
+}
+
+.right-panel {
+    flex: 1.5;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right-panel .logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.right-panel .logo img {
+    width: 100px;
+}
+
+.right-panel h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #8DA4CD;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* .forgot-password {
+    text-align: right;
+    margin-bottom: 20px;
+} */
+
+.forgot-password{
+    display: flex
+;
+    /* text-align: center; */
+    align-items: center;
+}
+.forgot-password a {
+    color: #8DA4CD;
+    text-decoration: none;
+    font-size: 0.9rem;
+    
+}
+ 
+.login-button {
+    background: #8DA4CD;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.login-button:hover {
+    background: #ff4c6e;
+}
+
+.social-login {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-login p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.social-login .social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.social-buttons button {
+    background-color: #eee;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.social-buttons button:hover {
+    background-color: #ddd;
+}
+.right-panel .cta {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9rem;
+}
+.error {
+    color: red;
+    font-size: 12px;
+}
+.right-panel .cta a {
+    text-decoration: none;
+}

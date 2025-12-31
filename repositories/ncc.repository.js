@@ -26,28 +26,39 @@ export const NhaCungCapRepository = {
     }
   },
   // Tìm kiếm nâng cao (theo tên, người liên hệ, địa chỉ)
-  searchAdvanced: async ({ ten, nguoiLienHe, diaChi }) => {
-    logger.info("Repository: Advanced searching NhaCungCap");
+ // Sửa lại hàm searchAdvanced
+  searchAdvanced: async ({ ten, nguoiLienHe, diaChi, limit, offset }) => {
+    logger.info("Repository: Advanced searching NhaCungCap with pagination");
     try {
       const db = await pool;
-      let query = "SELECT * FROM NhaCungCap WHERE 1=1";
+      let baseQuery = "FROM NhaCungCap WHERE 1=1";
       const params = [];
 
       if (ten) {
-        query += " AND TenNhaCungCap LIKE ?";
+        baseQuery += " AND TenNhaCungCap LIKE ?";
         params.push(`%${ten}%`);
       }
       if (nguoiLienHe) {
-        query += " AND NguoiLienHe LIKE ?";
+        baseQuery += " AND NguoiLienHe LIKE ?";
         params.push(`%${nguoiLienHe}%`);
       }
       if (diaChi) {
-        query += " AND DiaChi LIKE ?";
+        baseQuery += " AND DiaChi LIKE ?";
         params.push(`%${diaChi}%`);
       }
 
-      const [rows] = await db.query(query, params);
-      return rows;
+      // 1. Lấy dữ liệu phân trang
+      const queryData = `SELECT * ${baseQuery} LIMIT ? OFFSET ?`;
+      const [rows] = await db.query(queryData, [...params, limit, offset]);
+
+      // 2. Đếm tổng số kết quả tìm được (để tính số trang)
+      const queryCount = `SELECT COUNT(*) as total ${baseQuery}`;
+      const [countResult] = await db.query(queryCount, params);
+
+      return {
+        nhaCungCaps: rows,
+        totalItems: countResult[0].total
+      };
     } catch (err) {
       logger.error("Repository Error: searchAdvanced failed", err);
       throw err;

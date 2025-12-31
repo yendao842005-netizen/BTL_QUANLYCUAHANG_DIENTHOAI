@@ -34,10 +34,10 @@ $(document).ready(function () {
     function fetchData(page) {
         currentPage = page;
         let keyword = $('#customerSearch').val().trim();
-        
+
         // Logic xác định URL dựa trên hành động
         let url = '';
-        
+
         // A. Nếu có từ khóa tìm kiếm -> Gọi API Search
         if (keyword) {
             // Tự động nhận diện loại tìm kiếm
@@ -77,16 +77,31 @@ $(document).ready(function () {
                     pagination = { totalPages: 1, currentPage: 1 };
                 }
 
-                // C. Lọc Client-side (Loại KH, Trạng thái)
-                let typeFilter = $('#customerTypeFilter').val();
-                let statusFilter = $('#customerStatusFilter').val();
+                customers = customers.map(kh => {
+                    // Logic phân loại (phải khớp với logic hiển thị ở renderTable)
+                    let rank = 'regular'; // Mặc định là Thường
+                    let chiTieu = Number(kh.TongChiTieu || 0);
+                    let soDon = Number(kh.TongDon || 0);
+
+                    if (chiTieu > 50000000) {
+                        rank = 'vip';
+                    } else if (soDon === 0) {
+                        rank = 'new';
+                    }
+
+                    // Trả về object khách hàng đã có thêm thuộc tính LoaiKH
+                    return {
+                        ...kh,
+                        LoaiKH: rank
+                    };
+                });
+                // 3. Lọc Client-side (Code cũ của bạn giữ nguyên)
+                let typeFilter = $('#customerTypeFilter').val();   // giá trị: 'vip', 'regular', 'new'
+               // let statusFilter = $('#customerStatusFilter').val();
 
                 if (typeFilter) {
+                    // Bây giờ kh.LoaiKH đã có dữ liệu để so sánh
                     customers = customers.filter(kh => kh.LoaiKH === typeFilter);
-                }
-                if (statusFilter) {
-                    // Giả sử API trả về trường TrangThai, nếu không có thì bỏ qua
-                    customers = customers.filter(kh => kh.TrangThai === statusFilter);
                 }
 
                 // D. Render
@@ -94,7 +109,7 @@ $(document).ready(function () {
                     renderTable(customers);
                     renderPagination(pagination);
                     // Cập nhật thống kê sơ bộ từ dữ liệu tải về
-                    updateQuickStats(customers.length, pagination.totalItems); 
+                    updateQuickStats(customers.length, pagination.totalItems);
                 } else {
                     showNoResult();
                 }
@@ -120,17 +135,17 @@ $(document).ready(function () {
             // Format Tiền & Ngày
             let tongChiTieu = kh.TongChiTieu ? new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(kh.TongChiTieu) : '0 ₫';
             let tongDon = kh.TongDon || 0;
-            
+
             // Xử lý badge Loại KH
             let loaiKHClass = 'regular';
             let loaiKHText = 'Thường';
             let crownIcon = '';
-            
-            if (kh.LoaiKH === 'vip' || (kh.TongChiTieu > 50000000)) { // Logic giả định hoặc lấy từ DB
+
+            if ((kh.TongChiTieu > 50000000)) { // Logic giả định hoặc lấy từ DB
                 loaiKHClass = 'vip';
                 loaiKHText = 'VIP';
                 crownIcon = '<i class="fas fa-crown text-warning ms-1" title="VIP"></i>';
-            } else if (kh.LoaiKH === 'new') {
+            } else if (kh.TongDon === 0) {
                 loaiKHClass = 'new';
                 loaiKHText = 'Mới';
             }
@@ -194,11 +209,11 @@ $(document).ready(function () {
             if (!$(this).attr('disabled')) fetchData($(this).data('page'));
         });
     }
-    
+
     function updateQuickStats(currentCount, totalCount) {
         // Cập nhật thẻ thống kê "Tổng khách hàng" nếu API có trả về tổng
-        if(totalCount) {
-             $('#statTotalCustomers').text(totalCount);
+        if (totalCount) {
+            $('#statTotalCustomers').text(totalCount);
         }
     }
 
@@ -216,7 +231,7 @@ $(document).ready(function () {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
     }
     function formatDate(dateString) {
-        if(!dateString) return '-';
+        if (!dateString) return '-';
         return new Date(dateString).toLocaleDateString('vi-VN');
     }
 
@@ -336,7 +351,7 @@ $(document).ready(function () {
                 // Response: { KhachHang: {...}, LichSuMuaHang: [...] }
                 const kh = response.KhachHang;
                 const orders = response.LichSuMuaHang || [];
-                
+
                 window.currentViewingCustomer = kh; // Lưu lại để dùng cho nút Sửa
 
                 // Render Thông tin chung
@@ -364,7 +379,7 @@ $(document).ready(function () {
                                     <h5><i class="fas fa-chart-line"></i> Tổng quan</h5>
                                     <div class="alert alert-info">
                                         <strong>Tổng số đơn:</strong> ${orders.length} <br>
-                                        <strong>Tổng chi tiêu:</strong> ${formatCurrency(orders.reduce((sum, ord) => sum + (Number(ord.TongTien)||0), 0))}
+                                        <strong>Tổng chi tiêu:</strong> ${formatCurrency(orders.reduce((sum, ord) => sum + (Number(ord.TongTien) || 0), 0))}
                                     </div>
                                     <div class="mt-2">
                                         <button class="btn btn-sm btn-outline-success" onclick="exportCustomerExcel('${kh.MaKH}')">
@@ -389,14 +404,14 @@ $(document).ready(function () {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        ${orders.length === 0 ? '<tr><td colspan="5" class="text-center">Chưa có đơn hàng nào</td></tr>' : 
-                                          orders.map(order => {
-                                            // Lấy danh sách tên sản phẩm trong đơn (giới hạn hiển thị)
-                                            let productNames = order.ChiTietSanPham 
-                                                ? order.ChiTietSanPham.map(sp => `${sp.TenSanPham} (x${sp.SoLuong})`).join(', ') 
-                                                : 'Chi tiết...';
-                                            
-                                            return `
+                                        ${orders.length === 0 ? '<tr><td colspan="5" class="text-center">Chưa có đơn hàng nào</td></tr>' :
+                        orders.map(order => {
+                            // Lấy danh sách tên sản phẩm trong đơn (giới hạn hiển thị)
+                            let productNames = order.ChiTietSanPham
+                                ? order.ChiTietSanPham.map(sp => `${sp.TenSanPham} (x${sp.SoLuong})`).join(', ')
+                                : 'Chi tiết...';
+
+                            return `
                                             <tr>
                                                 <td><a href="#" class="text-primary">${order.MaHD}</a></td>
                                                 <td>${formatDate(order.NgayLap)}</td>
@@ -405,15 +420,15 @@ $(document).ready(function () {
                                                 <td><span class="badge bg-${order.TrangThai === 'HoanThanh' ? 'success' : 'warning'}">${order.TrangThai}</span></td>
                                             </tr>
                                             `;
-                                          }).join('')
-                                        }
+                        }).join('')
+                    }
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 `;
-                
+
                 $('#customerDetailContent').html(infoHtml);
                 window.openModal('viewCustomerModal');
             },
@@ -422,10 +437,10 @@ $(document).ready(function () {
             }
         });
     }
-    
+
     // Nút Sửa trong modal xem chi tiết
-    window.editCurrentCustomer = function() {
-        if(window.currentViewingCustomer) {
+    window.editCurrentCustomer = function () {
+        if (window.currentViewingCustomer) {
             window.closeModal('viewCustomerModal');
             window.editCustomer(window.currentViewingCustomer.MaKH);
         }
@@ -433,14 +448,14 @@ $(document).ready(function () {
 
     // --- CHỨC NĂNG XUẤT EXCEL ---
     // 1. Xuất toàn bộ danh sách
-    window.exportToExcel = function() {
-        if(confirm("Xuất danh sách tất cả khách hàng ra Excel?")) {
+    window.exportToExcel = function () {
+        if (confirm("Xuất danh sách tất cả khách hàng ra Excel?")) {
             window.location.href = `${API_URL}/Export/Excel`;
         }
     }
 
     // 2. Xuất chi tiết 1 khách hàng
-    window.exportCustomerExcel = function(maKH) {
+    window.exportCustomerExcel = function (maKH) {
         window.location.href = `${API_URL}/${maKH}/Export/Excel`;
     }
 
@@ -452,12 +467,17 @@ $(document).ready(function () {
         $.ajax({
             url: `${API_URL}/VipStats`,
             method: 'GET',
-            success: function(data) {
+            success: function (data) {
                 // data là mảng các khách hàng VIP
-                if(data && Array.isArray(data)) {
+                if (data && Array.isArray(data)) {
                     // Cập nhật thẻ VIP Customers
-                    let vipCount = data.filter(c => c.HangThanhVien !== 'Thành Viên').length;
+                    let vipCount = data.filter(c => c.HangThanhVien !== 'Mới').length;
                     $('#statVIPCustomers').text(vipCount);
+
+                    // 2. Đếm khách hàng Mới (Số lần mua = 0) [PHẦN BẠN CẦN]
+                    // Lưu ý: API VipStats trả về key là 'SoLanMua' (do Repository đặt alias)
+                    let newCount = data.filter(c => Number(c.SoLanMua || 0) === 0).length;
+                    $('#statNewCustomers').text(newCount);
 
                     // Cập nhật tổng doanh thu từ top khách hàng (hoặc cần API khác chính xác hơn)
                     let totalRevenue = data.reduce((sum, item) => sum + Number(item.TongChiTieu), 0);
@@ -466,51 +486,29 @@ $(document).ready(function () {
                     $('#statTotalRevenue').text(formattedRev);
                 }
             },
-            error: function(err) { console.error("Lỗi load stats:", err); }
+            error: function (err) { console.error("Lỗi load stats:", err); }
         });
     }
 
     // ==========================================
     // 7. CÁC HÀM TIỆN ÍCH KHÁC (Phân khúc, Chăm sóc)
     // ==========================================
-    
+
     // Giả lập logic Client-side cho các nút chưa có API
-    window.sendCustomerMessage = function(maKH) {
+    window.sendCustomerMessage = function (maKH) {
         alert(`Đang gửi tin nhắn đến khách hàng ${maKH}...`);
     }
-    window.callCustomer = function(sdt) {
+    window.callCustomer = function (sdt) {
         alert(`Đang quay số: ${sdt}`);
     }
-    window.sendCustomerCare = function() {
+    window.sendCustomerCare = function () {
         alert('Đã gửi tin nhắn chăm sóc tự động!');
     }
-    
-    // Logic thêm tiêu chí phân khúc (Client UI only)
-    window.addCriterion = function() {
-        let html = `
-            <div class="criterion mt-2 d-flex gap-2">
-                 <select class="form-control" name="criteriaField">
-                    <option value="totalSpent">Tổng chi tiêu</option>
-                    <option value="orderCount">Số đơn hàng</option>
-                </select>
-                <select class="form-control" name="criteriaOperator">
-                    <option value=">">Lớn hơn</option>
-                    <option value="<">Nhỏ hơn</option>
-                </select>
-                <input type="text" class="form-control" placeholder="Giá trị">
-                <button type="button" class="btn btn-sm btn-danger" onclick="$(this).parent().remove()"><i class="fas fa-times"></i></button>
-            </div>
-        `;
-        $('.segment-criteria').append(html);
-    }
-    
-    window.createSegment = function() {
-        // Đây chỉ là UI, cần API POST /PhanKhuc nếu muốn lưu thật
-        alert('Tạo phân khúc thành công (Demo)!');
-        window.closeModal('segmentCustomersModal');
-    }
-    
-    window.previewSegment = function() {
+
+
+ 
+
+    window.previewSegment = function () {
         $('#previewCount').text(Math.floor(Math.random() * 10)); // Random số liệu demo
     }
 });

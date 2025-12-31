@@ -5,7 +5,7 @@ export const updateKhachHangSchema = z.object({
   DiaChi: z.string().max(255).optional().nullable(),
   Email: z.string().email().max(100).optional().nullable(),
   NgaySinh: z.string().optional().nullable(),
-  GioiTinh: z.enum(["Nam", "Nữ", "Khác"]).optional().nullable(),
+  GioiTinh: z.enum(["Nam", "Nu", "Khac"]).optional().nullable(),
 });
 export function validateUpdateKhachHang(data) {
   return updateKhachHangSchema.parse(data);

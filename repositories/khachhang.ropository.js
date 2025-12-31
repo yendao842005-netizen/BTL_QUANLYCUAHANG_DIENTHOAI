@@ -25,33 +25,64 @@ export const KhachHangRepository = {
       throw err;
     }
   },
-  // Tìm kiếm nâng cao (tên, số điện thoại, địa chỉ, email)
-  searchAdvanced: async ({ hoTen, soDienThoai, diaChi, email }) => {
-    logger.info("Repository: Advanced searching KhachHang");
+// --- CẬP NHẬT HÀM TÌM KIẾM NÂNG CAO (Có phân trang + Tính tổng chi tiêu) ---
+  searchAdvanced: async ({ hoTen, soDienThoai, diaChi, email,GioiTinh, limit, offset }) => {
+    logger.info("Repository: Advanced searching KhachHang with Pagination");
     try {
       const db = await pool;
-      let query = "SELECT * FROM KhachHang WHERE 1=1";
+      
+      // 1. Xây dựng mệnh đề WHERE động
+      let whereClause = "WHERE 1=1";
       const params = [];
 
       if (hoTen) {
-        query += " AND HoTen LIKE ?";
+        whereClause += " AND kh.HoTen LIKE ?";
         params.push(`%${hoTen}%`);
       }
       if (soDienThoai) {
-        query += " AND SoDienThoai LIKE ?";
+        whereClause += " AND kh.SoDienThoai LIKE ?";
         params.push(`%${soDienThoai}%`);
       }
       if (diaChi) {
-        query += " AND DiaChi LIKE ?";
+        whereClause += " AND kh.DiaChi LIKE ?";
         params.push(`%${diaChi}%`);
       }
       if (email) {
-        query += " AND Email LIKE ?";
+        whereClause += " AND kh.Email LIKE ?";
         params.push(`%${email}%`);
       }
+      if (GioiTinh) {
+        whereClause += " AND kh.GioiTinh = ?";
+        params.push(GioiTinh);
+      }
 
-      const [rows] = await db.query(query, params);
-      return rows;
+      // 2. Query lấy dữ liệu (Kèm JOIN để tính VIP)
+      // Lưu ý: GROUP BY phải bao gồm các trường trong WHERE hoặc PK
+      const sqlData = `
+        SELECT 
+            kh.*, 
+            COUNT(hd.MaHD) as TongDon, 
+            COALESCE(SUM(hd.TongTien), 0) as TongChiTieu
+        FROM KhachHang kh
+        LEFT JOIN HoaDon hd ON kh.MaKH = hd.MaKH
+        ${whereClause}
+        GROUP BY kh.MaKH
+        ORDER BY kh.MaKH ASC
+        LIMIT ? OFFSET ?
+      `;
+
+      // Tạo mảng params mới cho câu Data (thêm limit, offset vào cuối)
+      const dataParams = [...params, limit, offset];
+      const [rows] = await db.query(sqlData, dataParams);
+
+      // 3. Query đếm tổng số kết quả tìm thấy (để tính số trang)
+      const sqlCount = `SELECT COUNT(*) as total FROM KhachHang kh ${whereClause}`;
+      const [countRows] = await db.query(sqlCount, params);
+
+      return {
+        khachHangs: rows,
+        totalItems: countRows[0].total
+      };
     } catch (err) {
       logger.error("Repository Error: searchAdvanced KhachHang failed", err);
       throw err;
@@ -60,12 +91,26 @@ export const KhachHangRepository = {
 
   // Lấy dữ liệu phân trang
   getPaginated: async (offset, limit) => {
-    logger.info(`Repository: Fetching KhachHang with offset ${offset}, limit ${limit}`);
+   logger.info(`Repository: Fetching KhachHang with offset ${offset}, limit ${limit}`);
     try {
       const db = await pool;
-      const queryData = "SELECT * FROM KhachHang LIMIT ? OFFSET ?";
+      
+      // Query dữ liệu kèm tính toán
+      const queryData = `
+        SELECT 
+            kh.*, 
+            COUNT(hd.MaHD) as TongDon, 
+            COALESCE(SUM(hd.TongTien), 0) as TongChiTieu
+        FROM KhachHang kh
+        LEFT JOIN HoaDon hd ON kh.MaKH = hd.MaKH
+        GROUP BY kh.MaKH
+        ORDER BY kh.MaKH ASC
+        LIMIT ? OFFSET ?
+      `;
+      
       const [rows] = await db.query(queryData, [limit, offset]);
       
+      // Query đếm tổng số bản ghi
       const [countRows] = await db.query("SELECT COUNT(*) as total FROM KhachHang");
       
       return {
@@ -83,8 +128,8 @@ export const KhachHangRepository = {
     try {
       const db = await pool;
       await db.query(
-        "INSERT INTO KhachHang (MaKH, HoTen, SoDienThoai, DiaChi, Email,NgaySinh,GioiTinh) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [MaKH, HoTen, SoDienThoai, DiaChi, Email,,NgaySinh,GioiTinh]
+        "INSERT INTO KhachHang (MaKH, HoTen, SoDienThoai, DiaChi, Email, NgaySinh, GioiTinh) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [MaKH, HoTen, SoDienThoai, DiaChi, Email,NgaySinh,GioiTinh]
       );
       return { MaKH, HoTen };
     } catch (err) {
@@ -99,7 +144,7 @@ export const KhachHangRepository = {
       const db = await pool;
       await db.query(
         "UPDATE KhachHang SET HoTen = ?, SoDienThoai = ?, DiaChi = ?, Email = ? , NgaySinh = ?, GioiTinh = ? WHERE MaKH = ?",
-        [HoTen, SoDienThoai, DiaChi, Email, MaKH]
+        [HoTen, SoDienThoai, DiaChi, Email,NgaySinh,GioiTinh , MaKH]
       );
       return { MaKH, HoTen, SoDienThoai, DiaChi, Email ,NgaySinh,GioiTinh};
     } catch (err) {
@@ -152,6 +197,8 @@ export const KhachHangRepository = {
           kh.SoDienThoai,
           kh.Email,
           kh.DiaChi,
+          kh.GioiTinh,
+          kh.NgaySinh,
           hd.MaHD,
           hd.NgayLap,
           hd.TongTien,

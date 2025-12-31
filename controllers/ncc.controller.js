@@ -45,21 +45,26 @@ export const NhaCungCapController = {
   },
 
   // API Tìm kiếm
+  // Sửa lại hàm search
   search: async (req, res) => {
     try {
-      logger.info("Controller: GET /NhaCungCaps/Search");
+      const page = parseInt(req.query.page) || 1; // Lấy page từ query
+      logger.info(`Controller: GET /NhaCungCaps/Search page=${page}`);
+      
       const filters = {
-        ten: req.query.ten,
+        ten: req.query.ten, // Tương ứng với keyword tìm kiếm
         nguoiLienHe: req.query.nguoiLienHe,
         diaChi: req.query.diaChi
       };
-      const results = await NhaCungCapService.searchNhaCungCaps(filters);
+      
+      const results = await NhaCungCapService.searchNhaCungCaps(filters, page);
       res.json(results);
     } catch (err) {
       logger.error("Controller Error: search failed", err);
       res.status(500).json({ message: err.message });
     }
   },
+  
   create: async (req, res) => {
     try {
       logger.info("Controller: POST /NhaCungCaps");

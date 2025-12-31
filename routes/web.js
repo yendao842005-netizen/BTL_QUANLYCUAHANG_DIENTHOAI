@@ -39,7 +39,7 @@ router.get("/TongQuanHeThong", (req, res) => {
   res.render('TongQuanHT');
 });
 
-
+//dã xong liên kết với api
 router.get("/QLKhachHang", (req, res) => {
   res.render('QLKhachHang');
 });

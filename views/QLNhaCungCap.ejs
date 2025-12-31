@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,222 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Thêm CSS cho suppliers page */
+        .supplier-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+            /* .supplier-type {
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+
+            .supplier-type.manufacturer {
+                background: rgba(67, 97, 238, 0.1);
+                color: #4361ee;
+                border: 1px solid rgba(67, 97, 238, 0.3);
+            }
+
+            .supplier-type.distributor {
+                background: rgba(6, 214, 160, 0.1);
+                color: #06d6a0;
+                border: 1px solid rgba(6, 214, 160, 0.3);
+            }
+
+            .supplier-type.wholesaler {
+                background: rgba(255, 158, 0, 0.1);
+                color: #ff9e00;
+                border: 1px solid rgba(255, 158, 0, 0.3);
+            }
+
+            .supplier-type.importer {
+                background: rgba(114, 9, 183, 0.1);
+                color: #7209b7;
+                border: 1px solid rgba(114, 9, 183, 0.3);
+            }
+
+            .supplier-type.local {
+                background: rgba(239, 35, 60, 0.1);
+                color: #ef233c;
+                border: 1px solid rgba(239, 35, 60, 0.3);
+            } */
+
+        .supplier-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .supplier-rating.inline {
+            display: inline-flex;
+        }
+
+        .supplier-rating .stars {
+            display: flex;
+            gap: 2px;
+            color: #ffc107;
+        }
+
+        .supplier-rating .rating-value {
+            font-weight: 600;
+            font-size: 14px;
+            min-width: 30px;
+        }
+
+        .stars.small {
+            font-size: 12px;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .ranking-item:hover {
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .ranking-item.top {
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        .ranking-rank {
+            width: 30px;
+            height: 30px;
+            background: #4361ee;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        .ranking-item.top .ranking-rank {
+            background: #ffc107;
+        }
+
+        .ranking-info {
+            flex: 1;
+        }
+
+        .ranking-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .ranking-details {
+            display: flex;
+            gap: 10px;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .detail-item {
+            padding-right: 10px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .detail-item:last-child {
+            border-right: none;
+        }
+
+        .ranking-performance {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contracts-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .contract-item {
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contract-item:hover {
+            border-color: #4361ee;
+            box-shadow: 0 2px 10px rgba(67, 97, 238, 0.1);
+        }
+
+        .contract-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .contract-supplier {
+            font-weight: 500;
+        }
+
+        .contract-number {
+            font-size: 12px;
+            color: #6c757d;
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .contract-details {
+            margin-bottom: 10px;
+        }
+
+        .contract-details .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 5px;
+            font-size: 13px;
+            border: none;
+        }
+
+        .contract-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .rating-input {
+            margin-bottom: 15px;
+        }
+
+        .rating-input .stars {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .rating-input .stars i {
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .rating-input .stars i:hover {
+            color: #ffc107;
+            transform: scale(1.1);
+        }
+
+    </style>
 </head>
+
 <body>
     <div class="app-container">
         <!-- Sidebar -->
@@ -18,7 +234,7 @@
                 </div>
                 <div class="sidebar-title">MobileStore Pro</div>
             </div>
-            
+
             <div class="sidebar-menu">
                 <div class="menu-section">
                     <div class="menu-section-title">Tổng quan</div>
@@ -29,7 +245,7 @@
                         <div class="menu-text">Dashboard</div>
                     </a>
                 </div>
-                
+
                 <div class="menu-section">
                     <div class="menu-section-title">Quản lý</div>
                     <a href="products.html" class="menu-item">
@@ -57,7 +273,7 @@
                         <div class="menu-text">Nhân viên</div>
                     </a>
                 </div>
-                
+
                 <div class="menu-section">
                     <div class="menu-section-title">Hệ thống</div>
                     <a href="suppliers.html" class="menu-item active">
@@ -86,7 +302,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div class="sidebar-footer">
                 <div class="admin-avatar">
                     <i class="fas fa-user"></i>
@@ -96,7 +312,7 @@
                     <div class="admin-role">Quản trị hệ thống</div>
                 </div>
             </div>
-            
+
             <div class="toggle-sidebar">
                 <i class="fas fa-chevron-left"></i>
             </div>
@@ -116,13 +332,13 @@
                         <div class="breadcrumb-item active">Nhà cung cấp</div>
                     </div>
                 </div>
-                
+
                 <div class="header-right">
                     <div class="search-box">
                         <i class="fas fa-search search-icon"></i>
                         <input type="text" id="supplierSearch" placeholder="Tìm kiếm nhà cung cấp...">
                     </div>
-                    
+
                     <div class="notifications">
                         <i class="fas fa-bell notification-icon"></i>
                         <span class="notification-count">3</span>
@@ -136,7 +352,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="user-menu">
                         <div class="user-info">
                             <div class="admin-avatar">
@@ -173,7 +389,8 @@
                 <div class="page-header">
                     <div>
                         <div class="page-title">Quản Lý Nhà Cung Cấp</div>
-                        <div class="page-subtitle">Quản lý thông tin, hợp đồng và lịch sử giao dịch với các nhà cung cấp</div>
+                        <div class="page-subtitle">Quản lý thông tin, hợp đồng và lịch sử giao dịch với các nhà cung cấp
+                        </div>
                     </div>
                     <div class="page-actions">
                         <button class="btn btn-outline" onclick="exportToExcel()">
@@ -250,7 +467,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="table-responsive">
                         <table id="suppliersTable">
                             <thead>
@@ -268,7 +485,8 @@
                             </thead>
                             <tbody>
                                 <!-- 5 nhà cung cấp mẫu -->
-                                <tr data-supplier='{"MaNCC":"NCC001","TenNCC":"Apple Vietnam","NguoiLienHe":"Tim Cook","SDT":"02812345678","Email":"tim.cook@apple.com","DiaChi":"Quan 1, HCM","LoaiNCC":"manufacturer","SoSanPham":15,"SoDonHang":125,"DanhGia":4.8,"TrangThai":"active","MST":"0101234567","Website":"https://www.apple.com/vn","QuocGia":"US","GhiChu":"Nhà cung cấp độc quyền chính thức của Apple tại Việt Nam"}'>
+                                <tr
+                                    data-supplier='{"MaNCC":"NCC001","TenNCC":"Apple Vietnam","NguoiLienHe":"Tim Cook","SDT":"02812345678","Email":"tim.cook@apple.com","DiaChi":"Quan 1, HCM","LoaiNCC":"manufacturer","SoSanPham":15,"SoDonHang":125,"DanhGia":4.8,"TrangThai":"active","MST":"0101234567","Website":"https://www.apple.com/vn","QuocGia":"US","GhiChu":"Nhà cung cấp độc quyền chính thức của Apple tại Việt Nam"}'>
                                     <td><strong>NCC001</strong></td>
                                     <td>
                                         <div class="supplier-name">
@@ -306,19 +524,23 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewSupplierDetail('NCC001')">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewSupplierDetail('NCC001')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editSupplier('NCC001')">
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editSupplier('NCC001')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteSupplier('NCC001')">
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteSupplier('NCC001')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-supplier='{"MaNCC":"NCC002","TenNCC":"Samsung Vina","NguoiLienHe":"Lee Jae Yong","SDT":"02887654321","Email":"jay.lee@samsung.com","DiaChi":"Quan 1, HCM","LoaiNCC":"manufacturer","SoSanPham":22,"SoDonHang":189,"DanhGia":4.6,"TrangThai":"active","MST":"0102345678","Website":"https://www.samsung.com/vn","QuocGia":"KR","GhiChu":"Nhà phân phối chính thức Samsung tại Việt Nam"}'>
+                                <tr
+                                    data-supplier='{"MaNCC":"NCC002","TenNCC":"Samsung Vina","NguoiLienHe":"Lee Jae Yong","SDT":"02887654321","Email":"jay.lee@samsung.com","DiaChi":"Quan 1, HCM","LoaiNCC":"manufacturer","SoSanPham":22,"SoDonHang":189,"DanhGia":4.6,"TrangThai":"active","MST":"0102345678","Website":"https://www.samsung.com/vn","QuocGia":"KR","GhiChu":"Nhà phân phối chính thức Samsung tại Việt Nam"}'>
                                     <td><strong>NCC002</strong></td>
                                     <td>
                                         <div class="supplier-name">
@@ -355,19 +577,23 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewSupplierDetail('NCC002')">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewSupplierDetail('NCC002')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editSupplier('NCC002')">
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editSupplier('NCC002')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteSupplier('NCC002')">
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteSupplier('NCC002')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-supplier='{"MaNCC":"NCC003","TenNCC":"Xiaomi VN","NguoiLienHe":"Lei Jun","SDT":"02412345678","Email":"lei.jun@xiaomi.com","DiaChi":"Cau Giay, HN","LoaiNCC":"manufacturer","SoSanPham":18,"SoDonHang":156,"DanhGia":4.3,"TrangThai":"active","MST":"0103456789","Website":"https://www.mi.com/vn","QuocGia":"CN","GhiChu":"Cung cấp sản phẩm Xiaomi với giá cạnh tranh"}'>
+                                <tr
+                                    data-supplier='{"MaNCC":"NCC003","TenNCC":"Xiaomi VN","NguoiLienHe":"Lei Jun","SDT":"02412345678","Email":"lei.jun@xiaomi.com","DiaChi":"Cau Giay, HN","LoaiNCC":"manufacturer","SoSanPham":18,"SoDonHang":156,"DanhGia":4.3,"TrangThai":"active","MST":"0103456789","Website":"https://www.mi.com/vn","QuocGia":"CN","GhiChu":"Cung cấp sản phẩm Xiaomi với giá cạnh tranh"}'>
                                     <td><strong>NCC003</strong></td>
                                     <td>
                                         <div class="supplier-name">
@@ -404,19 +630,23 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewSupplierDetail('NCC003')">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewSupplierDetail('NCC003')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editSupplier('NCC003')">
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editSupplier('NCC003')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteSupplier('NCC003')">
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteSupplier('NCC003')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-supplier='{"MaNCC":"NCC004","TenNCC":"Oppo VN","NguoiLienHe":"Sky Li","SDT":"02811122233","Email":"sky.li@oppo.com","DiaChi":"Quan 7, HCM","LoaiNCC":"manufacturer","SoSanPham":12,"SoDonHang":98,"DanhGia":4.1,"TrangThai":"active","MST":"0104567890","Website":"https://www.oppo.com/vn","QuocGia":"CN","GhiChu":"Hợp đồng phân phối sản phẩm Oppo"}'>
+                                <tr
+                                    data-supplier='{"MaNCC":"NCC004","TenNCC":"Oppo VN","NguoiLienHe":"Sky Li","SDT":"02811122233","Email":"sky.li@oppo.com","DiaChi":"Quan 7, HCM","LoaiNCC":"manufacturer","SoSanPham":12,"SoDonHang":98,"DanhGia":4.1,"TrangThai":"active","MST":"0104567890","Website":"https://www.oppo.com/vn","QuocGia":"CN","GhiChu":"Hợp đồng phân phối sản phẩm Oppo"}'>
                                     <td><strong>NCC004</strong></td>
                                     <td>
                                         <div class="supplier-name">
@@ -453,19 +683,23 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewSupplierDetail('NCC004')">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewSupplierDetail('NCC004')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editSupplier('NCC004')">
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editSupplier('NCC004')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteSupplier('NCC004')">
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteSupplier('NCC004')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-supplier='{"MaNCC":"NCC005","TenNCC":"FPT Trading","NguoiLienHe":"Nguyen Van FPT","SDT":"0909090909","Email":"fpt.trading@fpt.com","DiaChi":"Cau Giay, HN","LoaiNCC":"distributor","SoSanPham":25,"SoDonHang":210,"DanhGia":4.4,"TrangThai":"active","MST":"0105678901","Website":"https://fptshop.com.vn","QuocGia":"VN","GhiChu":"Đại lý phân phối đa hãng"}'>
+                                <tr
+                                    data-supplier='{"MaNCC":"NCC005","TenNCC":"FPT Trading","NguoiLienHe":"Nguyen Van FPT","SDT":"0909090909","Email":"fpt.trading@fpt.com","DiaChi":"Cau Giay, HN","LoaiNCC":"distributor","SoSanPham":25,"SoDonHang":210,"DanhGia":4.4,"TrangThai":"active","MST":"0105678901","Website":"https://fptshop.com.vn","QuocGia":"VN","GhiChu":"Đại lý phân phối đa hãng"}'>
                                     <td><strong>NCC005</strong></td>
                                     <td>
                                         <div class="supplier-name">
@@ -502,13 +736,16 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewSupplierDetail('NCC005')">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewSupplierDetail('NCC005')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editSupplier('NCC005')">
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editSupplier('NCC005')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteSupplier('NCC005')">
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteSupplier('NCC005')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -516,6 +753,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="pagination-container" id="pagination" ></div>
                     </div>
                 </div>
 
@@ -590,7 +828,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="widget">
                         <div class="widget-header">
                             <div class="widget-title">Hợp đồng sắp hết hạn</div>
@@ -636,7 +874,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="table-responsive">
                         <table>
                             <thead>
@@ -686,6 +924,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        
                     </div>
                 </div>
             </div>
@@ -720,131 +959,42 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Mã NCC</label>
-                                <input type="text" class="form-control" id="addMaNCC" name="MaNCC" required 
-                                       placeholder="VD: NCC006" pattern="[A-Z0-9]+" maxlength="20">
+                                <input type="text" class="form-control" id="addMaNCC" name="MaNCC" required
+                                    placeholder="VD: NCC006" pattern="[A-Z0-9]+" maxlength="20">
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Tên nhà cung cấp</label>
-                                <input type="text" class="form-control" name="TenNCC" required 
-                                       placeholder="Nhập tên nhà cung cấp">
+                                <input type="text" class="form-control" id="addTenNhaCungCap" name="TenNhaCungCap"
+                                    required placeholder="Nhập tên nhà cung cấp">
                             </div>
                         </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label required">Loại NCC</label>
-                                <select class="form-control form-select" name="LoaiNCC" required>
-                                    <option value="">Chọn loại NCC</option>
-                                    <option value="manufacturer">Nhà sản xuất</option>
-                                    <option value="distributor">Nhà phân phối</option>
-                                    <option value="wholesaler">Đại lý cấp 1</option>
-                                    <option value="importer">Nhập khẩu</option>
-                                    <option value="local">Trong nước</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Mã số thuế</label>
-                                <input type="text" class="form-control" name="MST" 
-                                       placeholder="Mã số thuế">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <div class="form-section-title">
-                            <i class="fas fa-address-book"></i> Thông tin liên hệ
-                        </div>
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Người liên hệ</label>
-                                <input type="text" class="form-control" name="NguoiLienHe" required 
-                                       placeholder="Họ tên người liên hệ">
+                                <input type="text" class="form-control" id="addNguoiLienHe" name="NguoiLienHe" required
+                                    placeholder="Họ tên người liên hệ">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Chức vụ</label>
-                                <input type="text" class="form-control" name="ChucVu" 
-                                       placeholder="Chức vụ">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Số điện thoại</label>
-                                <input type="tel" class="form-control" name="SDT" required 
-                                       placeholder="Số điện thoại liên hệ">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label required">Email</label>
-                                <input type="email" class="form-control" name="Email" required 
-                                       placeholder="Email liên hệ">
+                                <input type="tel" class="form-control" id="addSoDienThoai" name="SoDienThoai" required
+                                    placeholder="Số điện thoại liên hệ">
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Địa chỉ</label>
-                            <textarea class="form-control" name="DiaChi" rows="2" 
-                                      placeholder="Địa chỉ trụ sở chính"></textarea>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Website</label>
-                                <input type="url" class="form-control" name="Website" 
-                                       placeholder="https://example.com">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Quốc gia</label>
-                                <select class="form-control form-select" name="QuocGia">
-                                    <option value="VN">Việt Nam</option>
-                                    <option value="US">Mỹ</option>
-                                    <option value="CN">Trung Quốc</option>
-                                    <option value="KR">Hàn Quốc</option>
-                                    <option value="JP">Nhật Bản</option>
-                                </select>
-                            </div>
+                            <textarea class="form-control" id="addDiaChi" name="DiaChi" rows="2"
+                                placeholder="Địa chỉ trụ sở chính"></textarea>
                         </div>
                     </div>
-                    
-                    <div class="form-section">
-                        <div class="form-section-title">
-                            <i class="fas fa-star"></i> Đánh giá & Phân loại
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Trạng thái</label>
-                                <select class="form-control form-select" name="TrangThai">
-                                    <option value="active">Đang hợp tác</option>
-                                    <option value="pending">Chờ duyệt</option>
-                                    <option value="inactive">Ngừng hợp tác</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Đánh giá ban đầu</label>
-                                <div class="rating-input">
-                                    <div class="stars">
-                                        <i class="fas fa-star" data-rating="1"></i>
-                                        <i class="fas fa-star" data-rating="2"></i>
-                                        <i class="fas fa-star" data-rating="3"></i>
-                                        <i class="fas fa-star" data-rating="4"></i>
-                                        <i class="fas fa-star" data-rating="5"></i>
-                                    </div>
-                                    <input type="hidden" name="DanhGia" value="3">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Ghi chú</label>
-                            <textarea class="form-control" name="GhiChu" rows="2" 
-                                      placeholder="Ghi chú về nhà cung cấp..."></textarea>
-                        </div>
-                    </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-primary" onclick="saveSupplier()">
                             <i class="fas fa-save"></i> Lưu nhà cung cấp
                         </button>
-                        <button type="button" class="btn btn-outline" onclick="closeModal('addSupplierModal')">Hủy</button>
+                        <button type="button" class="btn btn-outline"
+                            onclick="closeModal('addSupplierModal')">Hủy</button>
                     </div>
                 </form>
             </div>
@@ -860,7 +1010,7 @@
             </div>
             <div class="modal-body">
                 <form id="editSupplierForm">
-                    <input type="hidden" name="MaNCC" id="editMaNCC">
+                    <input type="hidden" id="editMaNCC" name="MaNCC">
 
                     <div class="form-section">
                         <div class="form-section-title">
@@ -873,121 +1023,31 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Tên nhà cung cấp</label>
-                                <input type="text" class="form-control" name="TenNCC" required 
-                                       placeholder="Nhập tên nhà cung cấp">
+                                <input type="text" class="form-control" id="editTenNhaCungCap" name="TenNhaCungCap"
+                                    required placeholder="Nhập tên nhà cung cấp">
                             </div>
                         </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label required">Loại NCC</label>
-                                <select class="form-control form-select" name="LoaiNCC" required>
-                                    <option value="">Chọn loại NCC</option>
-                                    <option value="manufacturer">Nhà sản xuất</option>
-                                    <option value="distributor">Nhà phân phối</option>
-                                    <option value="wholesaler">Đại lý cấp 1</option>
-                                    <option value="importer">Nhập khẩu</option>
-                                    <option value="local">Trong nước</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Mã số thuế</label>
-                                <input type="text" class="form-control" name="MST" 
-                                       placeholder="Mã số thuế">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <div class="form-section-title">
-                            <i class="fas fa-address-book"></i> Thông tin liên hệ
-                        </div>
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Người liên hệ</label>
-                                <input type="text" class="form-control" name="NguoiLienHe" required 
-                                       placeholder="Họ tên người liên hệ">
+                                <input type="text" class="form-control" id="editNguoiLienHe" name="NguoiLienHe" required
+                                    placeholder="Họ tên người liên hệ">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Chức vụ</label>
-                                <input type="text" class="form-control" name="ChucVu" 
-                                       placeholder="Chức vụ">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Số điện thoại</label>
-                                <input type="tel" class="form-control" name="SDT" required 
-                                       placeholder="Số điện thoại liên hệ">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label required">Email</label>
-                                <input type="email" class="form-control" name="Email" required 
-                                       placeholder="Email liên hệ">
+                                <input type="tel" class="form-control" id="editSoDienThoai" name="SoDienThoai" required
+                                    placeholder="Số điện thoại liên hệ">
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Địa chỉ</label>
-                            <textarea class="form-control" name="DiaChi" rows="2" 
-                                      placeholder="Địa chỉ trụ sở chính"></textarea>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Website</label>
-                                <input type="url" class="form-control" name="Website" 
-                                       placeholder="https://example.com">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Quốc gia</label>
-                                <select class="form-control form-select" name="QuocGia">
-                                    <option value="VN">Việt Nam</option>
-                                    <option value="US">Mỹ</option>
-                                    <option value="CN">Trung Quốc</option>
-                                    <option value="KR">Hàn Quốc</option>
-                                    <option value="JP">Nhật Bản</option>
-                                </select>
-                            </div>
+                            <textarea class="form-control" id="editDiaChi" name="DiaChi" rows="2"
+                                placeholder="Địa chỉ trụ sở chính"></textarea>
                         </div>
                     </div>
-                    
-                    <div class="form-section">
-                        <div class="form-section-title">
-                            <i class="fas fa-star"></i> Đánh giá & Phân loại
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Trạng thái</label>
-                                <select class="form-control form-select" name="TrangThai">
-                                    <option value="active">Đang hợp tác</option>
-                                    <option value="pending">Chờ duyệt</option>
-                                    <option value="inactive">Ngừng hợp tác</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Đánh giá</label>
-                                <div class="rating-input">
-                                    <div class="stars">
-                                        <i class="fas fa-star" data-rating="1"></i>
-                                        <i class="fas fa-star" data-rating="2"></i>
-                                        <i class="fas fa-star" data-rating="3"></i>
-                                        <i class="fas fa-star" data-rating="4"></i>
-                                        <i class="fas fa-star" data-rating="5"></i>
-                                    </div>
-                                    <input type="hidden" name="DanhGia" value="3">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Ghi chú</label>
-                            <textarea class="form-control" name="GhiChu" rows="2" 
-                                      placeholder="Ghi chú về nhà cung cấp..."></textarea>
-                        </div>
-                    </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-primary" onclick="updateSupplier()">
                             <i class="fas fa-save"></i> Cập nhật
@@ -1031,26 +1091,22 @@
                 <form id="purchaseForm">
                     <div class="form-group">
                         <label class="form-label required">Nhà cung cấp</label>
-                        <select class="form-control form-select" name="supplier" required>
+                        <select class="form-control form-select" id="purchaseSupplier" name="supplier" required>
                             <option value="">Chọn nhà cung cấp</option>
-                            <option value="NCC001">NCC001 - Apple Vietnam</option>
-                            <option value="NCC002">NCC002 - Samsung Vina</option>
-                            <option value="NCC003">NCC003 - Xiaomi VN</option>
-                            <option value="NCC004">NCC004 - Oppo VN</option>
-                            <option value="NCC005">NCC005 - FPT Trading</option>
+                            <!-- Options will be populated from database -->
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label required">Ngày đặt hàng</label>
-                        <input type="date" class="form-control" name="orderDate" required>
+                        <input type="date" class="form-control" id="orderDate" name="orderDate" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label required">Ngày giao dự kiến</label>
-                        <input type="date" class="form-control" name="deliveryDate" required>
+                        <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" required>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-primary" onclick="createPurchaseOrder()">
                             <i class="fas fa-check"></i> Tạo đơn hàng
@@ -1063,8 +1119,10 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <script src="js/script.js"></script>
-    <script>
+    <!-- <script>
         // Biến lưu trữ nhà cung cấp hiện tại đang xem
         let currentSupplier = null;
 
@@ -1077,6 +1135,9 @@
             document.getElementById(modalId).style.display = 'none';
             if (modalId === 'addSupplierModal') {
                 document.getElementById('addSupplierForm').reset();
+            }
+            if (modalId === 'addPurchaseModal') {
+                document.getElementById('purchaseForm').reset();
             }
         }
 
@@ -1094,11 +1155,6 @@
             }).format(amount);
         }
 
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('vi-VN');
-        }
-
         // Lấy thông tin nhà cung cấp từ data attribute
         function getSupplierByCode(supplierCode) {
             const row = document.querySelector(`tr[data-supplier*='"MaNCC":"${supplierCode}"']`);
@@ -1106,6 +1162,55 @@
                 return JSON.parse(row.getAttribute('data-supplier'));
             }
             return null;
+        }
+
+        // Helper functions
+        function getSupplierTypeName(typeCode) {
+            switch (typeCode) {
+                case 'manufacturer': return 'Nhà SX';
+                case 'distributor': return 'Phân phối';
+                case 'wholesaler': return 'Đại lý';
+                case 'importer': return 'Nhập khẩu';
+                case 'local': return 'Trong nước';
+                default: return typeCode;
+            }
+        }
+
+        function getSupplierStatusName(statusCode) {
+            switch (statusCode) {
+                case 'active': return 'Đang hợp tác';
+                case 'pending': return 'Chờ duyệt';
+                case 'inactive': return 'Ngừng hợp tác';
+                default: return statusCode;
+            }
+        }
+
+        function getCountryName(countryCode) {
+            switch (countryCode) {
+                case 'VN': return 'Việt Nam';
+                case 'US': return 'Mỹ';
+                case 'CN': return 'Trung Quốc';
+                case 'KR': return 'Hàn Quốc';
+                case 'JP': return 'Nhật Bản';
+                default: return countryCode;
+            }
+        }
+
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    stars += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
+            }
+            return stars;
         }
 
         // Xem chi tiết nhà cung cấp
@@ -1131,104 +1236,38 @@
                             <div class="detail-section">
                                 <h5><i class="fas fa-building"></i> Thông tin cơ bản</h5>
                                 <table class="detail-table">
-                                    <tr>
-                                        <td><strong>Loại NCC:</strong></td>
-                                        <td>${getSupplierTypeName(supplier.LoaiNCC)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Mã số thuế:</strong></td>
-                                        <td>${supplier.MST || '-'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Website:</strong></td>
-                                        <td>${supplier.Website ? `<a href="${supplier.Website}" target="_blank">${supplier.Website}</a>` : '-'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Quốc gia:</strong></td>
-                                        <td>${getCountryName(supplier.QuocGia)}</td>
-                                    </tr>
+                                    <tr><td><strong>Loại NCC:</strong></td><td>${getSupplierTypeName(supplier.LoaiNCC)}</td></tr>
+                                    <tr><td><strong>Mã số thuế:</strong></td><td>${supplier.MST || '-'}</td></tr>
+                                    <tr><td><strong>Website:</strong></td><td>${supplier.Website ? `<a href="${supplier.Website}" target="_blank">Xem ngay</a>` : '-'}</td></tr>
+                                    <tr><td><strong>Quốc gia:</strong></td><td>${getCountryName(supplier.QuocGia)}</td></tr>
                                 </table>
                             </div>
                         </div>
-                        
                         <div class="col-md-6">
                             <div class="detail-section">
-                                <h5><i class="fas fa-address-book"></i> Thông tin liên hệ</h5>
+                                <h5><i class="fas fa-address-book"></i> Liên hệ</h5>
                                 <table class="detail-table">
-                                    <tr>
-                                        <td><strong>Người liên hệ:</strong></td>
-                                        <td>${supplier.NguoiLienHe}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Chức vụ:</strong></td>
-                                        <td>${supplier.ChucVu || '-'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Số điện thoại:</strong></td>
-                                        <td>${supplier.SDT}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Email:</strong></td>
-                                        <td>${supplier.Email}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Địa chỉ:</strong></td>
-                                        <td>${supplier.DiaChi || '-'}</td>
-                                    </tr>
+                                    <tr><td><strong>Người LH:</strong></td><td>${supplier.NguoiLienHe}</td></tr>
+                                    <tr><td><strong>SĐT:</strong></td><td>${supplier.SDT}</td></tr>
+                                    <tr><td><strong>Email:</strong></td><td>${supplier.Email}</td></tr>
+                                    <tr><td><strong>Địa chỉ:</strong></td><td>${supplier.DiaChi || '-'}</td></tr>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="detail-section">
-                        <h5><i class="fas fa-chart-line"></i> Thống kê hợp tác</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <table class="detail-table">
-                                    <tr>
-                                        <td><strong>Số sản phẩm:</strong></td>
-                                        <td>${supplier.SoSanPham} sản phẩm</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Tổng đơn hàng:</strong></td>
-                                        <td>${supplier.SoDonHang} đơn</td>
-                                    </tr>
-                                </table>
+
+                    <div class="detail-section mt-3">
+                         <h5><i class="fas fa-chart-line"></i> Thống kê</h5>
+                         <div class="row">
+                            <div class="col-6"><strong>Sản phẩm:</strong> ${supplier.SoSanPham}</div>
+                            <div class="col-6"><strong>Đơn hàng:</strong> ${supplier.SoDonHang}</div>
+                            <div class="col-12 mt-2">
+                                <strong>Đánh giá:</strong> 
+                                <span class="text-warning">${generateStars(supplier.DanhGia)}</span> (${supplier.DanhGia}/5)
                             </div>
-                            <div class="col-md-6">
-                                <table class="detail-table">
-                                    <tr>
-                                        <td><strong>Đánh giá:</strong></td>
-                                        <td>
-                                            <div class="supplier-rating inline">
-                                                <div class="stars">
-                                                    ${generateStars(supplier.DanhGia)}
-                                                </div>
-                                                <span class="rating-value">${supplier.DanhGia}</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Trạng thái:</strong></td>
-                                        <td>
-                                            <span class="status ${supplier.TrangThai}">
-                                                ${getSupplierStatusName(supplier.TrangThai)}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
+                         </div>
                     </div>
-                    
-                    ${supplier.GhiChu ? `
-                        <div class="detail-section">
-                            <h5><i class="fas fa-sticky-note"></i> Ghi chú</h5>
-                            <div class="supplier-notes">
-                                ${supplier.GhiChu}
-                            </div>
-                        </div>
-                    ` : ''}
+                     ${supplier.GhiChu ? `<div class="detail-section mt-3"><p><strong>Ghi chú:</strong> ${supplier.GhiChu}</p></div>` : ''}
                 </div>
             `;
 
@@ -1253,32 +1292,10 @@
             // Điền thông tin vào form chỉnh sửa
             document.getElementById('editMaNCC').value = supplier.MaNCC;
             document.getElementById('displayMaNCC').value = supplier.MaNCC;
-            document.querySelector('#editSupplierForm input[name="TenNCC"]').value = supplier.TenNCC;
-            document.querySelector('#editSupplierForm select[name="LoaiNCC"]').value = supplier.LoaiNCC;
-            document.querySelector('#editSupplierForm input[name="MST"]').value = supplier.MST || '';
-            document.querySelector('#editSupplierForm input[name="NguoiLienHe"]').value = supplier.NguoiLienHe;
-            document.querySelector('#editSupplierForm input[name="ChucVu"]').value = supplier.ChucVu || '';
-            document.querySelector('#editSupplierForm input[name="SDT"]').value = supplier.SDT;
-            document.querySelector('#editSupplierForm input[name="Email"]').value = supplier.Email;
-            document.querySelector('#editSupplierForm textarea[name="DiaChi"]').value = supplier.DiaChi || '';
-            document.querySelector('#editSupplierForm input[name="Website"]').value = supplier.Website || '';
-            document.querySelector('#editSupplierForm select[name="QuocGia"]').value = supplier.QuocGia || 'VN';
-            document.querySelector('#editSupplierForm select[name="TrangThai"]').value = supplier.TrangThai;
-            document.querySelector('#editSupplierForm textarea[name="GhiChu"]').value = supplier.GhiChu || '';
-
-            // Đặt giá trị đánh giá
-            const rating = Math.round(supplier.DanhGia);
-            document.querySelector('#editSupplierForm input[name="DanhGia"]').value = rating > 5 ? 5 : rating < 1 ? 1 : rating;
-            
-            // Cập nhật hiển thị sao
-            const stars = document.querySelectorAll('#editSupplierForm .rating-input .stars i');
-            stars.forEach((star, index) => {
-                if (index < rating) {
-                    star.className = 'fas fa-star';
-                } else {
-                    star.className = 'far fa-star';
-                }
-            });
+            document.getElementById('editTenNhaCungCap').value = supplier.TenNCC;
+            document.getElementById('editNguoiLienHe').value = supplier.NguoiLienHe || '';
+            document.getElementById('editSoDienThoai').value = supplier.SDT || '';
+            document.getElementById('editDiaChi').value = supplier.DiaChi || '';
 
             // Đóng modal xem chi tiết nếu đang mở
             closeModal('viewSupplierModal');
@@ -1288,28 +1305,32 @@
         // Cập nhật nhà cung cấp
         function updateSupplier() {
             const form = document.getElementById('editSupplierForm');
-            const formData = new FormData(form);
-            const supplierCode = formData.get('MaNCC');
+            const supplierCode = document.getElementById('editMaNCC').value;
 
-            // Lấy giá trị từ form
             const updatedSupplier = {
                 MaNCC: supplierCode,
-                TenNCC: formData.get('TenNCC'),
-                NguoiLienHe: formData.get('NguoiLienHe'),
-                SDT: formData.get('SDT'),
-                Email: formData.get('Email'),
-                DiaChi: formData.get('DiaChi'),
-                LoaiNCC: formData.get('LoaiNCC'),
-                MST: formData.get('MST'),
-                Website: formData.get('Website'),
-                QuocGia: formData.get('QuocGia'),
-                ChucVu: formData.get('ChucVu'),
-                DanhGia: parseFloat(formData.get('DanhGia')) || 3,
-                TrangThai: formData.get('TrangThai'),
-                GhiChu: formData.get('GhiChu'),
+                TenNCC: document.getElementById('editTenNhaCungCap').value,
+                NguoiLienHe: document.getElementById('editNguoiLienHe').value,
+                SDT: document.getElementById('editSoDienThoai').value,
+                DiaChi: document.getElementById('editDiaChi').value,
                 SoSanPham: currentSupplier?.SoSanPham || 0,
-                SoDonHang: currentSupplier?.SoDonHang || 0
+                SoDonHang: currentSupplier?.SoDonHang || 0,
+                DanhGia: currentSupplier?.DanhGia || 0,
+                TrangThai: currentSupplier?.TrangThai || 'active',
+                LoaiNCC: currentSupplier?.LoaiNCC || 'local',
+                MST: currentSupplier?.MST || '',
+                Website: currentSupplier?.Website || '',
+                QuocGia: currentSupplier?.QuocGia || 'VN',
+                Email: currentSupplier?.Email || '',
+                ChucVu: currentSupplier?.ChucVu || '',
+                GhiChu: currentSupplier?.GhiChu || ''
             };
+
+            // Validate
+            if (!updatedSupplier.TenNCC || !updatedSupplier.NguoiLienHe || !updatedSupplier.SDT) {
+                alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+                return;
+            }
 
             // Cập nhật dữ liệu trong bảng
             const row = document.querySelector(`tr[data-supplier*='"MaNCC":"${supplierCode}"']`);
@@ -1320,39 +1341,22 @@
                 row.setAttribute('data-supplier', JSON.stringify(newData));
 
                 // Cập nhật hiển thị trong bảng
-                const supplierNameCell = row.cells[1];
-                supplierNameCell.querySelector('.supplier-name').innerHTML = `
-                    ${updatedSupplier.TenNCC}
-                    ${updatedSupplier.LoaiNCC === 'manufacturer' ? '<i class="fas fa-crown text-warning ms-1" title="NCC ưu tiên"></i>' : ''}
-                `;
+                row.cells[1].querySelector('.supplier-name').innerHTML = `
+                ${updatedSupplier.TenNCC}
+                ${updatedSupplier.LoaiNCC === 'manufacturer' ? '<i class="fas fa-crown text-warning ms-1" title="NCC ưu tiên"></i>' : ''}
+            `;
 
-                // Cập nhật người liên hệ
                 row.cells[2].innerHTML = `
-                    <div>${updatedSupplier.NguoiLienHe}</div>
-                    <div class="text-muted">${updatedSupplier.ChucVu || ''}</div>
-                `;
+                <div>${updatedSupplier.NguoiLienHe}</div>
+                <div class="text-muted">${updatedSupplier.ChucVu || ''}</div>
+            `;
 
-                // Cập nhật loại NCC
-                const typeCell = row.cells[3];
-                const typeName = getSupplierTypeName(updatedSupplier.LoaiNCC);
-                typeCell.innerHTML = `<span class="supplier-type ${updatedSupplier.LoaiNCC}">${typeName}</span>`;
-
-                // Cập nhật đánh giá
-                const ratingCell = row.cells[6];
-                ratingCell.innerHTML = `
-                    <div class="supplier-rating">
-                        <div class="stars">
-                            ${generateStars(updatedSupplier.DanhGia)}
-                        </div>
-                        <div class="rating-value">${updatedSupplier.DanhGia}</div>
-                    </div>
-                `;
-
-                // Cập nhật trạng thái
-                const statusCell = row.cells[7];
-                statusCell.innerHTML = `<span class="status ${updatedSupplier.TrangThai}">${getSupplierStatusName(updatedSupplier.TrangThai)}</span>`;
+                row.cells[4].innerHTML = `
+                <strong>${oldData.SoSanPham || 0}</strong> SP
+            `;
             }
 
+            currentSupplier = updatedSupplier;
             alert('Đã cập nhật nhà cung cấp thành công!');
             closeModal('editSupplierModal');
             updateStats();
@@ -1361,33 +1365,35 @@
         // Lưu nhà cung cấp mới
         function saveSupplier() {
             const form = document.getElementById('addSupplierForm');
-            const formData = new FormData(form);
+            const MaNCC = document.getElementById('addMaNCC').value;
+            const TenNhaCungCap = document.getElementById('addTenNhaCungCap').value;
+            const NguoiLienHe = document.getElementById('addNguoiLienHe').value;
+            const SoDienThoai = document.getElementById('addSoDienThoai').value;
+            const DiaChi = document.getElementById('addDiaChi').value;
 
             // Validate
-            if (!formData.get('MaNCC') || !formData.get('TenNCC') || 
-                !formData.get('LoaiNCC') || !formData.get('NguoiLienHe') ||
-                !formData.get('SDT') || !formData.get('Email')) {
+            if (!MaNCC || !TenNhaCungCap || !NguoiLienHe || !SoDienThoai) {
                 alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
                 return;
             }
 
             const newSupplier = {
-                MaNCC: formData.get('MaNCC'),
-                TenNCC: formData.get('TenNCC'),
-                NguoiLienHe: formData.get('NguoiLienHe'),
-                SDT: formData.get('SDT'),
-                Email: formData.get('Email'),
-                DiaChi: formData.get('DiaChi'),
-                LoaiNCC: formData.get('LoaiNCC'),
-                MST: formData.get('MST'),
-                Website: formData.get('Website'),
-                QuocGia: formData.get('QuocGia'),
-                ChucVu: formData.get('ChucVu'),
-                DanhGia: parseFloat(formData.get('DanhGia')) || 3,
-                TrangThai: formData.get('TrangThai') || 'active',
-                GhiChu: formData.get('GhiChu'),
+                MaNCC: MaNCC,
+                TenNCC: TenNhaCungCap,
+                NguoiLienHe: NguoiLienHe,
+                SDT: SoDienThoai,
+                DiaChi: DiaChi,
                 SoSanPham: 0,
-                SoDonHang: 0
+                SoDonHang: 0,
+                DanhGia: 0,
+                TrangThai: 'active',
+                LoaiNCC: 'local',
+                MST: '',
+                Website: '',
+                QuocGia: 'VN',
+                Email: '',
+                ChucVu: '',
+                GhiChu: ''
             };
 
             // Kiểm tra mã nhà cung cấp đã tồn tại chưa
@@ -1401,54 +1407,51 @@
             const newRow = document.createElement('tr');
             newRow.setAttribute('data-supplier', JSON.stringify(newSupplier));
 
-            const typeName = getSupplierTypeName(newSupplier.LoaiNCC);
-
             newRow.innerHTML = `
-                <td><strong>${newSupplier.MaNCC}</strong></td>
-                <td>
-                    <div class="supplier-name">
-                        ${newSupplier.TenNCC}
-                        ${newSupplier.LoaiNCC === 'manufacturer' ? '<i class="fas fa-crown text-warning ms-1" title="NCC ưu tiên"></i>' : ''}
+            <td><strong>${newSupplier.MaNCC}</strong></td>
+            <td>
+                <div class="supplier-name">
+                    ${newSupplier.TenNCC}
+                </div>
+            </td>
+            <td>
+                <div>${newSupplier.NguoiLienHe}</div>
+                <div class="text-muted"></div>
+            </td>
+            <td>
+                <span class="supplier-type local">Trong nước</span>
+            </td>
+            <td>
+                <strong>0</strong> SP
+            </td>
+            <td>
+                <div>0 đơn</div>
+            </td>
+            <td>
+                <div class="supplier-rating">
+                    <div class="stars">
+                        ${generateStars(0)}
                     </div>
-                </td>
-                <td>
-                    <div>${newSupplier.NguoiLienHe}</div>
-                    <div class="text-muted">${newSupplier.ChucVu || ''}</div>
-                </td>
-                <td>
-                    <span class="supplier-type ${newSupplier.LoaiNCC}">${typeName}</span>
-                </td>
-                <td>
-                    <strong>0</strong> SP
-                </td>
-                <td>
-                    <div>0 đơn</div>
-                </td>
-                <td>
-                    <div class="supplier-rating">
-                        <div class="stars">
-                            ${generateStars(newSupplier.DanhGia)}
-                        </div>
-                        <div class="rating-value">${newSupplier.DanhGia}</div>
-                    </div>
-                </td>
-                <td>
-                    <span class="status ${newSupplier.TrangThai}">${getSupplierStatusName(newSupplier.TrangThai)}</span>
-                </td>
-                <td>
-                    <div class="action-buttons">
-                        <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewSupplierDetail('${newSupplier.MaNCC}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="action-btn edit-btn" title="Sửa" onclick="editSupplier('${newSupplier.MaNCC}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="action-btn delete-btn" title="Xóa" onclick="deleteSupplier('${newSupplier.MaNCC}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </td>
-            `;
+                    <div class="rating-value">0</div>
+                </div>
+            </td>
+            <td>
+                <span class="status active">Đang hợp tác</span>
+            </td>
+            <td>
+                <div class="action-buttons">
+                    <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewSupplierDetail('${newSupplier.MaNCC}')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="action-btn edit-btn" title="Sửa" onclick="editSupplier('${newSupplier.MaNCC}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn" title="Xóa" onclick="deleteSupplier('${newSupplier.MaNCC}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        `;
 
             tableBody.appendChild(newRow);
 
@@ -1458,6 +1461,9 @@
             alert('Đã thêm nhà cung cấp mới thành công!');
             closeModal('addSupplierModal');
             form.reset();
+
+            // Load lại danh sách nhà cung cấp cho dropdown đơn nhập
+            loadSuppliersForPurchase();
         }
 
         // Xóa nhà cung cấp
@@ -1473,57 +1479,31 @@
                     row.remove();
                     updateStats();
                     alert('Đã xóa nhà cung cấp thành công!');
+
+                    // Load lại danh sách nhà cung cấp cho dropdown đơn nhập
+                    loadSuppliersForPurchase();
                 }, 300);
             }
         }
 
-        // Helper functions
-        function getSupplierTypeName(typeCode) {
-            switch(typeCode) {
-                case 'manufacturer': return 'Nhà SX';
-                case 'distributor': return 'Phân phối';
-                case 'wholesaler': return 'Đại lý';
-                case 'importer': return 'Nhập khẩu';
-                case 'local': return 'Trong nước';
-                default: return typeCode;
-            }
-        }
+        // Tải danh sách nhà cung cấp cho dropdown đơn nhập
+        function loadSuppliersForPurchase() {
+            const rows = document.querySelectorAll('#suppliersTable tbody tr');
+            const select = document.getElementById('purchaseSupplier');
 
-        function getSupplierStatusName(statusCode) {
-            switch(statusCode) {
-                case 'active': return 'Đang hợp tác';
-                case 'pending': return 'Chờ duyệt';
-                case 'inactive': return 'Ngừng hợp tác';
-                default: return statusCode;
+            // Xóa options cũ (giữ option đầu tiên)
+            while (select.options.length > 1) {
+                select.remove(1);
             }
-        }
 
-        function getCountryName(countryCode) {
-            switch(countryCode) {
-                case 'VN': return 'Việt Nam';
-                case 'US': return 'Mỹ';
-                case 'CN': return 'Trung Quốc';
-                case 'KR': return 'Hàn Quốc';
-                case 'JP': return 'Nhật Bản';
-                default: return countryCode;
-            }
-        }
-
-        function generateStars(rating) {
-            let stars = '';
-            const fullStars = Math.floor(rating);
-            const hasHalfStar = rating % 1 >= 0.5;
-            
-            for (let i = 1; i <= 5; i++) {
-                if (i <= fullStars) {
-                    stars += '<i class="fas fa-star"></i>';
-                } else if (i === fullStars + 1 && hasHalfStar) {
-                    stars += '<i class="fas fa-star-half-alt"></i>';
-                } else {
-                    stars += '<i class="far fa-star"></i>';
-                }
-            }
-            return stars;
+            // Thêm options mới
+            rows.forEach(row => {
+                const supplier = JSON.parse(row.getAttribute('data-supplier'));
+                const option = document.createElement('option');
+                option.value = supplier.MaNCC;
+                option.textContent = `${supplier.MaNCC} - ${supplier.TenNCC}`;
+                select.appendChild(option);
+            });
         }
 
         // Cập nhật thống kê
@@ -1562,11 +1542,10 @@
                 const supplier = JSON.parse(row.getAttribute('data-supplier'));
                 const rowType = supplier.LoaiNCC;
                 const rowStatus = supplier.TrangThai;
-                const searchText = supplier.TenNCC.toLowerCase() + ' ' + 
-                                 supplier.MaNCC.toLowerCase() + ' ' + 
-                                 supplier.NguoiLienHe.toLowerCase() + ' ' + 
-                                 supplier.SDT.toLowerCase() + ' ' + 
-                                 supplier.Email.toLowerCase();
+                const searchText = (supplier.TenNCC || '').toLowerCase() + ' ' +
+                    (supplier.MaNCC || '').toLowerCase() + ' ' +
+                    (supplier.NguoiLienHe || '').toLowerCase() + ' ' +
+                    (supplier.SDT || '').toLowerCase();
 
                 const isTypeMatch = !typeFilter || rowType === typeFilter;
                 const isStatusMatch = !statusFilter || rowStatus === statusFilter;
@@ -1582,7 +1561,18 @@
 
         // Các hàm chức năng khác
         function createPurchaseOrder() {
-            alert('Chức năng tạo đơn nhập hàng đang được phát triển!');
+            const supplierSelect = document.getElementById('purchaseSupplier');
+            const orderDate = document.getElementById('orderDate').value;
+            const deliveryDate = document.getElementById('deliveryDate').value;
+
+            if (!supplierSelect.value || !orderDate || !deliveryDate) {
+                alert('Vui lòng điền đầy đủ thông tin!');
+                return;
+            }
+
+            alert('Đã tạo đơn nhập hàng thành công!');
+            closeModal('addPurchaseModal');
+            document.getElementById('purchaseForm').reset();
         }
 
         function viewExpiringContracts() {
@@ -1610,27 +1600,6 @@
             document.getElementById('supplierTypeFilter').addEventListener('change', filterTable);
             document.getElementById('supplierStatusFilter').addEventListener('change', filterTable);
 
-            // Xử lý rating stars
-            document.querySelectorAll('.rating-input .stars i').forEach(star => {
-                star.addEventListener('click', function() {
-                    const rating = parseInt(this.dataset.rating);
-                    const container = this.closest('.rating-input');
-                    const hiddenInput = container.querySelector('input[type="hidden"]');
-                    
-                    // Update stars display
-                    container.querySelectorAll('.stars i').forEach((s, index) => {
-                        if (index < rating) {
-                            s.className = 'fas fa-star';
-                        } else {
-                            s.className = 'far fa-star';
-                        }
-                    });
-                    
-                    // Update hidden input
-                    hiddenInput.value = rating;
-                });
-            });
-
             // Xử lý đóng modal khi click bên ngoài
             document.querySelectorAll('.modal').forEach(modal => {
                 modal.addEventListener('click', function (e) {
@@ -1642,251 +1611,24 @@
 
             // Cập nhật thống kê ban đầu
             updateStats();
-        });
 
-        // Thêm CSS cho suppliers page
-        const suppliersStyles = `
-            .supplier-name {
-                font-weight: 500;
-                margin-bottom: 5px;
-                display: flex;
-                align-items: center;
-            }
-            
-            .supplier-type {
-                padding: 4px 12px;
-                border-radius: 20px;
-                font-size: 12px;
-                font-weight: 500;
-            }
-            
-            .supplier-type.manufacturer {
-                background: rgba(67, 97, 238, 0.1);
-                color: var(--primary);
-                border: 1px solid rgba(67, 97, 238, 0.3);
-            }
-            
-            .supplier-type.distributor {
-                background: rgba(6, 214, 160, 0.1);
-                color: var(--info);
-                border: 1px solid rgba(6, 214, 160, 0.3);
-            }
-            
-            .supplier-type.wholesaler {
-                background: rgba(255, 158, 0, 0.1);
-                color: #ff9e00;
-                border: 1px solid rgba(255, 158, 0, 0.3);
-            }
-            
-            .supplier-type.importer {
-                background: rgba(114, 9, 183, 0.1);
-                color: var(--secondary);
-                border: 1px solid rgba(114, 9, 183, 0.3);
-            }
-            
-            .supplier-type.local {
-                background: rgba(239, 35, 60, 0.1);
-                color: var(--danger);
-                border: 1px solid rgba(239, 35, 60, 0.3);
-            }
-            
-            .supplier-rating {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-            
-            .supplier-rating.inline {
-                display: inline-flex;
-            }
-            
-            .supplier-rating .stars {
-                display: flex;
-                gap: 2px;
-                color: #ffc107;
-            }
-            
-            .supplier-rating .rating-value {
-                font-weight: 600;
-                font-size: 14px;
-                min-width: 30px;
-            }
-            
-            .stars.small {
-                font-size: 12px;
-            }
-            
-            .ranking-item {
-                display: flex;
-                align-items: center;
-                padding: 15px;
-                border-bottom: 1px solid var(--border-color);
-                transition: var(--transition);
-            }
-            
-            .ranking-item:hover {
-                background: var(--primary-extra-light);
-            }
-            
-            .ranking-item.top {
-                background: rgba(255, 193, 7, 0.05);
-            }
-            
-            .ranking-rank {
-                width: 30px;
-                height: 30px;
-                background: var(--primary);
-                color: white;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: 600;
-                margin-right: 15px;
-            }
-            
-            .ranking-item.top .ranking-rank {
-                background: #ffc107;
-            }
-            
-            .ranking-info {
-                flex: 1;
-            }
-            
-            .ranking-name {
-                font-weight: 500;
-                margin-bottom: 5px;
-            }
-            
-            .ranking-details {
-                display: flex;
-                gap: 10px;
-                font-size: 12px;
-                color: var(--gray);
-            }
-            
-            .detail-item {
-                padding-right: 10px;
-                border-right: 1px solid var(--border-color);
-            }
-            
-            .detail-item:last-child {
-                border-right: none;
-            }
-            
-            .ranking-performance {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-            
-            .contracts-list {
-                max-height: 300px;
-                overflow-y: auto;
-            }
-            
-            .contract-item {
-                padding: 15px;
-                border: 1px solid var(--border-color);
-                border-radius: var(--border-radius-sm);
-                margin-bottom: 10px;
-                transition: var(--transition);
-            }
-            
-            .contract-item:hover {
-                border-color: var(--primary);
-                box-shadow: 0 2px 10px rgba(67, 97, 238, 0.1);
-            }
-            
-            .contract-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 10px;
-            }
-            
-            .contract-supplier {
-                font-weight: 500;
-            }
-            
-            .contract-number {
-                font-size: 12px;
-                color: var(--gray);
-                background: var(--light);
-                padding: 2px 8px;
-                border-radius: 12px;
-            }
-            
-            .contract-details {
-                margin-bottom: 10px;
-            }
-            
-            .contract-details .detail-item {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                margin-bottom: 5px;
-                font-size: 13px;
-                border: none;
-            }
-            
-            .contract-actions {
-                display: flex;
-                gap: 10px;
-                justify-content: flex-end;
-            }
-            
-            .rating-input {
-                margin-bottom: 15px;
-            }
-            
-            .rating-input .stars {
-                display: flex;
-                gap: 10px;
-                margin-bottom: 5px;
-            }
-            
-            .rating-input .stars i {
-                color: #e0e0e0;
-                cursor: pointer;
-                transition: var(--transition);
-            }
-            
-            .rating-input .stars i:hover {
-                color: #ffc107;
-                transform: scale(1.1);
-            }
-            
-            .supplier-detail .detail-table {
-                width: 100%;
-            }
-            
-            .supplier-detail .detail-table tr td {
-                padding: 8px 0;
-                border-bottom: 1px solid var(--gray-extra-light);
-            }
-            
-            .supplier-detail .detail-table tr:last-child td {
-                border-bottom: none;
-            }
-            
-            .supplier-detail .detail-table td:first-child {
-                width: 40%;
-                font-weight: 500;
-                color: var(--gray);
-            }
-            
-            .supplier-notes {
-                padding: 15px;
-                background: var(--light);
-                border-radius: var(--border-radius-sm);
-                border-left: 3px solid var(--primary);
-            }
-        `;
-        
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = suppliersStyles;
-        document.head.appendChild(styleSheet);
-    </script>
+            // Tải danh sách nhà cung cấp cho dropdown đơn nhập
+            loadSuppliersForPurchase();
+
+            // Set default dates for purchase order
+            const today = new Date().toISOString().split('T')[0];
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            const nextWeekStr = nextWeek.toISOString().split('T')[0];
+
+            document.getElementById('orderDate').value = today;
+            document.getElementById('deliveryDate').value = nextWeekStr;
+            document.getElementById('orderDate').min = today;
+            document.getElementById('deliveryDate').min = today;
+        });
+    </script> -->
+    <script src="js/QLNCC.js"></script>
+
 </body>
+
 </html>

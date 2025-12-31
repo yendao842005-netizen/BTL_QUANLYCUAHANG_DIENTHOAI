@@ -21,10 +21,36 @@ export const KhachHangService = {
     return new KhachHangDTO(khachHang);
   },
   // Tìm kiếm khách hàng
-  searchKhachHangs: async (filters) => {
-    logger.info("Service: Searching KhachHangs with filters");
-    const results = await KhachHangRepository.searchAdvanced(filters);
-    return results.map((item) => new KhachHangDTO(item));
+  // Cập nhật hàm tìm kiếm để hỗ trợ phân trang
+  searchKhachHangs: async (filters, page = 1) => {
+    const pageSize = 10; // Số lượng bản ghi mỗi trang
+    const offset = (page - 1) * pageSize;
+
+    logger.info(`Service: Searching KhachHangs - Page ${page}`);
+
+    // Gọi Repository với các tham số lọc + phân trang
+    const { khachHangs, totalItems } = await KhachHangRepository.searchAdvanced({
+      ...filters,
+      limit: pageSize,
+      offset: offset
+    });
+    
+    return {
+      data: khachHangs.map((item) => {
+        const dto = new KhachHangDTO(item); // Tạo DTO chuẩn
+        return {
+            ...dto, // Lấy toàn bộ thuộc tính của DTO (đã format ngày,...)
+            TongDon: item.TongDon ? Number(item.TongDon) : 0,           // Gán thêm từ query gốc
+            TongChiTieu: item.TongChiTieu ? Number(item.TongChiTieu) : 0 // Gán thêm từ query gốc
+        };
+      }),
+      pagination: {
+        totalItems: totalItems,
+        totalPages: Math.ceil(totalItems / pageSize),
+        currentPage: page,
+        pageSize: pageSize
+      }
+    };
   },
 
   // Phân trang (10 khách hàng mỗi trang)
@@ -36,7 +62,14 @@ export const KhachHangService = {
     const { khachHangs, totalItems } = await KhachHangRepository.getPaginated(offset, pageSize);
 
     return {
-      data: khachHangs.map((item) => new KhachHangDTO(item)),
+      data: khachHangs.map((item) => {
+        const dto = new KhachHangDTO(item); // Tạo DTO chuẩn
+        return {
+            ...dto, // Lấy toàn bộ thuộc tính của DTO (đã format ngày,...)
+            TongDon: item.TongDon ? Number(item.TongDon) : 0,           // Gán thêm từ query gốc
+            TongChiTieu: item.TongChiTieu ? Number(item.TongChiTieu) : 0 // Gán thêm từ query gốc
+        };
+      }),
       pagination: {
         totalItems: totalItems,
         totalPages: Math.ceil(totalItems / pageSize),
@@ -91,11 +124,11 @@ export const KhachHangService = {
     
     // Logic xử lý dữ liệu tại Service: Gán hạng (Rank)
     return customers.map(c => {
-      let rank = 'Thành Viên';
+      let rank = 'Mới';
       const spent = Number(c.TongChiTieu);
-      if (spent > 50000000) rank = 'Kim Cương'; // > 50tr
-      else if (spent > 20000000) rank = 'Vàng'; // > 20tr
-      else if (spent > 5000000) rank = 'Bạc';   // > 5tr
+      if (spent > 50000000) rank = 'Vip'; // > 50tr
+      else if (spent > 20000000) rank = 'Thường'; // > 20tr
+      else if (spent > 5000000) rank = 'Mới';   // > 5tr
       
       return { ...c, HangThanhVien: rank };
     });
@@ -124,7 +157,9 @@ export const KhachHangService = {
       HoTen: rawData[0].HoTen,
       SoDienThoai: rawData[0].SoDienThoai,
       Email: rawData[0].Email,
-      DiaChi: rawData[0].DiaChi
+      DiaChi: rawData[0].DiaChi,
+      NgaySinh: rawData[0].NgaySinh, 
+      GioiTinh: rawData[0].GioiTinh
     };
 
     // Gom nhóm Hóa đơn (Logic cũ)
@@ -172,6 +207,8 @@ export const KhachHangService = {
       { header: "SĐT", key: "SoDienThoai", width: 15 },
       { header: "Email", key: "Email", width: 25 },
       { header: "Địa Chỉ", key: "DiaChi", width: 30 },
+      { header: "Ngày sinh", key: "NgaySinh", width: 15 },
+      { header: "Giới tính", key: "GioiTinh", width: 15 },
     ];
     worksheet.getRow(1).font = { bold: true };
 

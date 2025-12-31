@@ -21,12 +21,30 @@ export const NhaCungCapService = {
     return new NhaCungCapDTO(nhaCungCap);
   },
   // Tìm kiếm nâng cao
-  searchNhaCungCaps: async (filters) => {
-    logger.info("Service: Searching NhaCungCaps with filters");
-    const results = await NhaCungCapRepository.searchAdvanced(filters);
-    return results.map((item) => new NhaCungCapDTO(item));
-  },
+  // Sửa lại hàm searchNhaCungCaps
+  searchNhaCungCaps: async (filters, page = 1) => {
+    logger.info(`Service: Searching NhaCungCaps page ${page}`);
+    
+    const pageSize = 10;
+    const offset = (page - 1) * pageSize;
 
+    // Gọi Repository với limit và offset
+    const { nhaCungCaps, totalItems } = await NhaCungCapRepository.searchAdvanced({
+      ...filters,
+      limit: pageSize,
+      offset: offset
+    });
+
+    return {
+      data: nhaCungCaps.map((item) => new NhaCungCapDTO(item)),
+      pagination: {
+        totalItems: totalItems,
+        totalPages: Math.ceil(totalItems / pageSize),
+        currentPage: page,
+        pageSize: pageSize
+      }
+    };
+  },
   // Phân trang (10 dòng/trang)
   getNhaCungCapsByPage: async (page) => {
     const pageSize = 10;

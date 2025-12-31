@@ -45,16 +45,27 @@ export const KhachHangController = {
   },
 
   // API Tìm kiếm
+  // API Tìm kiếm: /api/KhachHangs/Search?hoTen=An&page=1
   search: async (req, res) => {
     try {
       logger.info("Controller: GET /KhachHangs/Search");
+      
+      // Lấy trang hiện tại, mặc định là 1
+      const page = parseInt(req.query.page) || 1;
+
+      // Lấy các tiêu chí lọc
       const filters = {
         hoTen: req.query.hoTen,
         soDienThoai: req.query.soDienThoai,
         diaChi: req.query.diaChi,
-        email: req.query.email
+        email: req.query.email,
+        GioiTinh: req.query.GioiTinh,
+        
       };
-      const results = await KhachHangService.searchKhachHangs(filters);
+
+      // Gọi service kèm theo số trang
+      const results = await KhachHangService.searchKhachHangs(filters, page);
+      
       res.json(results);
     } catch (err) {
       logger.error("Controller Error: search KhachHang failed", err);

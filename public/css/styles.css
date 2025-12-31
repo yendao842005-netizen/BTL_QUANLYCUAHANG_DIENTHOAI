@@ -145,6 +145,7 @@ body {
     border-left: 4px solid transparent;
     position: relative;
     overflow: hidden;
+    color: #551A8B;
 }
 
 .menu-item:hover {
@@ -183,7 +184,8 @@ body {
     font-size: 15px;
     font-weight: 500;
     transition: var(--transition);
-    white-space: nowrap;
+    white-space: nowrap; 
+   
 }
 
 .menu-badge {

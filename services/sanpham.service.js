@@ -24,7 +24,7 @@ export const SanPhamService = {
 
     // Xử lý danh sách phân trang và sắp xếp
   getPaginatedList: async (page, sortBy, order) => {
-    const pageSize = 10;
+    const pageSize = 16;
     const offset = (page - 1) * pageSize;
 
     // Gọi repo với các tham số sắp xếp (nếu không có sẽ dùng mặc định ở repo)
@@ -41,7 +41,7 @@ export const SanPhamService = {
   },
   
   searchAdvancedProducts: async (filters, page) => {
-    const pageSize = 10; // 10 dòng mỗi trang
+    const pageSize = 16; // 10 dòng mỗi trang
     const offset = (page - 1) * pageSize;
 
     logger.info(`Service: Advanced search - Page ${page}`);
@@ -160,5 +160,16 @@ export const SanPhamService = {
 
     // 6. Trả về đối tượng workbook (để Controller ghi ra response)
     return workbook;
-  }
+  },
+  // Trong object SanPhamService
+
+  getCategoryReport: async () => {
+    const stats = await SanPhamRepository.getCategoryStats();
+    return stats;
+  },
+
+
+  getGeneralStats: async () => {
+    return await SanPhamRepository.getGeneralStats();
+  },
 };

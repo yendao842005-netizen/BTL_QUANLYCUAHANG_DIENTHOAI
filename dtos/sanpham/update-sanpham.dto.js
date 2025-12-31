@@ -1,5 +1,5 @@
 export class UpdateSanPhamDTO {
-  constructor({ TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap, MoTa }) {
+  constructor({ TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap, MoTa,HinhAnh }) {
     this.TenSanPham = TenSanPham;
     this.MaDM = MaDM;
     this.MaNCC = MaNCC;
@@ -7,5 +7,7 @@ export class UpdateSanPhamDTO {
     this.SoLuongTon = SoLuongTon;
     this.NgayNhap = NgayNhap;
     this.MoTa = MoTa;
+    // THÊM DÒNG NÀY
+    this.HinhAnh = HinhAnh;
   }
 }

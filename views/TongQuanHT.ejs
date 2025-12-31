@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Quản Lý Cửa Hàng Điện Thoại</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="sidebar-title">MobileStore Pro</div>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Tổng quan</div>
+                    <a href="index.html" class="menu-item active">
+                        <div class="menu-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="menu-text">Dashboard</div>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Quản lý</div>
+                    <a href="products.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="menu-text">Sản phẩm</div>
+                        <div class="menu-badge">15</div>
+                    </a>
+                    <a href="orders.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="menu-text">Đơn hàng</div>
+                        <div class="menu-badge">3</div>
+                    </a>
+                    <a href="customers.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="menu-text">Khách hàng</div>
+                    </a>
+                    <a href="employees.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="menu-text">Nhân viên</div>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Hệ thống</div>
+                    <a href="suppliers.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="menu-text">Nhà cung cấp</div>
+                    </a>
+                    <a href="categories.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="menu-text">Danh mục</div>
+                    </a>
+                    <a href="reports.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="menu-text">Báo cáo</div>
+                    </a>
+                    <!-- <a href="settings.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="menu-text">Cài đặt</div>
+                    </a> -->
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="admin-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="admin-info">
+                    <div class="admin-name">Admin</div>
+                    <div class="admin-role">Quản trị hệ thống</div>
+                </div>
+            </div>
+            
+            <div class="toggle-sidebar">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <div class="header-title">Dashboard</div>
+                    <div class="breadcrumb">
+                        <div class="breadcrumb-item">
+                            <i class="fas fa-home"></i>
+                            <span>Trang chủ</span>
+                        </div>
+                        <div class="breadcrumb-item active">Tổng quan</div>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" placeholder="Tìm kiếm...">
+                    </div>
+                    
+                    <div class="notifications">
+                        <i class="fas fa-bell notification-icon"></i>
+                        <span class="notification-count">3</span>
+                        <div class="notification-dropdown">
+                            <div class="notification-header">
+                                <div class="notification-title">Thông báo</div>
+                                <div class="notification-clear">Đánh dấu đã đọc tất cả</div>
+                            </div>
+                            <div class="notification-list">
+                                <!-- Notifications will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-menu">
+                        <div class="user-info">
+                            <div class="admin-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="user-name">Nguyen Van An</div>
+                                <div class="user-role">Quản lý</div>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown">
+                            <div class="user-dropdown-item">
+                                <i class="fas fa-user"></i>
+                                <span>Hồ sơ cá nhân</span>
+                            </div>
+                            <div class="user-dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Cài đặt tài khoản</span>
+                            </div>
+                            <div class="user-dropdown-divider"></div>
+                            <div class="user-dropdown-item logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Đăng xuất</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <div class="page-title">Tổng quan hệ thống</div>
+                        <div class="page-subtitle">Chào mừng trở lại, dưới đây là thống kê tổng quan của cửa hàng</div>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-download"></i> Xuất báo cáo
+                        </button>
+                        <!-- <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Tạo mới
+                        </button> -->
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Doanh thu tháng này </div>
+                                <div class="card-value">125.4 triệu</div>
+                                <div class="card-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>12.5% so với tháng trước</span>
+                                </div>
+                            </div>
+                            <div class="card-icon sales">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <i class="fas fa-info-circle"></i>
+                            Tổng doanh thu: 2.5 tỷ (tháng 4)
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Tổng đơn hàng</div>
+                                <div class="card-value">1,248</div>
+                                <div class="card-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>5.2% so với tháng trước</span>
+                                </div>
+                            </div>
+                            <div class="card-icon products">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <i class="fas fa-info-circle"></i>
+                            15 đơn đang chờ xử lý
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Khách hàng mới</div>
+                                <div class="card-value">48</div>
+                                <div class="card-change negative">
+                                    <i class="fas fa-arrow-down"></i>
+                                    <span>2.1% so với tháng trước</span>
+                                </div>
+                            </div>
+                            <div class="card-icon customers">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <i class="fas fa-info-circle"></i>
+                            Tổng khách hàng: 1,856
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">Sản phẩm tồn kho</div>
+                                <div class="card-value">892</div>
+                                <div class="card-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>8.3% so với tháng trước</span>
+                                </div>
+                            </div>
+                            <div class="card-icon revenue">
+                                <i class="fas fa-boxes"></i>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <i class="fas fa-info-circle"></i>
+                            12 sản phẩm sắp hết hàng
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-container">
+                    <div class="chart-box">
+                        <div class="chart-header">
+                            <div class="chart-title">Doanh thu theo tháng </div>
+                            <div class="chart-actions">
+                                <select class="filter-select">
+                                    <option>Năm 2025</option>
+                                    <option>Năm 2024</option>
+                                    <option>Năm 2023</option>
+                                    <option>Năm 2022</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-placeholder">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-box">
+                        <div class="chart-header">
+                            <div class="chart-title">Sản phẩm bán chạy</div>
+                            <!-- <div class="chart-actions">
+                                <select class="filter-select">
+                                    <option>Tháng 4</option>
+                                    <option>Tháng 3</option>
+                                    <option>Tháng 2</option>
+                                </select>
+                            </div> -->
+                        </div>
+                        <div class="chart-placeholder">
+                            <canvas id="topProductsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders & Statistics -->
+                <div class="widgets-container">
+                    <div class="widget">
+                        <div class="widget-header">
+                            <div class="widget-title">Đơn hàng gần đây</div>
+                            <a href="orders.html" class="btn btn-sm btn-outline">Xem tất cả</a>
+                        </div>
+                        <div class="widget-content">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Mã HD</th>
+                                            <th>Khách hàng</th>
+                                            <th>Ngày</th>
+                                            <th>Tổng tiền</th>
+                                            <th>Trạng thái</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>HD015</td>
+                                            <td>Duong Van Dat</td>
+                                            <td>08/04/2024</td>
+                                            <td>5,990,000 đ</td>
+                                            <td><span class="status completed">Hoàn thành</span></td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <button class="action-btn view-btn" title="Xem chi tiết">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>HD014</td>
+                                            <td>Cao Thi Lan</td>
+                                            <td>07/04/2024</td>
+                                            <td>700,000 đ</td>
+                                            <td><span class="status completed">Hoàn thành</span></td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <button class="action-btn view-btn" title="Xem chi tiết">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>HD012</td>
+                                            <td>Trinh Thi Phuong</td>
+                                            <td>06/04/2024</td>
+                                            <td>24,990,000 đ</td>
+                                            <td><span class="status pending">Chờ xử lý</span></td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <button class="action-btn view-btn" title="Xem chi tiết">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="action-btn edit-btn" title="Xử lý">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>HD007</td>
+                                            <td>Ngo Van Tra</td>
+                                            <td>04/04/2024</td>
+                                            <td>8,990,000 đ</td>
+                                            <td><span class="status cancelled">Đã hủy</span></td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <button class="action-btn view-btn" title="Xem chi tiết">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="widget">
+                        <div class="widget-header">
+                            <div class="widget-title">Thống kê theo danh mục</div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="chart-placeholder">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">Trạng thái hệ thống</div>
+                        <div class="table-actions">
+                            <span id="current-date" class="text-muted"></span>
+                            <span id="current-time" class="text-muted"></span>
+                        </div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #4361ee, #4cc9f0);">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>15,856</h3>
+                                <p>Tổng bản ghi dữ liệu</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #7209b7, #f72585);">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>98.5%</h3>
+                                <p>Uptime hệ thống</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ff9e00, #ffd166);">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>100%</h3>
+                                <p>Bảo mật hệ thống</p>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #06d6a0, #118ab2);">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>0.8s</h3>
+                                <p>Thời gian phản hồi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div>
+                    &copy; 2024 MobileStore Pro. Phiên bản 2.0.0
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Trợ giúp</a>
+                    <a href="#" class="footer-link">Điều khoản</a>
+                    <a href="#" class="footer-link">Bảo mật</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="js/script.js"></script>
+    
+    <!-- <script>
+        // Chart data
+        document.addEventListener('DOMContentLoaded', function() {
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                    datasets: [{
+                        label: 'Doanh thu (triệu VND)',
+                        data: [1250, 1890, 2150, 2500, 0, 0, 0, 0, 0, 0, 0, 0],
+                        borderColor: '#4361ee',
+                        backgroundColor: 'rgba(67, 97, 238, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + ' tr';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Top Products Chart
+            const topProductsCtx = document.getElementById('topProductsChart').getContext('2d');
+            new Chart(topProductsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['iPhone 15 Pro', 'Samsung S24', 'Xiaomi 14', 'Oppo Reno 11', 'Realme 11'],
+                    datasets: [{
+                        label: 'Số lượng bán',
+                        data: [125, 89, 67, 45, 32],
+                        backgroundColor: [
+                            'rgba(67, 97, 238, 0.8)',
+                            'rgba(114, 9, 183, 0.8)',
+                            'rgba(247, 37, 133, 0.8)',
+                            'rgba(255, 158, 0, 0.8)',
+                            'rgba(6, 214, 160, 0.8)'
+                        ],
+                        borderColor: [
+                            '#4361ee',
+                            '#7209b7',
+                            '#f72585',
+                            '#ff9e00',
+                            '#06d6a0'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Category Chart
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['iPhone', 'Samsung', 'Xiaomi', 'Oppo', 'Khác'],
+                    datasets: [{
+                        data: [35, 25, 18, 12, 10],
+                        backgroundColor: [
+                            '#4361ee',
+                            '#7209b7',
+                            '#f72585',
+                            '#ff9e00',
+                            '#06d6a0'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        });
+    </script>  -->
+    
+    <script src="js/TongQuanHT.js"></script>
+</body>
+</html>

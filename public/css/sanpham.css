@@ -389,3 +389,12 @@
     pointer-events: none;
   }
 
+/* --- THÊM ĐOẠN NÀY VÀO THAY THẾ --- */
+.main3_2 .locnhanh .list_hangsx.show {
+    display: block;
+    z-index: 10;
+}
+.main3_2 .Sxtheo .list_sx.show {
+    display: block;
+    z-index: 10;
+}

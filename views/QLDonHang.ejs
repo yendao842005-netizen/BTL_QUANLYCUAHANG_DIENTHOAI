@@ -1,0 +1,1560 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Đơn Hàng - MobileStore Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="sidebar-title">MobileStore Pro</div>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Tổng quan</div>
+                    <a href="index.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="menu-text">Dashboard</div>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Quản lý</div>
+                    <a href="products.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="menu-text">Sản phẩm</div>
+                    </a>
+                    <a href="orders.html" class="menu-item active">
+                        <div class="menu-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="menu-text">Đơn hàng</div>
+                    </a>
+                    <a href="customers.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="menu-text">Khách hàng</div>
+                    </a>
+                    <a href="employees.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="menu-text">Nhân viên</div>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-section-title">Hệ thống</div>
+                    <a href="suppliers.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="menu-text">Nhà cung cấp</div>
+                    </a>
+                    <a href="categories.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="menu-text">Danh mục</div>
+                    </a>
+                    <a href="reports.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="menu-text">Báo cáo</div>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="menu-text">Cài đặt</div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="admin-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="admin-info">
+                    <div class="admin-name">Admin</div>
+                    <div class="admin-role">Quản trị hệ thống</div>
+                </div>
+            </div>
+            
+            <div class="toggle-sidebar">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <div class="header-title">Quản Lý Đơn Hàng</div>
+                    <div class="breadcrumb">
+                        <div class="breadcrumb-item">
+                            <i class="fas fa-home"></i>
+                            <a href="index.html">Trang chủ</a>
+                        </div>
+                        <div class="breadcrumb-item active">Đơn hàng</div>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="orderSearch" placeholder="Tìm kiếm đơn hàng...">
+                    </div>
+                    
+                    <div class="notifications">
+                        <i class="fas fa-bell notification-icon"></i>
+                        <span class="notification-count">3</span>
+                        <div class="notification-dropdown">
+                            <div class="notification-header">
+                                <div class="notification-title">Thông báo</div>
+                                <div class="notification-clear">Đánh dấu đã đọc tất cả</div>
+                            </div>
+                            <div class="notification-list">
+                                <!-- Notifications will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-menu">
+                        <div class="user-info">
+                            <div class="admin-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="user-name">Nguyen Van An</div>
+                                <div class="user-role">Quản lý</div>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown">
+                            <div class="user-dropdown-item">
+                                <i class="fas fa-user"></i>
+                                <span>Hồ sơ cá nhân</span>
+                            </div>
+                            <div class="user-dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Cài đặt tài khoản</span>
+                            </div>
+                            <div class="user-dropdown-divider"></div>
+                            <div class="user-dropdown-item logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Đăng xuất</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <div class="page-title">Quản Lý Đơn Hàng</div>
+                        <div class="page-subtitle">Theo dõi và xử lý tất cả đơn hàng của cửa hàng</div>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn btn-outline" onclick="exportToExcel()">
+                            <i class="fas fa-file-export"></i> Xuất Excel
+                        </button>
+                        <button class="btn btn-primary" onclick="openModal('createOrderModal')">
+                            <i class="fas fa-plus"></i> Tạo đơn hàng
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #4361ee, #4cc9f0);">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statTotalOrders">10</h3>
+                            <p>Tổng đơn hàng</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #7209b7, #f72585);">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statPendingOrders">1</h3>
+                            <p>Đang chờ xử lý</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #ff9e00, #ffd166);">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statShippingOrders">2</h3>
+                            <p>Đang giao hàng</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #06d6a0, #118ab2);">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statCompletedOrders">6</h3>
+                            <p>Đã hoàn thành</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Table -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">Danh sách đơn hàng</div>
+                        <div class="table-actions">
+                            <div class="table-filters">
+                                <select class="filter-select" id="orderStatusFilter">
+                                    <option value="">Tất cả trạng thái</option>
+                                    <option value="pending">Chờ xử lý</option>
+                                    <option value="processing">Đang xử lý</option>
+                                    <option value="shipping">Đang giao hàng</option>
+                                    <option value="completed">Hoàn thành</option>
+                                    <option value="cancelled">Đã hủy</option>
+                                </select>
+                                <select class="filter-select" id="paymentFilter">
+                                    <option value="">Tất cả hình thức TT</option>
+                                    <option value="cash">Tiền mặt</option>
+                                    <option value="banking">Chuyển khoản</option>
+                                    <option value="card">Thẻ</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline btn-sm" onclick="resetFilters()">
+                                <i class="fas fa-redo"></i> Đặt lại
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table id="ordersTable">
+                            <thead>
+                                <tr>
+                                    <th>Mã HD</th>
+                                    <th>Khách hàng</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Sản phẩm</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Thanh toán</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 5 đơn hàng mẫu -->
+                                <tr data-order='{"MaHD":"HD001","MaKH":"KH001","TenKH":"Nguyen Van Khach","SoDienThoai":"0990000001","DiaChi":"Go Vap, HCM","NgayDat":"2024-04-01","SanPham":"iPhone 15 Pro Max 256GB","SoLuong":1,"TongTien":34990000,"HinhThucTT":"banking","TrangThai":"completed","NhanVien":"NV002"}'>
+                                    <td><strong>HD001</strong></td>
+                                    <td>
+                                        <div class="customer-name">
+                                            Nguyen Van Khach
+                                            <div class="customer-phone">0990000001</div>
+                                        </div>
+                                    </td>
+                                    <td>01/04/2024</td>
+                                    <td>iPhone 15 Pro Max 256GB × 1</td>
+                                    <td><strong>34,990,000 ₫</strong></td>
+                                    <td>
+                                        <span class="payment banking">Chuyển khoản</span>
+                                    </td>
+                                    <td>
+                                        <span class="status completed">Hoàn thành</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewOrderDetail('HD001')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Cập nhật trạng thái" onclick="updateOrderStatus('HD001')">
+                                                <i class="fas fa-sync"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteOrder('HD001')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr data-order='{"MaHD":"HD002","MaKH":"KH002","TenKH":"Tran Thi Mua","SoDienThoai":"0990000002","DiaChi":"Tan Binh, HCM","NgayDat":"2024-04-01","SanPham":"iPhone 14 Plus 128GB","SoLuong":1,"TongTien":21990000,"HinhThucTT":"cash","TrangThai":"completed","NhanVien":"NV002"}'>
+                                    <td><strong>HD002</strong></td>
+                                    <td>
+                                        <div class="customer-name">
+                                            Tran Thi Mua
+                                            <div class="customer-phone">0990000002</div>
+                                        </div>
+                                    </td>
+                                    <td>01/04/2024</td>
+                                    <td>iPhone 14 Plus 128GB × 1</td>
+                                    <td><strong>21,990,000 ₫</strong></td>
+                                    <td>
+                                        <span class="payment cash">Tiền mặt</span>
+                                    </td>
+                                    <td>
+                                        <span class="status completed">Hoàn thành</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewOrderDetail('HD002')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Cập nhật trạng thái" onclick="updateOrderStatus('HD002')">
+                                                <i class="fas fa-sync"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteOrder('HD002')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr data-order='{"MaHD":"HD003","MaKH":"KH003","TenKH":"Le Van Sam","SoDienThoai":"0990000003","DiaChi":"Quan 3, HCM","NgayDat":"2024-04-02","SanPham":"Samsung Galaxy S24 Ultra","SoLuong":1,"TongTien":32020000,"HinhThucTT":"card","TrangThai":"completed","NhanVien":"NV004"}'>
+                                    <td><strong>HD003</strong></td>
+                                    <td>
+                                        <div class="customer-name">
+                                            Le Van Sam
+                                            <div class="customer-phone">0990000003</div>
+                                        </div>
+                                    </td>
+                                    <td>02/04/2024</td>
+                                    <td>Samsung Galaxy S24 Ultra × 1</td>
+                                    <td><strong>32,020,000 ₫</strong></td>
+                                    <td>
+                                        <span class="payment card">Thẻ</span>
+                                    </td>
+                                    <td>
+                                        <span class="status completed">Hoàn thành</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewOrderDetail('HD003')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Cập nhật trạng thái" onclick="updateOrderStatus('HD003')">
+                                                <i class="fas fa-sync"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteOrder('HD003')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr data-order='{"MaHD":"HD004","MaKH":"KH004","TenKH":"Pham Thi Tieu","SoDienThoai":"0990000004","DiaChi":"Quan 1, HCM","NgayDat":"2024-04-02","SanPham":"Samsung Galaxy A54 5G","SoLuong":1,"TongTien":8520000,"HinhThucTT":"banking","TrangThai":"pending","NhanVien":"NV004"}'>
+                                    <td><strong>HD004</strong></td>
+                                    <td>
+                                        <div class="customer-name">
+                                            Pham Thi Tieu
+                                            <div class="customer-phone">0990000004</div>
+                                        </div>
+                                    </td>
+                                    <td>02/04/2024</td>
+                                    <td>Samsung Galaxy A54 5G × 1</td>
+                                    <td><strong>8,520,000 ₫</strong></td>
+                                    <td>
+                                        <span class="payment banking">Chuyển khoản</span>
+                                    </td>
+                                    <td>
+                                        <span class="status pending">Chờ xử lý</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewOrderDetail('HD004')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Cập nhật trạng thái" onclick="updateOrderStatus('HD004')">
+                                                <i class="fas fa-sync"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteOrder('HD004')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr data-order='{"MaHD":"HD005","MaKH":"KH005","TenKH":"Hoang Van Dung","SoDienThoai":"0990000005","DiaChi":"Binh Thanh, HCM","NgayDat":"2024-04-03","SanPham":"Xiaomi 14 12GB/256GB","SoLuong":1,"TongTien":22490000,"HinhThucTT":"cash","TrangThai":"shipping","NhanVien":"NV002"}'>
+                                    <td><strong>HD005</strong></td>
+                                    <td>
+                                        <div class="customer-name">
+                                            Hoang Van Dung
+                                            <div class="customer-phone">0990000005</div>
+                                        </div>
+                                    </td>
+                                    <td>03/04/2024</td>
+                                    <td>Xiaomi 14 12GB/256GB × 1</td>
+                                    <td><strong>22,490,000 ₫</strong></td>
+                                    <td>
+                                        <span class="payment cash">Tiền mặt</span>
+                                    </td>
+                                    <td>
+                                        <span class="status shipping">Đang giao hàng</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewOrderDetail('HD005')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Cập nhật trạng thái" onclick="updateOrderStatus('HD005')">
+                                                <i class="fas fa-sync"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteOrder('HD005')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="widgets-container">
+                    <div class="widget">
+                        <div class="widget-header">
+                            <div class="widget-title">Thống kê đơn hàng hôm nay</div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="order-stats">
+                                <div class="order-stat-item">
+                                    <div class="stat-value">3</div>
+                                    <div class="stat-label">Đơn mới</div>
+                                </div>
+                                <div class="order-stat-item">
+                                    <div class="stat-value">2</div>
+                                    <div class="stat-label">Đang giao</div>
+                                </div>
+                                <div class="order-stat-item">
+                                    <div class="stat-value">89.5 tr</div>
+                                    <div class="stat-label">Doanh thu</div>
+                                </div>
+                                <div class="order-stat-item">
+                                    <div class="stat-value">18.2 tr</div>
+                                    <div class="stat-label">Lợi nhuận</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="widget">
+                        <div class="widget-header">
+                            <div class="widget-title">Đơn hàng cần xử lý gấp</div>
+                            <button class="btn btn-sm btn-warning" onclick="processAllPendingOrders()">
+                                <i class="fas fa-play"></i> Xử lý tất cả
+                            </button>
+                        </div>
+                        <div class="widget-content">
+                            <div class="urgent-orders">
+                                <div class="urgent-order-item">
+                                    <div class="urgent-order-header">
+                                        <div class="order-id">HD004</div>
+                                        <div class="order-time">14:15</div>
+                                    </div>
+                                    <div class="urgent-order-body">
+                                        <div class="customer">Pham Thi Tieu</div>
+                                        <div class="amount">8,520,000 ₫</div>
+                                    </div>
+                                    <div class="urgent-order-actions">
+                                        <button class="btn btn-sm btn-success" onclick="processOrder('HD004')">
+                                            <i class="fas fa-check"></i> Xử lý
+                                        </button>
+                                        <button class="btn btn-sm btn-outline" onclick="viewOrderDetail('HD004')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="urgent-order-item">
+                                    <div class="urgent-order-header">
+                                        <div class="order-id">HD008</div>
+                                        <div class="order-time">11:00</div>
+                                    </div>
+                                    <div class="urgent-order-body">
+                                        <div class="customer">Vu Thi Gop</div>
+                                        <div class="amount">8,940,000 ₫</div>
+                                    </div>
+                                    <div class="urgent-order-actions">
+                                        <button class="btn btn-sm btn-success" onclick="processOrder('HD008')">
+                                            <i class="fas fa-check"></i> Xử lý
+                                        </button>
+                                        <button class="btn btn-sm btn-outline" onclick="viewOrderDetail('HD008')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div>
+                    &copy; 2024 MobileStore Pro. Phiên bản 2.0.0
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Trợ giúp</a>
+                    <a href="#" class="footer-link">Điều khoản</a>
+                    <a href="#" class="footer-link">Bảo mật</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal: Tạo đơn hàng -->
+    <div class="modal" id="createOrderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Tạo đơn hàng mới</div>
+                <button class="close-modal" onclick="closeModal('createOrderModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="createOrderForm">
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-user"></i> Thông tin khách hàng
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Khách hàng</label>
+                                <select class="form-control form-select" name="customer" required>
+                                    <option value="">Chọn khách hàng</option>
+                                    <option value="KH001">KH001 - Nguyen Van Khach</option>
+                                    <option value="KH002">KH002 - Tran Thi Mua</option>
+                                    <option value="KH003">KH003 - Le Van Sam</option>
+                                    <option value="KH004">KH004 - Pham Thi Tieu</option>
+                                    <option value="KH005">KH005 - Hoang Van Dung</option>
+                                    <option value="new">+ Thêm khách hàng mới</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="text" class="form-control" name="phone" 
+                                       placeholder="Số điện thoại">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Địa chỉ giao hàng</label>
+                            <textarea class="form-control" name="address" rows="2" 
+                                      placeholder="Địa chỉ giao hàng"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-shopping-cart"></i> Sản phẩm đặt hàng
+                        </div>
+                        <div class="order-products">
+                            <div class="product-search mb-3">
+                                <input type="text" class="form-control" id="productSearchInput" 
+                                       placeholder="Tìm kiếm sản phẩm...">
+                                <div class="search-results" id="productSearchResults"></div>
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="order-items-table">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Sản phẩm</th>
+                                            <th>Đơn giá</th>
+                                            <th>Số lượng</th>
+                                            <th>Thành tiền</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="orderItemsTable">
+                                        <!-- Order items will be added here -->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" class="text-end"><strong>Tổng cộng:</strong></td>
+                                            <td id="orderTotal">0 ₫</td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-cog"></i> Thông tin bổ sung
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Hình thức thanh toán</label>
+                                <select class="form-control form-select" name="paymentMethod" required>
+                                    <option value="cash">Tiền mặt</option>
+                                    <option value="banking">Chuyển khoản</option>
+                                    <option value="card">Thẻ</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phí vận chuyển</label>
+                                <input type="number" class="form-control" name="shippingFee" 
+                                       placeholder="Phí vận chuyển" value="0" min="0">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Giảm giá</label>
+                                <input type="number" class="form-control" name="discount" 
+                                       placeholder="Giảm giá" value="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nhân viên bán hàng</label>
+                                <select class="form-control form-select" name="employee">
+                                    <option value="">Chọn nhân viên</option>
+                                    <option value="NV002">NV002 - Tran Thi Binh</option>
+                                    <option value="NV004">NV004 - Pham Thi Dung</option>
+                                    <option value="NV008">NV008 - Vu Thi Hoa</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Ghi chú đơn hàng</label>
+                            <textarea class="form-control" name="orderNote" rows="2" 
+                                      placeholder="Ghi chú về đơn hàng..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="createOrder()">
+                            <i class="fas fa-check"></i> Tạo đơn hàng
+                        </button>
+                        <button type="button" class="btn" onclick="closeModal('createOrderModal')">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Chi tiết đơn hàng -->
+    <div class="modal" id="orderDetailModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <div class="modal-title">Chi tiết đơn hàng</div>
+                <button class="close-modal" onclick="closeModal('orderDetailModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="orderDetailContent">
+                    <!-- Order details will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="updateStatusCurrentOrder()">
+                    <i class="fas fa-sync"></i> Cập nhật trạng thái
+                </button>
+                <button type="button" class="btn" onclick="closeModal('orderDetailModal')">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Cập nhật trạng thái -->
+    <div class="modal" id="updateStatusModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Cập nhật trạng thái đơn hàng</div>
+                <button class="close-modal" onclick="closeModal('updateStatusModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="updateStatusForm">
+                    <input type="hidden" id="updateOrderId">
+                    
+                    <div class="form-group">
+                        <label class="form-label required">Trạng thái mới</label>
+                        <select class="form-control form-select" id="newStatus" required>
+                            <option value="">Chọn trạng thái</option>
+                            <option value="pending">Chờ xử lý</option>
+                            <option value="processing">Đang xử lý</option>
+                            <option value="shipping">Đang giao hàng</option>
+                            <option value="completed">Hoàn thành</option>
+                            <option value="cancelled">Đã hủy</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ghi chú cập nhật</label>
+                        <textarea class="form-control" id="statusNote" rows="3" 
+                                  placeholder="Ghi chú về việc cập nhật trạng thái..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="saveOrderStatus()">
+                            <i class="fas fa-save"></i> Cập nhật
+                        </button>
+                        <button type="button" class="btn" onclick="closeModal('updateStatusModal')">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script>
+        // Biến lưu trữ
+        let currentOrder = null;
+        let orderItems = [];
+
+        // Các hàm cơ bản
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'createOrderModal') {
+                document.getElementById('createOrderForm').reset();
+                orderItems = [];
+                updateOrderItemsTable();
+                updateOrderTotal();
+            }
+        }
+
+        function resetFilters() {
+            document.getElementById('orderStatusFilter').value = '';
+            document.getElementById('paymentFilter').value = '';
+            document.getElementById('orderSearch').value = '';
+            filterOrdersTable();
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        // Lấy thông tin đơn hàng
+        function getOrderById(orderId) {
+            const row = document.querySelector(`tr[data-order*='"MaHD":"${orderId}"']`);
+            if (row) {
+                return JSON.parse(row.getAttribute('data-order'));
+            }
+            return null;
+        }
+
+        // Xem chi tiết đơn hàng
+        function viewOrderDetail(orderId) {
+            const order = getOrderById(orderId);
+            if (!order) {
+                alert('Không tìm thấy đơn hàng!');
+                return;
+            }
+
+            currentOrder = order;
+
+            const detailContent = document.getElementById('orderDetailContent');
+            detailContent.innerHTML = `
+                <div class="order-detail">
+                    <div class="order-header mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>Đơn hàng ${order.MaHD}</h3>
+                            <span class="status ${order.TrangThai}">
+                                ${getStatusText(order.TrangThai)}
+                            </span>
+                        </div>
+                        <div class="text-muted">Ngày đặt: ${formatDate(order.NgayDat)}</div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="detail-section">
+                                <h5><i class="fas fa-user"></i> Thông tin khách hàng</h5>
+                                <table class="detail-table">
+                                    <tr>
+                                        <td><strong>Tên:</strong></td>
+                                        <td>${order.TenKH}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>SĐT:</strong></td>
+                                        <td>${order.SoDienThoai}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Địa chỉ:</strong></td>
+                                        <td>${order.DiaChi}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="detail-section">
+                                <h5><i class="fas fa-info-circle"></i> Thông tin đơn hàng</h5>
+                                <table class="detail-table">
+                                    <tr>
+                                        <td><strong>Nhân viên:</strong></td>
+                                        <td>${order.NhanVien}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Thanh toán:</strong></td>
+                                        <td>
+                                            <span class="payment ${order.HinhThucTT}">
+                                                ${getPaymentText(order.HinhThucTT)}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tổng tiền:</strong></td>
+                                        <td><strong>${formatCurrency(order.TongTien)}</strong></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section mb-4">
+                        <h5><i class="fas fa-shopping-cart"></i> Sản phẩm đã đặt</h5>
+                        <div class="table-responsive">
+                            <table class="order-items-detail">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Sản phẩm</th>
+                                        <th>Đơn giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>${order.SanPham}</td>
+                                        <td>${formatCurrency(order.TongTien / order.SoLuong)}</td>
+                                        <td>${order.SoLuong}</td>
+                                        <td>${formatCurrency(order.TongTien)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            openModal('orderDetailModal');
+        }
+
+        function getStatusText(status) {
+            switch(status) {
+                case 'pending': return 'Chờ xử lý';
+                case 'processing': return 'Đang xử lý';
+                case 'shipping': return 'Đang giao hàng';
+                case 'completed': return 'Hoàn thành';
+                case 'cancelled': return 'Đã hủy';
+                default: return status;
+            }
+        }
+
+        function getPaymentText(payment) {
+            switch(payment) {
+                case 'cash': return 'Tiền mặt';
+                case 'banking': return 'Chuyển khoản';
+                case 'card': return 'Thẻ';
+                default: return payment;
+            }
+        }
+
+        // Cập nhật trạng thái đơn hàng
+        function updateOrderStatus(orderId) {
+            const order = getOrderById(orderId);
+            if (!order) {
+                alert('Không tìm thấy đơn hàng!');
+                return;
+            }
+
+            document.getElementById('updateOrderId').value = orderId;
+            document.getElementById('newStatus').value = order.TrangThai;
+            document.getElementById('statusNote').value = '';
+
+            closeModal('orderDetailModal');
+            openModal('updateStatusModal');
+        }
+
+        function updateStatusCurrentOrder() {
+            if (currentOrder) {
+                updateOrderStatus(currentOrder.MaHD);
+            }
+        }
+
+        function saveOrderStatus() {
+            const orderId = document.getElementById('updateOrderId').value;
+            const newStatus = document.getElementById('newStatus').value;
+            const note = document.getElementById('statusNote').value;
+
+            const row = document.querySelector(`tr[data-order*='"MaHD":"${orderId}"']`);
+            if (row) {
+                // Cập nhật data attribute
+                const orderData = JSON.parse(row.getAttribute('data-order'));
+                orderData.TrangThai = newStatus;
+                row.setAttribute('data-order', JSON.stringify(orderData));
+
+                // Cập nhật hiển thị trạng thái
+                const statusCell = row.cells[6];
+                statusCell.innerHTML = `<span class="status ${newStatus}">${getStatusText(newStatus)}</span>`;
+
+                alert('Đã cập nhật trạng thái đơn hàng thành công!');
+                closeModal('updateStatusModal');
+                updateStats();
+            }
+        }
+
+        // Tạo đơn hàng mới
+        function createOrder() {
+            const form = document.getElementById('createOrderForm');
+            const formData = new FormData(form);
+
+            if (orderItems.length === 0) {
+                alert('Vui lòng thêm ít nhất một sản phẩm vào đơn hàng!');
+                return;
+            }
+
+            // Tạo mã đơn hàng mới
+            const rows = document.querySelectorAll('#ordersTable tbody tr');
+            const lastRow = rows[rows.length - 1];
+            let lastOrderId = 'HD000';
+            if (lastRow) {
+                const lastOrder = JSON.parse(lastRow.getAttribute('data-order'));
+                lastOrderId = lastOrder.MaHD;
+            }
+            const lastIdNum = parseInt(lastOrderId.replace('HD', ''));
+            const newOrderId = `HD${String(lastIdNum + 1).padStart(3, '0')}`;
+
+            // Tính tổng tiền
+            const subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shippingFee = parseInt(formData.get('shippingFee')) || 0;
+            const discount = parseInt(formData.get('discount')) || 0;
+            const total = subtotal + shippingFee - discount;
+
+            // Thêm đơn hàng vào bảng
+            const tableBody = document.querySelector('#ordersTable tbody');
+            const newRow = document.createElement('tr');
+            
+            // Tạo dữ liệu đơn hàng mẫu
+            const newOrder = {
+                MaHD: newOrderId,
+                MaKH: formData.get('customer'),
+                TenKH: formData.get('customer').startsWith('KH') ? 
+                    formData.get('customer').split(' - ')[1] : 'Khách mới',
+                SoDienThoai: formData.get('phone') || '0990000000',
+                DiaChi: formData.get('address') || 'Đang cập nhật',
+                NgayDat: new Date().toISOString().split('T')[0],
+                SanPham: orderItems[0].name + (orderItems.length > 1 ? ` + ${orderItems.length - 1} sản phẩm khác` : ''),
+                SoLuong: orderItems.reduce((sum, item) => sum + item.quantity, 0),
+                TongTien: total,
+                HinhThucTT: formData.get('paymentMethod'),
+                TrangThai: 'pending',
+                NhanVien: formData.get('employee') || 'NV001'
+            };
+
+            newRow.setAttribute('data-order', JSON.stringify(newOrder));
+            newRow.innerHTML = `
+                <td><strong>${newOrderId}</strong></td>
+                <td>
+                    <div class="customer-name">
+                        ${newOrder.TenKH}
+                        <div class="customer-phone">${newOrder.SoDienThoai}</div>
+                    </div>
+                </td>
+                <td>${formatDate(newOrder.NgayDat)}</td>
+                <td>${newOrder.SanPham}</td>
+                <td><strong>${formatCurrency(total)}</strong></td>
+                <td>
+                    <span class="payment ${newOrder.HinhThucTT}">
+                        ${getPaymentText(newOrder.HinhThucTT)}
+                    </span>
+                </td>
+                <td>
+                    <span class="status pending">Chờ xử lý</span>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewOrderDetail('${newOrderId}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit-btn" title="Cập nhật trạng thái" onclick="updateOrderStatus('${newOrderId}')">
+                            <i class="fas fa-sync"></i>
+                        </button>
+                        <button class="action-btn delete-btn" title="Xóa" onclick="deleteOrder('${newOrderId}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+
+            tableBody.appendChild(newRow);
+
+            alert('Đã tạo đơn hàng mới thành công!');
+            closeModal('createOrderModal');
+            form.reset();
+            orderItems = [];
+            updateOrderItemsTable();
+            updateOrderTotal();
+            updateStats();
+        }
+
+        // Xóa đơn hàng
+        function deleteOrder(orderId) {
+            if (!confirm(`Bạn có chắc chắn muốn xóa đơn hàng ${orderId}?`)) {
+                return;
+            }
+
+            const row = document.querySelector(`tr[data-order*='"MaHD":"${orderId}"']`);
+            if (row) {
+                row.style.opacity = '0.5';
+                setTimeout(() => {
+                    row.remove();
+                    updateStats();
+                    alert('Đã xóa đơn hàng thành công!');
+                }, 300);
+            }
+        }
+
+        // Quản lý sản phẩm trong đơn hàng
+        function updateOrderItemsTable() {
+            const tableBody = document.getElementById('orderItemsTable');
+            if (!tableBody) return;
+            
+            tableBody.innerHTML = orderItems.map((item, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item.name}</td>
+                    <td>${formatCurrency(item.price)}</td>
+                    <td>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn" onclick="updateItemQuantity(${index}, -1)">-</button>
+                            <input type="number" value="${item.quantity}" min="1" 
+                                   onchange="updateItemQuantityInput(${index}, this.value)">
+                            <button type="button" class="qty-btn" onclick="updateItemQuantity(${index}, 1)">+</button>
+                        </div>
+                    </td>
+                    <td>${formatCurrency(item.price * item.quantity)}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="removeOrderItem(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateItemQuantity(index, change) {
+            if (orderItems[index]) {
+                orderItems[index].quantity = Math.max(1, orderItems[index].quantity + change);
+                updateOrderItemsTable();
+                updateOrderTotal();
+            }
+        }
+
+        function updateItemQuantityInput(index, value) {
+            const quantity = parseInt(value) || 1;
+            if (orderItems[index] && quantity >= 1) {
+                orderItems[index].quantity = quantity;
+                updateOrderItemsTable();
+                updateOrderTotal();
+            }
+        }
+
+        function removeOrderItem(index) {
+            orderItems.splice(index, 1);
+            updateOrderItemsTable();
+            updateOrderTotal();
+        }
+
+        function updateOrderTotal() {
+            const subtotal = orderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shippingFee = parseInt(document.querySelector('[name="shippingFee"]')?.value) || 0;
+            const discount = parseInt(document.querySelector('[name="discount"]')?.value) || 0;
+            const total = subtotal + shippingFee - discount;
+            
+            const totalElement = document.getElementById('orderTotal');
+            if (totalElement) {
+                totalElement.textContent = formatCurrency(total);
+            }
+        }
+
+        // Tìm kiếm sản phẩm
+        function searchProducts(query) {
+            const resultsContainer = document.getElementById('productSearchResults');
+            if (!resultsContainer) return;
+            
+            if (!query) {
+                resultsContainer.innerHTML = '';
+                return;
+            }
+            
+            // Dữ liệu sản phẩm mẫu
+            const products = [
+                { id: 'SP001', name: 'iPhone 15 Pro Max 256GB', price: 34990000 },
+                { id: 'SP002', name: 'iPhone 14 Plus 128GB', price: 21990000 },
+                { id: 'SP003', name: 'Samsung Galaxy S24 Ultra', price: 31990000 },
+                { id: 'SP004', name: 'Samsung Galaxy A54 5G', price: 8490000 },
+                { id: 'SP005', name: 'Xiaomi 14 12GB/256GB', price: 22990000 }
+            ];
+            
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(query.toLowerCase()) || 
+                p.id.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            resultsContainer.innerHTML = filtered.map(product => `
+                <div class="search-result-item" onclick="addProductToOrder('${product.id}', '${product.name}', ${product.price})">
+                    <div class="result-name">${product.name}</div>
+                    <div class="result-price">${formatCurrency(product.price)}</div>
+                </div>
+            `).join('');
+        }
+
+        function addProductToOrder(productId, productName, price) {
+            // Kiểm tra sản phẩm đã tồn tại chưa
+            const existingItem = orderItems.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                orderItems.push({
+                    id: productId,
+                    name: productName,
+                    price: price,
+                    quantity: 1
+                });
+            }
+            
+            updateOrderItemsTable();
+            updateOrderTotal();
+            
+            // Xóa kết quả tìm kiếm
+            document.getElementById('productSearchInput').value = '';
+            document.getElementById('productSearchResults').innerHTML = '';
+        }
+
+        // Lọc đơn hàng
+        function filterOrdersTable() {
+            const statusFilter = document.getElementById('orderStatusFilter').value;
+            const paymentFilter = document.getElementById('paymentFilter').value;
+            const searchInput = document.getElementById('orderSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#ordersTable tbody tr');
+
+            rows.forEach(row => {
+                const order = JSON.parse(row.getAttribute('data-order'));
+                const rowStatus = order.TrangThai;
+                const rowPayment = order.HinhThucTT;
+                const searchText = order.TenKH.toLowerCase() + ' ' + 
+                                 order.MaHD.toLowerCase() + ' ' + 
+                                 order.SoDienThoai.toLowerCase();
+
+                const isStatusMatch = !statusFilter || rowStatus === statusFilter;
+                const isPaymentMatch = !paymentFilter || rowPayment === paymentFilter;
+                const isSearchMatch = !searchInput || searchText.includes(searchInput);
+
+                if (isStatusMatch && isPaymentMatch && isSearchMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Cập nhật thống kê
+        function updateStats() {
+            const rows = document.querySelectorAll('#ordersTable tbody tr');
+            const totalOrders = rows.length;
+
+            let pendingOrders = 0;
+            let shippingOrders = 0;
+            let completedOrders = 0;
+
+            rows.forEach(row => {
+                const order = JSON.parse(row.getAttribute('data-order'));
+                if (order.TrangThai === 'pending') pendingOrders++;
+                if (order.TrangThai === 'shipping') shippingOrders++;
+                if (order.TrangThai === 'completed') completedOrders++;
+            });
+
+            document.getElementById('statTotalOrders').textContent = totalOrders;
+            document.getElementById('statPendingOrders').textContent = pendingOrders;
+            document.getElementById('statShippingOrders').textContent = shippingOrders;
+            document.getElementById('statCompletedOrders').textContent = completedOrders;
+        }
+
+        // Xử lý đơn hàng chờ
+        function processOrder(orderId) {
+            const order = getOrderById(orderId);
+            if (order && order.TrangThai === 'pending') {
+                if (confirm(`Xử lý đơn hàng ${orderId}?`)) {
+                    const row = document.querySelector(`tr[data-order*='"MaHD":"${orderId}"']`);
+                    if (row) {
+                        const orderData = JSON.parse(row.getAttribute('data-order'));
+                        orderData.TrangThai = 'processing';
+                        row.setAttribute('data-order', JSON.stringify(orderData));
+                        
+                        const statusCell = row.cells[6];
+                        statusCell.innerHTML = `<span class="status processing">Đang xử lý</span>`;
+                        
+                        alert(`Đã chuyển đơn hàng ${orderId} sang trạng thái đang xử lý`);
+                        updateStats();
+                    }
+                }
+            }
+        }
+
+        function processAllPendingOrders() {
+            const pendingRows = document.querySelectorAll('tr[data-order*="pending"]');
+            if (pendingRows.length === 0) {
+                alert('Không có đơn hàng nào cần xử lý!');
+                return;
+            }
+
+            if (confirm(`Xử lý tất cả ${pendingRows.length} đơn hàng chờ?`)) {
+                pendingRows.forEach(row => {
+                    const orderData = JSON.parse(row.getAttribute('data-order'));
+                    orderData.TrangThai = 'processing';
+                    row.setAttribute('data-order', JSON.stringify(orderData));
+                    
+                    const statusCell = row.cells[6];
+                    statusCell.innerHTML = `<span class="status processing">Đang xử lý</span>`;
+                });
+                
+                alert(`Đã xử lý ${pendingRows.length} đơn hàng chờ`);
+                updateStats();
+            }
+        }
+
+        // Xuất Excel
+        function exportToExcel() {
+            alert('Chức năng xuất Excel đang được phát triển!');
+        }
+
+        // Xử lý sự kiện khi DOM tải xong
+        document.addEventListener('DOMContentLoaded', function () {
+            // Xử lý tìm kiếm
+            const searchInput = document.getElementById('orderSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', filterOrdersTable);
+            }
+
+            // Xử lý tìm kiếm sản phẩm
+            const productSearch = document.getElementById('productSearchInput');
+            if (productSearch) {
+                productSearch.addEventListener('input', function() {
+                    searchProducts(this.value);
+                });
+            }
+
+            // Xử lý bộ lọc
+            document.getElementById('orderStatusFilter').addEventListener('change', filterOrdersTable);
+            document.getElementById('paymentFilter').addEventListener('change', filterOrdersTable);
+
+            // Xử lý đóng modal khi click bên ngoài
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                    }
+                });
+            });
+
+            // Cập nhật thống kê ban đầu
+            updateStats();
+        });
+    </script>
+    
+    <style>
+        .customer-name {
+            max-width: 150px;
+        }
+        
+        .customer-phone {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+        
+        .payment {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .payment.cash {
+            background: rgba(6, 214, 160, 0.1);
+            color: #06d6a0;
+            border: 1px solid rgba(6, 214, 160, 0.3);
+        }
+        
+        .payment.banking {
+            background: rgba(67, 97, 238, 0.1);
+            color: #4361ee;
+            border: 1px solid rgba(67, 97, 238, 0.3);
+        }
+        
+        .payment.card {
+            background: rgba(114, 9, 183, 0.1);
+            color: #7209b7;
+            border: 1px solid rgba(114, 9, 183, 0.3);
+        }
+        
+        .status.shipping {
+            background: rgba(255, 158, 0, 0.1);
+            color: #ff9e00;
+            border: 1px solid rgba(255, 158, 0, 0.3);
+        }
+        
+        .order-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .order-stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .order-stat-item .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4361ee;
+            margin-bottom: 5px;
+        }
+        
+        .order-stat-item .stat-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+        
+        .urgent-orders {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .urgent-order-item {
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: rgba(255, 158, 0, 0.05);
+        }
+        
+        .urgent-order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .urgent-order-header .order-id {
+            font-weight: 600;
+            color: #4361ee;
+        }
+        
+        .urgent-order-header .order-time {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .urgent-order-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .urgent-order-body .customer {
+            font-weight: 500;
+        }
+        
+        .urgent-order-body .amount {
+            font-weight: 600;
+            color: #4361ee;
+        }
+        
+        .urgent-order-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .product-search {
+            position: relative;
+        }
+        
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        
+        .search-result-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        
+        .search-result-item:hover {
+            background: #f0f3ff;
+        }
+        
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .result-price {
+            font-size: 12px;
+            color: #4361ee;
+        }
+        
+        .order-items-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .order-items-table th,
+        .order-items-table td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            text-align: center;
+        }
+        
+        .order-items-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .order-items-table tfoot td {
+            border-bottom: none;
+            font-weight: 600;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #dee2e6;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .qty-btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .quantity-control input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        
+        .order-detail {
+            padding: 10px;
+        }
+        
+        .order-items-detail {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .order-items-detail th,
+        .order-items-detail td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            text-align: left;
+        }
+        
+        .order-items-detail th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .detail-table {
+            width: 100%;
+        }
+        
+        .detail-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .detail-table td:first-child {
+            width: 120px;
+            font-weight: 600;
+        }
+        
+        .detail-section {
+            margin-bottom: 20px;
+        }
+        
+        .detail-section h5 {
+            margin-bottom: 15px;
+            color: #4361ee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .detail-section h5 i {
+            color: #4361ee;
+        }
+    </style>
+</body>
+</html>

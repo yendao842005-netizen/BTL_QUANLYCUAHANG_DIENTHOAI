@@ -31,7 +31,26 @@ app.use(express.static(path.join(__dirname, 'public')));//thêm
 // Basic & Security Middlewares
 // ---------------------------
 
-app.use(helmet());
+//app.use(helmet());
+// Cấu hình CSP để cho phép onclick và load tài nguyên từ bên ngoài (cdnjs, fontawesome...)
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      // 'unsafe-inline' cho phép code JS trong thẻ script
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://kit.fontawesome.com", "https://code.jquery.com"],
+      // QUAN TRỌNG: Dòng này cho phép onclick, onchange...
+      scriptSrcAttr: ["'unsafe-inline'"], 
+      // Cho phép style inline (style="...") và font từ google/cdnjs
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://kit.fontawesome.com"],
+      // Cho phép load ảnh từ mọi nguồn https
+      imgSrc: ["'self'", "data:", "https:"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com", "https://kit.fontawesome.com"],
+      // Sửa lỗi connect-src cho file map css
+      connectSrc: ["'self'", "https://cdnjs.cloudflare.com"], 
+    },
+  })
+);
 app.use(cors({ origin: "*" }));
 app.use(compression());
 app.use(cookieParser());

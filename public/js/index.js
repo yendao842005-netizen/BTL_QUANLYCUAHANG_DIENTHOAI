@@ -1,7 +1,7 @@
 // var dsanh=
 // [
-//    "/assets/img/img trang chu/muaf le hoi.png",
-//    "/assets/img/img trang chu/desk_header_c7ad8b92b8.png"
+//    "img/img trang chu/muaf le hoi.png",
+//    "img/img trang chu/desk_header_c7ad8b92b8.png"
 // ]   
 // stt=1
 // function left()
@@ -24,11 +24,11 @@
 
 // var dsanh1=
 // [
-//    "/assets/img/img trang chu/iphone16.png",
-//    "/assets/img/img trang chu/sámung.png",
-//    "/assets/img/img trang chu/dt.png",
-//    "/assets/img/img trang chu/dt (3).png",
-//    "/assets/img/img trang chu/dt (2).png",
+//    "img/img trang chu/iphone16.png",
+//    "img/img trang chu/sámung.png",
+//    "img/img trang chu/dt.png",
+//    "img/img trang chu/dt (3).png",
+//    "img/img trang chu/dt (2).png",
 // ]   
 // stt1=1
 // stt2=2
@@ -57,16 +57,16 @@
 // // js cho language
 // Danh sách ảnh
 const dsanh = [
-    "/assets/img/img trang chu/muaf le hoi.png",
-    "/assets/img/img trang chu/desk_header_c7ad8b92b8.png"
+    "img/img trang chu/muaf le hoi.png",
+    "img/img trang chu/desk_header_c7ad8b92b8.png"
 ];
 
 const dsanh1 = [
-    "/assets/img/img trang chu/iphone16.png",
-    "/assets/img/img trang chu/sámung.png",
-    "/assets/img/img trang chu/dt.png",
-    "/assets/img/img trang chu/dt (3).png",
-    "/assets/img/img trang chu/dt (2).png",
+    "img/img trang chu/iphone16.png",
+    "img/img trang chu/sámung.png",
+    "img/img trang chu/dt.png",
+    "img/img trang chu/dt (3).png",
+    "img/img trang chu/dt (2).png",
 ];
 
 let stt = 0;

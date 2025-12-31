@@ -9,6 +9,8 @@ export const createSanPhamSchema = z.object({
   SoLuongTon: z.number().int().min(0).default(0),
   NgayNhap: z.coerce.date().default(() => new Date()),
   MoTa: z.string().optional().nullable(),
+  // THÊM DÒNG NÀY
+  HinhAnh: z.string().max(255).optional().nullable(),
 });
 
 export function validateCreateSanPham(data) {

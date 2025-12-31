@@ -1,106 +1,170 @@
 ## ⛩ **NodeJS Starter**
-//Bai 1 : QLSanPham
-🔹 Sản Phẩm
+// Cấu trúc URL chạy các yêu cầu 
+1. Routes NHÂN VIÊN (NhanVien)
+Lấy danh sách tất cả nhân viên: http://localhost:3000/api/NhanViens
 
-Lấy tất cả sản phẩm:
-GET http://localhost:3000/api/SanPham
+Lấy danh sách nhân viên có phân trang (Trang 1): http://localhost:3000/api/NhanViens/PhanTrang?page=1
 
-Lấy theo mã sản phẩm:
-GET http://localhost:3000/api/SanPham/:Ma
+Tìm kiếm nhân viên (Theo tên và địa chỉ): http://localhost:3000/api/NhanViens/Search?hoTen=Nguyen&diaChi=HCM
 
-Thêm sản phẩm:
-POST http://localhost:3000/api/SanPham
+Báo cáo hiệu suất nhân viên (KPI) theo khoảng thời gian: http://localhost:3000/api/NhanViens/BaoCao/HieuSuat?startDate=2024-01-01&endDate=2024-12-31
 
-Cập nhật sản phẩm:
-PUT http://localhost:3000/api/SanPham/:Ma
+Xuất file Excel danh sách toàn bộ nhân viên: http://localhost:3000/api/NhanViens/Export/Excel
 
-Xóa sản phẩm:
-DELETE http://localhost:3000/api/SanPham/:Ma
+Lấy chi tiết 1 nhân viên theo Mã (VD: NV001): http://localhost:3000/api/NhanViens/NV001
 
-Tìm kiếm sản phẩm theo tên:
-GET http://localhost:3000/api/SanPham/TimkiemTen/:Ten
+Thêm mới nhân viên (Method: POST): http://localhost:3000/api/NhanViens
 
-Thống kê sản phẩm theo danh mục:
-GET http://localhost:3000/api/SanPham/THONGKE
+Cập nhật nhân viên (Method: PUT): http://localhost:3000/api/NhanViens/NV001
 
-Sắp xếp SL/ĐG + phân trang:
-GET http://localhost:3000/api/SanPham/SxSL/sl/:sl/:kieusx/:trang
+Xóa nhân viên (Method: DELETE): http://localhost:3000/api/NhanViens/NV001
 
-🔹 Danh Mục
 
-Lấy tất cả danh mục:
-GET http://localhost:3000/api/DanhMuc
 
-Lấy danh mục theo mã:
-GET http://localhost:3000/api/DanhMuc/:MaDanhMuc
-Bài 2 : QLSinhVien
-Nhân Viên
 
-Lấy tất cả nhân viên:
-GET http://localhost:3000/api/NhanVien
+2. Routes TÀI KHOẢN (TaiKhoan)
+Lấy danh sách tất cả tài khoản: http://localhost:3000/api/TaiKhoans
 
-Lấy nhân viên theo mã:
-GET http://localhost:3000/api/NhanVien/:MANV
+Lấy danh sách tài khoản phân trang: http://localhost:3000/api/TaiKhoans/PhanTrang?page=1
 
-Thêm nhân viên:
-POST http://localhost:3000/api/NhanVien
+Lấy chi tiết 1 tài khoản theo Mã (VD: TK01): http://localhost:3000/api/TaiKhoans/TK01
 
-Cập nhật nhân viên:
-PUT http://localhost:3000/api/NhanVien/:MANV
+Đăng nhập hệ thống (Method: POST): http://localhost:3000/api/TaiKhoans/Login
 
-Xóa nhân viên:
-DELETE http://localhost:3000/api/NhanVien/:MANV
+Tạo tài khoản mới (Method: POST): http://localhost:3000/api/TaiKhoans
 
-🔹 Công
+Cập nhật tài khoản (Method: PUT): http://localhost:3000/api/TaiKhoans/TK01
 
-Lấy tất cả công:
-GET http://localhost:3000/api/Cong
+Xóa tài khoản (Method: DELETE): http://localhost:3000/api/TaiKhoans/TK01
 
-Lấy theo SLNGAYCONG:
-GET http://localhost:3000/api/Cong/:SLNGAYCONG
 
-Thêm công:
-POST http://localhost:3000/api/Cong
 
-Cập nhật công:
-PUT http://localhost:3000/api/Cong/:SLNGAYCONG
 
-Xóa công:
-DELETE http://localhost:3000/api/Cong/:SLNGAYCONG
+3. Routes DANH MỤC (DanhMuc)
+Lấy tất cả danh mục sản phẩm: http://localhost:3000/api/DanhMucs
 
-🔹 Công Trình
+Lấy danh mục phân trang: http://localhost:3000/api/DanhMucs/PhanTrang?page=1
 
-Lấy tất cả công trình:
-GET http://localhost:3000/api/CongTrinh
+Tìm kiếm danh mục theo tên: http://localhost:3000/api/DanhMucs/Search?ten=iphone
 
-Lấy công trình theo MACT:
-GET http://localhost:3000/api/CongTrinh/:MACT
+Lấy chi tiết danh mục theo Mã (VD: DM01): http://localhost:3000/api/DanhMucs/DM01
 
-Thêm công trình:
-POST http://localhost:3000/api/CongTrinh
+Tạo danh mục mới (Method: POST): http://localhost:3000/api/DanhMucs
 
-Cập nhật công trình:
-PUT http://localhost:3000/api/CongTrinh/:MACT
+Cập nhật danh mục (Method: PUT): http://localhost:3000/api/DanhMucs/DM01
 
-Xóa công trình:
-DELETE http://localhost:3000/api/CongTrinh/:MACT
+Xóa danh mục (Method: DELETE): http://localhost:3000/api/DanhMucs/DM01
 
-🔹 Phòng Ban
 
-Lấy tất cả phòng ban:
-GET http://localhost:3000/api/PhongBan
 
-Lấy theo MAPB:
-GET http://localhost:3000/api/PhongBan/:MAPB
 
-Thêm phòng ban:
-POST http://localhost:3000/api/PhongBan
+4. Routes NHÀ CUNG CẤP (NhaCungCap)
+Lấy tất cả nhà cung cấp: http://localhost:3000/api/NhaCungCaps
 
-Cập nhật phòng ban:
-PUT http://localhost:3000/api/PhongBan/:MAPB
+Lấy danh sách nhà cung cấp phân trang: http://localhost:3000/api/NhaCungCaps/PhanTrang?page=1
 
-Xóa phòng ban:
-DELETE http://localhost:3000/api/PhongBan/:MAPB
+Báo cáo danh sách sản phẩm và tồn kho theo Nhà cung cấp: http://localhost:3000/api/NhaCungCaps/BaoCao/SanPham?MaNCC=NCC01
+
+Tìm kiếm nhà cung cấp: http://localhost:3000/api/NhaCungCaps/Search?ten=Apple
+
+Xuất file Excel danh sách nhà cung cấp: http://localhost:3000/api/NhaCungCaps/Export/Excel
+
+Lấy chi tiết nhà cung cấp theo Mã (VD: NCC01): http://localhost:3000/api/NhaCungCaps/NCC01
+
+Thêm nhà cung cấp (Method: POST): http://localhost:3000/api/NhaCungCaps
+
+Cập nhật nhà cung cấp (Method: PUT): http://localhost:3000/api/NhaCungCaps/NCC01
+
+Xóa nhà cung cấp (Method: DELETE): http://localhost:3000/api/NhaCungCaps/NCC01
+
+
+
+
+5. Routes KHÁCH HÀNG (KhachHang)
+Lấy tất cả khách hàng: http://localhost:3000/api/KhachHangs
+
+Lấy danh sách khách hàng phân trang: http://localhost:3000/api/KhachHangs/PhanTrang?page=1
+
+Tìm kiếm khách hàng: http://localhost:3000/api/KhachHangs/Search?hoTen=An
+
+Thống kê và Xếp hạng khách hàng VIP (CRM): http://localhost:3000/api/KhachHangs/VipStats
+
+Xuất Excel lịch sử mua hàng chi tiết của 1 khách hàng (VD: KH001): http://localhost:3000/api/KhachHangs/KH001/Export/Excel
+
+Xem JSON lịch sử đơn hàng và chi tiết của 1 khách hàng (VD: KH001): http://localhost:3000/api/KhachHangs/KH001/DonHang
+
+Xuất file Excel danh sách toàn bộ khách hàng: http://localhost:3000/api/KhachHangs/Export/Excel
+
+Lấy chi tiết khách hàng theo Mã: http://localhost:3000/api/KhachHangs/KH001
+
+Thêm khách hàng (Method: POST): http://localhost:3000/api/KhachHangs
+
+Cập nhật khách hàng (Method: PUT): http://localhost:3000/api/KhachHangs/KH001
+
+Xóa khách hàng (Method: DELETE): http://localhost:3000/api/KhachHangs/KH001
+
+
+
+
+
+6. Routes SẢN PHẨM (SanPham)
+Lấy tất cả sản phẩm: http://localhost:3000/api/SanPhams
+
+Lấy danh sách sản phẩm phân trang và sắp xếp (Giá giảm dần): http://localhost:3000/api/SanPhams/PhanTrang?page=1&sortBy=GiaBan&order=DESC
+
+Tìm kiếm nâng cao (Tên, khoảng giá, tồn kho): http://localhost:3000/api/SanPhams/SearchAdvanced?ten=iphone&giaMin=10000000&giaMax=30000000
+
+Xuất file Excel danh sách sản phẩm: http://localhost:3000/api/SanPhams/Export/Excel
+
+Thống kê cảnh báo tồn kho (Ngưỡng báo động = 5): http://localhost:3000/api/SanPhams/ThongKe/TonKho?threshold=5
+
+Lấy chi tiết sản phẩm theo Mã (VD: SP001): http://localhost:3000/api/SanPhams/SP001
+
+Thêm sản phẩm (Method: POST): http://localhost:3000/api/SanPhams
+
+Cập nhật sản phẩm (Method: PUT): http://localhost:3000/api/SanPhams/SP001
+
+Xóa sản phẩm (Method: DELETE): http://localhost:3000/api/SanPhams/SP001
+
+
+
+
+
+7. Routes HÓA ĐƠN (HoaDon)
+Lấy danh sách tất cả hóa đơn: http://localhost:3000/api/HoaDons
+
+Lấy danh sách hóa đơn phân trang: http://localhost:3000/api/HoaDons/PhanTrang?page=1
+
+Thống kê doanh thu theo Tháng và Năm: http://localhost:3000/api/HoaDons/ThongKe?year=2024&month=4
+
+Lọc hóa đơn theo khoảng ngày: http://localhost:3000/api/HoaDons/LocTheoNgay?startDate=2024-01-01&endDate=2024-01-31
+
+Thống kê Top 5 sản phẩm bán chạy nhất trong tháng: http://localhost:3000/api/HoaDons/TopBanChay?month=4&year=2024
+
+Lấy chi tiết 1 hóa đơn theo Mã (VD: HD001): http://localhost:3000/api/HoaDons/HD001
+
+Tạo hóa đơn mới (Method: POST): http://localhost:3000/api/HoaDons
+
+Cập nhật hóa đơn (Method: PUT): http://localhost:3000/api/HoaDons/HD001
+
+Xóa hóa đơn (Method: DELETE): http://localhost:3000/api/HoaDons/HD001
+
+
+
+
+8. Routes CHI TIẾT HÓA ĐƠN (ChiTietHoaDon)
+Lấy 1 dòng chi tiết theo ID tự tăng: http://localhost:3000/api/ChiTietHoaDons/1
+
+Lấy danh sách sản phẩm của 1 hóa đơn cụ thể (VD: HD001): http://localhost:3000/api/ChiTietHoaDons/HoaDon/HD001
+
+Thêm chi tiết hóa đơn (Method: POST): http://localhost:3000/api/ChiTietHoaDons
+
+Cập nhật chi tiết hóa đơn (Method: PUT): http://localhost:3000/api/ChiTietHoaDons/1
+
+Xóa chi tiết hóa đơn (Method: DELETE): http://localhost:3000/api/ChiTietHoaDons/1
+
+
+
 
 
 ### **`About this repository 😎`**

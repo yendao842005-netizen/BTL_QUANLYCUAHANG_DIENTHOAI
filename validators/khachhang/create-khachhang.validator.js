@@ -5,6 +5,8 @@ export const createKhachHangSchema = z.object({
   SoDienThoai: z.string({ required_error: "SoDienThoai là bắt buộc" }).max(20),
   DiaChi: z.string().max(255).optional().nullable(),
   Email: z.string().email().max(100).optional().nullable(),
+  NgaySinh: z.string().optional().nullable(),
+  GioiTinh: z.enum(["Nam", "Nữ", "Khác"]).optional().nullable(),
 });
 export function validateCreateKhachHang(data) {
   return createKhachHangSchema.parse(data);

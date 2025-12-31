@@ -16,7 +16,7 @@ import { KhachHangController } from "../controllers/khachhang.controller.js";
 import { SanPhamController } from "../controllers/sanpham.controller.js";
 import { HoaDonController } from "../controllers/hoadon.controller.js";
 import { ChiTietHoaDonController } from "../controllers/chitiethd.controller.js";
-
+import { DashboardController } from "../controllers/tongquan.controller.js"; // Import mớ
 // ==========================================
 // 1. Routes NHÂN VIÊN (NhanVien)
 // ==========================================
@@ -123,6 +123,10 @@ router.get("/SanPhams/Export/Excel", SanPhamController.exportToExcel);
 // ---  Thống kê tồn kho ---
 // URL: http://localhost:3000/api/SanPhams/ThongKe/TonKho?threshold=5
 router.get("/SanPhams/ThongKe/TonKho", SanPhamController.getInventoryStats);
+// Trong phần Routes SẢN PHẨM
+router.get("/SanPhams/ThongKe/DanhMuc", SanPhamController.getCategoryStats);
+// Trong file: api.js
+router.get("/SanPhams/ThongKe/TongQuan", SanPhamController.getGeneralStats);
 router.get("/SanPhams/:MaSP", SanPhamController.getByMa); // Ma là MaSP
 
 router.post("/SanPhams", SanPhamController.create);
@@ -156,4 +160,20 @@ router.get("/ChiTietHoaDons/HoaDon/:MaHD", ChiTietHoaDonController.getByHoaDon);
 router.post("/ChiTietHoaDons", ChiTietHoaDonController.create);
 router.put("/ChiTietHoaDons/:ID", ChiTietHoaDonController.update); 
 router.delete("/ChiTietHoaDons/:ID", ChiTietHoaDonController.delete); 
+
+
+
+// ==========================================
+// 9. Routes DASHBOARD (Tổng quan)
+// ==========================================
+
+// URL: http://localhost:3000/api/Dashboard/TongQuan
+router.get("/Dashboard/TongQuanData", DashboardController.getOverviewDaTa);//tổng quan theo ngày 
+// URL gọi API: http://localhost:3000/api/Dashboard/TongQuan
+router.get("/Dashboard/TongQuan", DashboardController.getOverview);
+router.get("/Dashboard/Vebieudo", DashboardController.Vebieudo);
+
+// URL: http://localhost:3000/api/Dashboard/Export
+router.get("/Dashboard/Export", DashboardController.exportToExcel);
+
 export default router;

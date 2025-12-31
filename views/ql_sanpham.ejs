@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Sản Phẩm - MobileStore Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            padding: 10px;
+        }
+
+        .pagination-container button {
+            min-width: 35px;
+            height: 35px;
+            margin: 0 3px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .pagination-container button.btn-primary {
+            background-color: #4361ee;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="sidebar-title">MobileStore Pro</div>
+            </div>
+
+            <div class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">Tổng quan</div>
+                    <a href="index.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="menu-text">Dashboard</div>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <div class="menu-section-title">Quản lý</div>
+                    <a href="products.html" class="menu-item active">
+                        <div class="menu-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="menu-text">Sản phẩm</div>
+                        <!-- <div class="menu-badge">5</div> -->
+                    </a>
+                    <a href="orders.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="menu-text">Đơn hàng</div>
+                        <!-- //<div class="menu-badge">3</div> -->
+                    </a>
+                    <a href="customers.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="menu-text">Khách hàng</div>
+                    </a>
+                    <a href="employees.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="menu-text">Nhân viên</div>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <div class="menu-section-title">Hệ thống</div>
+                    <a href="suppliers.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="menu-text">Nhà cung cấp</div>
+                    </a>
+                    <a href="categories.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="menu-text">Danh mục</div>
+                    </a>
+                    <a href="reports.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="menu-text">Báo cáo</div>
+                    </a>
+                    <a href="settings.html" class="menu-item">
+                        <div class="menu-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="menu-text">Cài đặt</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="admin-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="admin-info">
+                    <div class="admin-name">Admin</div>
+                    <div class="admin-role">Quản trị hệ thống</div>
+                </div>
+            </div>
+
+            <div class="toggle-sidebar">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <div class="header-title">Quản Lý Sản Phẩm</div>
+                    <div class="breadcrumb">
+                        <div class="breadcrumb-item">
+                            <i class="fas fa-home"></i>
+                            <a href="index.html">Trang chủ</a>
+                        </div>
+                        <div class="breadcrumb-item active">Sản phẩm</div>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="productSearch" placeholder="Tìm kiếm sản phẩm...">
+                    </div>
+
+                    <div class="notifications">
+                        <i class="fas fa-bell notification-icon"></i>
+                        <span class="notification-count">3</span>
+                        <div class="notification-dropdown">
+                            <div class="notification-header">
+                                <div class="notification-title">Thông báo</div>
+                                <div class="notification-clear">Đánh dấu đã đọc tất cả</div>
+                            </div>
+                            <div class="notification-list">
+                                <!-- Notifications will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="user-menu">
+                        <div class="user-info">
+                            <div class="admin-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <div class="user-name">Nguyen Van An</div>
+                                <div class="user-role">Quản lý</div>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown">
+                            <div class="user-dropdown-item">
+                                <i class="fas fa-user"></i>
+                                <span>Hồ sơ cá nhân</span>
+                            </div>
+                            <div class="user-dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Cài đặt tài khoản</span>
+                            </div>
+                            <div class="user-dropdown-divider"></div>
+                            <div class="user-dropdown-item logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Đăng xuất</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <div class="page-title">Quản Lý Sản Phẩm</div>
+                        <div class="page-subtitle">Quản lý danh sách sản phẩm, tồn kho và thông tin chi tiết</div>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn btn-outline" onclick="exportToExcel()">
+                            <i class="fas fa-file-export"></i> Xuất Excel
+                        </button>
+                        <button class="btn btn-primary" onclick="openModal('addProductModal')">
+                            <i class="fas fa-plus"></i> Thêm sản phẩm
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #4361ee, #4cc9f0);">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statTotalProducts">5</h3>
+                            <p>Tổng sản phẩm</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #7209b7, #f72585);">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statTotalValue">785 triệu</h3>
+                            <p>Tổng giá trị tồn kho</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #ff9e00, #ffd166);">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statLowStock">1</h3>
+                            <p>Sản phẩm sắp hết hàng</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #06d6a0, #118ab2);">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statBestSellers">2</h3>
+                            <p>Sản phẩm bán chạy</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">Danh sách sản phẩm </div>
+                        <div class="table-actions">
+                            <div class="table-filters">
+                                <select class="filter-select" id="categoryFilter">
+                                    <option value="">Tất cả danh mục</option>
+                                    <option value="DM001">iPhone</option>
+                                    <option value="DM002">Samsung</option>
+                                    <option value="DM003">Xiaomi</option>
+                                </select>
+                                <select class="filter-select" id="statusFilter">
+                                    <option value="">Tất cả trạng thái</option>
+                                    <option value="in_stock">Còn hàng</option>
+                                    <option value="low_stock">Sắp hết</option>
+                                    <option value="out_of_stock">Hết hàng</option>
+                                </select>
+                                <select class="filter-select" id="sortFilter">
+                                    <option value="">Sắp xếp theo</option>
+                                    <option value="price_asc">Giá thấp nhất</option>
+                                    <option value="price_desc">Giá cao nhất</option>
+                                    <option value="name_asc">Tên A-Z</option>
+                                    <option value="name_desc">Tên Z-A</option>
+                                    <option value="stock_desc">Tồn kho nhiều nhất</option>
+                                    <option value="stock_asc">Tồn kho ít nhất</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-outline btn-sm" onclick="resetFilters()">
+                                <i class="fas fa-redo"></i> Đặt lại
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="productsTable">
+                            <thead>
+                                <tr>
+                                    <th>Mã SP</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Danh mục</th>
+                                    <th>Giá bán</th>
+                                    <th>Tồn kho</th>
+                                    <th>Ngày nhập</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    data-product='{"MaSP":"SP001","TenSanPham":"iPhone 15 Pro Max 256GB","MaDM":"DM001","TenDM":"iPhone","MaNCC":"NCC001","TenNCC":"Apple Vietnam","GiaBan":34990000,"SoLuongTon":50,"NgayNhap":"2024-01-15","MoTa":"Flagship của Apple với thiết kế titan, camera 48MP","HinhAnh":"iphone15.jpg"}'>
+                                    <td><strong>SP001</strong></td>
+                                    <td>
+                                        <div class="product-info">
+                                            <div class="product-name">iPhone 15 Pro Max 256GB</div>
+                                            <div class="product-spec text-muted">Apple Vietnam</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="category-badge">iPhone</span>
+                                    </td>
+                                    <td><strong>34,990,000 ₫</strong></td>
+                                    <td>
+                                        <span>50</span>
+                                    </td>
+                                    <td>15/01/2024</td>
+                                    <td>
+                                        <span class="status active">Còn hàng</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewProductDetail('SP001')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editProduct('SP001')">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteProduct('SP001')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr
+                                    data-product='{"MaSP":"SP002","TenSanPham":"iPhone 14 Plus 128GB","MaDM":"DM001","TenDM":"iPhone","MaNCC":"NCC005","TenNCC":"FPT Trading","GiaBan":21990000,"SoLuongTon":30,"NgayNhap":"2023-11-20","MoTa":"iPhone lớn nhất với pin lâu nhất","HinhAnh":"iphone14.jpg"}'>
+                                    <td><strong>SP002</strong></td>
+                                    <td>
+                                        <div class="product-info">
+                                            <div class="product-name">iPhone 14 Plus 128GB</div>
+                                            <div class="product-spec text-muted">FPT Trading</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="category-badge">iPhone</span>
+                                    </td>
+                                    <td><strong>21,990,000 ₫</strong></td>
+                                    <td>
+                                        <span>30</span>
+                                    </td>
+                                    <td>20/11/2023</td>
+                                    <td>
+                                        <span class="status active">Còn hàng</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewProductDetail('SP002')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editProduct('SP002')">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteProduct('SP002')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr
+                                    data-product='{"MaSP":"SP003","TenSanPham":"Samsung Galaxy S24 Ultra","MaDM":"DM002","TenDM":"Samsung","MaNCC":"NCC002","TenNCC":"Samsung Vina","GiaBan":31990000,"SoLuongTon":40,"NgayNhap":"2024-02-10","MoTa":"Điện thoại AI thông minh nhất của Samsung","HinhAnh":"s24ultra.jpg"}'>
+                                    <td><strong>SP003</strong></td>
+                                    <td>
+                                        <div class="product-info">
+                                            <div class="product-name">Samsung Galaxy S24 Ultra</div>
+                                            <div class="product-spec text-muted">Samsung Vina</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="category-badge">Samsung</span>
+                                    </td>
+                                    <td><strong>31,990,000 ₫</strong></td>
+                                    <td>
+                                        <span>40</span>
+                                    </td>
+                                    <td>10/02/2024</td>
+                                    <td>
+                                        <span class="status active">Còn hàng</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewProductDetail('SP003')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editProduct('SP003')">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteProduct('SP003')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr
+                                    data-product='{"MaSP":"SP004","TenSanPham":"Samsung Galaxy A54 5G","MaDM":"DM002","TenDM":"Samsung","MaNCC":"NCC002","TenNCC":"Samsung Vina","GiaBan":8490000,"SoLuongTon":100,"NgayNhap":"2023-12-05","MoTa":"Mid-range chất lượng với camera ấn tượng","HinhAnh":"a54.jpg"}'>
+                                    <td><strong>SP004</strong></td>
+                                    <td>
+                                        <div class="product-info">
+                                            <div class="product-name">Samsung Galaxy A54 5G</div>
+                                            <div class="product-spec text-muted">Samsung Vina</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="category-badge">Samsung</span>
+                                    </td>
+                                    <td><strong>8,490,000 ₫</strong></td>
+                                    <td>
+                                        <span>100</span>
+                                    </td>
+                                    <td>05/12/2023</td>
+                                    <td>
+                                        <span class="status active">Còn hàng</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewProductDetail('SP004')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editProduct('SP004')">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteProduct('SP004')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr
+                                    data-product='{"MaSP":"SP005","TenSanPham":"Xiaomi 14 12GB/256GB","MaDM":"DM003","TenDM":"Xiaomi","MaNCC":"NCC003","TenNCC":"Xiaomi VN","GiaBan":22990000,"SoLuongTon":5,"NgayNhap":"2024-03-01","MoTa":"Flagship nhỏ gọn với camera Leica","HinhAnh":"xiaomi14.jpg"}'>
+                                    <td><strong>SP005</strong></td>
+                                    <td>
+                                        <div class="product-info">
+                                            <div class="product-name">Xiaomi 14 12GB/256GB</div>
+                                            <div class="product-spec text-muted">Xiaomi VN</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="category-badge">Xiaomi</span>
+                                    </td>
+                                    <td><strong>22,990,000 ₫</strong></td>
+                                    <td>
+                                        <span class="text-danger"><strong>5</strong></span>
+                                        <i class="fas fa-exclamation-triangle text-warning ms-1"
+                                            title="Sắp hết hàng"></i>
+                                    </td>
+                                    <td>01/03/2024</td>
+                                    <td>
+                                        <span class="status pending">Sắp hết</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewProductDetail('SP005')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editProduct('SP005')">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteProduct('SP005')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination-container" id="pagination"></div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">Tổng quan tồn kho theo danh mục</div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Danh mục</th>
+                                    <th>Số lượng SP</th>
+                                    <th>Tổng tồn kho</th>
+                                    <th>Giá trị tồn kho</th>
+                                    <th>Đã bán (tháng)</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categoryStatsTable">
+                                <!-- <tr>
+                                    <td><strong>iPhone</strong></td>
+                                    <td>2</td>
+                                    <td>80</td>
+                                    <td>1,139,200,000 đ</td>
+                                    <td>214</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline">Xem chi tiết</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Samsung</strong></td>
+                                    <td>2</td>
+                                    <td>140</td>
+                                    <td>808,600,000 đ</td>
+                                    <td>282</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline">Xem chi tiết</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Xiaomi</strong></td>
+                                    <td>1</td>
+                                    <td>5</td>
+                                    <td>114,950,000 đ</td>
+                                    <td>45</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline">Xem chi tiết</button>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div>
+                    &copy; 2024 MobileStore Pro. Phiên bản 2.0.0
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Trợ giúp</a>
+                    <a href="#" class="footer-link">Điều khoản</a>
+                    <a href="#" class="footer-link">Bảo mật</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal: Thêm sản phẩm -->
+    <!-- Modal: Thêm sản phẩm mới -->
+    <div class="modal" id="addProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Thêm sản phẩm mới</div>
+                <button class="close-modal" onclick="closeModal('addProductModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addProductForm">
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-info-circle"></i> Thông tin cơ bản
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Mã sản phẩm (MaSP)</label>
+                                <input type="text" class="form-control" id="addMaSP" name="MaSP" required
+                                    placeholder="VD: SP006" pattern="[A-Z0-9]+" maxlength="20"
+                                    title="Chỉ chấp nhận chữ in hoa và số">
+                                <small class="form-text text-muted">Chỉ chấp nhận chữ in hoa và số, tối đa 20 ký
+                                    tự</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Tên sản phẩm (TenSanPham)</label>
+                                <input type="text" class="form-control" name="TenSanPham" required
+                                    placeholder="Nhập tên sản phẩm" maxlength="255">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Danh mục (MaDM)</label>
+                                <select class="form-control form-select" name="MaDM" required>
+                                    <option value="">Chọn danh mục</option>
+                                    <option value="DM001">DM001 - iPhone</option>
+                                    <option value="DM002">DM002 - Samsung</option>
+                                    <option value="DM003">DM003 - Xiaomi</option>
+                                    <option value="DM004">DM004 - Oppo</option>
+                                    <option value="DM005">DM005 - Vivo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Nhà cung cấp (MaNCC)</label>
+                                <select class="form-control form-select" name="MaNCC" required>
+                                    <option value="">Chọn nhà cung cấp</option>
+                                    <option value="NCC001">NCC001 - Apple Vietnam</option>
+                                    <option value="NCC002">NCC002 - Samsung Vina</option>
+                                    <option value="NCC003">NCC003 - Xiaomi VN</option>
+                                    <option value="NCC004">NCC004 - Digiworld</option>
+                                    <option value="NCC005">NCC005 - FPT Trading</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-money-bill-wave"></i> Giá cả & Tồn kho
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Giá bán (GiaBan)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="GiaBan" required
+                                        placeholder="Giá bán" min="0" step="1000">
+                                    <span class="input-group-text">₫</span>
+                                </div>
+                                <small class="form-text text-muted">Giá bán phải lớn hơn 0</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Số lượng tồn (SoLuongTon)</label>
+                                <input type="number" class="form-control" name="SoLuongTon" required
+                                    placeholder="Số lượng" min="0" value="0">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Ngày nhập (NgayNhap)</label>
+                                <input type="date" class="form-control" name="NgayNhap"
+                                    value="<?php echo date('Y-m-d'); ?>">
+                                <small class="form-text text-muted">Mặc định: ngày hiện tại</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Hình ảnh (HinhAnh)</label>
+                                <input type="text" class="form-control" name="HinhAnh" placeholder="Tên file hình ảnh"
+                                    maxlength="255">
+                                <small class="form-text text-muted">VD: sanpham.jpg, product.png</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-align-left"></i> Mô tả sản phẩm
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mô tả (MoTa)</label>
+                            <textarea class="form-control form-textarea" name="MoTa" rows="4"
+                                placeholder="Nhập mô tả chi tiết về sản phẩm..."></textarea>
+                            <small class="form-text text-muted">Tối đa 5000 ký tự</small>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="saveProduct()">
+                            <i class="fas fa-plus-circle"></i> Thêm sản phẩm
+                        </button>
+                        <button type="button" class="btn btn-outline" onclick="closeModal('addProductModal')">
+                            Hủy
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal: Sửa sản phẩm -->
+    <div class="modal" id="editProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Chỉnh sửa sản phẩm</div>
+                <button class="close-modal" onclick="closeModal('editProductModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editProductForm">
+                    <input type="hidden" name="MaSP" id="editMaSP">
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-info-circle"></i> Thông tin cơ bản
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Mã sản phẩm</label>
+                                <input type="text" class="form-control" id="displayMaSP" readonly disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Tên sản phẩm (TenSanPham)</label>
+                                <input type="text" class="form-control" name="TenSanPham" required
+                                    placeholder="Nhập tên sản phẩm" maxlength="255">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Danh mục (MaDM)</label>
+                                <select class="form-control form-select" name="MaDM" required>
+                                    <option value="">Chọn danh mục</option>
+                                    <option value="DM001">DM001 - iPhone</option>
+                                    <option value="DM002">DM002 - Samsung</option>
+                                    <option value="DM003">DM003 - Xiaomi</option>
+                                    <option value="DM004">DM004 - Oppo</option>
+                                    <option value="DM005">DM005 - Vivo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Nhà cung cấp (MaNCC)</label>
+                                <select class="form-control form-select" name="MaNCC" required>
+                                    <option value="">Chọn nhà cung cấp</option>
+                                    <option value="NCC001">NCC001 - Apple Vietnam</option>
+                                    <option value="NCC002">NCC002 - Samsung Vina</option>
+                                    <option value="NCC003">NCC003 - Xiaomi VN</option>
+                                    <option value="NCC004">NCC004 - Digiworld</option>
+                                    <option value="NCC005">NCC005 - FPT Trading</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-money-bill-wave"></i> Giá cả & Tồn kho
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Giá bán (GiaBan)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" name="GiaBan" required
+                                        placeholder="Giá bán" min="0" step="1000">
+                                    <span class="input-group-text">₫</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Số lượng tồn (SoLuongTon)</label>
+                                <input type="number" class="form-control" name="SoLuongTon" required
+                                    placeholder="Số lượng" min="0">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Ngày nhập (NgayNhap)</label>
+                                <input type="date" class="form-control" name="NgayNhap">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Hình ảnh (HinhAnh)</label>
+                                <input type="text" class="form-control" name="HinhAnh" placeholder="Tên file hình ảnh"
+                                    maxlength="255">
+                                <small class="form-text text-muted">VD: sanpham.jpg</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-align-left"></i> Mô tả sản phẩm
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mô tả (MoTa)</label>
+                            <textarea class="form-control form-textarea" name="MoTa" rows="4"
+                                placeholder="Mô tả chi tiết sản phẩm..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="updateProduct()">
+                            <i class="fas fa-save"></i> Cập nhật
+                        </button>
+                        <button type="button" class="btn" onclick="closeModal('editProductModal')">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Xem chi tiết sản phẩm -->
+    <div class="modal" id="viewProductModal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <div class="modal-title">Chi tiết sản phẩm</div>
+                <button class="close-modal" onclick="closeModal('viewProductModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="productDetailContent">
+                    <!-- Product details will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="editCurrentProduct()">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                </button>
+                <button type="button" class="btn" onclick="closeModal('viewProductModal')">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Biến lưu trữ sản phẩm hiện tại đang xem
+        let currentProduct = null;
+
+        // Các hàm JavaScript
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'addProductModal') {
+                document.getElementById('addProductForm').reset();
+            }
+        }
+
+        function resetFilters() {
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('sortFilter').value = '';
+            filterTable();
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        // Lấy thông tin sản phẩm từ data attribute
+        function getProductByCode(productCode) {
+            const row = document.querySelector(`tr[data-product*='"MaSP":"${productCode}"']`);
+            if (row) {
+                return JSON.parse(row.getAttribute('data-product'));
+            }
+            return null;
+        }
+
+        // Xem chi tiết sản phẩm
+        function viewProductDetail(productCode) {
+            const product = getProductByCode(productCode);
+            if (!product) {
+                alert('Không tìm thấy sản phẩm!');
+                return;
+            }
+
+            currentProduct = product;
+
+            const detailContent = document.getElementById('productDetailContent');
+            detailContent.innerHTML = `
+                <div class="product-detail">
+                    <div class="product-header mb-4">
+                        <h3>${product.TenSanPham}</h3>
+                        <div class="text-muted">Mã: ${product.MaSP}</div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="detail-section">
+                                <h5><i class="fas fa-info-circle"></i> Thông tin cơ bản</h5>
+                                <table class="detail-table">
+                                    <tr>
+                                        <td><strong>Danh mục:</strong></td>
+                                        <td>${product.TenDM} (${product.MaDM})</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Nhà cung cấp:</strong></td>
+                                        <td>${product.TenNCC} (${product.MaNCC})</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Ngày nhập:</strong></td>
+                                        <td>${formatDate(product.NgayNhap)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tồn kho:</strong></td>
+                                        <td>
+                                            ${product.SoLuongTon} sản phẩm
+                                            ${product.SoLuongTon <= 10 ?
+                    '<span class="text-danger">(Cần nhập thêm)</span>' : ''}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="detail-section">
+                                <h5><i class="fas fa-money-bill-wave"></i> Thông tin giá</h5>
+                                <table class="detail-table">
+                                    <tr>
+                                        <td><strong>Giá bán:</strong></td>
+                                        <td>${formatCurrency(product.GiaBan)}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Trạng thái:</strong></td>
+                                        <td>
+                                            ${product.SoLuongTon > 20 ?
+                    '<span class="status active">Còn hàng</span>' :
+                    product.SoLuongTon > 0 ?
+                        '<span class="status pending">Sắp hết</span>' :
+                        '<span class="status inactive">Hết hàng</span>'}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Hình ảnh:</strong></td>
+                                        <td>${product.HinhAnh || 'Chưa có hình ảnh'}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h5><i class="fas fa-align-left"></i> Mô tả sản phẩm</h5>
+                        <div class="product-description">
+                            ${product.MoTa || '<em class="text-muted">Chưa có mô tả</em>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            openModal('viewProductModal');
+        }
+
+        // Chỉnh sửa sản phẩm từ modal xem chi tiết
+        function editCurrentProduct() {
+            if (currentProduct) {
+                editProduct(currentProduct.MaSP);
+            }
+        }
+
+        // Sửa sản phẩm
+        function editProduct(productCode) {
+            const product = getProductByCode(productCode);
+            if (!product) {
+                alert('Không tìm thấy sản phẩm!');
+                return;
+            }
+
+            // Điền thông tin vào form chỉnh sửa
+            document.getElementById('editMaSP').value = product.MaSP;
+            document.getElementById('displayMaSP').value = product.MaSP;
+            document.querySelector('#editProductForm input[name="TenSanPham"]').value = product.TenSanPham;
+            document.querySelector('#editProductForm select[name="MaDM"]').value = product.MaDM;
+            document.querySelector('#editProductForm select[name="MaNCC"]').value = product.MaNCC;
+            document.querySelector('#editProductForm input[name="GiaBan"]').value = product.GiaBan;
+            document.querySelector('#editProductForm input[name="SoLuongTon"]').value = product.SoLuongTon;
+
+            // Format date for input type="date"
+            if (product.NgayNhap) {
+                const date = new Date(product.NgayNhap);
+                const formattedDate = date.toISOString().split('T')[0];
+                document.querySelector('#editProductForm input[name="NgayNhap"]').value = formattedDate;
+            }
+
+            document.querySelector('#editProductForm input[name="HinhAnh"]').value = product.HinhAnh || '';
+            document.querySelector('#editProductForm textarea[name="MoTa"]').value = product.MoTa || '';
+
+            // Đóng modal xem chi tiết nếu đang mở
+            closeModal('viewProductModal');
+            openModal('editProductModal');
+        }
+
+        // Cập nhật sản phẩm
+        function updateProduct() {
+            const form = document.getElementById('editProductForm');
+            const formData = new FormData(form);
+            const productCode = formData.get('MaSP');
+
+            // Lấy giá trị từ form
+            const updatedProduct = {
+                MaSP: productCode,
+                TenSanPham: formData.get('TenSanPham'),
+                MaDM: formData.get('MaDM'),
+                MaNCC: formData.get('MaNCC'),
+                GiaBan: parseInt(formData.get('GiaBan')),
+                SoLuongTon: parseInt(formData.get('SoLuongTon')),
+                NgayNhap: formData.get('NgayNhap'),
+                HinhAnh: formData.get('HinhAnh'),
+                MoTa: formData.get('MoTa')
+            };
+
+            // Cập nhật dữ liệu trong bảng
+            const row = document.querySelector(`tr[data-product*='"MaSP":"${productCode}"']`);
+            if (row) {
+                // Cập nhật data attribute
+                const oldData = JSON.parse(row.getAttribute('data-product'));
+                const newData = { ...oldData, ...updatedProduct };
+                row.setAttribute('data-product', JSON.stringify(newData));
+
+                // Cập nhật hiển thị trong bảng
+                row.cells[1].querySelector('.product-name').textContent = updatedProduct.TenSanPham;
+                row.cells[1].querySelector('.product-spec').textContent = getSupplierName(updatedProduct.MaNCC);
+
+                // Cập nhật danh mục
+                const categoryBadge = row.cells[2].querySelector('.category-badge');
+                categoryBadge.textContent = getCategoryName(updatedProduct.MaDM);
+
+                // Cập nhật giá
+                row.cells[3].innerHTML = `<strong>${formatCurrency(updatedProduct.GiaBan)}</strong>`;
+
+                // Cập nhật tồn kho
+                row.cells[4].innerHTML = updatedProduct.SoLuongTon <= 10 ?
+                    `<span class="text-danger"><strong>${updatedProduct.SoLuongTon}</strong></span>
+                     <i class="fas fa-exclamation-triangle text-warning ms-1" title="Sắp hết hàng"></i>` :
+                    `<span>${updatedProduct.SoLuongTon}</span>`;
+
+                // Cập nhật ngày nhập
+                row.cells[5].textContent = formatDate(updatedProduct.NgayNhap || new Date().toISOString());
+
+                // Cập nhật trạng thái
+                const statusCell = row.cells[6];
+                if (updatedProduct.SoLuongTon > 20) {
+                    statusCell.innerHTML = '<span class="status active">Còn hàng</span>';
+                } else if (updatedProduct.SoLuongTon > 0) {
+                    statusCell.innerHTML = '<span class="status pending">Sắp hết</span>';
+                } else {
+                    statusCell.innerHTML = '<span class="status inactive">Hết hàng</span>';
+                }
+            }
+
+            alert('Đã cập nhật sản phẩm thành công!');
+            closeModal('editProductModal');
+        }
+
+        // Lưu sản phẩm mới
+        function saveProduct() {
+            const form = document.getElementById('addProductForm');
+            const formData = new FormData(form);
+
+            // Validate
+            if (!formData.get('MaSP') || !formData.get('TenSanPham') ||
+                !formData.get('MaDM') || !formData.get('MaNCC') ||
+                !formData.get('GiaBan') || !formData.get('SoLuongTon')) {
+                alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+                return;
+            }
+
+            const newProduct = {
+                MaSP: formData.get('MaSP'),
+                TenSanPham: formData.get('TenSanPham'),
+                MaDM: formData.get('MaDM'),
+                TenDM: getCategoryName(formData.get('MaDM')),
+                MaNCC: formData.get('MaNCC'),
+                TenNCC: getSupplierName(formData.get('MaNCC')),
+                GiaBan: parseInt(formData.get('GiaBan')),
+                SoLuongTon: parseInt(formData.get('SoLuongTon')),
+                NgayNhap: formData.get('NgayNhap') || new Date().toISOString().split('T')[0],
+                HinhAnh: formData.get('HinhAnh'),
+                MoTa: formData.get('MoTa')
+            };
+
+            // Thêm hàng mới vào bảng
+            const tableBody = document.querySelector('#productsTable tbody');
+            const newRow = document.createElement('tr');
+            newRow.setAttribute('data-product', JSON.stringify(newProduct));
+
+            const status = newProduct.SoLuongTon > 20 ? 'active' :
+                newProduct.SoLuongTon > 0 ? 'pending' : 'inactive';
+            const statusText = newProduct.SoLuongTon > 20 ? 'Còn hàng' :
+                newProduct.SoLuongTon > 0 ? 'Sắp hết' : 'Hết hàng';
+
+            newRow.innerHTML = `
+                <td><strong>${newProduct.MaSP}</strong></td>
+                <td>
+                    <div class="product-info">
+                        <div class="product-name">${newProduct.TenSanPham}</div>
+                        <div class="product-spec text-muted">${newProduct.TenNCC}</div>
+                    </div>
+                </td>
+                <td>
+                    <span class="category-badge">${newProduct.TenDM}</span>
+                </td>
+                <td><strong>${formatCurrency(newProduct.GiaBan)}</strong></td>
+                <td>
+                    ${newProduct.SoLuongTon <= 10 ?
+                    `<span class="text-danger"><strong>${newProduct.SoLuongTon}</strong></span>
+                         <i class="fas fa-exclamation-triangle text-warning ms-1" title="Sắp hết hàng"></i>` :
+                    `<span>${newProduct.SoLuongTon}</span>`}
+                </td>
+                <td>${formatDate(newProduct.NgayNhap)}</td>
+                <td>
+                    <span class="status ${status}">${statusText}</span>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewProductDetail('${newProduct.MaSP}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit-btn" title="Sửa" onclick="editProduct('${newProduct.MaSP}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete-btn" title="Xóa" onclick="deleteProduct('${newProduct.MaSP}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+
+            tableBody.appendChild(newRow);
+
+            // Cập nhật số liệu thống kê
+            updateStats();
+
+            alert('Đã thêm sản phẩm mới thành công!');
+            closeModal('addProductModal');
+            form.reset();
+        }
+
+        // Xóa sản phẩm
+        function deleteProduct(productCode) {
+            if (!confirm(`Bạn có chắc chắn muốn xóa sản phẩm ${productCode}?`)) {
+                return;
+            }
+
+            const row = document.querySelector(`tr[data-product*='"MaSP":"${productCode}"']`);
+            if (row) {
+                row.style.opacity = '0.5';
+                setTimeout(() => {
+                    row.remove();
+                    updateStats();
+                    alert('Đã xóa sản phẩm thành công!');
+                }, 300);
+            }
+        }
+
+        // Helper functions
+        function getCategoryName(categoryId) {
+            const categories = {
+                'DM001': 'iPhone',
+                'DM002': 'Samsung',
+                'DM003': 'Xiaomi',
+                'DM004': 'Oppo',
+                'DM005': 'Vivo'
+            };
+            return categories[categoryId] || categoryId;
+        }
+
+        function getSupplierName(supplierId) {
+            const suppliers = {
+                'NCC001': 'Apple Vietnam',
+                'NCC002': 'Samsung Vina',
+                'NCC003': 'Xiaomi VN',
+                'NCC004': 'Digiworld',
+                'NCC005': 'FPT Trading'
+            };
+            return suppliers[supplierId] || supplierId;
+        }
+
+        // Cập nhật thống kê
+        function updateStats() {
+            const rows = document.querySelectorAll('#productsTable tbody tr');
+            const totalProducts = rows.length;
+
+            let totalValue = 0;
+            let lowStockCount = 0;
+            let bestSellersCount = 0; // Giả sử sản phẩm có số lượng tồn < 20 là bán chạy
+
+            rows.forEach(row => {
+                const product = JSON.parse(row.getAttribute('data-product'));
+                totalValue += product.GiaBan * product.SoLuongTon;
+                if (product.SoLuongTon <= 10) {
+                    lowStockCount++;
+                }
+                if (product.SoLuongTon < 20) {
+                    bestSellersCount++;
+                }
+            });
+
+            // Cập nhật thống kê
+            document.querySelector('.stat-item:nth-child(1) h3').textContent = totalProducts;
+            document.querySelector('.stat-item:nth-child(2) h3').textContent =
+                formatCurrency(totalValue).replace('₫', '');
+            document.querySelector('.stat-item:nth-child(3) h3').textContent = lowStockCount;
+            document.querySelector('.stat-item:nth-child(4) h3').textContent = bestSellersCount;
+        }
+
+        // Lọc bảng
+        function filterTable() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            const rows = document.querySelectorAll('#productsTable tbody tr');
+
+            rows.forEach(row => {
+                const product = JSON.parse(row.getAttribute('data-product'));
+                const rowCategory = product.MaDM;
+                const rowStatus = product.SoLuongTon > 20 ? 'in_stock' :
+                    product.SoLuongTon > 0 ? 'low_stock' : 'out_of_stock';
+
+                const isCategoryMatch = !categoryFilter || rowCategory === categoryFilter;
+                const isStatusMatch = !statusFilter || rowStatus === statusFilter;
+
+                if (isCategoryMatch && isStatusMatch) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Xử lý sự kiện khi DOM tải xong
+        document.addEventListener('DOMContentLoaded', function () {
+            // Xử lý tìm kiếm
+            const searchInput = document.getElementById('productSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', function () {
+                    const searchTerm = this.value.toLowerCase();
+                    const rows = document.querySelectorAll('#productsTable tbody tr');
+
+                    rows.forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+
+            // Xử lý bộ lọc
+            document.getElementById('categoryFilter').addEventListener('change', filterTable);
+            document.getElementById('statusFilter').addEventListener('change', filterTable);
+
+            // Xử lý đóng modal khi click bên ngoài
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="js/QLSanPham.js"></script>
+</body>
+
+</html>

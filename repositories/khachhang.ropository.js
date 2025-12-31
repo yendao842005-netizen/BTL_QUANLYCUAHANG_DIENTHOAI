@@ -78,13 +78,13 @@ export const KhachHangRepository = {
     }
   },
     
-  create: async ({ MaKH, HoTen, SoDienThoai, DiaChi, Email }) => {
+  create: async ({ MaKH, HoTen, SoDienThoai, DiaChi, Email ,NgaySinh,GioiTinh}) => {
     logger.info(`Repository: Creating KhachHang ${MaKH}`);
     try {
       const db = await pool;
       await db.query(
-        "INSERT INTO KhachHang (MaKH, HoTen, SoDienThoai, DiaChi, Email) VALUES (?, ?, ?, ?, ?)",
-        [MaKH, HoTen, SoDienThoai, DiaChi, Email]
+        "INSERT INTO KhachHang (MaKH, HoTen, SoDienThoai, DiaChi, Email,NgaySinh,GioiTinh) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        [MaKH, HoTen, SoDienThoai, DiaChi, Email,,NgaySinh,GioiTinh]
       );
       return { MaKH, HoTen };
     } catch (err) {
@@ -93,15 +93,15 @@ export const KhachHangRepository = {
     }
   },
 
-  update: async (MaKH, { HoTen, SoDienThoai, DiaChi, Email }) => {
+  update: async (MaKH, { HoTen, SoDienThoai, DiaChi, Email,NgaySinh,GioiTinh }) => {
     logger.info(`Repository: Updating KhachHang ${MaKH}`);
     try {
       const db = await pool;
       await db.query(
-        "UPDATE KhachHang SET HoTen = ?, SoDienThoai = ?, DiaChi = ?, Email = ? WHERE MaKH = ?",
+        "UPDATE KhachHang SET HoTen = ?, SoDienThoai = ?, DiaChi = ?, Email = ? , NgaySinh = ?, GioiTinh = ? WHERE MaKH = ?",
         [HoTen, SoDienThoai, DiaChi, Email, MaKH]
       );
-      return { MaKH, HoTen, SoDienThoai, DiaChi, Email };
+      return { MaKH, HoTen, SoDienThoai, DiaChi, Email ,NgaySinh,GioiTinh};
     } catch (err) {
       logger.error(`Repository Error: update KhachHang failed for MaKH ${MaKH}`, err);
       throw err;

@@ -53,7 +53,8 @@ export const SanPhamController = {
         ten: req.query.ten,
         giaMin: req.query.giaMin ? parseFloat(req.query.giaMin) : null,
         giaMax: req.query.giaMax ? parseFloat(req.query.giaMax) : null,
-        tonKhoMin: req.query.tonKhoMin ? parseInt(req.query.tonKhoMin) : null
+        tonKhoMin: req.query.tonKhoMin ? parseInt(req.query.tonKhoMin) : null,
+        sort: req.query.sort
       };
 
       const result = await SanPhamService.searchAdvancedProducts(filters, page);
@@ -162,5 +163,29 @@ export const SanPhamController = {
       logger.error("Controller Error: exportToExcel failed", err);
       res.status(500).json({ message: "Lỗi khi xuất file Excel: " + err.message });
     }
-  }
+  },
+
+
+
+  // API: /SanPhams/ThongKe/DanhMuc
+  getCategoryStats: async (req, res) => {
+    try {
+      const stats = await SanPhamService.getCategoryReport();
+      res.json(stats);
+    } catch (err) {
+      logger.error("Controller Error: getCategoryStats failed", err);
+      res.status(500).json({ message: err.message });
+    }
+  },
+
+  // API: /SanPhams/ThongKe/TongQuan
+  getGeneralStats: async (req, res) => {
+    try {
+      const stats = await SanPhamService.getGeneralStats();
+      res.json(stats);
+    } catch (err) {
+      logger.error("Controller Error: getGeneralStats failed", err);
+      res.status(500).json({ message: err.message });
+    }
+  },
 };

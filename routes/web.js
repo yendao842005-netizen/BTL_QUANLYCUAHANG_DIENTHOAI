@@ -1,7 +1,7 @@
 import express from "express";
 
 const router = express.Router();
-
+//dã xong liên kết với api
 router.get("/sanpham", (req, res) => {
   res.render('sanpham');
 });
@@ -29,4 +29,36 @@ router.get("/giohang", (req, res) => {
 router.get("/thanhtoan", (req, res) => {
   res.render('thanhtoan');
 });
+
+//dã xong liên kết với api
+router.get("/QLSanPham", (req, res) => {
+  res.render('ql_sanpham');
+});
+//dã xong liên kết với api
+router.get("/TongQuanHeThong", (req, res) => {
+  res.render('TongQuanHT');
+});
+
+
+router.get("/QLKhachHang", (req, res) => {
+  res.render('QLKhachHang');
+});
+
+router.get("/QLNhanVien", (req, res) => {
+  res.render('QLNhanVien');
+});
+
+router.get("/QLDonHang", (req, res) => {
+  res.render('QLDonHang');
+});
+
+router.get("/QLDangMuc", (req, res) => {
+  res.render('QLDangMuc');
+});
+
+router.get("/QLNhaCungCap", (req, res) => {
+  res.render('QLNhaCungCap');
+});
+
+
 export default router;

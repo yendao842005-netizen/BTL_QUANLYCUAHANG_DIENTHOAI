@@ -22,18 +22,25 @@ export const HoaDonService = {
   },
 
   // Phân trang
-  getPaginatedInvoices: async (page) => {
-    const pageSize = 10; //
-    const offset = (page - 1) * pageSize; //
-    const result = await HoaDonRepository.getPaginated(offset, pageSize);
+  
+  getPaginatedInvoices: async (page, search) => {
+    const pageSize = 10;
+    const offset = (page - 1) * pageSize;
+    // Gọi repo với tham số search
+    const result = await HoaDonRepository.getPaginated(offset, pageSize, search);
     return {
       data: result.data,
       pagination: {
         totalItems: result.total,
-        totalPages: Math.ceil(result.total / pageSize), //
+        totalPages: Math.ceil(result.total / pageSize),
         currentPage: page
       }
     };
+  },
+
+  // ---  Lấy thống kê số lượng đơn ---
+  getOrderCounts: async () => {
+    return await HoaDonRepository.getOrderCounts();
   },
 
   // Thống kê doanh thu

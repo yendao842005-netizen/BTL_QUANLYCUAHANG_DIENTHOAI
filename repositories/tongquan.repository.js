@@ -80,12 +80,12 @@ export const DashboardRepository = {
         SELECT 
           -- Doanh thu tháng này
           COALESCE(SUM(CASE 
-            WHEN MONTH(NgayLap) = MONTH(CURRENT_DATE()) AND YEAR(NgayLap) = YEAR(CURRENT_DATE()) 
+            WHEN MONTH(NgayLap) = 12 AND YEAR(NgayLap) = 2025
             THEN TongTien ELSE 0 END), 0) as DoanhThuThangNay,
           -- Doanh thu tháng trước
           COALESCE(SUM(CASE 
-            WHEN MONTH(NgayLap) = MONTH(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) 
-                 AND YEAR(NgayLap) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) 
+            WHEN MONTH(NgayLap) = 11 
+                 AND YEAR(NgayLap) = 2025
             THEN TongTien ELSE 0 END), 0) as DoanhThuThangTruoc
         FROM HoaDon
       `;
@@ -106,14 +106,14 @@ export const DashboardRepository = {
           -- Đếm khách hàng mua đơn tháng này (Dựa vào HoaDon)
           (SELECT COUNT(DISTINCT MaKH) 
            FROM HoaDon 
-           WHERE MONTH(NgayLap) = MONTH(CURRENT_DATE()) 
-             AND YEAR(NgayLap) = YEAR(CURRENT_DATE())) as KhachMuaThangNay,
+           WHERE MONTH(NgayLap) = 12
+             AND YEAR(NgayLap) = 2025) as KhachMuaThangNay,
              
           -- Đếm khách hàng mua đơn tháng trước (Dựa vào HoaDon)
           (SELECT COUNT(DISTINCT MaKH) 
            FROM HoaDon 
-           WHERE MONTH(NgayLap) = MONTH(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) 
-             AND YEAR(NgayLap) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH))) as KhachMuaThangTruoc,
+           WHERE MONTH(NgayLap) = 11
+             AND YEAR(NgayLap) = 2025) as KhachMuaThangTruoc,
 
           -- Tổng số lượng khách hàng trong hệ thống (Dựa vào KhachHang)
           (SELECT COUNT(*) FROM KhachHang) as TongKhachHang
@@ -132,9 +132,9 @@ export const DashboardRepository = {
       const sql = `
         SELECT 
           -- Đơn tháng này
-          COUNT(CASE WHEN MONTH(NgayLap) = MONTH(CURRENT_DATE()) AND YEAR(NgayLap) = YEAR(CURRENT_DATE()) THEN 1 END) as DonThangNay,
+          COUNT(CASE WHEN MONTH(NgayLap) = 12 AND YEAR(NgayLap) = 2025 THEN 1 END) as DonThangNay,
           -- Đơn tháng trước
-          COUNT(CASE WHEN MONTH(NgayLap) = MONTH(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) AND YEAR(NgayLap) = YEAR(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH)) THEN 1 END) as DonThangTruoc,
+          COUNT(CASE WHEN MONTH(NgayLap) = 11 AND YEAR(NgayLap) = 2025 THEN 1 END) as DonThangTruoc,
           -- Đơn chờ xử lý
           COUNT(CASE WHEN TrangThai = 'ChoXuLy' THEN 1 END) as DonChoXuLy
         FROM HoaDon

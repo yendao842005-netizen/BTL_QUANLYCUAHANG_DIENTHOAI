@@ -56,6 +56,11 @@ router.post("/TaiKhoans/Login", TaiKhoanController.postLogin);
 router.get("/DanhMucs", DanhMucController.getAll);
 router.get("/DanhMucs/PhanTrang", DanhMucController.getPaginated);
 router.get("/DanhMucs/Search", DanhMucController.search); // VD: /DanhMucs/Search?ten=iphone
+
+router.get("/DanhMucs/ChiTiet/:MaDM", DanhMucController.getDetailCustom);//Xem chi tiết dm + sp thuộc danh mục đó
+router.get("/DanhMucs/ThongKe/TongQuan", DanhMucController.getStats);
+// --- API XUẤT EXCEL ---
+router.get("/DanhMucs/Export/Excel", DanhMucController.exportToExcel);
 router.get("/DanhMucs/:MaDM", DanhMucController.getByMa); // Ma là MaDM
 router.post("/DanhMucs", DanhMucController.create);
 router.put("/DanhMucs/:MaDM", DanhMucController.update);
@@ -71,7 +76,8 @@ router.delete("/DanhMucs/:MaDM", DanhMucController.delete);
 router.get("/NhaCungCaps", NhaCungCapController.getAll);
 router.get("/NhaCungCaps/PhanTrang", NhaCungCapController.getPaginated);
 // URL: http://localhost:3000/api/NhaCungCaps/BaoCao/SanPham?MaNCC=NCC01
-router.get("/NhaCungCaps/BaoCao/SanPham", NhaCungCapController.getSupplierReport);
+router.get("/NhaCungCaps/BaoCao/SanPham", NhaCungCapController.getSupplierReport);//có lấy tất cả sp của NCC đó 
+router.get("/NhaCungCaps/ThongKe/TongQuan", NhaCungCapController.getGeneralStats);
 router.get("/NhaCungCaps/Search", NhaCungCapController.search);
 router.get("/NhaCungCaps/Export/Excel", NhaCungCapController.exportToExcel); // xuất excel toàn bộ nhà cung cấp
 router.get("/NhaCungCaps/:MaNCC", NhaCungCapController.getByMa); // Ma là MaNCC
@@ -137,8 +143,9 @@ router.delete("/SanPhams/:MaSP", SanPhamController.delete);
 // 7. Routes HÓA ĐƠN (HoaDon)
 // ==========================================
 router.get("/HoaDons", HoaDonController.getAll);
-router.get("/HoaDons/PhanTrang", HoaDonController.getPaginated); //
+router.get("/HoaDons/PhanTrang", HoaDonController.getPaginated); //http://localhost:3000/api/HoaDons/PhanTrang?page=1&search=Don
 router.get("/HoaDons/ThongKe", HoaDonController.getStats); // Thống kê doanh thu theo cả năm hoặc theo tháng+năm http://localhost:3000/api/HoaDons/ThongKe?year=2024&month=4
+router.get("/HoaDons/ThongKe/SoLuong", HoaDonController.getOrderCounts);
 router.get("/HoaDons/LocTheoNgay", HoaDonController.getByDate);//?startDate=...&endDate=...
 
 

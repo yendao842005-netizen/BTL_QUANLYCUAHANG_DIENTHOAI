@@ -137,5 +137,24 @@ export const NhaCungCapController = {
       await workbook.xlsx.write(res);
       res.end();
     } catch (err) { res.status(500).json({ message: err.message }); }
-  }
+  },
+  // URL gọi: GET /api/NhaCungCaps/ThongKe/TongQuan
+  getGeneralStats: async (req, res) => {
+    try {
+      logger.info("Controller: GET /NhaCungCaps/ThongKe/TongQuan");
+      
+      const result = await NhaCungCapService.getThongKeTongQuan();
+      
+      // Kết quả trả về sẽ có dạng:
+      // {
+      //   "TongNhaCungCap": 10,
+      //   "TongSanPham": 150,
+   
+      // }
+      res.status(200).json(result);
+    } catch (err) {
+      logger.error("Controller Error: getGeneralStats failed", err);
+      res.status(500).json({ message: "Lỗi lấy dữ liệu thống kê" });
+    }
+  },
 };

@@ -32,12 +32,27 @@ export const HoaDonController = {
     }
   },
   // API Phân trang
+  // API Phân trang (ĐÃ SỬA: Lấy search từ query)
   getPaginated: async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 1;
-      const result = await HoaDonService.getPaginatedInvoices(page);
+      const search = req.query.search || ""; // Lấy từ khóa tìm kiếm
+      
+      logger.info(`Controller: GET /HoaDons/PhanTrang?page=${page}&search=${search}`);
+      
+      const result = await HoaDonService.getPaginatedInvoices(page, search);
       res.json(result);
     } catch (err) { res.status(500).json({ message: err.message }); }
+  },
+
+  // --- API MỚI: Thống kê số lượng đơn hàng (Dashboard) ---
+  getOrderCounts: async (req, res) => {
+    try {
+      const stats = await HoaDonService.getOrderCounts();
+      res.json(stats);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
   },
 
   // API Thống kê doanh thu theo năm

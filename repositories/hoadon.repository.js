@@ -38,15 +38,65 @@ export const HoaDonRepository = {
   },
 
   // 1. Phân trang hóa đơn
-  getPaginated: async (offset, limit) => {
+ // 1. Phân trang & Tìm kiếm (ĐÃ SỬA)
+  getPaginated: async (offset, limit, search) => {
     try {
-      const db = await pool; //
-      const query = "SELECT * FROM HoaDon  LIMIT ? OFFSET ?";
-      const [rows] = await db.query(query, [limit, offset]);
-      const [count] = await db.query("SELECT COUNT(*) as total FROM HoaDon");
+      const db = await pool;
+      
+      // Base query
+      let query = `
+        SELECT hd.*, kh.HoTen as TenKhachHang 
+        FROM HoaDon hd 
+        LEFT JOIN KhachHang kh ON hd.MaKH = kh.MaKH
+      `;
+      
+      let countQuery = `
+        SELECT COUNT(*) as total 
+        FROM HoaDon hd
+        LEFT JOIN KhachHang kh ON hd.MaKH = kh.MaKH
+      `;
+
+      const params = [];
+      const countParams = [];
+
+      // Nếu có từ khóa tìm kiếm (Mã HD hoặc Tên KH)
+      if (search) {
+        const whereClause = ` WHERE hd.MaHD LIKE ? OR kh.HoTen LIKE ?`;
+        query += whereClause;
+        countQuery += whereClause;
+        const searchTerm = `%${search}%`;
+        params.push(searchTerm, searchTerm);
+        countParams.push(searchTerm, searchTerm);
+      }
+
+      // Thêm sort và limit
+      query += " ORDER BY hd.MaHD ASC LIMIT ? OFFSET ?";
+      params.push(parseInt(limit), parseInt(offset));
+
+      const [rows] = await db.query(query, params);
+      const [count] = await db.query(countQuery, countParams);
+      
       return { data: rows, total: count[0].total };
     } catch (err) { throw err; }
   },
+
+  
+  // ---  Đếm số lượng đơn hàng theo trạng thái ---
+  getOrderCounts: async () => {
+    try {
+      const db = await pool;
+      const query = `
+        SELECT 
+          COUNT(*) as TongDon,
+          SUM(CASE WHEN TrangThai = 'ChoXuLy' THEN 1 ELSE 0 END) as ChoXuLy,
+          SUM(CASE WHEN TrangThai = 'DaHuy' THEN 1 ELSE 0 END) as DaHuy,
+          SUM(CASE WHEN TrangThai = 'HoanThanh' THEN 1 ELSE 0 END) as HoanThanh
+        FROM HoaDon
+      `;
+      const [rows] = await db.query(query);
+      return rows[0]; // Trả về object { TongDon, ChoXuLy, DaHuy, HoanThanh }
+    } catch (err) { throw err; }
+  },  
 
   // 2. Tìm kiếm theo khoảng thời gian (Lọc doanh thu)
   filterByDate: async (startDate, endDate) => {
@@ -84,10 +134,10 @@ export const HoaDonRepository = {
     } catch (err) { throw err; }
   },
   // Doanh thu theo tháng và năm
-getRevenueByMonthYear: async (month, year) => {
-  try {
-    const db = await pool;
-    const query = `
+  getRevenueByMonthYear: async (month, year) => {
+    try {
+      const db = await pool;
+      const query = `
       SELECT 
         ? AS Thang,
         ? AS Nam,
@@ -98,14 +148,14 @@ getRevenueByMonthYear: async (month, year) => {
         AND YEAR(NgayLap) = ?
         AND TrangThai = 'HoanThanh'
     `;
-    const [rows] = await db.query(query, [month, year, month, year]);
-    return rows[0];
-  } catch (err) {
-    throw err;
-  }
-},
+      const [rows] = await db.query(query, [month, year, month, year]);
+      return rows[0];
+    } catch (err) {
+      throw err;
+    }
+  },
 
-  
+
   // Lấy Top 5 sản phẩm bán chạy nhất tháng này
   getTopSellingProducts: async (month, year) => {
     const db = await pool;
@@ -129,31 +179,31 @@ getRevenueByMonthYear: async (month, year) => {
     return rows;
   },
 
-  create: async ({ MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu }) => {
+  create: async ({ MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu, PhuongThucThanhToan }) => {
     logger.info(`Repository: Creating HoaDon ${MaHD}`);
     try {
       const db = await pool;
       await db.query(
-        "INSERT INTO HoaDon (MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu]
+        "INSERT INTO HoaDon (MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu,PhuongThucThanhToan) VALUES (?, ?, ?, ?, ?, ?, ?,?)",
+        [MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu, PhuongThucThanhToan]
       );
-      return { MaHD,MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu };
+      return { MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu, PhuongThucThanhToan };
     } catch (err) {
       logger.error("Repository Error: create HoaDon failed", err);
       throw err;
     }
   },
 
-  update: async (MaHD, { TongTien, TrangThai, GhiChu }) => {
+  update: async (MaHD, { TongTien, TrangThai, GhiChu, PhuongThucThanhToan }) => {
     logger.info(`Repository: Updating HoaDon ${MaHD}`);
     try {
       const db = await pool;
       // Hóa đơn thường chỉ update trạng thái, tổng tiền hoặc ghi chú
       await db.query(
-        "UPDATE HoaDon SET TongTien = ?, TrangThai = ?, GhiChu = ? WHERE MaHD = ?",
-        [TongTien, TrangThai, GhiChu, MaHD]
+        "UPDATE HoaDon SET TongTien = ?, TrangThai = ?, GhiChu = ?,PhuongThucThanhToan=? WHERE MaHD = ?",
+        [TongTien, TrangThai, GhiChu, PhuongThucThanhToan, MaHD]
       );
-      return { MaHD,TongTien, TrangThai, GhiChu };
+      return { MaHD, TongTien, TrangThai, GhiChu, PhuongThucThanhToan };
     } catch (err) {
       logger.error(`Repository Error: update HoaDon failed for MaHD ${MaHD}`, err);
       throw err;

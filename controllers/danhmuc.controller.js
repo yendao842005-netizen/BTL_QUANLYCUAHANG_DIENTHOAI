@@ -1,4 +1,4 @@
-import { CreateDanhMucDTO} from "../dtos/danhmuc/create-danhmuc.dto.js";
+import { CreateDanhMucDTO } from "../dtos/danhmuc/create-danhmuc.dto.js";
 import { UpdateDanhMucDTO } from "../dtos/danhmuc/update-danhmuc.dto.js";
 import { DanhMucService } from "../services/danhmuc.service.js";
 import { validateCreateDanhMuc } from "../validators/danhmuc/create-danhmuc.validator.js";
@@ -91,6 +91,56 @@ export const DanhMucController = {
     } catch (err) {
       logger.error(`Controller Error: delete failed (${MaDM})`, err);
       res.status(404).json({ message: err.message });
+    }
+  },
+
+  getStats: async (req, res) => {
+    try {
+      logger.info("Controller: GET /DanhMucs/ThongKe/TongQuan");
+      const stats = await DanhMucService.getStats();
+      res.json(stats);
+    } catch (err) {
+      logger.error("Controller Error: getStats failed", err);
+      res.status(500).json({ message: err.message });
+    }
+  },
+  getDetailCustom: async (req, res) => {
+    try {
+      const MaDM = req.params.MaDM;
+      const limit = req.query.limit;
+      logger.info(`Controller: GET /DanhMucs/ChiTiet/${MaDM}`);
+      const result = await DanhMucService.getDetailCustom(MaDM,limit);
+      res.json(result);
+    } catch (err) {
+      logger.error("Controller Error: getDetailCustom failed", err);
+      res.status(500).json({ message: err.message });
+    }
+  },
+  // --- them exxel ---
+  exportToExcel: async (req, res) => {
+    try {
+      logger.info("Controller: GET /DanhMucs/Export/Excel");
+      
+      // Gọi service để tạo workbook
+      const workbook = await DanhMucService.exportToExcel();
+
+      // Thiết lập Header để trình duyệt hiểu đây là file Excel cần tải xuống
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      );
+      res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=DanhSachDanhMuc.xlsx"
+      );
+
+      // Ghi workbook trực tiếp vào response
+      await workbook.xlsx.write(res);
+      res.end();
+      
+    } catch (err) {
+      logger.error("Controller Error: exportToExcel failed", err);
+      res.status(500).json({ message: "Lỗi khi xuất file Excel" });
     }
   },
 };

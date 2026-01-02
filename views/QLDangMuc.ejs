@@ -79,12 +79,7 @@
                         </div>
                         <div class="menu-text">Báo cáo</div>
                     </a>
-                    <a href="settings.html" class="menu-item">
-                        <div class="menu-icon">
-                            <i class="fas fa-cog"></i>
-                        </div>
-                        <div class="menu-text">Cài đặt</div>
-                    </a>
+                    
                 </div>
             </div>
             
@@ -232,12 +227,9 @@
                         <div class="table-title">Danh sách danh mục</div>
                         <div class="table-actions">
                             <div class="table-filters">
-                                <select class="filter-select" id="statusFilter">
-                                    <option value="">Tất cả trạng thái</option>
-                                    <option value="active">Đang hoạt động</option>
-                                    <option value="inactive">Ngừng hoạt động</option>
-                                </select>
+                                
                                 <select class="filter-select" id="sortFilter">
+                                    <option value="sort">Sắp xếp</option>
                                     <option value="name">Sắp xếp theo tên</option>
                                     <option value="products">Sản phẩm nhiều nhất</option>
                                     <option value="revenue">Doanh thu cao nhất</option>
@@ -258,13 +250,13 @@
                                     <th>Số sản phẩm</th>
                                     <th>Doanh thu</th>
                                     <th>Tỷ lệ</th>
-                                    <th>Trạng thái</th>
+                                    
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- 5 danh mục mẫu -->
-                                <tr data-category='{"MaDM":"DM001","TenDanhMuc":"iPhone","MoTa":"Điện thoại Apple iPhone","SoSanPham":8,"DoanhThu":1250000000,"TrangThai":"active"}'>
+                                <!-- <tr data-category='{"MaDM":"DM001","TenDanhMuc":"iPhone","MoTa":"Điện thoại Apple iPhone","SoSanPham":8,"DoanhThu":1250000000,"TrangThai":"active"}'>
                                     <td><strong>DM001</strong></td>
                                     <td>
                                         <div class="category-info">
@@ -473,9 +465,10 @@
                                             </button>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
+                        
                     </div>
                 </div>
 
@@ -497,7 +490,7 @@
                         </div>
                     </div>
                     
-                    <div class="widget">
+                    <!-- <div class="widget">
                         <div class="widget-header">
                             <div class="widget-title">Thống kê nhanh</div>
                             <div class="text-primary" id="lastUpdated">Cập nhật: Hôm nay</div>
@@ -526,7 +519,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Category Products -->
@@ -542,9 +535,9 @@
                                 <option value="DM004">Oppo</option>
                                 <option value="DM005">Vivo</option>
                             </select>
-                            <button class="btn btn-outline" onclick="refreshProducts()">
+                            <!-- <button class="btn btn-outline" onclick="refreshProducts()">
                                 <i class="fas fa-sync"></i> Làm mới
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                     
@@ -744,7 +737,8 @@
     <!-- Scripts -->
     <script src="js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script>
         // Biến lưu trữ danh mục hiện tại đang xem
         let currentCategory = null;
         let categoryChart = null;
@@ -1323,6 +1317,8 @@
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             document.getElementById('lastUpdated').textContent = `Cập nhật: ${now.toLocaleDateString('vi-VN', options)}`;
         });
-    </script>
+    </script> -->
+    <script src="js/QLDanhMuc.js"></script>
+
 </body>
 </html>

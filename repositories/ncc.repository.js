@@ -26,33 +26,48 @@ export const NhaCungCapRepository = {
     }
   },
   // Tìm kiếm nâng cao (theo tên, người liên hệ, địa chỉ)
- // Sửa lại hàm searchAdvanced
+  // Sửa lại hàm searchAdvanced
+  // 1. SỬA HÀM TÌM KIẾM (Để hiển thị số lượng khi tìm kiếm)
   searchAdvanced: async ({ ten, nguoiLienHe, diaChi, limit, offset }) => {
     logger.info("Repository: Advanced searching NhaCungCap with pagination");
     try {
       const db = await pool;
-      let baseQuery = "FROM NhaCungCap WHERE 1=1";
+      
+      // ALIAS "n" đại diện cho bảng NhaCungCap
+      let whereClause = "WHERE 1=1"; 
       const params = [];
 
       if (ten) {
-        baseQuery += " AND TenNhaCungCap LIKE ?";
+        whereClause += " AND n.TenNhaCungCap LIKE ?";
         params.push(`%${ten}%`);
       }
       if (nguoiLienHe) {
-        baseQuery += " AND NguoiLienHe LIKE ?";
+        whereClause += " AND n.NguoiLienHe LIKE ?";
         params.push(`%${nguoiLienHe}%`);
       }
       if (diaChi) {
-        baseQuery += " AND DiaChi LIKE ?";
+        whereClause += " AND n.DiaChi LIKE ?";
         params.push(`%${diaChi}%`);
       }
 
-      // 1. Lấy dữ liệu phân trang
-      const queryData = `SELECT * ${baseQuery} LIMIT ? OFFSET ?`;
+      // --- CÂU SQL QUAN TRỌNG ĐÃ SỬA ---
+      // Dùng Subquery (SELECT COUNT...) để đếm Sản phẩm cho từng dòng
+      const queryData = `
+        SELECT 
+            n.*,
+            (SELECT COUNT(*) FROM SanPham s WHERE s.MaNCC = n.MaNCC) AS SoSanPham
+            
+        FROM NhaCungCap n
+        ${whereClause}
+        ORDER BY n.MaNCC ASC
+        LIMIT ? OFFSET ?
+      `;
+
+      // Thực thi query
       const [rows] = await db.query(queryData, [...params, limit, offset]);
 
-      // 2. Đếm tổng số kết quả tìm được (để tính số trang)
-      const queryCount = `SELECT COUNT(*) as total ${baseQuery}`;
+      // Đếm tổng số trang (giữ nguyên logic cũ nhưng thêm alias n cho an toàn)
+      const queryCount = `SELECT COUNT(*) as total FROM NhaCungCap n ${whereClause}`;
       const [countResult] = await db.query(queryCount, params);
 
       return {
@@ -60,17 +75,30 @@ export const NhaCungCapRepository = {
         totalItems: countResult[0].total
       };
     } catch (err) {
+      // Nếu lỗi do chưa có bảng PhieuNhap, code sẽ nhảy vào đây
+      // Bạn có thể xóa dòng đếm PhieuNhap ở trên nếu chưa tạo bảng đó
       logger.error("Repository Error: searchAdvanced failed", err);
       throw err;
     }
   },
 
-  // Lấy dữ liệu phân trang
+  // 2. SỬA HÀM PHÂN TRANG (Để hiển thị số lượng khi load trang chủ)
   getPaginated: async (offset, limit) => {
     logger.info(`Repository: Fetching NhaCungCap with offset ${offset}, limit ${limit}`);
     try {
       const db = await pool;
-      const queryData = "SELECT * FROM NhaCungCap LIMIT ? OFFSET ?";
+
+      // --- CÂU SQL QUAN TRỌNG ĐÃ SỬA ---
+      const queryData = `
+        SELECT 
+            n.*,
+            (SELECT COUNT(*) FROM SanPham s WHERE s.MaNCC = n.MaNCC) AS SoSanPham
+            
+        FROM NhaCungCap n
+        ORDER BY n.MaNCC aSC
+        LIMIT ? OFFSET ?
+      `;
+      
       const [rows] = await db.query(queryData, [limit, offset]);
       
       const [countRows] = await db.query("SELECT COUNT(*) as total FROM NhaCungCap");
@@ -93,7 +121,7 @@ export const NhaCungCapRepository = {
         "INSERT INTO NhaCungCap (MaNCC, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi) VALUES (?, ?, ?, ?, ?)",
         [MaNCC, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi]
       );
-      return { MaNCC, TenNhaCungCap , NguoiLienHe, SoDienThoai, DiaChi};
+      return { MaNCC, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi };
     } catch (err) {
       logger.error("Repository Error: create NhaCungCap failed", err);
       throw err;
@@ -108,7 +136,7 @@ export const NhaCungCapRepository = {
         "UPDATE NhaCungCap SET TenNhaCungCap = ?, NguoiLienHe = ?, SoDienThoai = ?, DiaChi = ? WHERE MaNCC = ?",
         [TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi, MaNCC]
       );
-      return { MaNCC, TenNhaCungCap , NguoiLienHe, SoDienThoai, DiaChi};
+      return { MaNCC, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi };
     } catch (err) {
       logger.error(`Repository Error: update NhaCungCap failed for MaNCC ${MaNCC}`, err);
       throw err;
@@ -135,7 +163,7 @@ export const NhaCungCapRepository = {
       const sql = `
         SELECT * FROM SanPham 
         WHERE MaNCC = ?
-        ORDER BY SoLuongTon DESC
+        
       `;
       const [rows] = await db.query(sql, [MaNCC]);
       return rows;
@@ -149,5 +177,29 @@ export const NhaCungCapRepository = {
     const db = await pool;
     const [rows] = await db.query("SELECT * FROM NhaCungCap");
     return rows;
+  },
+
+  // --- MỚI: Thống kê tổng quan cho Dashboard ---
+  getThongKeTongQuan: async () => {
+    logger.info("Repository: Lấy số liệu thống kê tổng quan");
+    try {
+      const db = await pool;
+
+      const [
+        [nccRows],
+        [spRows]
+      ] = await Promise.all([
+        db.query("SELECT COUNT(*) AS total FROM NhaCungCap"),
+        db.query("SELECT COUNT(*) AS total FROM SanPham")
+      ]);
+
+      return {
+        soLuongNCC: nccRows[0]?.total ?? 0,
+        soLuongSP: spRows[0]?.total ?? 0
+      };
+    } catch (err) {
+      logger.error("Repository Error: getThongKeTongQuan failed", err);
+      return { soLuongNCC: 0, soLuongSP: 0 };
+    }
   },
 };

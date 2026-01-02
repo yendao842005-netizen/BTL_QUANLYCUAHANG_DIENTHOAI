@@ -235,8 +235,7 @@
                                 <select class="filter-select" id="orderStatusFilter">
                                     <option value="">Tất cả trạng thái</option>
                                     <option value="pending">Chờ xử lý</option>
-                                    <option value="processing">Đang xử lý</option>
-                                    <option value="shipping">Đang giao hàng</option>
+                            
                                     <option value="completed">Hoàn thành</option>
                                     <option value="cancelled">Đã hủy</option>
                                 </select>
@@ -260,15 +259,16 @@
                                     <th>Mã HD</th>
                                     <th>Khách hàng</th>
                                     <th>Ngày đặt</th>
-                                    <th>Sản phẩm</th>
+                                    
                                     <th>Tổng tiền</th>
                                     <th>Thanh toán</th>
                                     <th>Trạng thái</th>
+                                    <th>Ghi chú</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- 5 đơn hàng mẫu -->
+                                <!-- 5 đơn hàng mẫu
                                 <tr data-order='{"MaHD":"HD001","MaKH":"KH001","TenKH":"Nguyen Van Khach","SoDienThoai":"0990000001","DiaChi":"Go Vap, HCM","NgayDat":"2024-04-01","SanPham":"iPhone 15 Pro Max 256GB","SoLuong":1,"TongTien":34990000,"HinhThucTT":"banking","TrangThai":"completed","NhanVien":"NV002"}'>
                                     <td><strong>HD001</strong></td>
                                     <td>
@@ -423,9 +423,10 @@
                                             </button>
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
+                         <div class="pagination-container" id="pagination" ></div>
                     </div>
                 </div>
 
@@ -717,8 +718,9 @@
     </div>
 
     <!-- Scripts -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/script.js"></script>
-    <script>
+    <!-- <script>
         // Biến lưu trữ
         let currentOrder = null;
         let orderItems = [];
@@ -1287,8 +1289,8 @@
             // Cập nhật thống kê ban đầu
             updateStats();
         });
-    </script>
-    
+    </script> -->
+    <script src="js/QLDonHang.js"></script>
     <style>
         .customer-name {
             max-width: 150px;
@@ -1554,6 +1556,71 @@
         
         .detail-section h5 i {
             color: #4361ee;
+        }
+        /* 1. CẤU HÌNH CHUNG CHO THẺ (PAYMENT & STATUS) */
+        .payment, .status {
+            /* Kích thước cố định để bằng nhau */
+            display: inline-block;
+            width: 110px;           /* Độ rộng cố định (đủ cho chữ dài nhất) */
+            text-align: center;     /* Căn giữa chữ */
+            
+            /* Giao diện chung */
+            padding: 6px 0;         /* Padding trên dưới */
+            border-radius: 20px;    /* Bo tròn */
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;    /* Không cho xuống dòng */
+        }
+
+        /* 2. MÀU SẮC CHO PHƯƠNG THỨC THANH TOÁN */
+        .payment.cash {
+            background: rgba(6, 214, 160, 0.1);
+            color: #06d6a0;
+            border: 1px solid rgba(6, 214, 160, 0.3);
+        }
+        
+        .payment.banking {
+            background: rgba(67, 97, 238, 0.1);
+            color: #4361ee;
+            border: 1px solid rgba(67, 97, 238, 0.3);
+        }
+        
+        .payment.card {
+            background: rgba(114, 9, 183, 0.1);
+            color: #7209b7;
+            border: 1px solid rgba(114, 9, 183, 0.3);
+            /* Nếu muốn bỏ vạch tím bên trái thì xóa dòng border-left ở code cũ đi */
+        }
+
+        /* 3. MÀU SẮC CHO TRẠNG THÁI ĐƠN HÀNG */
+        .status.pending { /* Chờ xử lý - Màu vàng */
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        
+        .status.shipping { /* Đang giao - Màu cam */
+            background: rgba(255, 158, 0, 0.1);
+            color: #ff9e00;
+            border: 1px solid rgba(255, 158, 0, 0.3);
+        }
+
+        .status.completed { /* Hoàn thành - Màu xanh dương */
+            background: rgba(67, 97, 238, 0.1);
+            color: #4361ee;
+            border: 1px solid rgba(67, 97, 238, 0.3);
+        }
+
+        .status.cancelled { /* Đã hủy - Màu xám */
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+            border: 1px solid rgba(108, 117, 125, 0.3);
+        }
+        
+        .status.processing { /* Đang xử lý - Màu xanh lá */
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+            border: 1px solid rgba(40, 167, 69, 0.3);
         }
     </style>
 </body>

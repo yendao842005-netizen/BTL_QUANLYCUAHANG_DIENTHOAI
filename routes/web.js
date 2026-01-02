@@ -51,11 +51,11 @@ router.get("/QLNhanVien", (req, res) => {
 router.get("/QLDonHang", (req, res) => {
   res.render('QLDonHang');
 });
-
+//dã xong liên kết với api
 router.get("/QLDangMuc", (req, res) => {
   res.render('QLDangMuc');
 });
-
+//dã xong liên kết với api
 router.get("/QLNhaCungCap", (req, res) => {
   res.render('QLNhaCungCap');
 });

@@ -36,7 +36,12 @@ export const NhaCungCapService = {
     });
 
     return {
-      data: nhaCungCaps.map((item) => new NhaCungCapDTO(item)),
+      data: nhaCungCaps.map((item) => {
+        const dto = new NhaCungCapDTO(item);
+        dto.SoSanPham = item.SoSanPham || 0;
+        
+        return dto;
+      }),
       pagination: {
         totalItems: totalItems,
         totalPages: Math.ceil(totalItems / pageSize),
@@ -54,7 +59,12 @@ export const NhaCungCapService = {
     const { nhaCungCaps, totalItems } = await NhaCungCapRepository.getPaginated(offset, pageSize);
 
     return {
-      data: nhaCungCaps.map((item) => new NhaCungCapDTO(item)),
+      data: nhaCungCaps.map((item) => {
+        const dto = new NhaCungCapDTO(item);
+        dto.SoSanPham = item.SoSanPham || 0;
+       
+        return dto;
+      }),
       pagination: {
         totalItems: totalItems,
         totalPages: Math.ceil(totalItems / pageSize),
@@ -128,7 +138,8 @@ export const NhaCungCapService = {
         MaNCC: ncc.MaNCC,
         TenNhaCungCap: ncc.TenNhaCungCap,
         LienHe: ncc.NguoiLienHe,
-        SDT: ncc.SoDienThoai
+        SDT: ncc.SoDienThoai,
+        DiaChi: ncc.DiaChi // 
       },
       summary: {//tóm tắt số liệu
         TongSoDauSanPham: products.length, // Đang bán bao nhiêu mã hàng của ông này
@@ -155,5 +166,20 @@ export const NhaCungCapService = {
     worksheet.getRow(1).font = { bold: true };
     data.forEach(row => worksheet.addRow(row));
     return workbook;
-  }
+  },
+
+
+  // --- MỚI: Service lấy thống kê tổng quan ---
+  getThongKeTongQuan: async () => {
+    logger.info("Service: Đang lấy dữ liệu thống kê tổng quan");
+    
+    const stats = await NhaCungCapRepository.getThongKeTongQuan();
+    
+    // Format lại dữ liệu và trả về Key tiếng Việt
+    return {
+      TongNhaCungCap: stats.soLuongNCC,
+      TongSanPham: stats.soLuongSP,
+      
+    };
+  },
 };

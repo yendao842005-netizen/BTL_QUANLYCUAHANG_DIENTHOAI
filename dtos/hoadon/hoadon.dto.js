@@ -1,5 +1,5 @@
 export class HoaDonDTO {
-  constructor({ MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu }) {
+  constructor({ MaHD, MaKH, MaNV, NgayLap, TongTien, TrangThai, GhiChu ,PhuongThucThanhToan}) {
     this.MaHD = MaHD;
     this.MaKH = MaKH;
     this.MaNV = MaNV;
@@ -7,5 +7,6 @@ export class HoaDonDTO {
     this.TongTien = TongTien;
     this.TrangThai = TrangThai;
     this.GhiChu = GhiChu;
+    this.PhuongThucThanhToan = PhuongThucThanhToan;
   }
 }

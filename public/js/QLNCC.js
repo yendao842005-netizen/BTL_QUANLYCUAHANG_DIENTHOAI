@@ -11,7 +11,7 @@ $(document).ready(function () {
     // Load dữ liệu lần đầu
     fetchData(1);
     updateStats(); // Gọi hàm update thống kê (nếu có API riêng)
-
+    
     // ==========================================
     // 2. XỬ LÝ SỰ KIỆN TÌM KIẾM & LỌC
     // ==========================================
@@ -97,6 +97,31 @@ $(document).ready(function () {
         });
     }
 
+
+    function updateStats() {
+        $.ajax({
+            url: '/api/NhaCungCaps/ThongKe/TongQuan', // Gọi API
+            method: 'GET',
+            success: function (data) {
+                // data trả về: { TongNhaCungCap: 5, TongSanPham: 20, ... }
+
+                console.log("Dữ liệu thống kê:", data); // Log để kiểm tra
+
+                // 1. Gán Tổng Nhà Cung Cấp (ID lấy từ file HTML )
+                $('#statTotalSuppliers').text(data.TongNhaCungCap);
+
+                // 2. Gán Tổng Sản Phẩm (ID lấy từ file HTML )
+                $('#statTotalProducts').text(data.TongSanPham);
+
+                // // 3. Các chỉ số tạm thời (nếu chưa có thì hiện 0 hoặc -)
+                // $('#statTotalOrders').text(data.TongDonNhap || 0);
+                // $('#statAvgRating').text(data.DanhGiaTrungBinh || "0/5");
+            },
+            error: function (err) {
+                console.error("Lỗi tải thống kê:", err);
+            }
+        });
+    }
     // ==========================================
     // 4. HÀM RENDER GIAO DIỆN
     // ==========================================
@@ -131,19 +156,12 @@ $(document).ready(function () {
                     <td>
                         <div>${ncc.NguoiLienHe}</div>
                         </td>
-                    <td><span class="supplier-type ${typeClass}">${typeName}</span></td>
+                    
                     
                     <td><strong>${ncc.SoSanPham || 0}</strong> SP</td>
-                    <td><div>${ncc.SoDonHang || 0} đơn</div></td>
                     
-                    <td>
-                        <div class="supplier-rating">
-                            <div class="stars small">${generateStars(ncc.DanhGia || 0)}</div>
-                            <div class="rating-value ms-1">${ncc.DanhGia || 0}</div>
-                        </div>
-                    </td>
                     
-                    <td><span class="status ${statusClass}">${statusText}</span></td>
+                    
                     
                     <td>
                         <div class="action-buttons">
@@ -388,7 +406,7 @@ $(document).ready(function () {
                                     ${products.length === 0 ? '<tr><td colspan="4" class="text-center">Chưa có sản phẩm nào</td></tr>' : 
                                     products.map(sp => `
                                         <tr>
-                                            <td>${sp.MaSanPham}</td>
+                                            <td>${sp.MaSP}</td>
                                             <td>${sp.TenSanPham}</td>
                                             <td>${formatCurrency(sp.GiaBan)}</td>
                                             <td>${sp.SoLuongTon}</td>
@@ -439,8 +457,5 @@ $(document).ready(function () {
     // Load danh sách NCC vào dropdown đơn nhập khi mở modal (Optional)
     // Bạn có thể viết thêm logic load danh sách rút gọn vào select #purchaseSupplier ở đây
     
-    function updateStats() {
-        // Nếu có API thống kê dashboard riêng cho NCC thì gọi ở đây
-        // Hiện tại dùng tạm số liệu đếm từ trang đầu tiên hoặc bỏ qua
-    }
+
 });

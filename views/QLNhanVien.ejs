@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,484 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* ========== PERFORMANCE RANKING ========== */
+        .performance-ranking {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--light);
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+        }
+
+        .ranking-item.top {
+            background: linear-gradient(to right, rgba(67, 97, 238, 0.05), rgba(76, 201, 240, 0.05));
+            border-left-color: var(--info);
+        }
+
+        .ranking-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .ranking-rank {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .ranking-item.top .ranking-rank {
+            background: linear-gradient(135deg, var(--info) 0%, var(--info-dark) 100%);
+        }
+
+        .ranking-info {
+            flex: 1;
+        }
+
+        .ranking-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 3px;
+        }
+
+        .ranking-position {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .ranking-performance {
+            text-align: right;
+            min-width: 80px;
+        }
+
+        /* ========== SALARY STATS ========== */
+        .salary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .salary-stat-item {
+            background: var(--light);
+            padding: 15px;
+            border-radius: var(--border-radius-sm);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .salary-stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow);
+            border-color: var(--primary-light);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* ========== ACCOUNT LIST ========== */
+        .account-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .account-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: var(--light);
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+        }
+
+        .account-item:hover {
+            background: var(--primary-extra-light);
+            transform: translateX(5px);
+            border-left-color: var(--primary);
+        }
+
+        .account-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .account-status.active {
+            background: var(--info);
+        }
+
+        .account-status.inactive {
+            background: var(--danger);
+        }
+
+        .account-info {
+            flex: 1;
+        }
+
+        .account-id {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .account-details {
+            font-size: 12px;
+            color: var(--gray);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .account-actions {
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .account-item:hover .account-actions {
+            opacity: 1;
+        }
+
+        .account-action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 12px;
+        }
+
+        .account-view-btn {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .account-view-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .account-edit-btn {
+            background: rgba(6, 214, 160, 0.1);
+            color: var(--info);
+        }
+
+        .account-edit-btn:hover {
+            background: var(--info);
+            color: white;
+        }
+
+        .account-delete-btn {
+            background: rgba(239, 35, 60, 0.1);
+            color: var(--danger);
+        }
+
+        .account-delete-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* ========== INLINE PERFORMANCE ========== */
+        .performance-indicator.inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .performance-indicator.inline .performance-bar {
+            flex: 1;
+            max-width: 100px;
+        }
+
+        /* ========== DETAIL SECTION ========== */
+        .detail-section {
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 20px;
+        }
+
+        .detail-section h5 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .detail-section h5 i {
+            width: 20px;
+        }
+
+        .detail-table {
+            width: 100%;
+        }
+
+        .detail-table tr {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .detail-table td {
+            padding: 8px 0;
+            border: none;
+        }
+
+        .detail-table td:first-child {
+            width: 40%;
+            color: var(--gray);
+        }
+
+        /* ========== DEPARTMENT BADGES ========== */
+        .department {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .department.management {
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+
+        .department.sales {
+            background: rgba(6, 214, 160, 0.1);
+            color: var(--info);
+            border: 1px solid rgba(6, 214, 160, 0.2);
+        }
+
+        .department.technical {
+            background: rgba(114, 9, 183, 0.1);
+            color: var(--secondary);
+            border: 1px solid rgba(114, 9, 183, 0.2);
+        }
+
+        .department.warehouse {
+            background: rgba(255, 158, 0, 0.1);
+            color: #ff9e00;
+            border: 1px solid rgba(255, 158, 0, 0.2);
+        }
+
+        .department.accounting {
+            background: rgba(239, 35, 60, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 35, 60, 0.2);
+        }
+
+        /* ========== RESPONSIVE ADJUSTMENTS ========== */
+        @media (max-width: 768px) {
+            .salary-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .performance-indicator.inline {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .detail-table td:first-child {
+                width: 50%;
+            }
+        }
+
+        /* ========== PERMISSION LIST ========== */
+        .permission-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .permission-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: var(--light);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .permission-item i {
+            color: var(--info);
+            width: 16px;
+        }
+
+        /* --- CSS CHO CHI TIẾT TÀI KHOẢN --- */
+        .account-detail-table th {
+            width: 35%;
+            color: #555;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
+        .account-detail-table td {
+            color: #000;
+            /* Màu chữ đen đậm cho dễ đọc */
+            font-weight: 500;
+            vertical-align: middle;
+        }
+
+        /* Badge trạng thái (Nền màu - Chữ trắng) */
+        .badge-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-status.active {
+            background-color: #28a745;
+            /* Nền Xanh lá */
+            color: white;
+        }
+
+        .badge-status.inactive {
+            background-color: #dc3545;
+            /* Nền Đỏ đậm */
+            color: white;
+        }
+
+        /* Badge Quyền hạn */
+        .badge-role {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-role.admin {
+            background-color: #6f42c1;
+            color: white;
+        }
+
+        /* Tím */
+        .badge-role.manager {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        /* Xanh dương */
+        .badge-role.staff {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        /* Xám */
+        /* ========== RESPONSIVE ADJUSTMENTS ========== */
+        @media (max-width: 768px) {
+            .account-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .permission-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Style cho Rank (Số thứ tự) */
+        .ranking-rank {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #f1f3f5;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            flex-shrink: 0;
+            /* Không bị co lại */
+        }
+
+        /* Style cho Item Top (Hiệu ứng nền nhẹ) */
+        .ranking-item.top {
+            background: linear-gradient(to right, rgba(67, 97, 238, 0.05), transparent);
+            border-left: 3px solid #4361ee;
+        }
+
+        .ranking-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ranking-info {
+            flex: 1;
+            /* Chiếm phần dư ở giữa */
+        }
+
+        .ranking-performance {
+            width: 80px;
+            /* Cố định chiều rộng cột tiền */
+            text-align: right;
+        }
+
+        .performance-bar {
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .performance-fill {
+            height: 100%;
+            background: #4361ee;
+            border-radius: 2px;
+        }
+    </style>
 </head>
+
 <body>
     <div class="app-container">
         <!-- Sidebar -->
@@ -18,55 +496,55 @@
                 </div>
                 <div class="sidebar-title">MobileStore Pro</div>
             </div>
-            
+
             <div class="sidebar-menu">
                 <div class="menu-section">
                     <div class="menu-section-title">Tổng quan</div>
-                    <a href="index.html" class="menu-item">
+                    <a href="TongQuanHeThong" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-home"></i>
                         </div>
                         <div class="menu-text">Dashboard</div>
                     </a>
                 </div>
-                
+
                 <div class="menu-section">
                     <div class="menu-section-title">Quản lý</div>
-                    <a href="products.html" class="menu-item">
+                    <a href="QLSanPham" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-box"></i>
                         </div>
                         <div class="menu-text">Sản phẩm</div>
                     </a>
-                    <a href="orders.html" class="menu-item">
+                    <a href="QLDonHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <div class="menu-text">Đơn hàng</div>
                     </a>
-                    <a href="customers.html" class="menu-item">
+                    <a href="QLKhachHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="menu-text">Khách hàng</div>
                     </a>
-                    <a href="employees.html" class="menu-item active">
+                    <a href="QLNhanVien" class="menu-item active">
                         <div class="menu-icon">
                             <i class="fas fa-user-tie"></i>
                         </div>
                         <div class="menu-text">Nhân viên</div>
                     </a>
                 </div>
-                
+
                 <div class="menu-section">
                     <div class="menu-section-title">Hệ thống</div>
-                    <a href="suppliers.html" class="menu-item">
+                    <a href="QLNhaCungCap" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-truck"></i>
                         </div>
                         <div class="menu-text">Nhà cung cấp</div>
                     </a>
-                    <a href="categories.html" class="menu-item">
+                    <a href="QLDangMuc" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-list"></i>
                         </div>
@@ -82,11 +560,11 @@
                         <div class="menu-icon">
                             <i class="fas fa-cog"></i>
                         </div>
-                        
+
                     </a>
                 </div>
             </div>
-            
+
             <div class="sidebar-footer">
                 <div class="admin-avatar">
                     <i class="fas fa-user"></i>
@@ -96,7 +574,7 @@
                     <div class="admin-role">Quản trị hệ thống</div>
                 </div>
             </div>
-            
+
             <div class="toggle-sidebar">
                 <i class="fas fa-chevron-left"></i>
             </div>
@@ -116,13 +594,13 @@
                         <div class="breadcrumb-item active">Nhân viên</div>
                     </div>
                 </div>
-                
+
                 <div class="header-right">
                     <div class="search-box">
                         <i class="fas fa-search search-icon"></i>
                         <input type="text" id="employeeSearch" placeholder="Tìm kiếm nhân viên...">
                     </div>
-                    
+
                     <div class="notifications">
                         <i class="fas fa-bell notification-icon"></i>
                         <span class="notification-count">3</span>
@@ -136,7 +614,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="user-menu">
                         <div class="user-info">
                             <div class="admin-avatar">
@@ -232,24 +710,25 @@
                         <div class="table-actions">
                             <div class="table-filters">
                                 <select class="filter-select" id="departmentFilter">
-                                    <option value="">Tất cả phòng ban</option>
-                                    <option value="sales">Bán hàng</option>
-                                    <option value="warehouse">Kho</option>
-                                    <option value="management">Quản lý</option>
-                                    <option value="technical">Kỹ thuật</option>
+                                    <option value="">Tất cả chức vụ</option>
+                                    <option value="BanHang">Bán hàng</option>
+                                    <option value="Kho">Kho</option>
+                                    <option value="QuanLy">Quản lý</option>
+                                    <option value="KyThuat">Kỹ thuật</option>
+                                    <option value="KeToan">Kế toán</option>
                                 </select>
-                                <select class="filter-select" id="statusFilter">
+                                <!-- <select class="filter-select" id="statusFilter">
                                     <option value="">Tất cả trạng thái</option>
                                     <option value="active">Đang làm việc</option>
                                     <option value="inactive">Đã nghỉ việc</option>
-                                </select>
+                                </select> -->
                             </div>
                             <button class="btn btn-outline btn-sm" onclick="resetFilters()">
                                 <i class="fas fa-redo"></i> Đặt lại
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="table-responsive">
                         <table id="employeesTable">
                             <thead>
@@ -257,16 +736,17 @@
                                     <th>Mã NV</th>
                                     <th>Họ tên</th>
                                     <th>Chức vụ</th>
-                                    <th>Phòng ban</th>
+                                    <!-- <th>Phòng ban</th> -->
                                     <th>Lương cơ bản</th>
-                                    <th>Hiệu suất</th>
-                                    <th>Trạng thái</th>
+                                    <th>Số điện thoại</th>
+                                    <!-- <th>Trạng thái</th> -->
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- 5 nhân viên mẫu -->
-                                <tr data-employee='{"MaNV":"NV001","HoTen":"Nguyen Van An","SoDienThoai":"0901000001","Email":"an.nguyen@gmail.com","DiaChi":"123 Le Loi, HCM","NgaySinh":"1990-01-01","GioiTinh":"Nam","ChucVu":"Quản lý","PhongBan":"management","LuongCoBan":20000000,"NgayVaoLam":"2020-01-01","HieuSuat":95,"DoanhSo":1250000000,"TrangThai":"active","HopDong":"permanent"}'>
+                                <tr
+                                    data-employee='{"MaNV":"NV001","HoTen":"Nguyen Van An","SoDienThoai":"0901000001","Email":"an.nguyen@gmail.com","DiaChi":"123 Le Loi, HCM","NgaySinh":"1990-01-01","GioiTinh":"Nam","ChucVu":"Quản lý","PhongBan":"management","LuongCoBan":20000000,"NgayVaoLam":"2020-01-01","HieuSuat":95,"DoanhSo":1250000000,"TrangThai":"active","HopDong":"permanent"}'>
                                     <td><strong>NV001</strong></td>
                                     <td>
                                         <div class="employee-name">
@@ -292,19 +772,23 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewEmployeeDetail('NV001')">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewEmployeeDetail('NV001')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editEmployee('NV001')">
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editEmployee('NV001')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteEmployee('NV001')">
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteEmployee('NV001')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-employee='{"MaNV":"NV002","HoTen":"Tran Thi Binh","SoDienThoai":"0901000002","Email":"binh.tran@gmail.com","DiaChi":"456 Nguyen Hue, HCM","NgaySinh":"1995-02-02","GioiTinh":"Nu","ChucVu":"Nhân viên bán hàng","PhongBan":"sales","LuongCoBan":8000000,"NgayVaoLam":"2021-02-15","HieuSuat":88,"DoanhSo":856000000,"TrangThai":"active","HopDong":"permanent"}'>
+                                <tr
+                                    data-employee='{"MaNV":"NV002","HoTen":"Tran Thi Binh","SoDienThoai":"0901000002","Email":"binh.tran@gmail.com","DiaChi":"456 Nguyen Hue, HCM","NgaySinh":"1995-02-02","GioiTinh":"Nu","ChucVu":"Nhân viên bán hàng","PhongBan":"sales","LuongCoBan":8000000,"NgayVaoLam":"2021-02-15","HieuSuat":88,"DoanhSo":856000000,"TrangThai":"active","HopDong":"permanent"}'>
                                     <td><strong>NV002</strong></td>
                                     <td>
                                         <div class="employee-name">
@@ -329,19 +813,23 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewEmployeeDetail('NV002')">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewEmployeeDetail('NV002')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editEmployee('NV002')">
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editEmployee('NV002')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteEmployee('NV002')">
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteEmployee('NV002')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-employee='{"MaNV":"NV003","HoTen":"Le Van Cuong","SoDienThoai":"0901000003","Email":"cuong.le@gmail.com","DiaChi":"789 Tran Hung Dao, HCM","NgaySinh":"1992-03-03","GioiTinh":"Nam","ChucVu":"Kỹ thuật viên","PhongBan":"technical","LuongCoBan":10000000,"NgayVaoLam":"2021-03-10","HieuSuat":92,"DoanhSo":0,"TrangThai":"active","HopDong":"permanent"}'>
+                                <tr
+                                    data-employee='{"MaNV":"NV003","HoTen":"Le Van Cuong","SoDienThoai":"0901000003","Email":"cuong.le@gmail.com","DiaChi":"789 Tran Hung Dao, HCM","NgaySinh":"1992-03-03","GioiTinh":"Nam","ChucVu":"Kỹ thuật viên","PhongBan":"technical","LuongCoBan":10000000,"NgayVaoLam":"2021-03-10","HieuSuat":92,"DoanhSo":0,"TrangThai":"active","HopDong":"permanent"}'>
                                     <td><strong>NV003</strong></td>
                                     <td>
                                         <div class="employee-name">
@@ -366,19 +854,23 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewEmployeeDetail('NV003')">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewEmployeeDetail('NV003')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editEmployee('NV003')">
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editEmployee('NV003')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteEmployee('NV003')">
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteEmployee('NV003')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-employee='{"MaNV":"NV004","HoTen":"Pham Thi Dung","SoDienThoai":"0901000004","Email":"dung.pham@gmail.com","DiaChi":"321 Ba Thang Hai, HCM","NgaySinh":"1998-04-04","GioiTinh":"Nu","ChucVu":"Nhân viên bán hàng","PhongBan":"sales","LuongCoBan":8000000,"NgayVaoLam":"2022-04-20","HieuSuat":85,"DoanhSo":745000000,"TrangThai":"active","HopDong":"permanent"}'>
+                                <tr
+                                    data-employee='{"MaNV":"NV004","HoTen":"Pham Thi Dung","SoDienThoai":"0901000004","Email":"dung.pham@gmail.com","DiaChi":"321 Ba Thang Hai, HCM","NgaySinh":"1998-04-04","GioiTinh":"Nu","ChucVu":"Nhân viên bán hàng","PhongBan":"sales","LuongCoBan":8000000,"NgayVaoLam":"2022-04-20","HieuSuat":85,"DoanhSo":745000000,"TrangThai":"active","HopDong":"permanent"}'>
                                     <td><strong>NV004</strong></td>
                                     <td>
                                         <div class="employee-name">
@@ -403,19 +895,23 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewEmployeeDetail('NV004')">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewEmployeeDetail('NV004')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editEmployee('NV004')">
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editEmployee('NV004')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteEmployee('NV004')">
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteEmployee('NV004')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr data-employee='{"MaNV":"NV005","HoTen":"Hoang Van Em","SoDienThoai":"0901000005","Email":"em.hoang@gmail.com","DiaChi":"654 Cach Mang Thang 8, HCM","NgaySinh":"1993-05-05","GioiTinh":"Nam","ChucVu":"Nhân viên kho","PhongBan":"warehouse","LuongCoBan":9000000,"NgayVaoLam":"2022-05-05","HieuSuat":78,"DoanhSo":0,"TrangThai":"active","HopDong":"permanent"}'>
+                                <tr
+                                    data-employee='{"MaNV":"NV005","HoTen":"Hoang Van Em","SoDienThoai":"0901000005","Email":"em.hoang@gmail.com","DiaChi":"654 Cach Mang Thang 8, HCM","NgaySinh":"1993-05-05","GioiTinh":"Nam","ChucVu":"Nhân viên kho","PhongBan":"warehouse","LuongCoBan":9000000,"NgayVaoLam":"2022-05-05","HieuSuat":78,"DoanhSo":0,"TrangThai":"active","HopDong":"permanent"}'>
                                     <td><strong>NV005</strong></td>
                                     <td>
                                         <div class="employee-name">
@@ -440,13 +936,16 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewEmployeeDetail('NV005')">
+                                            <button class="action-btn view-btn" title="Xem chi tiết"
+                                                onclick="viewEmployeeDetail('NV005')">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editEmployee('NV005')">
+                                            <button class="action-btn edit-btn" title="Sửa"
+                                                onclick="editEmployee('NV005')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteEmployee('NV005')">
+                                            <button class="action-btn delete-btn" title="Xóa"
+                                                onclick="deleteEmployee('NV005')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -458,80 +957,163 @@
                 </div>
 
                 <!-- Performance & Salary -->
+                <!-- Performance & Salary -->
                 <div class="widgets-container">
+
                     <div class="widget">
                         <div class="widget-header">
-                            <div class="widget-title">Xếp hạng hiệu suất</div>
+                            <div class="widget-title">
+                                <i class="fas fa-trophy text-warning me-2"></i>Top Nhân viên xuất sắc (Theo doanh
+                                thu)
+                            </div>
                         </div>
                         <div class="widget-content">
-                            <div class="performance-ranking">
-                                <div class="ranking-item top">
-                                    <div class="ranking-rank">1</div>
-                                    <div class="ranking-info">
-                                        <div class="ranking-name">Nguyen Van An</div>
-                                        <div class="ranking-position">Quản lý</div>
-                                    </div>
-                                    <div class="ranking-performance">
-                                        <div class="performance-value">95%</div>
-                                        <div class="performance-bar">
-                                            <div class="performance-fill" style="width: 95%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ranking-item top">
-                                    <div class="ranking-rank">2</div>
-                                    <div class="ranking-info">
-                                        <div class="ranking-name">Le Van Cuong</div>
-                                        <div class="ranking-position">Kỹ thuật viên</div>
-                                    </div>
-                                    <div class="ranking-performance">
-                                        <div class="performance-value">92%</div>
-                                        <div class="performance-bar">
-                                            <div class="performance-fill" style="width: 92%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ranking-item">
-                                    <div class="ranking-rank">3</div>
-                                    <div class="ranking-info">
-                                        <div class="ranking-name">Tran Thi Binh</div>
-                                        <div class="ranking-position">Nhân viên bán hàng</div>
-                                    </div>
-                                    <div class="ranking-performance">
-                                        <div class="performance-value">88%</div>
-                                        <div class="performance-bar">
-                                            <div class="performance-fill" style="width: 88%"></div>
-                                        </div>
-                                    </div>
+                            <div class="performance-ranking" id="topEmployeesList">
+                                <div class="text-center py-4 text-muted">
+                                    <i class="fas fa-spinner fa-spin me-2"></i>Đang tải dữ liệu...
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
+
                     <div class="widget">
                         <div class="widget-header">
-                            <div class="widget-title">Thống kê lương thưởng</div>
-                            <button class="btn btn-sm btn-success" onclick="openModal('salaryModal')">
-                                <i class="fas fa-money-check"></i> Tính lương
+                            <div class="widget-title">Danh sách tài khoản hệ thống</div>
+                            <button class="btn btn-sm btn-primary" onclick="openModal('addAccountModal')">
+                                <i class="fas fa-plus"></i> Thêm tài khoản
                             </button>
                         </div>
                         <div class="widget-content">
-                            <div class="salary-stats">
-                                <div class="salary-stat-item">
-                                    <div class="stat-label">Tổng lương tháng</div>
-                                    <div class="stat-value">125,450,000 ₫</div>
+                            <div class="account-list">
+                                <div class="account-item">
+                                    <div class="account-status active"></div>
+                                    <div class="account-info">
+                                        <div class="account-id">TK001</div>
+                                        <div class="account-details">
+                                            <span>NV001 - Nguyen Van An</span>
+                                            <span>|</span>
+                                            <span>Quản trị hệ thống</span>
+                                        </div>
+                                    </div>
+                                    <div class="account-actions">
+                                        <button class="account-action-btn account-view-btn" title="Xem chi tiết"
+                                            onclick="viewAccountDetail('TK001')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="account-action-btn account-edit-btn" title="Sửa"
+                                            onclick="editAccount('TK001')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="account-action-btn account-delete-btn" title="Xóa"
+                                            onclick="deleteAccount('TK001')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="salary-stat-item">
-                                    <div class="stat-label">Tổng thưởng</div>
-                                    <div class="stat-value">25,800,000 ₫</div>
+
+                                <div class="account-item">
+                                    <div class="account-status active"></div>
+                                    <div class="account-info">
+                                        <div class="account-id">TK002</div>
+                                        <div class="account-details">
+                                            <span>NV002 - Tran Thi Binh</span>
+                                            <span>|</span>
+                                            <span>Nhân viên bán hàng</span>
+                                        </div>
+                                    </div>
+                                    <div class="account-actions">
+                                        <button class="account-action-btn account-view-btn" title="Xem chi tiết"
+                                            onclick="viewAccountDetail('TK002')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="account-action-btn account-edit-btn" title="Sửa"
+                                            onclick="editAccount('TK002')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="account-action-btn account-delete-btn" title="Xóa"
+                                            onclick="deleteAccount('TK002')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="salary-stat-item">
-                                    <div class="stat-label">Lương trung bình</div>
-                                    <div class="stat-value">8,363,333 ₫</div>
+
+                                <div class="account-item">
+                                    <div class="account-status active"></div>
+                                    <div class="account-info">
+                                        <div class="account-id">TK003</div>
+                                        <div class="account-details">
+                                            <span>NV003 - Le Van Cuong</span>
+                                            <span>|</span>
+                                            <span>Kỹ thuật viên</span>
+                                        </div>
+                                    </div>
+                                    <div class="account-actions">
+                                        <button class="account-action-btn account-view-btn" title="Xem chi tiết"
+                                            onclick="viewAccountDetail('TK003')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="account-action-btn account-edit-btn" title="Sửa"
+                                            onclick="editAccount('TK003')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="account-action-btn account-delete-btn" title="Xóa"
+                                            onclick="deleteAccount('TK003')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="salary-stat-item">
-                                    <div class="stat-label">Tổng chi phí</div>
-                                    <div class="stat-value">151,250,000 ₫</div>
+
+                                <div class="account-item">
+                                    <div class="account-status active"></div>
+                                    <div class="account-info">
+                                        <div class="account-id">TK004</div>
+                                        <div class="account-details">
+                                            <span>NV004 - Pham Thi Dung</span>
+                                            <span>|</span>
+                                            <span>Nhân viên bán hàng</span>
+                                        </div>
+                                    </div>
+                                    <div class="account-actions">
+                                        <button class="account-action-btn account-view-btn" title="Xem chi tiết"
+                                            onclick="viewAccountDetail('TK004')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="account-action-btn account-edit-btn" title="Sửa"
+                                            onclick="editAccount('TK004')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="account-action-btn account-delete-btn" title="Xóa"
+                                            onclick="deleteAccount('TK004')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="account-item">
+                                    <div class="account-status active"></div>
+                                    <div class="account-info">
+                                        <div class="account-id">TK005</div>
+                                        <div class="account-details">
+                                            <span>NV005 - Hoang Van Em</span>
+                                            <span>|</span>
+                                            <span>Nhân viên kho</span>
+                                        </div>
+                                    </div>
+                                    <div class="account-actions">
+                                        <button class="account-action-btn account-view-btn" title="Xem chi tiết"
+                                            onclick="viewAccountDetail('TK005')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="account-action-btn account-edit-btn" title="Sửa"
+                                            onclick="editAccount('TK005')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="account-action-btn account-delete-btn" title="Xóa"
+                                            onclick="deleteAccount('TK005')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -551,7 +1133,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="table-responsive">
                         <table>
                             <thead>
@@ -658,30 +1240,29 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Mã nhân viên</label>
-                                <input type="text" class="form-control" id="addMaNV" name="MaNV" required 
-                                       placeholder="VD: NV006" pattern="[A-Z0-9]+" maxlength="20">
+                                <input type="text" class="form-control" id="addMaNV" name="MaNV" required
+                                    placeholder="VD: NV006" pattern="[A-Z0-9]+" maxlength="20">
                                 <small class="form-text text-muted">Chỉ chấp nhận chữ in hoa và số</small>
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Họ và tên</label>
-                                <input type="text" class="form-control" name="HoTen" required 
-                                       placeholder="Nhập họ và tên">
+                                <input type="text" class="form-control" name="HoTen" required
+                                    placeholder="Nhập họ và tên">
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Số điện thoại</label>
-                                <input type="tel" class="form-control" name="SoDienThoai" required 
-                                       placeholder="Nhập số điện thoại">
+                                <input type="tel" class="form-control" name="SoDienThoai" required
+                                    placeholder="Nhập số điện thoại">
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Email</label>
-                                <input type="email" class="form-control" name="Email" required 
-                                       placeholder="Nhập email">
+                                <input type="email" class="form-control" name="Email" required placeholder="Nhập email">
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">Ngày sinh</label>
@@ -697,14 +1278,13 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Địa chỉ</label>
-                            <textarea class="form-control" name="DiaChi" rows="2" 
-                                      placeholder="Nhập địa chỉ"></textarea>
+                            <textarea class="form-control" name="DiaChi" rows="2" placeholder="Nhập địa chỉ"></textarea>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <div class="form-section-title">
                             <i class="fas fa-briefcase"></i> Thông tin công việc
@@ -733,7 +1313,7 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Ngày vào làm</label>
@@ -741,11 +1321,11 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Lương cơ bản</label>
-                                <input type="number" class="form-control" name="LuongCoBan" required 
-                                       placeholder="Lương cơ bản" min="0">
+                                <input type="number" class="form-control" name="LuongCoBan" required
+                                    placeholder="Lương cơ bản" min="0">
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">Loại hợp đồng</label>
@@ -757,17 +1337,18 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Hệ số lương</label>
-                                <input type="number" class="form-control" name="HeSoLuong" 
-                                       placeholder="Hệ số lương" step="0.1" min="1" value="1.0">
+                                <input type="number" class="form-control" name="HeSoLuong" placeholder="Hệ số lương"
+                                    step="0.1" min="1" value="1.0">
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-primary" onclick="saveEmployee()">
                             <i class="fas fa-save"></i> Lưu nhân viên
                         </button>
-                        <button type="button" class="btn btn-outline" onclick="closeModal('addEmployeeModal')">Hủy</button>
+                        <button type="button" class="btn btn-outline"
+                            onclick="closeModal('addEmployeeModal')">Hủy</button>
                     </div>
                 </form>
             </div>
@@ -796,24 +1377,23 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Họ và tên</label>
-                                <input type="text" class="form-control" name="HoTen" required 
-                                       placeholder="Nhập họ và tên">
+                                <input type="text" class="form-control" name="HoTen" required
+                                    placeholder="Nhập họ và tên">
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Số điện thoại</label>
-                                <input type="tel" class="form-control" name="SoDienThoai" required 
-                                       placeholder="Nhập số điện thoại">
+                                <input type="tel" class="form-control" name="SoDienThoai" required
+                                    placeholder="Nhập số điện thoại">
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Email</label>
-                                <input type="email" class="form-control" name="Email" required 
-                                       placeholder="Nhập email">
+                                <input type="email" class="form-control" name="Email" required placeholder="Nhập email">
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">Ngày sinh</label>
@@ -829,14 +1409,13 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Địa chỉ</label>
-                            <textarea class="form-control" name="DiaChi" rows="2" 
-                                      placeholder="Nhập địa chỉ"></textarea>
+                            <textarea class="form-control" name="DiaChi" rows="2" placeholder="Nhập địa chỉ"></textarea>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <div class="form-section-title">
                             <i class="fas fa-briefcase"></i> Thông tin công việc
@@ -865,7 +1444,7 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Ngày vào làm</label>
@@ -873,11 +1452,11 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Lương cơ bản</label>
-                                <input type="number" class="form-control" name="LuongCoBan" required 
-                                       placeholder="Lương cơ bản" min="0">
+                                <input type="number" class="form-control" name="LuongCoBan" required
+                                    placeholder="Lương cơ bản" min="0">
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">Loại hợp đồng</label>
@@ -889,12 +1468,12 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Hệ số lương</label>
-                                <input type="number" class="form-control" name="HeSoLuong" 
-                                       placeholder="Hệ số lương" step="0.1" min="1" value="1.0">
+                                <input type="number" class="form-control" name="HeSoLuong" placeholder="Hệ số lương"
+                                    step="0.1" min="1" value="1.0">
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-primary" onclick="updateEmployee()">
                             <i class="fas fa-save"></i> Cập nhật
@@ -940,7 +1519,7 @@
                         <label class="form-label required">Tháng tính lương</label>
                         <input type="month" class="form-control" name="salaryMonth" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label required">Nhân viên</label>
                         <select class="form-control form-select" name="employee" required>
@@ -953,7 +1532,7 @@
                             <option value="NV005">NV005 - Hoang Van Em</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-primary" onclick="calculateSalary()">
                             <i class="fas fa-calculator"></i> Tính toán
@@ -978,7 +1557,7 @@
                         <label class="form-label required">Ngày chấm công</label>
                         <input type="date" class="form-control" name="attendanceDate" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label required">Nhân viên</label>
                         <select class="form-control form-select" name="attendanceEmployee" required>
@@ -990,7 +1569,7 @@
                             <option value="NV005">NV005 - Hoang Van Em</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-primary" onclick="saveAttendance()">
                             <i class="fas fa-check"></i> Lưu chấm công
@@ -1002,7 +1581,207 @@
         </div>
     </div>
 
+    <!-- Modal: Thêm tài khoản -->
+    <div class="modal" id="addAccountModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Thêm Tài Khoản Mới</div>
+                <button class="close-modal" onclick="closeModal('addAccountModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addAccountForm">
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-user-circle"></i> Thông Tin Tài Khoản
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Mã tài khoản</label>
+                                <input type="text" class="form-control" id="addMaTK" name="MaTK" required
+                                    placeholder="VD: TK006" pattern="[A-Z0-9]+" maxlength="20">
+                                <small class="form-text text-muted">Chỉ chấp nhận chữ in hoa và số</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Nhân viên</label>
+                                <select class="form-control form-select" name="MaNV" required>
+                                    <option value="">Chọn nhân viên</option>
+                                    <option value="NV001">NV001 - Nguyen Van An</option>
+                                    <option value="NV002">NV002 - Tran Thi Binh</option>
+                                    <option value="NV003">NV003 - Le Van Cuong</option>
+                                    <option value="NV004">NV004 - Pham Thi Dung</option>
+                                    <option value="NV005">NV005 - Hoang Van Em</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Tên đăng nhập</label>
+                                <input type="text" class="form-control" name="TenDangNhap" required
+                                    placeholder="Nhập tên đăng nhập">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Mật khẩu</label>
+                                <input type="password" class="form-control" name="MatKhau" required
+                                    placeholder="Nhập mật khẩu">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Quyền hạn</label>
+                                <select class="form-control form-select" name="QuyenHan" required>
+                                    <option value="">Chọn quyền hạn</option>
+                                    <option value="admin">Quản trị hệ thống</option>
+                                    <option value="manager">Quản lý</option>
+                                    <option value="sales">Nhân viên bán hàng</option>
+                                    <option value="technical">Kỹ thuật viên</option>
+                                    <option value="warehouse">Nhân viên kho</option>
+                                    <option value="accounting">Kế toán</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Trạng thái</label>
+                                <select class="form-control form-select" name="TrangThai" required>
+                                    <option value="active">Hoạt động</option>
+                                    <option value="inactive">Ngừng hoạt động</option>
+                                    <option value="locked">Đã khóa</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Ghi chú</label>
+                            <textarea class="form-control" name="GhiChu" rows="2"
+                                placeholder="Nhập ghi chú (nếu có)"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="saveAccount()">
+                            <i class="fas fa-save"></i> Lưu tài khoản
+                        </button>
+                        <button type="button" class="btn btn-outline"
+                            onclick="closeModal('addAccountModal')">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Sửa tài khoản -->
+    <div class="modal" id="editAccountModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Chỉnh Sửa Tài Khoản</div>
+                <button class="close-modal" onclick="closeModal('editAccountModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editAccountForm">
+                    <input type="hidden" name="MaTK" id="editAccountMaTK">
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-user-circle"></i> Thông Tin Tài Khoản
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Mã tài khoản</label>
+                                <input type="text" class="form-control" id="displayAccountMaTK" readonly disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Nhân viên</label>
+                                <select class="form-control form-select" name="MaNV" required>
+                                    <option value="">Chọn nhân viên</option>
+                                    <option value="NV001">NV001 - Nguyen Van An</option>
+                                    <option value="NV002">NV002 - Tran Thi Binh</option>
+                                    <option value="NV003">NV003 - Le Van Cuong</option>
+                                    <option value="NV004">NV004 - Pham Thi Dung</option>
+                                    <option value="NV005">NV005 - Hoang Van Em</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Tên đăng nhập</label>
+                                <input type="text" class="form-control" name="TenDangNhap" required
+                                    placeholder="Nhập tên đăng nhập">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Mật khẩu mới</label>
+                                <input type="password" class="form-control" name="MatKhau"
+                                    placeholder="Để trống nếu không đổi">
+                                <small class="form-text text-muted">Để trống nếu không muốn thay đổi mật khẩu</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Quyền hạn</label>
+                                <select class="form-control form-select" name="QuyenHan" required>
+                                    <option value="">Chọn quyền hạn</option>
+                                    <option value="admin">Quản trị hệ thống</option>
+                                    <option value="manager">Quản lý</option>
+                                    <option value="sales">Nhân viên bán hàng</option>
+                                    <option value="technical">Kỹ thuật viên</option>
+                                    <option value="warehouse">Nhân viên kho</option>
+                                    <option value="accounting">Kế toán</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required">Trạng thái</label>
+                                <select class="form-control form-select" name="TrangThai" required>
+                                    <option value="active">Hoạt động</option>
+                                    <option value="inactive">Ngừng hoạt động</option>
+                                    <option value="locked">Đã khóa</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Ghi chú</label>
+                            <textarea class="form-control" name="GhiChu" rows="2"
+                                placeholder="Nhập ghi chú (nếu có)"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="updateAccount()">
+                            <i class="fas fa-save"></i> Cập nhật
+                        </button>
+                        <button type="button" class="btn" onclick="closeModal('editAccountModal')">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Xem chi tiết tài khoản -->
+    <div class="modal" id="viewAccountModal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <div class="modal-title">Chi Tiết Tài Khoản</div>
+                <button class="close-modal" onclick="closeModal('viewAccountModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="accountDetailContent">
+                    <!-- Account details will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="editCurrentAccount()">
+                    <i class="fas fa-edit"></i> Chỉnh sửa
+                </button>
+                <button type="button" class="btn" onclick="closeModal('viewAccountModal')">Đóng</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/script.js"></script>
     <script>
         // Biến lưu trữ nhân viên hiện tại đang xem
@@ -1119,8 +1898,8 @@
                                         <td><strong>Loại hợp đồng:</strong></td>
                                         <td>
                                             ${employee.HopDong === 'permanent' ? 'Dài hạn' :
-                                              employee.HopDong === 'temporary' ? 'Ngắn hạn' :
-                                              employee.HopDong === 'probation' ? 'Thử việc' : employee.HopDong}
+                    employee.HopDong === 'temporary' ? 'Ngắn hạn' :
+                        employee.HopDong === 'probation' ? 'Thử việc' : employee.HopDong}
                                         </td>
                                     </tr>
                                 </table>
@@ -1261,7 +2040,7 @@
             const formData = new FormData(form);
 
             // Validate
-            if (!formData.get('MaNV') || !formData.get('HoTen') || 
+            if (!formData.get('MaNV') || !formData.get('HoTen') ||
                 !formData.get('SoDienThoai') || !formData.get('Email') ||
                 !formData.get('ChucVu') || !formData.get('PhongBan') ||
                 !formData.get('NgayVaoLam') || !formData.get('LuongCoBan')) {
@@ -1369,7 +2148,7 @@
 
         // Helper functions
         function getDepartmentName(departmentCode) {
-            switch(departmentCode) {
+            switch (departmentCode) {
                 case 'sales': return 'Bán hàng';
                 case 'warehouse': return 'Kho';
                 case 'technical': return 'Kỹ thuật';
@@ -1399,9 +2178,9 @@
 
             // Cập nhật thống kê
             document.getElementById('statTotalEmployees').textContent = totalEmployees;
-            document.getElementById('statTotalSalary').textContent = 
+            document.getElementById('statTotalSalary').textContent =
                 formatCurrency(totalSalary).replace('₫', '');
-            document.getElementById('statTotalSales').textContent = 
+            document.getElementById('statTotalSales').textContent =
                 formatCurrency(totalSales).replace('₫', '');
             document.getElementById('statAvgPerformance').textContent = `${avgPerformance}%`;
         }
@@ -1417,10 +2196,10 @@
                 const employee = JSON.parse(row.getAttribute('data-employee'));
                 const rowDepartment = employee.PhongBan;
                 const rowStatus = employee.TrangThai;
-                const searchText = employee.HoTen.toLowerCase() + ' ' + 
-                                 employee.MaNV.toLowerCase() + ' ' + 
-                                 employee.SoDienThoai.toLowerCase() + ' ' + 
-                                 employee.Email.toLowerCase();
+                const searchText = employee.HoTen.toLowerCase() + ' ' +
+                    employee.MaNV.toLowerCase() + ' ' +
+                    employee.SoDienThoai.toLowerCase() + ' ' +
+                    employee.Email.toLowerCase();
 
                 const isDepartmentMatch = !departmentFilter || rowDepartment === departmentFilter;
                 const isStatusMatch = !statusFilter || rowStatus === statusFilter;
@@ -1476,6 +2255,438 @@
             // Cập nhật thống kê ban đầu
             updateStats();
         });
+        // Các hàm JavaScript cho tài khoản
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (modalId === 'addAccountModal') {
+                document.getElementById('addAccountForm').reset();
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        // Lấy tên quyền hạn
+        function getPermissionName(permissionCode) {
+            switch (permissionCode) {
+                case 'admin': return 'Quản trị hệ thống';
+                case 'manager': return 'Quản lý';
+                case 'sales': return 'Nhân viên bán hàng';
+                case 'technical': return 'Kỹ thuật viên';
+                case 'warehouse': return 'Nhân viên kho';
+                case 'accounting': return 'Kế toán';
+                default: return permissionCode;
+            }
+        }
+
+        // Lấy tên trạng thái
+        function getStatusName(status) {
+            switch (status) {
+                case 'active': return 'Hoạt động';
+                case 'inactive': return 'Ngừng hoạt động';
+                case 'locked': return 'Đã khóa';
+                default: return status;
+            }
+        }
+
+        // Lấy tên nhân viên từ mã NV
+        function getEmployeeName(employeeCode) {
+            const employeeNames = {
+                'NV001': 'Nguyen Van An',
+                'NV002': 'Tran Thi Binh',
+                'NV003': 'Le Van Cuong',
+                'NV004': 'Pham Thi Dung',
+                'NV005': 'Hoang Van Em'
+            };
+            return employeeNames[employeeCode] || employeeCode;
+        }
+
+        // Dữ liệu mẫu cho tài khoản (cần đồng bộ với HTML)
+        const sampleAccounts = {
+            'TK001': {
+                MaTK: 'TK001',
+                MaNV: 'NV001',
+                TenDangNhap: 'admin',
+                MatKhau: 'admin123',
+                QuyenHan: 'admin',
+                NgayTao: '2024-01-01',
+                TrangThai: 'active',
+                GhiChu: 'Tài khoản quản trị hệ thống'
+            },
+            'TK002': {
+                MaTK: 'TK002',
+                MaNV: 'NV002',
+                TenDangNhap: 'binh.tran',
+                MatKhau: 'password123',
+                QuyenHan: 'sales',
+                NgayTao: '2024-02-15',
+                TrangThai: 'active',
+                GhiChu: 'Nhân viên bán hàng'
+            },
+            'TK003': {
+                MaTK: 'TK003',
+                MaNV: 'NV003',
+                TenDangNhap: 'cuong.le',
+                MatKhau: 'password123',
+                QuyenHan: 'technical',
+                NgayTao: '2024-03-10',
+                TrangThai: 'active',
+                GhiChu: 'Kỹ thuật viên'
+            },
+            'TK004': {
+                MaTK: 'TK004',
+                MaNV: 'NV004',
+                TenDangNhap: 'dung.pham',
+                MatKhau: 'password123',
+                QuyenHan: 'sales',
+                NgayTao: '2024-04-20',
+                TrangThai: 'active',
+                GhiChu: 'Nhân viên bán hàng'
+            },
+            'TK005': {
+                MaTK: 'TK005',
+                MaNV: 'NV005',
+                TenDangNhap: 'em.hoang',
+                MatKhau: 'password123',
+                QuyenHan: 'warehouse',
+                NgayTao: '2024-05-05',
+                TrangThai: 'active',
+                GhiChu: 'Nhân viên kho'
+            }
+        };
+
+        // Lấy thông tin tài khoản từ dữ liệu mẫu
+        function getAccountByCode(accountCode) {
+            return sampleAccounts[accountCode] || null;
+        }
+
+        // Xem chi tiết tài khoản
+        function viewAccountDetail(accountCode) {
+            const account = getAccountByCode(accountCode);
+            if (!account) {
+                alert('Không tìm thấy tài khoản!');
+                return;
+            }
+
+            currentAccount = account;
+
+            const detailContent = document.getElementById('accountDetailContent');
+            detailContent.innerHTML = `
+        <div class="account-detail">
+            <div class="employee-header mb-4">
+                <h3>Tài khoản: ${account.MaTK}</h3>
+                <div class="text-muted">Tên đăng nhập: ${account.TenDangNhap}</div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="detail-section">
+                        <h5><i class="fas fa-id-card"></i> Thông tin tài khoản</h5>
+                        <table class="detail-table">
+                            <tr>
+                                <td><strong>Mã nhân viên:</strong></td>
+                                <td>${account.MaNV}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nhân viên:</strong></td>
+                                <td>${getEmployeeName(account.MaNV)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tên đăng nhập:</strong></td>
+                                <td>${getEmployeeName(account.MaNV)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mật khẩu:</strong></td>
+                                <td>${getEmployeeName(account.MaNV)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Quyền hạn:</strong></td>
+                                <td>${getPermissionName(account.QuyenHan)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Trạng thái:</strong></td>
+                                <td>${getStatusName(account.TrangThai)}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ngày tạo:</strong></td>
+                                <td>${formatDate(account.NgayTao)}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="detail-section">
+                        <h5><i class="fas fa-info-circle"></i> Thông tin khác</h5>
+                        <table class="detail-table">
+                            <tr>
+                                <td><strong>Ghi chú:</strong></td>
+                                <td>${account.GhiChu || 'Không có'}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lần đăng nhập cuối:</strong></td>
+                                <td>Chưa đăng nhập</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IP đăng nhập:</strong></td>
+                                <td>Chưa xác định</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="detail-section">
+                <h5><i class="fas fa-shield-alt"></i> Phân quyền chi tiết</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="permission-list">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="perm-dashboard" ${account.QuyenHan === 'admin' || account.QuyenHan === 'manager' || account.QuyenHan === 'sales' || account.QuyenHan === 'technical' || account.QuyenHan === 'warehouse' || account.QuyenHan === 'accounting' ? 'checked' : ''}>
+                                <label class="form-check-label" for="perm-dashboard">Truy cập Dashboard</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="perm-products" ${account.QuyenHan === 'admin' || account.QuyenHan === 'manager' || account.QuyenHan === 'sales' ? 'checked' : ''}>
+                                <label class="form-check-label" for="perm-products">Quản lý sản phẩm</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="perm-orders" ${account.QuyenHan === 'admin' || account.QuyenHan === 'manager' || account.QuyenHan === 'sales' ? 'checked' : ''}>
+                                <label class="form-check-label" for="perm-orders">Quản lý đơn hàng</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="perm-customers" ${account.QuyenHan === 'admin' || account.QuyenHan === 'manager' || account.QuyenHan === 'sales' ? 'checked' : ''}>
+                                <label class="form-check-label" for="perm-customers">Quản lý khách hàng</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="permission-list">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="perm-employees" ${account.QuyenHan === 'admin' ? 'checked' : ''}>
+                                <label class="form-check-label" for="perm-employees">Quản lý nhân viên</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="perm-reports" ${account.QuyenHan === 'admin' || account.QuyenHan === 'manager' ? 'checked' : ''}>
+                                <label class="form-check-label" for="perm-reports">Xem báo cáo</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="perm-settings" ${account.QuyenHan === 'admin' ? 'checked' : ''}>
+                                <label class="form-check-label" for="perm-settings">Cài đặt hệ thống</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+            openModal('viewAccountModal');
+        }
+
+        // Chỉnh sửa tài khoản từ modal xem chi tiết
+        function editCurrentAccount() {
+            if (currentAccount) {
+                editAccount(currentAccount.MaTK);
+            }
+        }
+
+        // Sửa tài khoản
+        function editAccount(accountCode) {
+            const account = getAccountByCode(accountCode);
+            if (!account) {
+                alert('Không tìm thấy tài khoản!');
+                return;
+            }
+
+            // Điền thông tin vào form chỉnh sửa
+            document.getElementById('editAccountMaTK').value = account.MaTK;
+            document.getElementById('displayAccountMaTK').value = account.MaTK;
+            document.querySelector('#editAccountForm select[name="MaNV"]').value = account.MaNV;
+            document.querySelector('#editAccountForm input[name="TenDangNhap"]').value = account.TenDangNhap;
+            document.querySelector('#editAccountForm select[name="QuyenHan"]').value = account.QuyenHan;
+            document.querySelector('#editAccountForm select[name="TrangThai"]').value = account.TrangThai;
+            document.querySelector('#editAccountForm textarea[name="GhiChu"]').value = account.GhiChu || '';
+
+            // Đóng modal xem chi tiết nếu đang mở
+            closeModal('viewAccountModal');
+            openModal('editAccountModal');
+        }
+
+        // Cập nhật tài khoản
+        function updateAccount() {
+            const form = document.getElementById('editAccountForm');
+            const formData = new FormData(form);
+            const accountCode = formData.get('MaTK');
+
+            // Lấy giá trị từ form
+            const updatedAccount = {
+                MaTK: accountCode,
+                MaNV: formData.get('MaNV'),
+                TenDangNhap: formData.get('TenDangNhap'),
+                QuyenHan: formData.get('QuyenHan'),
+                TrangThai: formData.get('TrangThai'),
+                GhiChu: formData.get('GhiChu'),
+                NgayTao: currentAccount?.NgayTao || new Date().toISOString().split('T')[0]
+            };
+
+            // Cập nhật mật khẩu nếu có
+            const newPassword = formData.get('MatKhau');
+            if (newPassword) {
+                updatedAccount.MatKhau = newPassword;
+            } else {
+                updatedAccount.MatKhau = currentAccount?.MatKhau || '';
+            }
+
+            // Cập nhật dữ liệu mẫu
+            sampleAccounts[accountCode] = { ...sampleAccounts[accountCode], ...updatedAccount };
+
+            // Cập nhật hiển thị trong danh sách
+            updateAccountDisplay(accountCode, updatedAccount);
+
+            alert('Đã cập nhật tài khoản thành công!');
+            closeModal('editAccountModal');
+            currentAccount = updatedAccount;
+        }
+
+        // Cập nhật hiển thị tài khoản trong danh sách
+        function updateAccountDisplay(accountCode, accountData) {
+            const accountItems = document.querySelectorAll('.account-item');
+            accountItems.forEach(item => {
+                const accountIdElement = item.querySelector('.account-id');
+                if (accountIdElement && accountIdElement.textContent === accountCode) {
+                    // Cập nhật trạng thái
+                    const statusElement = item.querySelector('.account-status');
+                    if (statusElement) {
+                        statusElement.className = `account-status ${accountData.TrangThai}`;
+                    }
+
+                    // Cập nhật thông tin chi tiết
+                    const detailsElement = item.querySelector('.account-details');
+                    if (detailsElement) {
+                        const employeeName = getEmployeeName(accountData.MaNV);
+                        const permissionName = getPermissionName(accountData.QuyenHan);
+                        detailsElement.innerHTML = `
+                    <span>${accountData.MaNV} - ${employeeName}</span>
+                    <span>|</span>
+                    <span>${permissionName}</span>
+                `;
+                    }
+                }
+            });
+        }
+
+        // Lưu tài khoản mới
+        function saveAccount() {
+            const form = document.getElementById('addAccountForm');
+            const formData = new FormData(form);
+
+            // Validate
+            if (!formData.get('MaTK') || !formData.get('MaNV') ||
+                !formData.get('TenDangNhap') || !formData.get('MatKhau') ||
+                !formData.get('QuyenHan') || !formData.get('TrangThai')) {
+                alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+                return;
+            }
+
+            const accountCode = formData.get('MaTK');
+
+            // Kiểm tra mã tài khoản đã tồn tại chưa
+            if (sampleAccounts[accountCode]) {
+                alert('Mã tài khoản đã tồn tại!');
+                return;
+            }
+
+            const newAccount = {
+                MaTK: accountCode,
+                MaNV: formData.get('MaNV'),
+                TenDangNhap: formData.get('TenDangNhap'),
+                MatKhau: formData.get('MatKhau'),
+                QuyenHan: formData.get('QuyenHan'),
+                NgayTao: new Date().toISOString().split('T')[0],
+                TrangThai: formData.get('TrangThai'),
+                GhiChu: formData.get('GhiChu') || ''
+            };
+
+            // Thêm vào dữ liệu mẫu
+            sampleAccounts[accountCode] = newAccount;
+
+            // Thêm vào danh sách hiển thị
+            const accountList = document.querySelector('.account-list');
+            if (accountList) {
+                const newAccountItem = document.createElement('div');
+                newAccountItem.className = 'account-item';
+                newAccountItem.innerHTML = `
+            <div class="account-status ${newAccount.TrangThai}"></div>
+            <div class="account-info">
+                <div class="account-id">${newAccount.MaTK}</div>
+                <div class="account-details">
+                    <span>${newAccount.MaNV} - ${getEmployeeName(newAccount.MaNV)}</span>
+                    <span>|</span>
+                    <span>${getPermissionName(newAccount.QuyenHan)}</span>
+                </div>
+            </div>
+            <div class="account-actions">
+                <button class="account-action-btn account-view-btn" title="Xem chi tiết" onclick="viewAccountDetail('${newAccount.MaTK}')">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="account-action-btn account-edit-btn" title="Sửa" onclick="editAccount('${newAccount.MaTK}')">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="account-action-btn account-delete-btn" title="Xóa" onclick="deleteAccount('${newAccount.MaTK}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+                accountList.appendChild(newAccountItem);
+            }
+
+            alert('Đã thêm tài khoản mới thành công!');
+            closeModal('addAccountModal');
+            form.reset();
+        }
+
+        // Xóa tài khoản
+        function deleteAccount(accountCode) {
+            if (!confirm(`Bạn có chắc chắn muốn xóa tài khoản ${accountCode}?`)) {
+                return;
+            }
+
+            // Xóa khỏi dữ liệu mẫu
+            delete sampleAccounts[accountCode];
+
+            // Xóa khỏi danh sách hiển thị
+            const accountItems = document.querySelectorAll('.account-item');
+            accountItems.forEach(item => {
+                const accountIdElement = item.querySelector('.account-id');
+                if (accountIdElement && accountIdElement.textContent === accountCode) {
+                    item.style.opacity = '0.5';
+                    setTimeout(() => {
+                        item.remove();
+                        alert('Đã xóa tài khoản thành công!');
+                    }, 300);
+                }
+            });
+        }
+
+        // Xử lý sự kiện khi DOM tải xong
+        document.addEventListener('DOMContentLoaded', function () {
+            // Xử lý đóng modal khi click bên ngoài
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                    }
+                });
+            });
+        });
     </script>
+    <script src="js/QLNhanVien.js"></script>
 </body>
+
 </html>

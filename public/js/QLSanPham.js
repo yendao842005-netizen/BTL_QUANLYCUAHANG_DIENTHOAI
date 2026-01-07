@@ -3,6 +3,8 @@ $(document).ready(function () {
     // 1. CẤU HÌNH & KHỞI TẠO
     // ==========================================
     const API_URL = "/api/SanPhams";
+    const CATEGORY_API_URL = "/api/DanhMucs";
+    const SUPPLIER_API_URL = "/api/NhaCungCaps";
     const PAGE_SIZE = 16;
     let currentPage = 1;
     let searchTimeout = null;
@@ -504,4 +506,69 @@ $(document).ready(function () {
     // --- GỌI HÀM KHI TRANG LOAD ---
     // (Thêm dòng này vào trong $(document).ready cùng với các hàm khác)
     loadProductStats();
+    // --- HÀM RESET BỘ LỌC (VIẾT LẠI) ---
+// --- HÀM RESET BỘ LỌC (SỬA LẠI ĐÚNG VỚI HTML CỦA BẠN) ---
+    window.resetFilters = function() {
+        // 1. Xóa nội dung ô tìm kiếm
+        $('#productSearch').val('');
+
+        // 2. Đưa các dropdown về giá trị mặc định (value="")
+        // Vì trong HTML bạn để <option value=""> là mặc định
+        $('#categoryFilter').val(''); 
+        $('#statusFilter').val('');
+        $('#sortFilter').val(''); // Dòng này sẽ đưa về "Sắp xếp theo"
+
+        // 3. Gọi lại dữ liệu ở trang 1
+        fetchData(1);
+    };
+
+    loadDropdownData();
+    function loadDropdownData() {
+        // A. Tải Danh Mục
+        $.ajax({
+            url: CATEGORY_API_URL,
+            method: 'GET',
+            success: function (categories) {
+                // 1. Đổ vào Bộ lọc (Filter)
+                const filterSelect = $('#categoryFilter');
+                // Giữ lại option đầu tiên (Tất cả danh mục)
+                filterSelect.find('option:not(:first)').remove();
+                
+                // 2. Đổ vào Modal Thêm & Sửa (Tìm theo name="MaDM")
+                const formSelects = $('select[name="MaDM"]');
+                // Giữ lại option đầu (Chọn danh mục)
+                formSelects.find('option:not(:first)').remove();
+
+                // 3. Render dữ liệu
+                categories.forEach(dm => {
+                    // Thêm vào Filter
+                    filterSelect.append(`<option value="${dm.MaDM}">${dm.TenDanhMuc}</option>`);
+                    
+                    // Thêm vào Form (Thêm & Sửa)
+                    formSelects.append(`<option value="${dm.MaDM}">${dm.TenDanhMuc}</option>`);
+                });
+            },
+            error: function () {
+                console.error("Lỗi tải Danh mục");
+            }
+        });
+
+        // B. Tải Nhà Cung Cấp (Chỉ cần cho Form Thêm/Sửa)
+        $.ajax({
+            url: SUPPLIER_API_URL,
+            method: 'GET',
+            success: function (suppliers) {
+                // Tìm tất cả select có name="MaNCC" (cả form thêm và sửa)
+                const supplierSelects = $('select[name="MaNCC"]');
+                supplierSelects.find('option:not(:first)').remove();
+
+                suppliers.forEach(ncc => {
+                    supplierSelects.append(`<option value="${ncc.MaNCC}">${ncc.TenNhaCungCap}</option>`);
+                });
+            },
+            error: function () {
+                console.error("Lỗi tải Nhà cung cấp");
+            }
+        });
+    }
 });

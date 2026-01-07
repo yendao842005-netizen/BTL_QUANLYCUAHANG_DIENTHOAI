@@ -39,7 +39,7 @@ export const TaiKhoanService = {
   },
 
   getTaiKhoansByPage: async (page) => {
-    const pageSize = 10; // Quy định 10 dòng mỗi trang
+    const pageSize = 5; // Quy định 10 dòng mỗi trang
     const offset = (page - 1) * pageSize; // Tính toán vị trí bắt đầu
 
     logger.info(`Service: Pagination - Page ${page}, Size ${pageSize}`);

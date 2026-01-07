@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Sidebar -->
@@ -19,55 +20,55 @@
                 </div>
                 <div class="sidebar-title">MobileStore Pro</div>
             </div>
-            
+
             <div class="sidebar-menu">
                 <div class="menu-section">
                     <div class="menu-section-title">Tổng quan</div>
-                    <a href="index.html" class="menu-item">
+                    <a href="TongQuanHeThong" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-home"></i>
                         </div>
                         <div class="menu-text">Dashboard</div>
                     </a>
                 </div>
-                
+
                 <div class="menu-section">
                     <div class="menu-section-title">Quản lý</div>
-                    <a href="products.html" class="menu-item">
+                    <a href="QLSanPham" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-box"></i>
                         </div>
                         <div class="menu-text">Sản phẩm</div>
                     </a>
-                    <a href="orders.html" class="menu-item active">
+                    <a href="QLDonHang" class="menu-item active">
                         <div class="menu-icon">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <div class="menu-text">Đơn hàng</div>
                     </a>
-                    <a href="customers.html" class="menu-item">
+                    <a href="QLKhachHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="menu-text">Khách hàng</div>
                     </a>
-                    <a href="employees.html" class="menu-item">
+                    <a href="QLNhanVien" class="menu-item ">
                         <div class="menu-icon">
                             <i class="fas fa-user-tie"></i>
                         </div>
                         <div class="menu-text">Nhân viên</div>
                     </a>
                 </div>
-                
+
                 <div class="menu-section">
                     <div class="menu-section-title">Hệ thống</div>
-                    <a href="suppliers.html" class="menu-item">
+                    <a href="QLNhaCungCap" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-truck"></i>
                         </div>
                         <div class="menu-text">Nhà cung cấp</div>
                     </a>
-                    <a href="categories.html" class="menu-item">
+                    <a href="QLDangMuc" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-list"></i>
                         </div>
@@ -83,11 +84,11 @@
                         <div class="menu-icon">
                             <i class="fas fa-cog"></i>
                         </div>
-                        <div class="menu-text">Cài đặt</div>
+
                     </a>
                 </div>
             </div>
-            
+
             <div class="sidebar-footer">
                 <div class="admin-avatar">
                     <i class="fas fa-user"></i>
@@ -97,7 +98,7 @@
                     <div class="admin-role">Quản trị hệ thống</div>
                 </div>
             </div>
-            
+
             <div class="toggle-sidebar">
                 <i class="fas fa-chevron-left"></i>
             </div>
@@ -117,13 +118,13 @@
                         <div class="breadcrumb-item active">Đơn hàng</div>
                     </div>
                 </div>
-                
+
                 <div class="header-right">
                     <div class="search-box">
                         <i class="fas fa-search search-icon"></i>
                         <input type="text" id="orderSearch" placeholder="Tìm kiếm đơn hàng...">
                     </div>
-                    
+
                     <div class="notifications">
                         <i class="fas fa-bell notification-icon"></i>
                         <span class="notification-count">3</span>
@@ -137,7 +138,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="user-menu">
                         <div class="user-info">
                             <div class="admin-avatar">
@@ -234,16 +235,16 @@
                             <div class="table-filters">
                                 <select class="filter-select" id="orderStatusFilter">
                                     <option value="">Tất cả trạng thái</option>
-                                    <option value="pending">Chờ xử lý</option>
-                            
-                                    <option value="completed">Hoàn thành</option>
-                                    <option value="cancelled">Đã hủy</option>
+                                    <option value="ChoXuLy">Chờ xử lý</option>
+
+                                    <option value="HoanThanh">Hoàn thành</option>
+                                    <option value="DaHuy">Đã hủy</option>
                                 </select>
                                 <select class="filter-select" id="paymentFilter">
                                     <option value="">Tất cả hình thức TT</option>
-                                    <option value="cash">Tiền mặt</option>
-                                    <option value="banking">Chuyển khoản</option>
-                                    <option value="card">Thẻ</option>
+                                    <option value="TienMat">Tiền mặt</option>
+                                    <option value="ChuyenKhoan">Chuyển khoản</option>
+                                    <option value="The">Thẻ</option>
                                 </select>
                             </div>
                             <button class="btn btn-outline btn-sm" onclick="resetFilters()">
@@ -251,7 +252,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <div class="table-responsive">
                         <table id="ordersTable">
                             <thead>
@@ -259,7 +260,7 @@
                                     <th>Mã HD</th>
                                     <th>Khách hàng</th>
                                     <th>Ngày đặt</th>
-                                    
+
                                     <th>Tổng tiền</th>
                                     <th>Thanh toán</th>
                                     <th>Trạng thái</th>
@@ -426,7 +427,7 @@
                                 </tr> -->
                             </tbody>
                         </table>
-                         <div class="pagination-container" id="pagination" ></div>
+                        <div class="pagination-container" id="pagination"></div>
                     </div>
                 </div>
 
@@ -457,7 +458,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="widget">
                         <div class="widget-header">
                             <div class="widget-title">Đơn hàng cần xử lý gấp</div>
@@ -541,39 +542,38 @@
                                 <label class="form-label required">Khách hàng</label>
                                 <select class="form-control form-select" name="customer" required>
                                     <option value="">Chọn khách hàng</option>
-                                    <option value="KH001">KH001 - Nguyen Van Khach</option>
+                                    <!-- <option value="KH001">KH001 - Nguyen Van Khach</option>
                                     <option value="KH002">KH002 - Tran Thi Mua</option>
                                     <option value="KH003">KH003 - Le Van Sam</option>
                                     <option value="KH004">KH004 - Pham Thi Tieu</option>
-                                    <option value="KH005">KH005 - Hoang Van Dung</option>
+                                    <option value="KH005">KH005 - Hoang Van Dung</option> -->
                                     <option value="new">+ Thêm khách hàng mới</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Số điện thoại</label>
-                                <input type="text" class="form-control" name="phone" 
-                                       placeholder="Số điện thoại">
+                                <input type="text" class="form-control" name="phone" placeholder="Số điện thoại">
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Địa chỉ giao hàng</label>
-                            <textarea class="form-control" name="address" rows="2" 
-                                      placeholder="Địa chỉ giao hàng"></textarea>
+                            <textarea class="form-control" name="address" rows="2"
+                                placeholder="Địa chỉ giao hàng"></textarea>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <div class="form-section-title">
                             <i class="fas fa-shopping-cart"></i> Sản phẩm đặt hàng
                         </div>
                         <div class="order-products">
                             <div class="product-search mb-3">
-                                <input type="text" class="form-control" id="productSearchInput" 
-                                       placeholder="Tìm kiếm sản phẩm...">
+                                <input type="text" class="form-control" id="productSearchInput"
+                                    placeholder="Tìm kiếm sản phẩm...">
                                 <div class="search-results" id="productSearchResults"></div>
                             </div>
-                            
+
                             <div class="table-responsive">
                                 <table class="order-items-table">
                                     <thead>
@@ -600,7 +600,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <div class="form-section-title">
                             <i class="fas fa-cog"></i> Thông tin bổ sung
@@ -609,42 +609,42 @@
                             <div class="form-group">
                                 <label class="form-label required">Hình thức thanh toán</label>
                                 <select class="form-control form-select" name="paymentMethod" required>
-                                    <option value="cash">Tiền mặt</option>
-                                    <option value="banking">Chuyển khoản</option>
-                                    <option value="card">Thẻ</option>
+                                    <option value="TienMat">Tiền mặt</option>
+                                    <option value="ChuyenKhoan">Chuyển khoản</option>
+                                    <option value="The">Thẻ</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Phí vận chuyển</label>
-                                <input type="number" class="form-control" name="shippingFee" 
-                                       placeholder="Phí vận chuyển" value="0" min="0">
+                                <input type="number" class="form-control" name="shippingFee"
+                                    placeholder="Phí vận chuyển" value="0" min="0">
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">Giảm giá</label>
-                                <input type="number" class="form-control" name="discount" 
-                                       placeholder="Giảm giá" value="0" min="0">
+                                <input type="number" class="form-control" name="discount" placeholder="Giảm giá"
+                                    value="0" min="0">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Nhân viên bán hàng</label>
                                 <select class="form-control form-select" name="employee">
                                     <option value="">Chọn nhân viên</option>
-                                    <option value="NV002">NV002 - Tran Thi Binh</option>
+                                    <!-- <option value="NV002">NV002 - Tran Thi Binh</option>
                                     <option value="NV004">NV004 - Pham Thi Dung</option>
-                                    <option value="NV008">NV008 - Vu Thi Hoa</option>
+                                    <option value="NV008">NV008 - Vu Thi Hoa</option> -->
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label">Ghi chú đơn hàng</label>
-                            <textarea class="form-control" name="orderNote" rows="2" 
-                                      placeholder="Ghi chú về đơn hàng..."></textarea>
+                            <textarea class="form-control" name="orderNote" rows="2"
+                                placeholder="Ghi chú về đơn hàng..."></textarea>
                         </div>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-primary" onclick="createOrder()">
                             <i class="fas fa-check"></i> Tạo đơn hàng
@@ -687,25 +687,24 @@
             <div class="modal-body">
                 <form id="updateStatusForm">
                     <input type="hidden" id="updateOrderId">
-                    
+
                     <div class="form-group">
                         <label class="form-label required">Trạng thái mới</label>
                         <select class="form-control form-select" id="newStatus" required>
                             <option value="">Chọn trạng thái</option>
-                            <option value="pending">Chờ xử lý</option>
-                            <option value="processing">Đang xử lý</option>
-                            <option value="shipping">Đang giao hàng</option>
-                            <option value="completed">Hoàn thành</option>
-                            <option value="cancelled">Đã hủy</option>
+                            <option value="Choxuly">Chờ xử lý</option>
+                            
+                            <option value="HoanThanh">Hoàn thành</option>
+                            <option value="DaHuy">Đã hủy</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label">Ghi chú cập nhật</label>
-                        <textarea class="form-control" id="statusNote" rows="3" 
-                                  placeholder="Ghi chú về việc cập nhật trạng thái..."></textarea>
+                        <textarea class="form-control" id="statusNote" rows="3"
+                            placeholder="Ghi chú về việc cập nhật trạng thái..."></textarea>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-primary" onclick="saveOrderStatus()">
                             <i class="fas fa-save"></i> Cập nhật
@@ -718,7 +717,7 @@
     </div>
 
     <!-- Scripts -->
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/script.js"></script>
     <!-- <script>
         // Biến lưu trữ
@@ -1295,13 +1294,13 @@
         .customer-name {
             max-width: 150px;
         }
-        
+
         .customer-phone {
             font-size: 12px;
             color: #666;
             margin-top: 3px;
         }
-        
+
         .payment {
             padding: 4px 10px;
             border-radius: 20px;
@@ -1309,62 +1308,62 @@
             font-weight: 500;
             display: inline-block;
         }
-        
+
         .payment.cash {
             background: rgba(6, 214, 160, 0.1);
             color: #06d6a0;
             border: 1px solid rgba(6, 214, 160, 0.3);
         }
-        
+
         .payment.banking {
             background: rgba(67, 97, 238, 0.1);
             color: #4361ee;
             border: 1px solid rgba(67, 97, 238, 0.3);
         }
-        
+
         .payment.card {
             background: rgba(114, 9, 183, 0.1);
             color: #7209b7;
             border: 1px solid rgba(114, 9, 183, 0.3);
         }
-        
+
         .status.shipping {
             background: rgba(255, 158, 0, 0.1);
             color: #ff9e00;
             border: 1px solid rgba(255, 158, 0, 0.3);
         }
-        
+
         .order-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
-        
+
         .order-stat-item {
             text-align: center;
             padding: 15px;
             background: #f8f9fa;
             border-radius: 10px;
         }
-        
+
         .order-stat-item .stat-value {
             font-size: 24px;
             font-weight: 700;
             color: #4361ee;
             margin-bottom: 5px;
         }
-        
+
         .order-stat-item .stat-label {
             font-size: 12px;
             color: #6c757d;
             text-transform: uppercase;
         }
-        
+
         .urgent-orders {
             max-height: 300px;
             overflow-y: auto;
         }
-        
+
         .urgent-order-item {
             padding: 15px;
             border: 1px solid #dee2e6;
@@ -1372,49 +1371,49 @@
             margin-bottom: 10px;
             background: rgba(255, 158, 0, 0.05);
         }
-        
+
         .urgent-order-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .urgent-order-header .order-id {
             font-weight: 600;
             color: #4361ee;
         }
-        
+
         .urgent-order-header .order-time {
             font-size: 12px;
             color: #6c757d;
         }
-        
+
         .urgent-order-body {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
         }
-        
+
         .urgent-order-body .customer {
             font-weight: 500;
         }
-        
+
         .urgent-order-body .amount {
             font-weight: 600;
             color: #4361ee;
         }
-        
+
         .urgent-order-actions {
             display: flex;
             gap: 10px;
         }
-        
+
         .product-search {
             position: relative;
         }
-        
+
         .search-results {
             position: absolute;
             top: 100%;
@@ -1428,61 +1427,61 @@
             overflow-y: auto;
             z-index: 1000;
         }
-        
+
         .search-result-item {
             padding: 10px 15px;
             cursor: pointer;
             border-bottom: 1px solid #dee2e6;
             transition: all 0.3s ease;
         }
-        
+
         .search-result-item:hover {
             background: #f0f3ff;
         }
-        
+
         .search-result-item:last-child {
             border-bottom: none;
         }
-        
+
         .result-name {
             font-weight: 500;
             margin-bottom: 3px;
         }
-        
+
         .result-price {
             font-size: 12px;
             color: #4361ee;
         }
-        
+
         .order-items-table {
             width: 100%;
             border-collapse: collapse;
         }
-        
+
         .order-items-table th,
         .order-items-table td {
             padding: 12px;
             border-bottom: 1px solid #dee2e6;
             text-align: center;
         }
-        
+
         .order-items-table th {
             background: #f8f9fa;
             font-weight: 600;
         }
-        
+
         .order-items-table tfoot td {
             border-bottom: none;
             font-weight: 600;
         }
-        
+
         .quantity-control {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
         }
-        
+
         .qty-btn {
             width: 30px;
             height: 30px;
@@ -1494,11 +1493,11 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .qty-btn:hover {
             background: #f8f9fa;
         }
-        
+
         .quantity-control input {
             width: 50px;
             text-align: center;
@@ -1506,46 +1505,46 @@
             border-radius: 4px;
             padding: 5px;
         }
-        
+
         .order-detail {
             padding: 10px;
         }
-        
+
         .order-items-detail {
             width: 100%;
             border-collapse: collapse;
         }
-        
+
         .order-items-detail th,
         .order-items-detail td {
             padding: 12px;
             border-bottom: 1px solid #dee2e6;
             text-align: left;
         }
-        
+
         .order-items-detail th {
             background: #f8f9fa;
             font-weight: 600;
         }
-        
+
         .detail-table {
             width: 100%;
         }
-        
+
         .detail-table td {
             padding: 8px 0;
             border-bottom: 1px solid #f0f0f0;
         }
-        
+
         .detail-table td:first-child {
             width: 120px;
             font-weight: 600;
         }
-        
+
         .detail-section {
             margin-bottom: 20px;
         }
-        
+
         .detail-section h5 {
             margin-bottom: 15px;
             color: #4361ee;
@@ -1553,23 +1552,30 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .detail-section h5 i {
             color: #4361ee;
         }
+
         /* 1. CẤU HÌNH CHUNG CHO THẺ (PAYMENT & STATUS) */
-        .payment, .status {
+        .payment,
+        .status {
             /* Kích thước cố định để bằng nhau */
             display: inline-block;
-            width: 110px;           /* Độ rộng cố định (đủ cho chữ dài nhất) */
-            text-align: center;     /* Căn giữa chữ */
-            
+            width: 110px;
+            /* Độ rộng cố định (đủ cho chữ dài nhất) */
+            text-align: center;
+            /* Căn giữa chữ */
+
             /* Giao diện chung */
-            padding: 6px 0;         /* Padding trên dưới */
-            border-radius: 20px;    /* Bo tròn */
+            padding: 6px 0;
+            /* Padding trên dưới */
+            border-radius: 20px;
+            /* Bo tròn */
             font-size: 12px;
             font-weight: 600;
-            white-space: nowrap;    /* Không cho xuống dòng */
+            white-space: nowrap;
+            /* Không cho xuống dòng */
         }
 
         /* 2. MÀU SẮC CHO PHƯƠNG THỨC THANH TOÁN */
@@ -1578,13 +1584,13 @@
             color: #06d6a0;
             border: 1px solid rgba(6, 214, 160, 0.3);
         }
-        
+
         .payment.banking {
             background: rgba(67, 97, 238, 0.1);
             color: #4361ee;
             border: 1px solid rgba(67, 97, 238, 0.3);
         }
-        
+
         .payment.card {
             background: rgba(114, 9, 183, 0.1);
             color: #7209b7;
@@ -1593,34 +1599,97 @@
         }
 
         /* 3. MÀU SẮC CHO TRẠNG THÁI ĐƠN HÀNG */
-        .status.pending { /* Chờ xử lý - Màu vàng */
+        .status.pending {
+            /* Chờ xử lý - Màu vàng */
             background: rgba(255, 193, 7, 0.1);
             color: #ffc107;
             border: 1px solid rgba(255, 193, 7, 0.3);
         }
-        
-        .status.shipping { /* Đang giao - Màu cam */
+
+        .status.shipping {
+            /* Đang giao - Màu cam */
             background: rgba(255, 158, 0, 0.1);
             color: #ff9e00;
             border: 1px solid rgba(255, 158, 0, 0.3);
         }
 
-        .status.completed { /* Hoàn thành - Màu xanh dương */
+        .status.completed {
+            /* Hoàn thành - Màu xanh dương */
             background: rgba(67, 97, 238, 0.1);
             color: #4361ee;
             border: 1px solid rgba(67, 97, 238, 0.3);
         }
 
-        .status.cancelled { /* Đã hủy - Màu xám */
+        .status.cancelled {
+            /* Đã hủy - Màu xám */
             background: rgba(108, 117, 125, 0.1);
             color: #6c757d;
             border: 1px solid rgba(108, 117, 125, 0.3);
         }
-        
-        .status.processing { /* Đang xử lý - Màu xanh lá */
+
+        .status.processing {
+            /* Đang xử lý - Màu xanh lá */
             background: rgba(40, 167, 69, 0.1);
             color: #28a745;
             border: 1px solid rgba(40, 167, 69, 0.3);
+        }
+
+        .order-items-table th,
+        .order-items-detail th {
+            background-color: #e9ecef !important;
+            /* Nền màu xám rõ hơn chút */
+            color: #111111 !important;
+            /* Chữ màu đen tuyệt đối */
+            font-weight: 600;
+            text-transform: uppercase;
+            /* Chữ in hoa cho đẹp */
+            border-bottom: 2px solid #ced4da;
+            /* Viền dưới đậm hơn */
+        }
+
+        /* Đảm bảo phần nội dung (dòng bên dưới) cũng có chữ màu đen */
+        .order-items-table td,
+        .order-items-detail td {
+            color: #333333 !important;
+            background-color: #ffffff !important;
+            /* Nền trắng cho nội dung */
+        }
+
+        /* --- CSS CHO KHUNG TÌM KIẾM CÓ THANH CUỘN --- */
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+
+            /* QUAN TRỌNG: Tạo thanh cuộn */
+            max-height: 300px;
+            /* Chiều cao tối đa (khoảng 5-6 sản phẩm) */
+            overflow-y: auto;
+            /* Tự động hiện thanh cuộn dọc nếu dài hơn 300px */
+        }
+
+        /* Tùy chỉnh thanh cuộn cho đẹp (Webkit browsers: Chrome, Safari) */
+        .search-results::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .search-results::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .search-results::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .search-results::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
         }
     </style>
 </body>

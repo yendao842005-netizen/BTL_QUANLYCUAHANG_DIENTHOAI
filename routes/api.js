@@ -26,6 +26,10 @@ router.get("/NhanViens/PhanTrang", NhanVienController.getPaginated);
 router.get("/NhanViens/Search", NhanVienController.search);//http://localhost:3000/api/NhanViens/Search/?hoTen=Nguyen&diaChi=HCM // có thể tìm kiếm theo hoTen, tuNgaySinh,gioiTinh, diaChi, chucVu
 // URL: http://localhost:3000/api/NhanViens/BaoCao/HieuSuat?startDate=2024-01-01&endDate=2024-12-31
 router.get("/NhanViens/BaoCao/HieuSuat", NhanVienController.getPerformanceReport);
+// URL: http://localhost:3000/api/NhanViens/Stats/Dashboard
+router.get("/NhanViens/Stats/Dashboard", NhanVienController.getDashboardStats);
+// URL: http://localhost:3000/api/NhanViens/Stats/TopRevenue
+router.get("/NhanViens/Stats/TopRevenue", NhanVienController.getTopRevenue);
 router.get("/NhanViens/Export/Excel", NhanVienController.exportToExcel);//xuất excel toàn bộ nhân viên
 router.get("/NhanViens/:MaNV", NhanVienController.getByMa); // Ma là MaNV (VD: NV001)
 router.post("/NhanViens", NhanVienController.create);

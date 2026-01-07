@@ -11,6 +11,7 @@ router.get("/trangchu", (req, res) => {
   res.render('trangchu');
 });
 
+
 router.get("/dangki", (req, res) => {
   res.render('dangki');
 });
@@ -47,7 +48,7 @@ router.get("/QLKhachHang", (req, res) => {
 router.get("/QLNhanVien", (req, res) => {
   res.render('QLNhanVien');
 });
-
+//dã xong liên kết với api
 router.get("/QLDonHang", (req, res) => {
   res.render('QLDonHang');
 });

@@ -17,17 +17,22 @@ export const HoaDonService = {
       logger.warn(`Service Warning: HoaDon ${MaHD} not found`);
       throw new Error("HoaDon not found");
     }
+    const result = new HoaDonDTO(hoaDon);
 
-    return new HoaDonDTO(hoaDon);
+    // 3. THỦ THUẬT: Gán bù lại 2 trường này vào kết quả trả về
+    // JavaScript cho phép gán thêm thuộc tính động vào object
+    result.TenKhachHang = hoaDon.TenKhachHang || "";
+    result.TenNhanVien = hoaDon.TenNhanVien || "";
+    return result;
   },
 
   // Phân trang
   
-  getPaginatedInvoices: async (page, search) => {
+  getPaginatedInvoices: async (page, search,status, payment) => {
     const pageSize = 10;
     const offset = (page - 1) * pageSize;
     // Gọi repo với tham số search
-    const result = await HoaDonRepository.getPaginated(offset, pageSize, search);
+    const result = await HoaDonRepository.getPaginated(offset, pageSize, search,status, payment);
     return {
       data: result.data,
       pagination: {

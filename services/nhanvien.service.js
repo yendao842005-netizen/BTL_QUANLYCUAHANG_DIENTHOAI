@@ -152,5 +152,40 @@ export const NhanVienService = {
     });
 
     return workbook;
-  }
+  },
+
+  getDashboardStats: async () => {
+    logger.info("Service: Getting dashboard stats");
+    const stats = await NhanVienRepository.getDashboardStats();
+
+    // Tính % Hiệu suất
+    let avgPerformance = 0;
+    if (stats.ordersTotal > 0) {
+      avgPerformance = (stats.ordersCompleted / stats.ordersTotal) * 100;
+    }
+
+ 
+    return {
+      TongNhanVien: Number(stats.totalEmployees || 0),
+      TongLuong: Number(stats.totalSalary || 0),    // Ép về số để frontend chia không bị NaN
+      DoanhSoThang: Number(stats.monthSales || 0),  // Ép về số
+      HieuSuatTrungBinh: avgPerformance.toFixed(1)
+    };
+  },
+
+  getTopEmployeesByRevenue: async (limit) => {
+    // Mặc định lấy top 5 nếu không truyền limit
+    const topLimit = limit ? parseInt(limit) : 5;
+    
+    const result = await NhanVienRepository.getTopRevenue(topLimit);
+    
+    // Trả về dữ liệu, ép kiểu số cho chắc chắn
+    return result.map(emp => ({
+        MaNV: emp.MaNV,
+        HoTen: emp.HoTen,
+        ChucVu: emp.ChucVu,
+        SoDonHang: Number(emp.SoDonHang),
+        TongDoanhThu: Number(emp.TongDoanhThu)
+    }));
+  },
 };

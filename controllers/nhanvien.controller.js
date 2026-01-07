@@ -143,5 +143,28 @@ export const NhanVienController = {
     } catch (err) {
       res.status(500).json({ message: "Lỗi xuất Excel: " + err.message });
     }
-  }
+  },
+
+  // 
+  getDashboardStats: async (req, res) => {
+    try {
+      const stats = await NhanVienService.getDashboardStats();
+      res.json(stats);
+    } catch (err) {
+      logger.error("Controller Error: getDashboardStats failed", err);
+      res.status(500).json({ message: err.message });
+    }
+  },
+
+  // API: GET /NhanViens/Stats/TopRevenue?limit=5
+  getTopRevenue: async (req, res) => {
+    try {
+      const { limit } = req.query; // Lấy tham số limit từ URL (nếu có)
+      const result = await NhanVienService.getTopEmployeesByRevenue(limit);
+      res.json(result);
+    } catch (err) {
+      logger.error("Controller Error: getTopRevenue failed", err);
+      res.status(500).json({ message: err.message });
+    }
+  },
 };

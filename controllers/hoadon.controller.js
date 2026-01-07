@@ -37,10 +37,11 @@ export const HoaDonController = {
     try {
       const page = parseInt(req.query.page) || 1;
       const search = req.query.search || ""; // Lấy từ khóa tìm kiếm
-      
+      const status = req.query.status || "";   // Lấy tham số status
+      const payment = req.query.payment || ""; // Lấy tham số payment
       logger.info(`Controller: GET /HoaDons/PhanTrang?page=${page}&search=${search}`);
       
-      const result = await HoaDonService.getPaginatedInvoices(page, search);
+      const result = await HoaDonService.getPaginatedInvoices(page, search,status, payment);
       res.json(result);
     } catch (err) { res.status(500).json({ message: err.message }); }
   },

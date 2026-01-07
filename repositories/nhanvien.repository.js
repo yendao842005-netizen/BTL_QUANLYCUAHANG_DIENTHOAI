@@ -178,5 +178,88 @@ export const NhanVienRepository = {
     // Lấy tất cả nhân viên
     const [rows] = await db.query("SELECT * FROM NhanVien ORDER BY MaNV ASC");
     return rows;
-  }
+  },
+
+  // Thống kê số liệu nhan viên 
+  getDashboardStats: async () => {
+    logger.info("Repository: Calculating Dashboard Stats");
+    try {
+      const db = await pool;
+      
+      // 1. Lấy Tổng nhân viên và Tổng lương cơ bản
+      const [empStats] = await db.query(`
+        SELECT 
+          COUNT(*) as TotalEmployees, 
+          COALESCE(SUM(LuongCoBan), 0) as TotalSalary 
+        FROM NhanVien
+      `);
+
+      // 2. Lấy Doanh số tháng hiện tại (Chỉ tính đơn Hoàn thành)
+      // Sử dụng MONTH(CURRENT_DATE()) và YEAR(CURRENT_DATE())
+      const [salesStats] = await db.query(`
+        SELECT 
+          COALESCE(SUM(TongTien), 0) as MonthSales
+        FROM HoaDon 
+        WHERE TrangThai = 'HoanThanh' 
+        AND MONTH(NgayLap) = 12
+        AND YEAR(NgayLap) = 2025
+      `);
+
+      // 3. Tính Hiệu suất (Ví dụ: Tỷ lệ đơn hàng thành công trong tháng)
+      // Công thức: (Số đơn hoàn thành / Tổng số đơn) * 100
+      const [perfStats] = await db.query(`
+        SELECT 
+          COUNT(*) as TotalOrders,
+          SUM(CASE WHEN TrangThai = 'HoanThanh' THEN 1 ELSE 0 END) as CompletedOrders
+        FROM HoaDon
+        WHERE MONTH(NgayLap) = 12
+        AND YEAR(NgayLap) = 2025
+      `);
+
+      return {
+        totalEmployees: empStats[0].TotalEmployees,
+        totalSalary: empStats[0].TotalSalary,
+        monthSales: salesStats[0].MonthSales,
+        ordersTotal: perfStats[0].TotalOrders,
+        ordersCompleted: perfStats[0].CompletedOrders
+      };
+
+    } catch (err) {
+      logger.error("Repository Error: getDashboardStats failed", err);
+      throw err;
+    }
+  },
+  // Lấy Top nhân viên theo doanh thu
+  getTopRevenue: async (limit = 5) => {
+    logger.info(`Repository: Getting Top ${limit} employees by revenue`);
+    try {
+      const db = await pool;
+      
+      // Logic SQL:
+      // 1. LEFT JOIN để lấy thông tin hóa đơn của nhân viên
+      // 2. Chỉ tính hóa đơn 'HoanThanh'
+      // 3. Tính tổng tiền và đếm số đơn
+      // 4. Sắp xếp giảm dần theo TongDoanhThu
+      
+      const query = `
+        SELECT 
+            nv.MaNV, 
+            nv.HoTen, 
+            nv.ChucVu,
+            COUNT(hd.MaHD) as SoDonHang,
+            COALESCE(SUM(hd.TongTien), 0) as TongDoanhThu
+        FROM NhanVien nv
+        LEFT JOIN HoaDon hd ON nv.MaNV = hd.MaNV AND hd.TrangThai = 'HoanThanh'
+        GROUP BY nv.MaNV, nv.HoTen, nv.ChucVu
+        ORDER BY TongDoanhThu DESC
+        LIMIT ?
+      `;
+
+      const [rows] = await db.query(query, [parseInt(limit)]);
+      return rows;
+    } catch (err) {
+      logger.error("Repository Error: getTopRevenue failed", err);
+      throw err;
+    }
+  },
 };

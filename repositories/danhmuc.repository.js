@@ -1,6 +1,18 @@
 import { pool } from "../config/database.js";
 import { logger } from "../config/logger.js";
 
+const generateNextId = async (connection, table, column, prefix) => {
+  const query = `SELECT ${column} FROM ${table} ORDER BY LENGTH(${column}) DESC, ${column} DESC LIMIT 1`;
+  const [rows] = await connection.query(query);
+  let nextId = 1;
+  if (rows.length > 0) {
+    const lastCode = rows[0][column]; 
+    const lastNumber = parseInt(lastCode.replace(/\D/g, '')); 
+    if (!isNaN(lastNumber)) nextId = lastNumber + 1;
+  }
+  return prefix + String(nextId).padStart(3, '0');
+};
+
 export const DanhMucRepository = {
   getAll: async () => {
     logger.info("Repository: Fetching all DanhMuc");
@@ -98,14 +110,16 @@ export const DanhMucRepository = {
 
   
   create: async ({ MaDM, TenDanhMuc, MoTa }) => {
-    logger.info(`Repository: Creating DanhMuc ${MaDM}`);
+    const db = await pool;
+    const newId = MaDM || await generateNextId(db, 'DanhMuc', 'MaDM', 'DM');
+
+    logger.info(`Repository: Creating DanhMuc ${newId}`);
     try {
-      const db = await pool;
       await db.query(
         "INSERT INTO DanhMuc (MaDM, TenDanhMuc, MoTa) VALUES (?, ?, ?)",
-        [MaDM, TenDanhMuc, MoTa]
+        [newId, TenDanhMuc, MoTa]
       );
-      return { MaDM, TenDanhMuc, MoTa };
+      return { MaDM: newId, TenDanhMuc, MoTa };
     } catch (err) {
       logger.error("Repository Error: create DanhMuc failed", err);
       throw err;

@@ -39,17 +39,13 @@ export const ChiTietHoaDonRepository = {
     logger.info(`Repository: Creating ChiTietHoaDon for HD ${MaHD} - SP ${MaSP}`);
     try {
       const db = await pool;
-      
-      const [rows] = await db.query("SELECT MAX(ID) as maxId FROM ChiTietHoaDon");
-      
-      // Nếu bảng chưa có dữ liệu (maxId là null) thì gán là 0, sau đó + 1 -> ID đầu tiên là 1
-      const currentMaxId = rows[0].maxId || 0; 
-      const newId = currentMaxId + 1;
+      // Không cần insert ThanhTien vì là cột Generated
+      // Không cần insert ID vì là Auto Increment
       await db.query(
-        "INSERT INTO ChiTietHoaDon (ID,MaHD , MaSP, SoLuong, DonGia) VALUES (?, ?, ?, ?, ?)",
-        [newId, MaHD, MaSP, SoLuong, DonGia]
+        "INSERT INTO ChiTietHoaDon (MaHD, MaSP, SoLuong, DonGia) VALUES (?, ?, ?, ?)",
+        [MaHD, MaSP, SoLuong, DonGia]
       );
-      return {ID: newId, MaHD, MaSP, SoLuong, DonGia };
+      return { MaHD, MaSP, SoLuong, DonGia };
     } catch (err) {
       logger.error("Repository Error: create ChiTietHoaDon failed", err);
       throw err;

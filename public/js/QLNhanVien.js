@@ -5,6 +5,23 @@ $(document).ready(function () {
     const EMPLOYEE_API_URL = "/api/NhanViens";
     const ACCOUNT_API_URL = "/api/TaiKhoans";
     
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+        alert("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!");
+        window.location.href = "/login";
+        return;
+    }
+
+    $.ajaxSetup({
+        headers: { 'Authorization': 'Bearer ' + token },
+        error: function(jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status === 401 || jqXHR.status === 403) {
+                alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại.");
+                window.location.href = "/login";
+            }
+        }
+    });
+    
     // Biến quản lý phân trang riêng biệt
     let currentEmpPage = 1;
     let currentAccPage = 1;
@@ -259,52 +276,63 @@ $(document).ready(function () {
     // Lưu nhân viên mới
     // Lưu nhân viên mới (Viết đầy đủ, ép kiểu số)
     window.saveEmployee = function () {
-        // 1. Validate cơ bản
-        const maNV = $('#addMaNV').val();
-        const hoTen = $('#addEmployeeForm input[name="HoTen"]').val();
-        const sdt = $('#addEmployeeForm input[name="SoDienThoai"]').val();
-
-        if (!maNV || !hoTen || !sdt) {
-            alert('Vui lòng điền các thông tin bắt buộc (Mã NV, Họ tên, SĐT)!');
+        // 1. Lấy dữ liệu từ form
+        // Lưu ý: Đảm bảo trong HTML form #addEmployeeForm đã có các input name="TenDangNhap", "MatKhau", "role_id"
+        const formData = new FormData(document.getElementById('addEmployeeForm'));
+        const formProps = Object.fromEntries(formData);
+    
+        // 2. VALIDATION
+        // Kiểm tra thông tin nhân viên bắt buộc
+        if (!formProps.HoTen || !formProps.SoDienThoai) {
+            alert('Vui lòng nhập Họ tên và Số điện thoại!');
             return;
         }
-
-        // 2. Lấy dữ liệu thủ công từng trường
+    
+        // Kiểm tra thông tin tài khoản bắt buộc
+        if (!formProps.TenDangNhap || !formProps.MatKhau || !formProps.role_id) {
+            alert('Vui lòng nhập đầy đủ Tên đăng nhập, Mật khẩu và Quyền hạn!');
+            return;
+        }
+    
+        // 3. Chuẩn bị object dữ liệu để gửi lên Server
+        // Cấu trúc này phải khớp với những gì Controller/Repository mong đợi
         const data = {
-            MaNV: maNV,
-            HoTen: hoTen,
-            SoDienThoai: sdt,
-            Email: $('#addEmployeeForm input[name="Email"]').val(),
-            NgaySinh: $('#addEmployeeForm input[name="NgaySinh"]').val(),
-            GioiTinh: $('#addEmployeeForm select[name="GioiTinh"]').val(),
-            DiaChi: $('#addEmployeeForm textarea[name="DiaChi"]').val(),
-            ChucVu: $('#addEmployeeForm select[name="ChucVu"]').val(),
-            PhongBan: $('#addEmployeeForm select[name="PhongBan"]').val(),
-            NgayVaoLam: $('#addEmployeeForm input[name="NgayVaoLam"]').val(),
+            // --- Thông tin Nhân Viên ---
+            MaNV: $('#addMaNV').val() || null, // Nếu rỗng thì để null cho BE tự sinh
+            HoTen: formProps.HoTen,
+            SoDienThoai: formProps.SoDienThoai,
+            Email: formProps.Email,
+            NgaySinh: formProps.NgaySinh,
+            GioiTinh: formProps.GioiTinh,
+            DiaChi: formProps.DiaChi,
+            ChucVu: formProps.ChucVu,
+            PhongBan: formProps.PhongBan,
+            NgayVaoLam: formProps.NgayVaoLam,
             
-            // --- QUAN TRỌNG: Ép kiểu số tại đây ---
-            LuongCoBan: Number($('#addEmployeeForm input[name="LuongCoBan"]').val()) || 0,
+            // Ép kiểu số
+            LuongCoBan: parseInt(formProps.LuongCoBan) || 0,
+            HeSoLuong: parseFloat(formProps.HeSoLuong) || 1.0,
             
-            HopDong: $('#addEmployeeForm select[name="HopDong"]').val(),
-            
-            // --- QUAN TRỌNG: Ép kiểu số tại đây ---
-            HeSoLuong: Number($('#addEmployeeForm input[name="HeSoLuong"]').val()) || 1.0
+            // --- Thông tin Tài Khoản (Để tạo kèm) ---
+            // Mapping tên trường cho khớp với taikhoan.repository.js
+            username: formProps.TenDangNhap,
+            password_hash: formProps.MatKhau,
+            role_id: parseInt(formProps.role_id) // 1: Admin, 2: Nhân viên...
         };
-
-        // 3. Gọi API
+    
+        // 4. Gọi API
         $.ajax({
-            url: EMPLOYEE_API_URL,
+            url: EMPLOYEE_API_URL, // API này phải gọi đến TaiKhoanController.createEmployee
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
-            success: function () {
-                alert('Thêm nhân viên thành công!');
+            success: function (response) {
+                let newCode = response.user_ref_id || response.MaNV || "mới";
+                alert(`Thêm nhân viên ${newCode} và tạo tài khoản thành công!`);
                 closeModal('addEmployeeModal');
-                fetchEmployees(1); 
-                updateStats();
-                loadEmployeeDropdowns();
-                // Reset form sau khi thêm
                 $('#addEmployeeForm')[0].reset();
+                fetchEmployees(1);
+                updateStats();
             },
             error: handleApiError
         });
@@ -341,38 +369,45 @@ $(document).ready(function () {
     // Cập nhật nhân viên
     // Cập nhật nhân viên (Viết đầy đủ, ép kiểu số)
     window.updateEmployee = function () {
-        const maNV = $('#editMaNV').val(); // Lấy ID từ input ẩn
+        const maNV = $('#editMaNV').val();
+        const formData = new FormData(document.getElementById('editEmployeeForm'));
+        const formProps = Object.fromEntries(formData);
+    
+        // Dữ liệu Nhân viên (Đã thêm || null để tránh lỗi undefined)
+    const data = {
+        MaNV: maNV, // Đảm bảo mã nhân viên luôn được gửi
+        HoTen: formProps.HoTen || null,
+        SoDienThoai: formProps.SoDienThoai || null,
+        Email: formProps.Email || null,
+        NgaySinh: formProps.NgaySinh || null,
+        GioiTinh: formProps.GioiTinh || null,
+        DiaChi: formProps.DiaChi || null,
+        ChucVu: formProps.ChucVu || null,
+        PhongBan: formProps.PhongBan || null,
+        NgayVaoLam: formProps.NgayVaoLam || null,
+        LuongCoBan: parseInt(formProps.LuongCoBan) || 0,
+        HeSoLuong: parseFloat(formProps.HeSoLuong) || 1.0,
 
-        // Lấy dữ liệu từ form Sửa (#editEmployeeForm)
-        const data = {
-            HoTen: $('#editEmployeeForm input[name="HoTen"]').val(),
-            SoDienThoai: $('#editEmployeeForm input[name="SoDienThoai"]').val(),
-            Email: $('#editEmployeeForm input[name="Email"]').val(),
-            NgaySinh: $('#editEmployeeForm input[name="NgaySinh"]').val(),
-            GioiTinh: $('#editEmployeeForm select[name="GioiTinh"]').val(),
-            DiaChi: $('#editEmployeeForm textarea[name="DiaChi"]').val(),
-            ChucVu: $('#editEmployeeForm select[name="ChucVu"]').val(),
-            PhongBan: $('#editEmployeeForm select[name="PhongBan"]').val(),
-            NgayVaoLam: $('#editEmployeeForm input[name="NgayVaoLam"]').val(),
-            
-            // --- QUAN TRỌNG: Ép kiểu số ---
-            LuongCoBan: Number($('#editEmployeeForm input[name="LuongCoBan"]').val()) || 0,
-            
-            HopDong: $('#editEmployeeForm select[name="HopDong"]').val(),
-            
-            // --- QUAN TRỌNG: Ép kiểu số ---
-            HeSoLuong: Number($('#editEmployeeForm input[name="HeSoLuong"]').val()) || 1.0
-        };
+        // --- Thông tin Tài Khoản ---
+        // Nếu không tìm thấy thẻ input (formProps bị undefined) thì mặc định giá trị an toàn
+        role_id: formProps.role_id ? parseInt(formProps.role_id) : null,
+        TrangThai: formProps.TrangThaiTK ? parseInt(formProps.TrangThaiTK) : 1 // Mặc định 1 (Active) nếu thiếu
+    };
 
+    // Chỉ gửi mật khẩu nếu người dùng có nhập
+    if (formProps.MatKhau && formProps.MatKhau.trim() !== "") {
+        data.password_hash = formProps.MatKhau;
+    }
+    
         $.ajax({
             url: `${EMPLOYEE_API_URL}/${maNV}`,
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function () {
-                alert('Cập nhật thành công!');
+                alert('Cập nhật thông tin nhân viên & tài khoản thành công!');
                 closeModal('editEmployeeModal');
-                fetchEmployees(currentEmpPage); // Tải lại trang hiện tại
+                fetchEmployees(currentEmpPage);
             },
             error: handleApiError
         });
@@ -528,27 +563,45 @@ $(document).ready(function () {
     // 5. CRUD TÀI KHOẢN
     // ==========================================
 
-    window.saveAccount = function () {
-        const form = document.getElementById('addAccountForm');
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-        
-        // Mặc định ngày tạo
-        data.NgayTao = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    //
+//
+window.saveAccount = function () {
+    const form = document.getElementById('addAccountForm');
+    const formData = new FormData(form);
+    const formProps = Object.fromEntries(formData);
 
-        $.ajax({
-            url: ACCOUNT_API_URL,
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function () {
-                alert('Tạo tài khoản thành công!');
-                closeModal('addAccountModal');
-                fetchAccounts(1); // Reload về trang 1
-            },
-            error: handleApiError
-        });
+    // 1. VALIDATION
+    // Kiểm tra role_id thay vì QuyenHan
+    if (!formProps.MaNV || !formProps.TenDangNhap || !formProps.MatKhau || !formProps.role_id) {
+        alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+        return;
+    }
+
+    // 2. Chuẩn bị dữ liệu
+    const data = {
+        MaNV: formProps.MaNV,
+        TenDangNhap: formProps.TenDangNhap,
+        MatKhau: formProps.MatKhau, 
+        // Lấy role_id và ép kiểu số (1 hoặc 2)
+        QuyenHan: parseInt(formProps.role_id), 
+        TrangThai: formProps.TrangThai,
+        GhiChu: formProps.GhiChu
     };
+
+    $.ajax({
+        url: ACCOUNT_API_URL, 
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function () {
+            alert('Tạo tài khoản thành công! Mã tài khoản đã được tự sinh.');
+            closeModal('addAccountModal');
+            $('#addAccountForm')[0].reset();
+            fetchAccounts(1);
+        },
+        error: handleApiError
+    });
+};
 
     window.openEditAccountModal = function (maTK) {
         $.ajax({
@@ -611,32 +664,82 @@ $(document).ready(function () {
 
     // Xem chi tiết tài khoản
     window.viewAccountDetail = function(maTK) {
-         $.ajax({
-            url: `${ACCOUNT_API_URL}/${maTK}`,
-            method: 'GET',
-            success: function (acc) {
-                currentAccount = acc;
-                // Gọi thêm API lấy tên NV
-                $.get(`${EMPLOYEE_API_URL}/${acc.MaNV}`).always(function(nv) {
-                    const tenNV = nv.HoTen || acc.MaNV;
-                    const html = `
-                        <div class="account-detail">
-                            <h4 class="text-primary mb-3">Tài khoản: ${acc.MaTK}</h4>
-                            <table class="table table-bordered">
-                                <tr><th style="color: black">Nhân viên</th><td>: ${tenNV} (${acc.MaNV})</td></tr>
-                                <tr><th style="color: black">Username</th><td>: ${acc.TenDangNhap}</td></tr>
-                                <tr><th style="color: black">Quyền hạn</th><td>: ${acc.QuyenHan}</td></tr>
-                                <tr><th style="color: black">Trạng thái</th><td>: ${acc.TrangThai == 1 ? '<span class="text-success">Hoạt động</span>' : '<span class="text-danger">Khóa</span>'}</td></tr>
-                                <tr><th style="color: black">Ngày tạo</th><td>: ${formatDate(acc.NgayTao)}</td></tr>
-                            </table>
-                        </div>
-                    `;
-                    $('#accountDetailContent').html(html);
-                    openModal('viewAccountModal');
-                });
-            }
-         });
-    }
+        $.ajax({
+           url: `${ACCOUNT_API_URL}/${maTK}`,
+           method: 'GET',
+           success: function (acc) {
+               currentAccount = acc;
+               
+               // 1. SỬA LỖI: Tìm đúng trường chứa Mã NV
+               // Backend có thể trả về: MaNV, UserRefId, hoặc user_ref_id tùy vào DTO
+               const maNhanVien = acc.MaNV || acc.UserRefId || acc.user_ref_id;
+
+               // Hàm render giao diện chung
+               const renderDetail = (tenNV, maNVDisplay) => {
+                   // Xử lý hiển thị trạng thái
+                   const statusHtml = acc.TrangThai == 1 || acc.TrangThai === 'active' 
+                       ? '<span class="text-success fw-bold">Hoạt động</span>' 
+                       : '<span class="text-danger fw-bold">Khóa / Ngừng hoạt động</span>';
+
+                   const html = `
+                       <div class="account-detail">
+                           <h4 class="text-primary mb-3 text-center border-bottom pb-2">
+                               <i class="fas fa-user-circle"></i> Tài khoản: ${acc.MaTK}
+                           </h4>
+                           <table class="table table-striped table-bordered mt-3">
+                               <tr>
+                                   <th style="width: 35%; color: #333;">Mã Nhân viên</th>
+                                   <td class="fw-bold text-dark">: ${maNVDisplay}</td>
+                               </tr>
+                               <tr>
+                                   <th style="color: #333;">Họ tên nhân viên</th>
+                                   <td class="text-primary fw-bold">: ${tenNV}</td>
+                               </tr>
+                               <tr>
+                                   <th style="color: #333;">Tên đăng nhập</th>
+                                   <td>: ${acc.TenDangNhap}</td>
+                               </tr>
+                               <tr>
+                                   <th style="color: #333;">Quyền hạn</th>
+                                   <td>: ${acc.QuyenHan === 1 ? 'Quản trị viên (Admin)' : 'Nhân viên (User)'}</td>
+                               </tr>
+                               <tr>
+                                   <th style="color: #333;">Trạng thái</th>
+                                   <td>: ${statusHtml}</td>
+                               </tr>
+                               <tr>
+                                   <th style="color: #333;">Ngày tạo</th>
+                                   <td>: ${formatDate(acc.NgayTao)}</td>
+                               </tr>
+                           </table>
+                       </div>
+                   `;
+                   $('#accountDetailContent').html(html);
+                   openModal('viewAccountModal');
+               };
+
+               // 2. Logic gọi API lấy tên nhân viên
+               if (!maNhanVien) {
+                   // Trường hợp tài khoản không gắn với nhân viên nào
+                   renderDetail("Chưa liên kết", "N/A");
+               } else {
+                   $.ajax({
+                       url: `${EMPLOYEE_API_URL}/${maNhanVien}`,
+                       method: 'GET',
+                       success: function(nv) {
+                            // Tìm thấy nhân viên -> Hiển thị tên thật
+                            renderDetail(nv.HoTen, maNhanVien);
+                       },
+                       error: function() {
+                            // Không tìm thấy (hoặc nhân viên đã bị xóa) -> Hiển thị mã
+                            renderDetail(`<span class="text-muted fst-italic">Không tìm thấy thông tin (${maNhanVien})</span>`, maNhanVien);
+                       }
+                   });
+               }
+           },
+           error: handleApiError
+        });
+   }
 
     window.editCurrentAccount = function() {
         if(currentAccount) {
@@ -760,9 +863,70 @@ $(document).ready(function () {
     }
     
     // Xuất Excel
-    window.exportToExcel = function() {
-        window.location.href = `${EMPLOYEE_API_URL}/Export/Excel`;
-    }
+    window.exportToExcel = async function() {
+        // 1. Kiểm tra đăng nhập
+        if (!token) {
+            alert("Bạn chưa đăng nhập!");
+            return;
+        }
+
+        // 2. HIỆN HỘP THOẠI XÁC NHẬN
+        const isConfirmed = confirm("Bạn có chắc chắn muốn xuất danh sách nhân viên ra file Excel không?");
+        if (!isConfirmed) {
+            return; // Nếu người dùng bấm "Cancel" thì dừng lại
+        }
+
+        // 3. Hiệu ứng "Đang xử lý" (UX tốt hơn)
+        const $btn = $('#btnExport');
+        const originalText = $btn.html(); // Lưu lại chữ cũ
+        $btn.html('<i class="fas fa-spinner fa-spin"></i> Đang tải...'); // Hiện xoay xoay
+        $btn.prop('disabled', true); // Khóa nút lại
+
+        try {
+            const response = await fetch(EMPLOYEE_API_URL + "/Export/Excel", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+
+            if (response.status === 401) {
+                alert("Phiên đăng nhập hết hạn!");
+                window.location.href = "/login";
+                return;
+            }
+            
+            if (response.status === 403) {
+                alert("Bạn không có quyền xuất báo cáo này!");
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error("Lỗi Server: " + response.statusText);
+            }
+
+            // 4. Xử lý tải file xuống
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const dateStr = new Date().toISOString().slice(0,10);
+            a.download = `DS_NhanVien_${dateStr}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+            console.error("Lỗi xuất Excel:", error);
+            alert("Không thể xuất file Excel. Vui lòng thử lại!");
+        } finally {
+            // 5. Trả lại trạng thái nút bình thường (Dù thành công hay lỗi)
+            $btn.html(originalText);
+            $btn.prop('disabled', false);
+        }
+    };
 
     window.resetFilters = function() {
         // Xóa giá trị trong ô tìm kiếm
@@ -840,4 +1004,7 @@ $(document).ready(function () {
         if(amount >= 1000000) return (amount / 1000000).toFixed(0) + ' tr';
         return new Intl.NumberFormat('vi-VN').format(amount);
     }
+
+    // Nút Xuất Excel
+    $('#btnExport').click(function() { window.exportToExcel(); });
 });

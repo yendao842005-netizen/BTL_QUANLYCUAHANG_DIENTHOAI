@@ -1,5 +1,5 @@
 export class UpdateNhanVienDTO {
-  constructor({ HoTen, NgaySinh, GioiTinh, SoDienThoai, Email, DiaChi, ChucVu, LuongCoBan, NgayVaoLam }) {
+  constructor({ HoTen, NgaySinh, GioiTinh, SoDienThoai, Email, DiaChi, ChucVu, LuongCoBan, NgayVaoLam  }) {
     this.HoTen = HoTen;
     this.NgaySinh = NgaySinh;
     this.GioiTinh = GioiTinh;

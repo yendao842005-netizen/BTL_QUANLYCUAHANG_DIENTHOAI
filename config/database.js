@@ -7,7 +7,8 @@ const connectionOptions = process.env.MYSQL_URI ?? {
   port: process.env.MYSQL_PORT || 3306,
   user: process.env.MYSQL_USERNAME || "root",
   password: process.env.MYSQL_PASSWORD || "root",
-  database: process.env.MYSQL_DBNAME || "qlch_dien_thoai",
+  database: process.env.MYSQL_DBNAME || "qlch_dien_thoai1",
+  dateStrings: true,
 };
 
 export const pool = mysql.createPool(connectionOptions);

@@ -1,4 +1,5 @@
 import { KhachHangRepository } from "../repositories/khachhang.ropository.js";
+import { TaiKhoanRepository } from "../repositories/taikhoan.repository.js";
 import { KhachHangDTO } from "../dtos/khachhang/khachhang.dto.js";
 import { logger } from "../config/logger.js";
 import ExcelJS from "exceljs";
@@ -85,7 +86,16 @@ export const KhachHangService = {
 
 
   createKhachHang: async (dto) => {
-    logger.info(`Service: Creating new KhachHang ${dto.MaKH}`);
+    logger.info(`Service: Creating new KhachHang`);
+    
+    // Nếu DTO có chứa username và password (tức là muốn tạo tài khoản đăng nhập luôn)
+    if (dto.username && dto.password) {
+        // Gọi Transaction để tạo KhachHang + TaiKhoan
+        const created = await TaiKhoanRepository.registerCustomer(dto);
+        return { MaKH: created.user_ref_id, Username: created.username };
+    } 
+    
+    // Nếu chỉ là nhân viên tạo khách vãng lai (không cần login)
     const created = await KhachHangRepository.create(dto);
     return new KhachHangDTO(created);
   },
@@ -114,6 +124,19 @@ export const KhachHangService = {
 
     await KhachHangRepository.delete(MaKH);
     return { message: "KhachHang deleted successfully" };
+  },
+  deleteKhachHang: async (MaKH) => {
+    logger.info(`Service: Deleting KhachHang ${MaKH}`);
+
+    const existing = await KhachHangRepository.getByMa(MaKH);
+    if (!existing) throw new Error("KhachHang not found");
+
+    // Xóa tài khoản trước
+    await TaiKhoanRepository.deleteByUserRef(MaKH);
+
+    // Xóa khách hàng
+    await KhachHangRepository.delete(MaKH);
+    return { message: "KhachHang and Account deleted successfully" };
   },
 
 

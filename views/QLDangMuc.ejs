@@ -20,71 +20,78 @@
                 <div class="sidebar-title">MobileStore Pro</div>
             </div>
             
-           <div class="sidebar-menu">
+            <div class="sidebar-menu">
                 <div class="menu-section">
                     <div class="menu-section-title">Tổng quan</div>
-                    <a href="TongQuanHeThong" class="menu-item">
+                    
+                    <a href="/TongQuanHeThong" class="menu-item  admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-home"></i>
                         </div>
                         <div class="menu-text">Dashboard</div>
                     </a>
                 </div>
-
+        
                 <div class="menu-section">
                     <div class="menu-section-title">Quản lý</div>
-                    <a href="QLSanPham" class="menu-item">
+                    <a href="/QLSanPham" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-box"></i>
                         </div>
                         <div class="menu-text">Sản phẩm</div>
                     </a>
-                    <a href="QLDonHang" class="menu-item">
+                    
+                    <a href="/QLDonHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <div class="menu-text">Đơn hàng</div>
                     </a>
-                    <a href="QLKhachHang" class="menu-item">
+                    
+                    <a href="/QLKhachHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="menu-text">Khách hàng</div>
                     </a>
-                    <a href="QLNhanVien" class="menu-item ">
+                    
+                    <a href="/QLNhanVien" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-user-tie"></i>
                         </div>
                         <div class="menu-text">Nhân viên</div>
                     </a>
                 </div>
-
+        
                 <div class="menu-section">
                     <div class="menu-section-title">Hệ thống</div>
-                    <a href="QLNhaCungCap" class="menu-item">
+                    
+                    <a href="/QLNhaCungCap" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-truck"></i>
                         </div>
                         <div class="menu-text">Nhà cung cấp</div>
                     </a>
-                    <a href="QLDangMuc" class="menu-item active">
+                    
+                    <a href="/QLDangMuc" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-list"></i>
                         </div>
                         <div class="menu-text">Danh mục</div>
                     </a>
-                    <a href="reports.html" class="menu-item">
+                    
+                    <a href="reports.html" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-chart-bar"></i>
                         </div>
                         <div class="menu-text">Báo cáo</div>
                     </a>
-                    <a href="settings.html" class="menu-item">
+                    
+                    <a href="settings.html" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-cog"></i>
                         </div>
-
-                    </a>
+                        <div class="menu-text">Cài đặt</div> </a>
                 </div>
             </div>
             
@@ -93,8 +100,11 @@
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="admin-info">
-                    <div class="admin-name">Admin</div>
-                    <div class="admin-role">Quản trị hệ thống</div>
+                    <div class="admin-name" id="current-username">User</div>
+                    <div class="admin-role" id="current-role-name">Thành viên</div>
+                </div>
+                <div class="logout-btn" onclick="logout()" style="cursor: pointer; margin-left: 10px;">
+                     <i class="fas fa-sign-out-alt"></i>
                 </div>
             </div>
             
@@ -260,217 +270,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- 5 danh mục mẫu -->
-                                <!-- <tr data-category='{"MaDM":"DM001","TenDanhMuc":"iPhone","MoTa":"Điện thoại Apple iPhone","SoSanPham":8,"DoanhThu":1250000000,"TrangThai":"active"}'>
-                                    <td><strong>DM001</strong></td>
-                                    <td>
-                                        <div class="category-info">
-                                            <div class="category-name">iPhone</div>
-                                            <div class="category-description">Điện thoại Apple iPhone</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="product-count">
-                                            <span class="count">8</span>
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 50%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><strong>1.25 tỷ ₫</strong></td>
-                                    <td>
-                                        <div class="revenue-share">
-                                            <span class="percentage">32.5%</span>
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 32.5%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="status active">Hoạt động</span>
-                                    </td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCategoryDetail('DM001')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editCategory('DM001')">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteCategory('DM001')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr data-category='{"MaDM":"DM002","TenDanhMuc":"Samsung","MoTa":"Điện thoại Samsung Galaxy","SoSanPham":12,"DoanhThu":985000000,"TrangThai":"active"}'>
-                                    <td><strong>DM002</strong></td>
-                                    <td>
-                                        <div class="category-info">
-                                            <div class="category-name">Samsung</div>
-                                            <div class="category-description">Điện thoại Samsung Galaxy</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="product-count">
-                                            <span class="count">12</span>
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 75%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><strong>985 tr ₫</strong></td>
-                                    <td>
-                                        <div class="revenue-share">
-                                            <span class="percentage">25.6%</span>
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 25.6%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="status active">Hoạt động</span>
-                                    </td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCategoryDetail('DM002')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editCategory('DM002')">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteCategory('DM002')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr data-category='{"MaDM":"DM003","TenDanhMuc":"Xiaomi","MoTa":"Điện thoại Xiaomi, Redmi, Poco","SoSanPham":15,"DoanhThu":756000000,"TrangThai":"active"}'>
-                                    <td><strong>DM003</strong></td>
-                                    <td>
-                                        <div class="category-info">
-                                            <div class="category-name">Xiaomi</div>
-                                            <div class="category-description">Điện thoại Xiaomi, Redmi, Poco</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="product-count">
-                                            <span class="count">15</span>
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 94%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><strong>756 tr ₫</strong></td>
-                                    <td>
-                                        <div class="revenue-share">
-                                            <span class="percentage">19.7%</span>
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 19.7%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="status active">Hoạt động</span>
-                                    </td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCategoryDetail('DM003')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editCategory('DM003')">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteCategory('DM003')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr data-category='{"MaDM":"DM004","TenDanhMuc":"Oppo","MoTa":"Điện thoại Oppo","SoSanPham":10,"DoanhThu":456000000,"TrangThai":"active"}'>
-                                    <td><strong>DM004</strong></td>
-                                    <td>
-                                        <div class="category-info">
-                                            <div class="category-name">Oppo</div>
-                                            <div class="category-description">Điện thoại Oppo</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="product-count">
-                                            <span class="count">10</span>
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 63%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><strong>456 tr ₫</strong></td>
-                                    <td>
-                                        <div class="revenue-share">
-                                            <span class="percentage">11.9%</span>
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 11.9%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="status active">Hoạt động</span>
-                                    </td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCategoryDetail('DM004')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editCategory('DM004')">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteCategory('DM004')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr data-category='{"MaDM":"DM005","TenDanhMuc":"Vivo","MoTa":"Điện thoại Vivo","SoSanPham":9,"DoanhThu":389000000,"TrangThai":"active"}'>
-                                    <td><strong>DM005</strong></td>
-                                    <td>
-                                        <div class="category-info">
-                                            <div class="category-name">Vivo</div>
-                                            <div class="category-description">Điện thoại Vivo</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="product-count">
-                                            <span class="count">9</span>
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 56%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td><strong>389 tr ₫</strong></td>
-                                    <td>
-                                        <div class="revenue-share">
-                                            <span class="percentage">10.1%</span>
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 10.1%"></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="status active">Hoạt động</span>
-                                    </td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCategoryDetail('DM005')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editCategory('DM005')">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteCategory('DM005')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr> -->
+                                
                             </tbody>
                         </table>
                         
@@ -495,36 +295,7 @@
                         </div>
                     </div>
                     
-                    <!-- <div class="widget">
-                        <div class="widget-header">
-                            <div class="widget-title">Thống kê nhanh</div>
-                            <div class="text-primary" id="lastUpdated">Cập nhật: Hôm nay</div>
-                        </div>
-                        <div class="widget-content">
-                            <div class="quick-stats">
-                                <div class="quick-stat-item">
-                                    <div class="stat-label">Danh mục nhiều SP nhất</div>
-                                    <div class="stat-value">Xiaomi</div>
-                                    <div class="stat-sub">15 sản phẩm</div>
-                                </div>
-                                <div class="quick-stat-item">
-                                    <div class="stat-label">Doanh thu cao nhất</div>
-                                    <div class="stat-value">iPhone</div>
-                                    <div class="stat-sub">1.25 tỷ ₫</div>
-                                </div>
-                                <div class="quick-stat-item">
-                                    <div class="stat-label">DM mới nhất</div>
-                                    <div class="stat-value">Realme</div>
-                                    <div class="stat-sub">15/04/2024</div>
-                                </div>
-                                <div class="quick-stat-item">
-                                    <div class="stat-label">Tỷ lệ trung bình/DM</div>
-                                    <div class="stat-value">19.9%</div>
-                                    <div class="stat-sub">Trên tổng doanh thu</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+                   
                 </div>
 
                 <!-- Category Products -->
@@ -603,10 +374,14 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label required">Mã danh mục</label>
-                                <input type="text" class="form-control" id="addMaDM" name="MaDM" required 
-                                       placeholder="VD: DM006" pattern="[A-Z0-9]+" maxlength="20">
-                                <small class="form-text text-muted">Chỉ chấp nhận chữ in hoa và số</small>
+                                <label class="form-label">Mã danh mục (MaDM)</label>
+                                
+                                <input type="text" class="form-control" id="addMaDM" name="MaDM"
+                                    placeholder="Để trống để tự động sinh mã (VD: DM006)" 
+                                    pattern="[A-Z0-9]+" maxlength="20"
+                                    title="Chỉ chấp nhận chữ in hoa và số">
+                                    
+                                <small class="form-text text-muted">Có thể để trống. Nếu nhập: chỉ dùng chữ in hoa và số.</small>
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Tên danh mục</label>
@@ -743,587 +518,45 @@
     <script src="js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- <script>
-        // Biến lưu trữ danh mục hiện tại đang xem
-        let currentCategory = null;
-        let categoryChart = null;
-
-        // Các hàm JavaScript
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            if (modalId === 'addCategoryModal') {
-                document.getElementById('addCategoryForm').reset();
-            }
-        }
-
-        function resetFilters() {
-            document.getElementById('statusFilter').value = '';
-            document.getElementById('sortFilter').value = 'name';
-            document.getElementById('categorySearch').value = '';
-            filterTable();
-        }
-
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            }).format(amount);
-        }
-
-        // Lấy thông tin danh mục từ data attribute
-        function getCategoryByCode(categoryCode) {
-            const row = document.querySelector(`tr[data-category*='"MaDM":"${categoryCode}"']`);
-            if (row) {
-                return JSON.parse(row.getAttribute('data-category'));
-            }
-            return null;
-        }
-
-        // Xem chi tiết danh mục
-        function viewCategoryDetail(categoryCode) {
-            const category = getCategoryByCode(categoryCode);
-            if (!category) {
-                alert('Không tìm thấy danh mục!');
-                return;
-            }
-
-            currentCategory = category;
-
-            const detailContent = document.getElementById('categoryDetailContent');
-            detailContent.innerHTML = `
-                <div class="category-detail">
-                    <div class="category-header mb-4">
-                        <h3>${category.TenDanhMuc}</h3>
-                        <div class="text-muted">Mã: ${category.MaDM}</div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="detail-section">
-                                <h5><i class="fas fa-info-circle"></i> Thông tin chung</h5>
-                                <table class="detail-table">
-                                    <tr>
-                                        <td><strong>Mô tả:</strong></td>
-                                        <td>${category.MoTa || 'Chưa có mô tả'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Trạng thái:</strong></td>
-                                        <td>
-                                            <span class="status ${category.TrangThai}">
-                                                ${category.TrangThai === 'active' ? 'Hoạt động' : 'Ngừng hoạt động'}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <div class="detail-section">
-                                <h5><i class="fas fa-chart-line"></i> Thống kê</h5>
-                                <table class="detail-table">
-                                    <tr>
-                                        <td><strong>Số sản phẩm:</strong></td>
-                                        <td>${category.SoSanPham} sản phẩm</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Doanh thu:</strong></td>
-                                        <td>${formatCurrency(category.DoanhThu)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Tỷ lệ doanh thu:</strong></td>
-                                        <td>
-                                            <div class="progress-bar" style="width: 100%;">
-                                                <div class="progress-fill" style="width: ${(category.DoanhThu / 3840000000 * 100).toFixed(1)}%"></div>
-                                            </div>
-                                            <small>${((category.DoanhThu / 3840000000) * 100).toFixed(1)}% tổng doanh thu</small>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-section">
-                        <h5><i class="fas fa-box"></i> Sản phẩm tiêu biểu</h5>
-                        <div class="sample-products">
-                            <p class="text-muted">Danh mục này hiện có ${category.SoSanPham} sản phẩm đang được bán.</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            openModal('viewCategoryModal');
-        }
-
-        // Chỉnh sửa danh mục từ modal xem chi tiết
-        function editCurrentCategory() {
-            if (currentCategory) {
-                editCategory(currentCategory.MaDM);
-            }
-        }
-
-        // Sửa danh mục
-        function editCategory(categoryCode) {
-            const category = getCategoryByCode(categoryCode);
-            if (!category) {
-                alert('Không tìm thấy danh mục!');
-                return;
-            }
-
-            // Điền thông tin vào form chỉnh sửa
-            document.getElementById('editMaDM').value = category.MaDM;
-            document.getElementById('displayMaDM').value = category.MaDM;
-            document.querySelector('#editCategoryForm input[name="TenDanhMuc"]').value = category.TenDanhMuc;
-            document.querySelector('#editCategoryForm textarea[name="MoTa"]').value = category.MoTa || '';
-            document.querySelector('#editCategoryForm select[name="TrangThai"]').value = category.TrangThai;
-            document.querySelector('#editCategoryForm select[name="Icon"]').value = category.Icon || 'mobile-alt';
-
-            // Đóng modal xem chi tiết nếu đang mở
-            closeModal('viewCategoryModal');
-            openModal('editCategoryModal');
-        }
-
-        // Cập nhật danh mục
-        function updateCategory() {
-            const form = document.getElementById('editCategoryForm');
-            const formData = new FormData(form);
-            const categoryCode = formData.get('MaDM');
-
-            // Lấy giá trị từ form
-            const updatedCategory = {
-                MaDM: categoryCode,
-                TenDanhMuc: formData.get('TenDanhMuc'),
-                MoTa: formData.get('MoTa'),
-                TrangThai: formData.get('TrangThai'),
-                Icon: formData.get('Icon'),
-                SoSanPham: currentCategory?.SoSanPham || 0,
-                DoanhThu: currentCategory?.DoanhThu || 0
-            };
-
-            // Cập nhật dữ liệu trong bảng
-            const row = document.querySelector(`tr[data-category*='"MaDM":"${categoryCode}"']`);
-            if (row) {
-                // Cập nhật data attribute
-                const oldData = JSON.parse(row.getAttribute('data-category'));
-                const newData = { ...oldData, ...updatedCategory };
-                row.setAttribute('data-category', JSON.stringify(newData));
-
-                // Cập nhật hiển thị trong bảng
-                const categoryInfoCell = row.cells[1];
-                categoryInfoCell.querySelector('.category-name').textContent = updatedCategory.TenDanhMuc;
-                categoryInfoCell.querySelector('.category-description').textContent = updatedCategory.MoTa || '';
-
-                // Cập nhật trạng thái
-                const statusCell = row.cells[5];
-                statusCell.innerHTML = `<span class="status ${updatedCategory.TrangThai}">${updatedCategory.TrangThai === 'active' ? 'Hoạt động' : 'Ngừng hoạt động'}</span>`;
-            }
-
-            alert('Đã cập nhật danh mục thành công!');
-            closeModal('editCategoryModal');
-            updateStats();
-        }
-
-        // Lưu danh mục mới
-        function saveCategory() {
-            const form = document.getElementById('addCategoryForm');
-            const formData = new FormData(form);
-
-            // Validate
-            if (!formData.get('MaDM') || !formData.get('TenDanhMuc')) {
-                alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
-                return;
-            }
-
-            const newCategory = {
-                MaDM: formData.get('MaDM'),
-                TenDanhMuc: formData.get('TenDanhMuc'),
-                MoTa: formData.get('MoTa'),
-                TrangThai: formData.get('TrangThai') || 'active',
-                Icon: formData.get('Icon') || 'mobile-alt',
-                SoSanPham: 0,
-                DoanhThu: 0
-            };
-
-            // Kiểm tra mã danh mục đã tồn tại chưa
-            if (getCategoryByCode(newCategory.MaDM)) {
-                alert('Mã danh mục đã tồn tại!');
-                return;
-            }
-
-            // Thêm hàng mới vào bảng
-            const tableBody = document.querySelector('#categoriesTable tbody');
-            const newRow = document.createElement('tr');
-            newRow.setAttribute('data-category', JSON.stringify(newCategory));
-
-            newRow.innerHTML = `
-                <td><strong>${newCategory.MaDM}</strong></td>
-                <td>
-                    <div class="category-info">
-                        <div class="category-name">${newCategory.TenDanhMuc}</div>
-                        <div class="category-description">${newCategory.MoTa || ''}</div>
-                    </div>
-                </td>
-                <td>
-                    <div class="product-count">
-                        <span class="count">0</span>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </td>
-                <td><strong>0 ₫</strong></td>
-                <td>
-                    <div class="revenue-share">
-                        <span class="percentage">0%</span>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <span class="status ${newCategory.TrangThai}">
-                        ${newCategory.TrangThai === 'active' ? 'Hoạt động' : 'Ngừng hoạt động'}
-                    </span>
-                </td>
-                <td>
-                    <div class="action-buttons">
-                        <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCategoryDetail('${newCategory.MaDM}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="action-btn edit-btn" title="Sửa" onclick="editCategory('${newCategory.MaDM}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="action-btn delete-btn" title="Xóa" onclick="deleteCategory('${newCategory.MaDM}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </td>
-            `;
-
-            tableBody.appendChild(newRow);
-
-            // Cập nhật số liệu thống kê
-            updateStats();
-            renderChart();
-
-            alert('Đã thêm danh mục mới thành công!');
-            closeModal('addCategoryModal');
-            form.reset();
-        }
-
-        // Xóa danh mục
-        function deleteCategory(categoryCode) {
-            const category = getCategoryByCode(categoryCode);
-            if (!category) return;
-
-            if (category.SoSanPham > 0) {
-                alert(`Không thể xóa danh mục "${category.TenDanhMuc}" vì còn ${category.SoSanPham} sản phẩm!`);
-                return;
-            }
-
-            if (!confirm(`Bạn có chắc chắn muốn xóa danh mục "${category.TenDanhMuc}"?`)) {
-                return;
-            }
-
-            const row = document.querySelector(`tr[data-category*='"MaDM":"${categoryCode}"']`);
-            if (row) {
-                row.style.opacity = '0.5';
-                setTimeout(() => {
-                    row.remove();
-                    updateStats();
-                    renderChart();
-                    alert('Đã xóa danh mục thành công!');
-                }, 300);
-            }
-        }
-
-        // Cập nhật thống kê
-        function updateStats() {
-            const rows = document.querySelectorAll('#categoriesTable tbody tr');
-            const totalCategories = rows.length;
-
-            let totalProducts = 0;
-            let totalRevenue = 0;
-
-            rows.forEach(row => {
-                const category = JSON.parse(row.getAttribute('data-category'));
-                totalProducts += category.SoSanPham || 0;
-                totalRevenue += category.DoanhThu || 0;
-            });
-
-            const avgRevenue = totalCategories > 0 ? totalRevenue / totalCategories : 0;
-
-            // Cập nhật thống kê
-            document.getElementById('totalCategories').textContent = totalCategories;
-            document.getElementById('totalProducts').textContent = totalProducts;
-            document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue).replace('₫', '');
-            document.getElementById('avgRevenue').textContent = formatCurrency(avgRevenue).replace('₫', '');
-        }
-
-        // Lọc bảng
-        function filterTable() {
-            const statusFilter = document.getElementById('statusFilter').value;
-            const sortFilter = document.getElementById('sortFilter').value;
-            const searchInput = document.getElementById('categorySearch').value.toLowerCase();
-            const rows = Array.from(document.querySelectorAll('#categoriesTable tbody tr'));
-
-            // Lọc
-            rows.forEach(row => {
-                const category = JSON.parse(row.getAttribute('data-category'));
-                const rowStatus = category.TrangThai;
-                const searchText = category.TenDanhMuc.toLowerCase() + ' ' + 
-                                 category.MaDM.toLowerCase() + ' ' + 
-                                 (category.MoTa || '').toLowerCase();
-
-                const isStatusMatch = !statusFilter || rowStatus === statusFilter;
-                const isSearchMatch = !searchInput || searchText.includes(searchInput);
-
-                if (isStatusMatch && isSearchMatch) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            // Sắp xếp
-            const visibleRows = rows.filter(row => row.style.display !== 'none');
-            visibleRows.sort((a, b) => {
-                const categoryA = JSON.parse(a.getAttribute('data-category'));
-                const categoryB = JSON.parse(b.getAttribute('data-category'));
-
-                switch(sortFilter) {
-                    case 'name':
-                        return categoryA.TenDanhMuc.localeCompare(categoryB.TenDanhMuc);
-                    case 'products':
-                        return (categoryB.SoSanPham || 0) - (categoryA.SoSanPham || 0);
-                    case 'revenue':
-                        return (categoryB.DoanhThu || 0) - (categoryA.DoanhThu || 0);
-                    default:
-                        return 0;
-                }
-            });
-
-            // Sắp xếp lại DOM
-            const tbody = document.querySelector('#categoriesTable tbody');
-            visibleRows.forEach(row => tbody.appendChild(row));
-        }
-
-        // Vẽ biểu đồ
-        function renderChart() {
-            const ctx = document.getElementById('categoryChart').getContext('2d');
-            const rows = document.querySelectorAll('#categoriesTable tbody tr');
-            
-            const labels = [];
-            const revenueData = [];
-            const productsData = [];
-            const colors = [
-                'rgba(67, 97, 238, 0.8)',
-                'rgba(114, 9, 183, 0.8)',
-                'rgba(255, 158, 0, 0.8)',
-                'rgba(6, 214, 160, 0.8)',
-                'rgba(239, 35, 60, 0.8)',
-                'rgba(155, 89, 182, 0.8)',
-                'rgba(52, 152, 219, 0.8)',
-                'rgba(46, 204, 113, 0.8)',
-                'rgba(241, 196, 15, 0.8)',
-                'rgba(230, 126, 34, 0.8)'
-            ];
-
-            rows.forEach((row, index) => {
-                const category = JSON.parse(row.getAttribute('data-category'));
-                labels.push(category.TenDanhMuc);
-                revenueData.push(category.DoanhThu || 0);
-                productsData.push(category.SoSanPham || 0);
-            });
-
-            if (categoryChart) {
-                categoryChart.destroy();
-            }
-
-            const chartType = document.getElementById('chartFilter').value;
-            const isRevenueChart = chartType === 'revenue';
-
-            categoryChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: isRevenueChart ? 'Doanh thu (VNĐ)' : 'Số sản phẩm',
-                        data: isRevenueChart ? revenueData : productsData,
-                        backgroundColor: colors.slice(0, labels.length),
-                        borderColor: colors.slice(0, labels.length).map(color => color.replace('0.8', '1')),
-                        borderWidth: 2,
-                        borderRadius: 5
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    if (isRevenueChart) {
-                                        return formatCurrency(context.raw);
-                                    }
-                                    return `${context.raw} sản phẩm`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    if (isRevenueChart) {
-                                        if (value >= 1000000000) return (value / 1000000000).toFixed(1) + ' tỷ';
-                                        if (value >= 1000000) return (value / 1000000).toFixed(0) + ' tr';
-                                        return value;
-                                    }
-                                    return value;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Load sản phẩm theo danh mục
-        function loadCategoryProducts(categoryCode) {
-            const category = getCategoryByCode(categoryCode);
-            if (!category) return;
-
-            const productsTable = document.getElementById('categoryProductsTable');
-            const tbody = productsTable.querySelector('tbody');
-            
-            // Xóa dòng thông báo nếu có
-            const noProductsMessage = document.getElementById('noProductsMessage');
-            if (noProductsMessage) noProductsMessage.remove();
-
-            // Tạo dữ liệu sản phẩm mẫu cho danh mục
-            const sampleProducts = {
-                'DM001': [
-                    { MaSP: 'SP001', TenSP: 'iPhone 15 Pro Max 256GB', GiaBan: 34990000, TonKho: 50, DaBan: 125, DoanhThu: 4373750000, NCC: 'Apple Vietnam' },
-                    { MaSP: 'SP002', TenSP: 'iPhone 14 Plus 128GB', GiaBan: 21990000, TonKho: 30, DaBan: 89, DoanhThu: 1957110000, NCC: 'FPT Trading' }
-                ],
-                'DM002': [
-                    { MaSP: 'SP003', TenSP: 'Samsung Galaxy S24 Ultra', GiaBan: 31990000, TonKho: 40, DaBan: 67, DoanhThu: 2143330000, NCC: 'Samsung Vina' },
-                    { MaSP: 'SP004', TenSP: 'Samsung Galaxy A54 5G', GiaBan: 8490000, TonKho: 100, DaBan: 215, DoanhThu: 1825350000, NCC: 'Samsung Vina' }
-                ],
-                'DM003': [
-                    { MaSP: 'SP005', TenSP: 'Xiaomi 14 12GB/256GB', GiaBan: 22990000, TonKho: 20, DaBan: 45, DoanhThu: 1034550000, NCC: 'Xiaomi VN' },
-                    { MaSP: 'SP006', TenSP: 'Redmi Note 13 Pro', GiaBan: 7290000, TonKho: 80, DaBan: 178, DoanhThu: 1297620000, NCC: 'Digiworld' }
-                ],
-                'DM004': [
-                    { MaSP: 'SP007', TenSP: 'Oppo Reno 11 F 5G', GiaBan: 8990000, TonKho: 60, DaBan: 92, DoanhThu: 827080000, NCC: 'Oppo VN' }
-                ],
-                'DM005': [
-                    { MaSP: 'SP008', TenSP: 'Vivo V29e 5G', GiaBan: 8990000, TonKho: 45, DaBan: 67, DoanhThu: 602330000, NCC: 'Digiworld' }
-                ]
-            };
-
-            const products = sampleProducts[categoryCode] || [];
-
-            // Xóa các hàng cũ
-            tbody.innerHTML = '';
-
-            if (products.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 40px;">
-                            <i class="fas fa-box-open" style="font-size: 40px; color: #6c757d; margin-bottom: 10px;"></i>
-                            <h3 style="color: #6c757d; margin-bottom: 10px;">Danh mục chưa có sản phẩm</h3>
-                            <p style="color: #adb5bd;">Danh mục ${category.TenDanhMuc} hiện chưa có sản phẩm nào</p>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            // Thêm các hàng sản phẩm mới
-            products.forEach(product => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${product.MaSP}</strong></td>
-                    <td>${product.TenSP}</td>
-                    <td><strong>${formatCurrency(product.GiaBan)}</strong></td>
-                    <td>
-                        <span class="badge ${product.TonKho > 20 ? 'bg-success' : product.TonKho > 10 ? 'bg-warning' : 'bg-danger'}">
-                            ${product.TonKho}
-                        </span>
-                    </td>
-                    <td>${product.DaBan}</td>
-                    <td><strong>${formatCurrency(product.DoanhThu)}</strong></td>
-                    <td>${product.NCC}</td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        function refreshProducts() {
-            const categoryFilter = document.getElementById('productCategoryFilter');
-            if (categoryFilter.value) {
-                loadCategoryProducts(categoryFilter.value);
-            }
-        }
-
-        // Các hàm chức năng khác
-        function exportCategories() {
-            alert('Chức năng xuất Excel đang được phát triển!');
-        }
-
-        // Xử lý sự kiện khi DOM tải xong
-        document.addEventListener('DOMContentLoaded', function () {
-            // Xử lý tìm kiếm
-            const searchInput = document.getElementById('categorySearch');
-            if (searchInput) {
-                searchInput.addEventListener('input', filterTable);
-            }
-
-            // Xử lý bộ lọc
-            document.getElementById('statusFilter').addEventListener('change', filterTable);
-            document.getElementById('sortFilter').addEventListener('change', filterTable);
-            document.getElementById('chartFilter').addEventListener('change', renderChart);
-
-            // Xử lý lọc sản phẩm theo danh mục
-            document.getElementById('productCategoryFilter').addEventListener('change', function() {
-                if (this.value) {
-                    loadCategoryProducts(this.value);
-                }
-            });
-
-            // Xử lý đóng modal khi click bên ngoài
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', function (e) {
-                    if (e.target === this) {
-                        this.style.display = 'none';
-                    }
-                });
-            });
-
-            // Cập nhật thống kê ban đầu
-            updateStats();
-            
-            // Vẽ biểu đồ ban đầu
-            renderChart();
-            
-            // Cập nhật thời gian
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('lastUpdated').textContent = `Cập nhật: ${now.toLocaleDateString('vi-VN', options)}`;
-        });
-    </script> -->
+    
     <script src="js/QLDanhMuc.js"></script>
-
+    <script>
+        // Hàm đăng xuất
+        function logout() {
+            localStorage.clear(); // Xóa sạch token và info
+            window.location.href = "/login";
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Lấy thông tin từ LocalStorage
+            const role = localStorage.getItem("userRole");
+            const username = localStorage.getItem("username");
+    
+            // 2. Hiển thị tên người dùng vào Sidebar
+            if (username) {
+                document.getElementById("current-username").innerText = username;
+            }
+    
+            // 3. Xử lý phân quyền hiển thị (Ẩn menu nếu không phải Admin)
+            // Lưu ý: role 1 là Admin (theo file roles.js của bạn)
+            if (role != "1") {
+                // Đổi chức vụ hiển thị
+                document.getElementById("current-role-name").innerText = "Nhân viên";
+    
+                // Tìm và ẩn các mục có class 'admin-only'
+                const adminElements = document.querySelectorAll('.admin-only');
+                adminElements.forEach(function(el) {
+                    el.style.display = 'none';
+                });
+                
+                // Chặn truy cập trang Dashboard nếu lỡ vào
+                if (window.location.pathname.includes("TongQuanHeThong")) {
+                     window.location.href = "/QLDonHang";
+                }
+            } else {
+                 document.getElementById("current-role-name").innerText = "Quản trị viên";
+            }
+        });
+    </script>
 </body>
 </html>

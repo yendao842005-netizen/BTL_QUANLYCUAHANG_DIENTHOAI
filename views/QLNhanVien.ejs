@@ -496,85 +496,95 @@
                 </div>
                 <div class="sidebar-title">MobileStore Pro</div>
             </div>
-
+            
             <div class="sidebar-menu">
                 <div class="menu-section">
                     <div class="menu-section-title">Tổng quan</div>
-                    <a href="TongQuanHeThong" class="menu-item">
+                    
+                    <a href="/TongQuanHeThong" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-home"></i>
                         </div>
                         <div class="menu-text">Dashboard</div>
                     </a>
                 </div>
-
+        
                 <div class="menu-section">
                     <div class="menu-section-title">Quản lý</div>
-                    <a href="QLSanPham" class="menu-item">
+                    <a href="/QLSanPham" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-box"></i>
                         </div>
                         <div class="menu-text">Sản phẩm</div>
                     </a>
-                    <a href="QLDonHang" class="menu-item">
+                    
+                    <a href="/QLDonHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <div class="menu-text">Đơn hàng</div>
                     </a>
-                    <a href="QLKhachHang" class="menu-item">
+                    
+                    <a href="/QLKhachHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="menu-text">Khách hàng</div>
                     </a>
-                    <a href="QLNhanVien" class="menu-item active">
+                    
+                    <a href="/QLNhanVien" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-user-tie"></i>
                         </div>
                         <div class="menu-text">Nhân viên</div>
                     </a>
                 </div>
-
+        
                 <div class="menu-section">
                     <div class="menu-section-title">Hệ thống</div>
-                    <a href="QLNhaCungCap" class="menu-item">
+                    
+                    <a href="/QLNhaCungCap" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-truck"></i>
                         </div>
                         <div class="menu-text">Nhà cung cấp</div>
                     </a>
-                    <a href="QLDangMuc" class="menu-item">
+                    
+                    <a href="/QLDangMuc" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-list"></i>
                         </div>
                         <div class="menu-text">Danh mục</div>
                     </a>
-                    <a href="reports.html" class="menu-item">
+                    
+                    <a href="reports.html" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-chart-bar"></i>
                         </div>
                         <div class="menu-text">Báo cáo</div>
                     </a>
-                    <a href="settings.html" class="menu-item">
+                    
+                    <a href="settings.html" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-cog"></i>
                         </div>
-
-                    </a>
+                        <div class="menu-text">Cài đặt</div> </a>
                 </div>
             </div>
-
+            
             <div class="sidebar-footer">
                 <div class="admin-avatar">
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="admin-info">
-                    <div class="admin-name">Admin</div>
-                    <div class="admin-role">Quản trị hệ thống</div>
+                    <div class="admin-name" id="current-username">User</div>
+                    <div class="admin-role" id="current-role-name">Thành viên</div>
+                </div>
+                <div class="logout-btn" onclick="logout()" style="cursor: pointer; margin-left: 10px;">
+                     <i class="fas fa-sign-out-alt"></i>
                 </div>
             </div>
-
+            
             <div class="toggle-sidebar">
                 <i class="fas fa-chevron-left"></i>
             </div>
@@ -1239,10 +1249,13 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label required">Mã nhân viên</label>
-                                <input type="text" class="form-control" id="addMaNV" name="MaNV" required
-                                    placeholder="VD: NV006" pattern="[A-Z0-9]+" maxlength="20">
-                                <small class="form-text text-muted">Chỉ chấp nhận chữ in hoa và số</small>
+                                <label class="form-label">Mã nhân viên</label>
+                                
+                                <input type="text" class="form-control" name="MaNV"
+                                    placeholder="Để trống để tự động sinh mã (VD: NV015)" 
+                                    pattern="[A-Z0-9]+" maxlength="20">
+                                    
+                                <small class="form-text text-muted">Có thể để trống. Nếu nhập: chỉ dùng chữ in hoa và số.</small>
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Họ và tên</label>
@@ -1284,6 +1297,38 @@
                             <textarea class="form-control" name="DiaChi" rows="2" placeholder="Nhập địa chỉ"></textarea>
                         </div>
                     </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">
+                            <i class="fas fa-user-shield"></i> Thông tin tài khoản
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required">Tên đăng nhập</label>
+                                <input type="text" class="form-control" name="TenDangNhap" required
+                                    placeholder="VD: nv_annguyen" autocomplete="off">
+                                <small class="form-text text-muted">Dùng để đăng nhập hệ thống</small>
+                            </div>
+                    
+                            <div class="form-group">
+                                <label class="form-label required">Mật khẩu</label>
+                                <input type="password" class="form-control" name="MatKhau" required
+                                    placeholder="Nhập mật khẩu" autocomplete="new-password">
+                            </div>
+                        </div>
+                    
+                            <div class="form-group">
+                                <label class="form-label required">Quyền hạn hệ thống</label>
+                                <select class="form-control form-select" name="role_id" required>
+                                    <option value="">-- Chọn quyền --</option>
+                                    <option value="1">Quản trị viên (Admin)</option>
+                                    <option value="2">Nhân viên (User)</option>
+                                </select>
+                                 <small class="form-text text-muted">Admin có toàn quyền, User bị giới hạn</small>
+                            </div>
+                        </div>
+                    
 
                     <div class="form-section">
                         <div class="form-section-title">
@@ -1415,7 +1460,29 @@
                             <textarea class="form-control" name="DiaChi" rows="2" placeholder="Nhập địa chỉ"></textarea>
                         </div>
                     </div>
-
+                    <div class="form-section">
+                        <div class="form-section-title">Cập nhật tài khoản</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                 <label>Mật khẩu mới</label>
+                                 <input type="password" class="form-control" name="MatKhau" placeholder="Bỏ trống nếu không đổi">
+                            </div>
+                            <div class="form-group">
+                                 <label>Quyền hạn</label>
+                                 <select class="form-control" name="role_id">
+                                     <option value="1">Quản trị viên</option>
+                                     <option value="2">Nhân viên</option>
+                                 </select>
+                            </div>
+                            <div class="form-group">
+                                 <label>Trạng thái</label>
+                                 <select class="form-control" name="TrangThaiTK">
+                                     <option value="1">Hoạt động</option>
+                                     <option value="0">Khóa</option>
+                                 </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-section">
                         <div class="form-section-title">
                             <i class="fas fa-briefcase"></i> Thông tin công việc
@@ -1596,12 +1663,12 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="form-label required">Mã tài khoản</label>
                                 <input type="text" class="form-control" id="addMaTK" name="MaTK" required
                                     placeholder="VD: TK006" pattern="[A-Z0-9]+" maxlength="20">
                                 <small class="form-text text-muted">Chỉ chấp nhận chữ in hoa và số</small>
-                            </div>
+                            </div> -->
                             <div class="form-group">
                                 <label class="form-label required">Nhân viên</label>
                                 <select class="form-control form-select" name="MaNV" required>
@@ -1631,15 +1698,12 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Quyền hạn</label>
-                                <select class="form-control form-select" name="QuyenHan" required>
-                                    <option value="">Chọn quyền hạn</option>
-                                    <option value="admin">Quản trị hệ thống</option>
-                                    <option value="manager">Quản lý</option>
-                                    <option value="sales">Nhân viên bán hàng</option>
-                                    <option value="technical">Kỹ thuật viên</option>
-                                    <option value="warehouse">Nhân viên kho</option>
-                                    <option value="accounting">Kế toán</option>
+                                <select class="form-control form-select" name="role_id" required>
+                                    <option value="">-- Chọn quyền --</option>
+                                    <option value="1">Quản trị viên (Admin)</option>
+                                    <option value="2">Nhân viên (User)</option>
                                 </select>
+                                <small class="form-text text-muted">Admin có toàn quyền, User bị giới hạn</small>
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Trạng thái</label>
@@ -1721,15 +1785,12 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label required">Quyền hạn</label>
-                                <select class="form-control form-select" name="QuyenHan" required>
-                                    <option value="">Chọn quyền hạn</option>
-                                    <option value="admin">Quản trị hệ thống</option>
-                                    <option value="manager">Quản lý</option>
-                                    <option value="sales">Nhân viên bán hàng</option>
-                                    <option value="technical">Kỹ thuật viên</option>
-                                    <option value="warehouse">Nhân viên kho</option>
-                                    <option value="accounting">Kế toán</option>
+                                <select class="form-control form-select" name="role_id" required>
+                                    <option value="">-- Chọn quyền --</option>
+                                    <option value="1">Quản trị viên (Admin)</option>
+                                    <option value="2">Nhân viên (User)</option>
                                 </select>
+                                <small class="form-text text-muted">Admin có toàn quyền, User bị giới hạn</small>
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Trạng thái</label>
@@ -2687,6 +2748,44 @@
         });
     </script>
     <script src="js/QLNhanVien.js"></script>
+    <script>
+        // Hàm đăng xuất
+        function logout() {
+            localStorage.clear(); // Xóa sạch token và info
+            window.location.href = "/login";
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Lấy thông tin từ LocalStorage
+            const role = localStorage.getItem("userRole");
+            const username = localStorage.getItem("username");
+    
+            // 2. Hiển thị tên người dùng vào Sidebar
+            if (username) {
+                document.getElementById("current-username").innerText = username;
+            }
+    
+            // 3. Xử lý phân quyền hiển thị (Ẩn menu nếu không phải Admin)
+            // Lưu ý: role 1 là Admin (theo file roles.js của bạn)
+            if (role != "1") {
+                // Đổi chức vụ hiển thị
+                document.getElementById("current-role-name").innerText = "Nhân viên";
+    
+                // Tìm và ẩn các mục có class 'admin-only'
+                const adminElements = document.querySelectorAll('.admin-only');
+                adminElements.forEach(function(el) {
+                    el.style.display = 'none';
+                });
+                
+                // Chặn truy cập trang Dashboard nếu lỡ vào
+                if (window.location.pathname.includes("TongQuanHeThong")) {
+                     window.location.href = "/QLDonHang";
+                }
+            } else {
+                 document.getElementById("current-role-name").innerText = "Quản trị viên";
+            }
+        });
+    </script>
 </body>
 
 </html>

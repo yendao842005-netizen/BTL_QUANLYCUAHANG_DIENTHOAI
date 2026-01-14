@@ -234,80 +234,95 @@
                 </div>
                 <div class="sidebar-title">MobileStore Pro</div>
             </div>
-
+            
             <div class="sidebar-menu">
                 <div class="menu-section">
                     <div class="menu-section-title">Tổng quan</div>
-                    <a href="TongQuanHeThong" class="menu-item">
+                    
+                    <a href="/TongQuanHeThong" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-home"></i>
                         </div>
                         <div class="menu-text">Dashboard</div>
                     </a>
                 </div>
-
+        
                 <div class="menu-section">
                     <div class="menu-section-title">Quản lý</div>
-                    <a href="QLSanPham" class="menu-item">
+                    <a href="/QLSanPham" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-box"></i>
                         </div>
                         <div class="menu-text">Sản phẩm</div>
                     </a>
-                    <a href="QLDonHang" class="menu-item">
+                    
+                    <a href="/QLDonHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <div class="menu-text">Đơn hàng</div>
                     </a>
-                    <a href="QLKhachHang" class="menu-item">
+                    
+                    <a href="/QLKhachHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="menu-text">Khách hàng</div>
                     </a>
-                    <a href="QLNhanVien" class="menu-item">
+                    
+                    <a href="/QLNhanVien" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-user-tie"></i>
                         </div>
                         <div class="menu-text">Nhân viên</div>
                     </a>
                 </div>
-
+        
                 <div class="menu-section">
                     <div class="menu-section-title">Hệ thống</div>
-                    <a href="QLNhaCungCap" class="menu-item active">
+                    
+                    <a href="/QLNhaCungCap" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-truck"></i>
                         </div>
                         <div class="menu-text">Nhà cung cấp</div>
                     </a>
-                    <a href="QLDangMuc" class="menu-item">
+                    
+                    <a href="/QLDangMuc" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-list"></i>
                         </div>
                         <div class="menu-text">Danh mục</div>
                     </a>
-                    <a href="reports.html" class="menu-item">
+                    
+                    <a href="reports.html" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-chart-bar"></i>
                         </div>
                         <div class="menu-text">Báo cáo</div>
                     </a>
                     
+                    <a href="settings.html" class="menu-item admin-only">
+                        <div class="menu-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="menu-text">Cài đặt</div> </a>
                 </div>
             </div>
-
+            
             <div class="sidebar-footer">
                 <div class="admin-avatar">
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="admin-info">
-                    <div class="admin-name">Admin</div>
-                    <div class="admin-role">Quản trị hệ thống</div>
+                    <div class="admin-name" id="current-username">User</div>
+                    <div class="admin-role" id="current-role-name">Thành viên</div>
+                </div>
+                <div class="logout-btn" onclick="logout()" style="cursor: pointer; margin-left: 10px;">
+                     <i class="fas fa-sign-out-alt"></i>
                 </div>
             </div>
-
+            
             <div class="toggle-sidebar">
                 <i class="fas fa-chevron-left"></i>
             </div>
@@ -952,9 +967,14 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label required">Mã NCC</label>
-                                <input type="text" class="form-control" id="addMaNCC" name="MaNCC" required
-                                    placeholder="VD: NCC006" pattern="[A-Z0-9]+" maxlength="20">
+                                <label class="form-label">Mã nhà cung cấp (MaNCC)</label>
+                                
+                                <input type="text" class="form-control" id="addMaNCC" name="MaNCC"
+                                    placeholder="Để trống để tự động sinh mã (VD: NCC001)" 
+                                    pattern="[A-Z0-9]+" maxlength="20"
+                                    title="Chỉ chấp nhận chữ in hoa và số">
+                                    
+                                <small class="form-text text-muted">Có thể để trống. Nếu nhập: chỉ dùng chữ in hoa và số.</small>
                             </div>
                             <div class="form-group">
                                 <label class="form-label required">Tên nhà cung cấp</label>
@@ -1116,513 +1136,46 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <script src="js/script.js"></script>
-    <!-- <script>
-        // Biến lưu trữ nhà cung cấp hiện tại đang xem
-        let currentSupplier = null;
-
-        // Các hàm JavaScript
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            if (modalId === 'addSupplierModal') {
-                document.getElementById('addSupplierForm').reset();
-            }
-            if (modalId === 'addPurchaseModal') {
-                document.getElementById('purchaseForm').reset();
-            }
-        }
-
-        function resetFilters() {
-            document.getElementById('supplierTypeFilter').value = '';
-            document.getElementById('supplierStatusFilter').value = '';
-            document.getElementById('supplierSearch').value = '';
-            filterTable();
-        }
-
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            }).format(amount);
-        }
-
-        // Lấy thông tin nhà cung cấp từ data attribute
-        function getSupplierByCode(supplierCode) {
-            const row = document.querySelector(`tr[data-supplier*='"MaNCC":"${supplierCode}"']`);
-            if (row) {
-                return JSON.parse(row.getAttribute('data-supplier'));
-            }
-            return null;
-        }
-
-        // Helper functions
-        function getSupplierTypeName(typeCode) {
-            switch (typeCode) {
-                case 'manufacturer': return 'Nhà SX';
-                case 'distributor': return 'Phân phối';
-                case 'wholesaler': return 'Đại lý';
-                case 'importer': return 'Nhập khẩu';
-                case 'local': return 'Trong nước';
-                default: return typeCode;
-            }
-        }
-
-        function getSupplierStatusName(statusCode) {
-            switch (statusCode) {
-                case 'active': return 'Đang hợp tác';
-                case 'pending': return 'Chờ duyệt';
-                case 'inactive': return 'Ngừng hợp tác';
-                default: return statusCode;
-            }
-        }
-
-        function getCountryName(countryCode) {
-            switch (countryCode) {
-                case 'VN': return 'Việt Nam';
-                case 'US': return 'Mỹ';
-                case 'CN': return 'Trung Quốc';
-                case 'KR': return 'Hàn Quốc';
-                case 'JP': return 'Nhật Bản';
-                default: return countryCode;
-            }
-        }
-
-        function generateStars(rating) {
-            let stars = '';
-            const fullStars = Math.floor(rating);
-            const hasHalfStar = rating % 1 >= 0.5;
-
-            for (let i = 1; i <= 5; i++) {
-                if (i <= fullStars) {
-                    stars += '<i class="fas fa-star"></i>';
-                } else if (i === fullStars + 1 && hasHalfStar) {
-                    stars += '<i class="fas fa-star-half-alt"></i>';
-                } else {
-                    stars += '<i class="far fa-star"></i>';
-                }
-            }
-            return stars;
-        }
-
-        // Xem chi tiết nhà cung cấp
-        function viewSupplierDetail(supplierCode) {
-            const supplier = getSupplierByCode(supplierCode);
-            if (!supplier) {
-                alert('Không tìm thấy nhà cung cấp!');
-                return;
-            }
-
-            currentSupplier = supplier;
-
-            const detailContent = document.getElementById('supplierDetailContent');
-            detailContent.innerHTML = `
-                <div class="supplier-detail">
-                    <div class="supplier-header mb-4">
-                        <h3>${supplier.TenNCC}</h3>
-                        <div class="text-muted">Mã: ${supplier.MaNCC}</div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="detail-section">
-                                <h5><i class="fas fa-building"></i> Thông tin cơ bản</h5>
-                                <table class="detail-table">
-                                    <tr><td><strong>Loại NCC:</strong></td><td>${getSupplierTypeName(supplier.LoaiNCC)}</td></tr>
-                                    <tr><td><strong>Mã số thuế:</strong></td><td>${supplier.MST || '-'}</td></tr>
-                                    <tr><td><strong>Website:</strong></td><td>${supplier.Website ? `<a href="${supplier.Website}" target="_blank">Xem ngay</a>` : '-'}</td></tr>
-                                    <tr><td><strong>Quốc gia:</strong></td><td>${getCountryName(supplier.QuocGia)}</td></tr>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="detail-section">
-                                <h5><i class="fas fa-address-book"></i> Liên hệ</h5>
-                                <table class="detail-table">
-                                    <tr><td><strong>Người LH:</strong></td><td>${supplier.NguoiLienHe}</td></tr>
-                                    <tr><td><strong>SĐT:</strong></td><td>${supplier.SDT}</td></tr>
-                                    <tr><td><strong>Email:</strong></td><td>${supplier.Email}</td></tr>
-                                    <tr><td><strong>Địa chỉ:</strong></td><td>${supplier.DiaChi || '-'}</td></tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="detail-section mt-3">
-                         <h5><i class="fas fa-chart-line"></i> Thống kê</h5>
-                         <div class="row">
-                            <div class="col-6"><strong>Sản phẩm:</strong> ${supplier.SoSanPham}</div>
-                            <div class="col-6"><strong>Đơn hàng:</strong> ${supplier.SoDonHang}</div>
-                            <div class="col-12 mt-2">
-                                <strong>Đánh giá:</strong> 
-                                <span class="text-warning">${generateStars(supplier.DanhGia)}</span> (${supplier.DanhGia}/5)
-                            </div>
-                         </div>
-                    </div>
-                     ${supplier.GhiChu ? `<div class="detail-section mt-3"><p><strong>Ghi chú:</strong> ${supplier.GhiChu}</p></div>` : ''}
-                </div>
-            `;
-
-            openModal('viewSupplierModal');
-        }
-
-        // Chỉnh sửa nhà cung cấp từ modal xem chi tiết
-        function editCurrentSupplier() {
-            if (currentSupplier) {
-                editSupplier(currentSupplier.MaNCC);
-            }
-        }
-
-        // Sửa nhà cung cấp
-        function editSupplier(supplierCode) {
-            const supplier = getSupplierByCode(supplierCode);
-            if (!supplier) {
-                alert('Không tìm thấy nhà cung cấp!');
-                return;
-            }
-
-            // Điền thông tin vào form chỉnh sửa
-            document.getElementById('editMaNCC').value = supplier.MaNCC;
-            document.getElementById('displayMaNCC').value = supplier.MaNCC;
-            document.getElementById('editTenNhaCungCap').value = supplier.TenNCC;
-            document.getElementById('editNguoiLienHe').value = supplier.NguoiLienHe || '';
-            document.getElementById('editSoDienThoai').value = supplier.SDT || '';
-            document.getElementById('editDiaChi').value = supplier.DiaChi || '';
-
-            // Đóng modal xem chi tiết nếu đang mở
-            closeModal('viewSupplierModal');
-            openModal('editSupplierModal');
-        }
-
-        // Cập nhật nhà cung cấp
-        function updateSupplier() {
-            const form = document.getElementById('editSupplierForm');
-            const supplierCode = document.getElementById('editMaNCC').value;
-
-            const updatedSupplier = {
-                MaNCC: supplierCode,
-                TenNCC: document.getElementById('editTenNhaCungCap').value,
-                NguoiLienHe: document.getElementById('editNguoiLienHe').value,
-                SDT: document.getElementById('editSoDienThoai').value,
-                DiaChi: document.getElementById('editDiaChi').value,
-                SoSanPham: currentSupplier?.SoSanPham || 0,
-                SoDonHang: currentSupplier?.SoDonHang || 0,
-                DanhGia: currentSupplier?.DanhGia || 0,
-                TrangThai: currentSupplier?.TrangThai || 'active',
-                LoaiNCC: currentSupplier?.LoaiNCC || 'local',
-                MST: currentSupplier?.MST || '',
-                Website: currentSupplier?.Website || '',
-                QuocGia: currentSupplier?.QuocGia || 'VN',
-                Email: currentSupplier?.Email || '',
-                ChucVu: currentSupplier?.ChucVu || '',
-                GhiChu: currentSupplier?.GhiChu || ''
-            };
-
-            // Validate
-            if (!updatedSupplier.TenNCC || !updatedSupplier.NguoiLienHe || !updatedSupplier.SDT) {
-                alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
-                return;
-            }
-
-            // Cập nhật dữ liệu trong bảng
-            const row = document.querySelector(`tr[data-supplier*='"MaNCC":"${supplierCode}"']`);
-            if (row) {
-                // Cập nhật data attribute
-                const oldData = JSON.parse(row.getAttribute('data-supplier'));
-                const newData = { ...oldData, ...updatedSupplier };
-                row.setAttribute('data-supplier', JSON.stringify(newData));
-
-                // Cập nhật hiển thị trong bảng
-                row.cells[1].querySelector('.supplier-name').innerHTML = `
-                ${updatedSupplier.TenNCC}
-                ${updatedSupplier.LoaiNCC === 'manufacturer' ? '<i class="fas fa-crown text-warning ms-1" title="NCC ưu tiên"></i>' : ''}
-            `;
-
-                row.cells[2].innerHTML = `
-                <div>${updatedSupplier.NguoiLienHe}</div>
-                <div class="text-muted">${updatedSupplier.ChucVu || ''}</div>
-            `;
-
-                row.cells[4].innerHTML = `
-                <strong>${oldData.SoSanPham || 0}</strong> SP
-            `;
-            }
-
-            currentSupplier = updatedSupplier;
-            alert('Đã cập nhật nhà cung cấp thành công!');
-            closeModal('editSupplierModal');
-            updateStats();
-        }
-
-        // Lưu nhà cung cấp mới
-        function saveSupplier() {
-            const form = document.getElementById('addSupplierForm');
-            const MaNCC = document.getElementById('addMaNCC').value;
-            const TenNhaCungCap = document.getElementById('addTenNhaCungCap').value;
-            const NguoiLienHe = document.getElementById('addNguoiLienHe').value;
-            const SoDienThoai = document.getElementById('addSoDienThoai').value;
-            const DiaChi = document.getElementById('addDiaChi').value;
-
-            // Validate
-            if (!MaNCC || !TenNhaCungCap || !NguoiLienHe || !SoDienThoai) {
-                alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
-                return;
-            }
-
-            const newSupplier = {
-                MaNCC: MaNCC,
-                TenNCC: TenNhaCungCap,
-                NguoiLienHe: NguoiLienHe,
-                SDT: SoDienThoai,
-                DiaChi: DiaChi,
-                SoSanPham: 0,
-                SoDonHang: 0,
-                DanhGia: 0,
-                TrangThai: 'active',
-                LoaiNCC: 'local',
-                MST: '',
-                Website: '',
-                QuocGia: 'VN',
-                Email: '',
-                ChucVu: '',
-                GhiChu: ''
-            };
-
-            // Kiểm tra mã nhà cung cấp đã tồn tại chưa
-            if (getSupplierByCode(newSupplier.MaNCC)) {
-                alert('Mã nhà cung cấp đã tồn tại!');
-                return;
-            }
-
-            // Thêm hàng mới vào bảng
-            const tableBody = document.querySelector('#suppliersTable tbody');
-            const newRow = document.createElement('tr');
-            newRow.setAttribute('data-supplier', JSON.stringify(newSupplier));
-
-            newRow.innerHTML = `
-            <td><strong>${newSupplier.MaNCC}</strong></td>
-            <td>
-                <div class="supplier-name">
-                    ${newSupplier.TenNCC}
-                </div>
-            </td>
-            <td>
-                <div>${newSupplier.NguoiLienHe}</div>
-                <div class="text-muted"></div>
-            </td>
-            <td>
-                <span class="supplier-type local">Trong nước</span>
-            </td>
-            <td>
-                <strong>0</strong> SP
-            </td>
-            <td>
-                <div>0 đơn</div>
-            </td>
-            <td>
-                <div class="supplier-rating">
-                    <div class="stars">
-                        ${generateStars(0)}
-                    </div>
-                    <div class="rating-value">0</div>
-                </div>
-            </td>
-            <td>
-                <span class="status active">Đang hợp tác</span>
-            </td>
-            <td>
-                <div class="action-buttons">
-                    <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewSupplierDetail('${newSupplier.MaNCC}')">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="action-btn edit-btn" title="Sửa" onclick="editSupplier('${newSupplier.MaNCC}')">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="action-btn delete-btn" title="Xóa" onclick="deleteSupplier('${newSupplier.MaNCC}')">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </td>
-        `;
-
-            tableBody.appendChild(newRow);
-
-            // Cập nhật số liệu thống kê
-            updateStats();
-
-            alert('Đã thêm nhà cung cấp mới thành công!');
-            closeModal('addSupplierModal');
-            form.reset();
-
-            // Load lại danh sách nhà cung cấp cho dropdown đơn nhập
-            loadSuppliersForPurchase();
-        }
-
-        // Xóa nhà cung cấp
-        function deleteSupplier(supplierCode) {
-            if (!confirm(`Bạn có chắc chắn muốn xóa nhà cung cấp ${supplierCode}?`)) {
-                return;
-            }
-
-            const row = document.querySelector(`tr[data-supplier*='"MaNCC":"${supplierCode}"']`);
-            if (row) {
-                row.style.opacity = '0.5';
-                setTimeout(() => {
-                    row.remove();
-                    updateStats();
-                    alert('Đã xóa nhà cung cấp thành công!');
-
-                    // Load lại danh sách nhà cung cấp cho dropdown đơn nhập
-                    loadSuppliersForPurchase();
-                }, 300);
-            }
-        }
-
-        // Tải danh sách nhà cung cấp cho dropdown đơn nhập
-        function loadSuppliersForPurchase() {
-            const rows = document.querySelectorAll('#suppliersTable tbody tr');
-            const select = document.getElementById('purchaseSupplier');
-
-            // Xóa options cũ (giữ option đầu tiên)
-            while (select.options.length > 1) {
-                select.remove(1);
-            }
-
-            // Thêm options mới
-            rows.forEach(row => {
-                const supplier = JSON.parse(row.getAttribute('data-supplier'));
-                const option = document.createElement('option');
-                option.value = supplier.MaNCC;
-                option.textContent = `${supplier.MaNCC} - ${supplier.TenNCC}`;
-                select.appendChild(option);
-            });
-        }
-
-        // Cập nhật thống kê
-        function updateStats() {
-            const rows = document.querySelectorAll('#suppliersTable tbody tr');
-            const totalSuppliers = rows.length;
-
-            let totalProducts = 0;
-            let totalOrders = 0;
-            let totalRating = 0;
-
-            rows.forEach(row => {
-                const supplier = JSON.parse(row.getAttribute('data-supplier'));
-                totalProducts += supplier.SoSanPham || 0;
-                totalOrders += supplier.SoDonHang || 0;
-                totalRating += supplier.DanhGia || 0;
-            });
-
-            const avgRating = totalSuppliers > 0 ? (totalRating / totalSuppliers).toFixed(1) : 0;
-
-            // Cập nhật thống kê
-            document.getElementById('statTotalSuppliers').textContent = totalSuppliers;
-            document.getElementById('statTotalProducts').textContent = totalProducts;
-            document.getElementById('statTotalOrders').textContent = totalOrders;
-            document.getElementById('statAvgRating').textContent = `${avgRating}/5`;
-        }
-
-        // Lọc bảng
-        function filterTable() {
-            const typeFilter = document.getElementById('supplierTypeFilter').value;
-            const statusFilter = document.getElementById('supplierStatusFilter').value;
-            const searchInput = document.getElementById('supplierSearch').value.toLowerCase();
-            const rows = document.querySelectorAll('#suppliersTable tbody tr');
-
-            rows.forEach(row => {
-                const supplier = JSON.parse(row.getAttribute('data-supplier'));
-                const rowType = supplier.LoaiNCC;
-                const rowStatus = supplier.TrangThai;
-                const searchText = (supplier.TenNCC || '').toLowerCase() + ' ' +
-                    (supplier.MaNCC || '').toLowerCase() + ' ' +
-                    (supplier.NguoiLienHe || '').toLowerCase() + ' ' +
-                    (supplier.SDT || '').toLowerCase();
-
-                const isTypeMatch = !typeFilter || rowType === typeFilter;
-                const isStatusMatch = !statusFilter || rowStatus === statusFilter;
-                const isSearchMatch = !searchInput || searchText.includes(searchInput);
-
-                if (isTypeMatch && isStatusMatch && isSearchMatch) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        // Các hàm chức năng khác
-        function createPurchaseOrder() {
-            const supplierSelect = document.getElementById('purchaseSupplier');
-            const orderDate = document.getElementById('orderDate').value;
-            const deliveryDate = document.getElementById('deliveryDate').value;
-
-            if (!supplierSelect.value || !orderDate || !deliveryDate) {
-                alert('Vui lòng điền đầy đủ thông tin!');
-                return;
-            }
-
-            alert('Đã tạo đơn nhập hàng thành công!');
-            closeModal('addPurchaseModal');
-            document.getElementById('purchaseForm').reset();
-        }
-
-        function viewExpiringContracts() {
-            alert('Chức năng xem hợp đồng hết hạn đang được phát triển!');
-        }
-
-        function renewContract(supplierCode) {
-            alert(`Chức năng gia hạn hợp đồng cho ${supplierCode} đang được phát triển!`);
-        }
-
-        // Xuất Excel (chức năng mẫu)
-        function exportToExcel() {
-            alert('Chức năng xuất Excel đang được phát triển!');
-        }
-
-        // Xử lý sự kiện khi DOM tải xong
-        document.addEventListener('DOMContentLoaded', function () {
-            // Xử lý tìm kiếm
-            const searchInput = document.getElementById('supplierSearch');
-            if (searchInput) {
-                searchInput.addEventListener('input', filterTable);
-            }
-
-            // Xử lý bộ lọc
-            document.getElementById('supplierTypeFilter').addEventListener('change', filterTable);
-            document.getElementById('supplierStatusFilter').addEventListener('change', filterTable);
-
-            // Xử lý đóng modal khi click bên ngoài
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', function (e) {
-                    if (e.target === this) {
-                        this.style.display = 'none';
-                    }
-                });
-            });
-
-            // Cập nhật thống kê ban đầu
-            updateStats();
-
-            // Tải danh sách nhà cung cấp cho dropdown đơn nhập
-            loadSuppliersForPurchase();
-
-            // Set default dates for purchase order
-            const today = new Date().toISOString().split('T')[0];
-            const nextWeek = new Date();
-            nextWeek.setDate(nextWeek.getDate() + 7);
-            const nextWeekStr = nextWeek.toISOString().split('T')[0];
-
-            document.getElementById('orderDate').value = today;
-            document.getElementById('deliveryDate').value = nextWeekStr;
-            document.getElementById('orderDate').min = today;
-            document.getElementById('deliveryDate').min = today;
-        });
-    </script> -->
+    
     <script src="js/QLNCC.js"></script>
-
+    <script>
+        // Hàm đăng xuất
+        function logout() {
+            localStorage.clear(); // Xóa sạch token và info
+            window.location.href = "/login";
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Lấy thông tin từ LocalStorage
+            const role = localStorage.getItem("userRole");
+            const username = localStorage.getItem("username");
+    
+            // 2. Hiển thị tên người dùng vào Sidebar
+            if (username) {
+                document.getElementById("current-username").innerText = username;
+            }
+    
+            // 3. Xử lý phân quyền hiển thị (Ẩn menu nếu không phải Admin)
+            // Lưu ý: role 1 là Admin (theo file roles.js của bạn)
+            if (role != "1") {
+                // Đổi chức vụ hiển thị
+                document.getElementById("current-role-name").innerText = "Nhân viên";
+    
+                // Tìm và ẩn các mục có class 'admin-only'
+                const adminElements = document.querySelectorAll('.admin-only');
+                adminElements.forEach(function(el) {
+                    el.style.display = 'none';
+                });
+                
+                // Chặn truy cập trang Dashboard nếu lỡ vào
+                if (window.location.pathname.includes("TongQuanHeThong")) {
+                     window.location.href = "/QLDonHang";
+                }
+            } else {
+                 document.getElementById("current-role-name").innerText = "Quản trị viên";
+            }
+        });
+    </script>
 </body>
 
 </html>

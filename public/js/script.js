@@ -1213,3 +1213,25 @@ window.filterData = function(data, filters) {
         return true;
     });
 };
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Lấy đường dẫn hiện tại (ví dụ: /QLSanPham)
+    const currentPath = window.location.pathname;
+    
+    // 2. Lấy tất cả thẻ a trong menu
+    const menuItems = document.querySelectorAll('.sidebar-menu .menu-item');
+
+    menuItems.forEach(item => {
+        const itemPath = item.getAttribute('href');
+        
+        // 3. Logic so sánh thông minh
+        // Nếu path hiện tại chứa href của item (để xử lý cả trang con)
+        // Ví dụ: đang ở /QLSanPham/ThemMoi thì mục /QLSanPham vẫn sáng
+        if (itemPath && currentPath.includes(itemPath)) {
+            // Trừ trường hợp trang chủ '/' nếu cần thiết
+            if (itemPath !== '/' || currentPath === '/') {
+                item.classList.add('active');
+            }
+        }
+    });
+});

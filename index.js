@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import helmet from "helmet";
+// import helmet from "helmet";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import path from "path"; // THÊM: Module để xử lý đường dẫn file/folder
@@ -15,17 +15,15 @@ dotenv.config();
 
 const app = express();
 
-
 const __filename = fileURLToPath(import.meta.url); // Lấy đường dẫn file hiện tại
 const __dirname = path.dirname(__filename); // Lấy thư mục chứa file hiện tại
 // Khi gọi res.render('sanpham'), Express sẽ tìm file views/sanpham.ejs
-app.set('views', path.join(__dirname, 'views'));
+app.set("views", path.join(__dirname, "views"));
 
 // Set EJS làm template engine mặc định
 // Giờ không cần ghi .ejs khi render, chỉ cần tên file
-app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, 'public')));//thêm 
-
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public"))); //thêm
 
 // ---------------------------
 // Basic & Security Middlewares
@@ -33,24 +31,58 @@ app.use(express.static(path.join(__dirname, 'public')));//thêm
 
 //app.use(helmet());
 // Cấu hình CSP để cho phép onclick và load tài nguyên từ bên ngoài (cdnjs, fontawesome...)
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      // 'unsafe-inline' cho phép code JS trong thẻ script
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://kit.fontawesome.com", "https://code.jquery.com"],
-      // QUAN TRỌNG: Dòng này cho phép onclick, onchange...
-      scriptSrcAttr: ["'unsafe-inline'"], 
-      // Cho phép style inline (style="...") và font từ google/cdnjs
-      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com", "https://kit.fontawesome.com"],
-      // Cho phép load ảnh từ mọi nguồn https
-      imgSrc: ["'self'", "data:", "https:"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com", "https://kit.fontawesome.com"],
-      // Sửa lỗi connect-src cho file map css
-      connectSrc: ["'self'", "https://cdnjs.cloudflare.com"], 
-    },
-  })
-);
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       defaultSrc: ["'self'"],
+//       scriptSrc: [
+//         "'self'", 
+//         "'unsafe-inline'", 
+//         "https://cdnjs.cloudflare.com", 
+//         "https://kit.fontawesome.com", 
+//         "https://code.jquery.com",
+//         "https://cdn.jsdelivr.net" // <--- THÊM DÒNG NÀY
+//       ],
+//       styleSrc: [
+//         "'self'", 
+//         "'unsafe-inline'", 
+//         "https://cdnjs.cloudflare.com", 
+//         "https://fonts.googleapis.com", 
+//         "https://kit.fontawesome.com",
+//         "https://cdn.jsdelivr.net" // <--- THÊM DÒNG NÀY
+//       ],
+//       imgSrc: ["'self'", "data:", "https:"],
+//       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com", "https://kit.fontawesome.com"],
+//       connectSrc: ["'self'", "https://cdnjs.cloudflare.com"], 
+//     },
+//   })
+// );
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       defaultSrc: ["'self'"],
+//       scriptSrc: [
+//         "'self'", 
+//         "'unsafe-inline'", 
+//         "https://cdnjs.cloudflare.com", 
+//         "https://kit.fontawesome.com", 
+//         "https://code.jquery.com",
+//         "https://cdn.jsdelivr.net" // <--- THÊM DÒNG NÀY
+//       ],
+//       styleSrc: [
+//         "'self'", 
+//         "'unsafe-inline'", 
+//         "https://cdnjs.cloudflare.com", 
+//         "https://fonts.googleapis.com", 
+//         "https://kit.fontawesome.com",
+//         "https://cdn.jsdelivr.net" // <--- THÊM DÒNG NÀY
+//       ],
+//       imgSrc: ["'self'", "data:", "https:"],
+//       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com", "https://kit.fontawesome.com"],
+//       connectSrc: ["'self'", "https://cdnjs.cloudflare.com"], 
+//     },
+//   })
+// );
 app.use(cors({ origin: "*" }));
 app.use(compression());
 app.use(cookieParser());

@@ -24,68 +24,75 @@
             <div class="sidebar-menu">
                 <div class="menu-section">
                     <div class="menu-section-title">Tổng quan</div>
-                    <a href="TongQuanHeThong" class="menu-item active">
+                    
+                    <a href="/TongQuanHeThong" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-home"></i>
                         </div>
                         <div class="menu-text">Dashboard</div>
                     </a>
                 </div>
-
+        
                 <div class="menu-section">
                     <div class="menu-section-title">Quản lý</div>
-                    <a href="QLSanPham" class="menu-item">
+                    <a href="/QLSanPham" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-box"></i>
                         </div>
                         <div class="menu-text">Sản phẩm</div>
                     </a>
-                    <a href="QLDonHang" class="menu-item">
+                    
+                    <a href="/QLDonHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <div class="menu-text">Đơn hàng</div>
                     </a>
-                    <a href="QLKhachHang" class="menu-item">
+                    
+                    <a href="/QLKhachHang" class="menu-item">
                         <div class="menu-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="menu-text">Khách hàng</div>
                     </a>
-                    <a href="QLNhanVien" class="menu-item ">
+                    
+                    <a href="/QLNhanVien" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-user-tie"></i>
                         </div>
                         <div class="menu-text">Nhân viên</div>
                     </a>
                 </div>
-
+        
                 <div class="menu-section">
                     <div class="menu-section-title">Hệ thống</div>
-                    <a href="QLNhaCungCap" class="menu-item">
+                    
+                    <a href="/QLNhaCungCap" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-truck"></i>
                         </div>
                         <div class="menu-text">Nhà cung cấp</div>
                     </a>
-                    <a href="QLDangMuc" class="menu-item">
+                    
+                    <a href="/QLDangMuc" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-list"></i>
                         </div>
                         <div class="menu-text">Danh mục</div>
                     </a>
-                    <a href="reports.html" class="menu-item">
+                    
+                    <a href="reports.html" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-chart-bar"></i>
                         </div>
                         <div class="menu-text">Báo cáo</div>
                     </a>
-                    <a href="settings.html" class="menu-item">
+                    
+                    <a href="settings.html" class="menu-item admin-only">
                         <div class="menu-icon">
                             <i class="fas fa-cog"></i>
                         </div>
-
-                    </a>
+                        <div class="menu-text">Cài đặt</div> </a>
                 </div>
             </div>
             
@@ -94,8 +101,11 @@
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="admin-info">
-                    <div class="admin-name">Admin</div>
-                    <div class="admin-role">Quản trị hệ thống</div>
+                    <div class="admin-name" id="current-username">User</div>
+                    <div class="admin-role" id="current-role-name">Thành viên</div>
+                </div>
+                <div class="logout-btn" onclick="logout()" style="cursor: pointer; margin-left: 10px;">
+                     <i class="fas fa-sign-out-alt"></i>
                 </div>
             </div>
             
@@ -277,10 +287,11 @@
                             <div class="chart-title">Doanh thu theo tháng </div>
                             <div class="chart-actions">
                                 <select class="filter-select">
-                                    <option>Năm 2025</option>
-                                    <option>Năm 2024</option>
-                                    <option>Năm 2023</option>
-                                    <option>Năm 2022</option>
+                                    <option value="2026">Năm 2026</option>
+                                     <option value="2025" selected>Năm 2025</option> 
+                                     <option value="2024">Năm 2024</option>
+                                     <option value="2023">Năm 2023</option>
+                                     <option value="2022">Năm 2022</option>
                                 </select>
                             </div>
                         </div>
@@ -592,5 +603,43 @@
     </script>  -->
     
     <script src="js/TongQuanHT.js"></script>
+    <script>
+        // Hàm đăng xuất
+        function logout() {
+            localStorage.clear(); // Xóa sạch token và info
+            window.location.href = "/login";
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Lấy thông tin từ LocalStorage
+            const role = localStorage.getItem("userRole");
+            const username = localStorage.getItem("username");
+    
+            // 2. Hiển thị tên người dùng vào Sidebar
+            if (username) {
+                document.getElementById("current-username").innerText = username;
+            }
+    
+            // 3. Xử lý phân quyền hiển thị (Ẩn menu nếu không phải Admin)
+            // Lưu ý: role 1 là Admin (theo file roles.js của bạn)
+            if (role != "1") {
+                // Đổi chức vụ hiển thị
+                document.getElementById("current-role-name").innerText = "Nhân viên";
+    
+                // Tìm và ẩn các mục có class 'admin-only'
+                const adminElements = document.querySelectorAll('.admin-only');
+                adminElements.forEach(function(el) {
+                    el.style.display = 'none';
+                });
+                
+                // Chặn truy cập trang Dashboard nếu lỡ vào
+                if (window.location.pathname.includes("TongQuanHeThong")) {
+                     window.location.href = "/QLDonHang";
+                }
+            } else {
+                 document.getElementById("current-role-name").innerText = "Quản trị viên";
+            }
+        });
+    </script>
 </body>
 </html>

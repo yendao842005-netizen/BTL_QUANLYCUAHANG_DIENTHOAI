@@ -1,1407 +1,803 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quản Lý Khách Hàng - MobileStore Pro</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
     <div class="app-container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <div class="sidebar-title">MobileStore Pro</div>
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-logo">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <div class="sidebar-title">MobileStore Pro</div>
+        </div>
+
+        <div class="sidebar-menu">
+          <div class="menu-section">
+            <div class="menu-section-title">Tổng quan</div>
+
+            <a href="/TongQuanHeThong" class="menu-item admin-only">
+              <div class="menu-icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <div class="menu-text">Dashboard</div>
+            </a>
+          </div>
+
+          <div class="menu-section">
+            <div class="menu-section-title">Quản lý</div>
+            <a href="/QLSanPham" class="menu-item">
+              <div class="menu-icon">
+                <i class="fas fa-box"></i>
+              </div>
+              <div class="menu-text">Sản phẩm</div>
+            </a>
+
+            <a href="/QLDonHang" class="menu-item">
+              <div class="menu-icon">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+              <div class="menu-text">Đơn hàng</div>
+            </a>
+
+            <a href="/QLKhachHang" class="menu-item">
+              <div class="menu-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="menu-text">Khách hàng</div>
+            </a>
+
+            <a href="/QLNhanVien" class="menu-item admin-only">
+              <div class="menu-icon">
+                <i class="fas fa-user-tie"></i>
+              </div>
+              <div class="menu-text">Nhân viên</div>
+            </a>
+          </div>
+
+          <div class="menu-section">
+            <div class="menu-section-title">Hệ thống</div>
+
+            <a href="/QLNhaCungCap" class="menu-item admin-only">
+              <div class="menu-icon">
+                <i class="fas fa-truck"></i>
+              </div>
+              <div class="menu-text">Nhà cung cấp</div>
+            </a>
+
+            <a href="/QLDangMuc" class="menu-item admin-only">
+              <div class="menu-icon">
+                <i class="fas fa-list"></i>
+              </div>
+              <div class="menu-text">Danh mục</div>
+            </a>
+
+            <a href="reports.html" class="menu-item admin-only">
+              <div class="menu-icon">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+              <div class="menu-text">Báo cáo</div>
+            </a>
+
+            <a href="settings.html" class="menu-item admin-only">
+              <div class="menu-icon">
+                <i class="fas fa-cog"></i>
+              </div>
+              <div class="menu-text">Cài đặt</div>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="admin-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="admin-info">
+            <div class="admin-name" id="current-username">User</div>
+            <div class="admin-role" id="current-role-name">Thành viên</div>
+          </div>
+          <div class="logout-btn" style="cursor: pointer; margin-left: 10px">
+            <i class="fas fa-sign-out-alt"></i>
+          </div>
+        </div>
+
+        <div class="toggle-sidebar">
+          <i class="fas fa-chevron-left"></i>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+          <div class="header-left">
+            <div class="header-title">Quản Lý Khách Hàng</div>
+            <div class="breadcrumb">
+              <div class="breadcrumb-item">
+                <i class="fas fa-home"></i>
+                <a href="index.html">Trang chủ</a>
+              </div>
+              <div class="breadcrumb-item active">Khách hàng</div>
             </div>
-            
-           <div class="sidebar-menu">
-                <div class="menu-section">
-                    <div class="menu-section-title">Tổng quan</div>
-                    <a href="TongQuanHeThong" class="menu-item">
-                        <div class="menu-icon">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <div class="menu-text">Dashboard</div>
-                    </a>
-                </div>
+          </div>
 
-                <div class="menu-section">
-                    <div class="menu-section-title">Quản lý</div>
-                    <a href="QLSanPham" class="menu-item">
-                        <div class="menu-icon">
-                            <i class="fas fa-box"></i>
-                        </div>
-                        <div class="menu-text">Sản phẩm</div>
-                    </a>
-                    <a href="QLDonHang" class="menu-item">
-                        <div class="menu-icon">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <div class="menu-text">Đơn hàng</div>
-                    </a>
-                    <a href="QLKhachHang" class="menu-item active">
-                        <div class="menu-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="menu-text">Khách hàng</div>
-                    </a>
-                    <a href="QLNhanVien" class="menu-item ">
-                        <div class="menu-icon">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <div class="menu-text">Nhân viên</div>
-                    </a>
-                </div>
-
-                <div class="menu-section">
-                    <div class="menu-section-title">Hệ thống</div>
-                    <a href="QLNhaCungCap" class="menu-item">
-                        <div class="menu-icon">
-                            <i class="fas fa-truck"></i>
-                        </div>
-                        <div class="menu-text">Nhà cung cấp</div>
-                    </a>
-                    <a href="QLDangMuc" class="menu-item">
-                        <div class="menu-icon">
-                            <i class="fas fa-list"></i>
-                        </div>
-                        <div class="menu-text">Danh mục</div>
-                    </a>
-                    <a href="reports.html" class="menu-item">
-                        <div class="menu-icon">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <div class="menu-text">Báo cáo</div>
-                    </a>
-                    <a href="settings.html" class="menu-item">
-                        <div class="menu-icon">
-                            <i class="fas fa-cog"></i>
-                        </div>
-
-                    </a>
-                </div>
+          <div class="header-right">
+            <div class="search-box">
+              <i class="fas fa-search search-icon"></i>
+              <input
+                type="text"
+                id="customerSearch"
+                placeholder="Tìm kiếm khách hàng..."
+              />
             </div>
-            
-            <div class="sidebar-footer">
+
+            <div class="notifications">
+              <i class="fas fa-bell notification-icon"></i>
+              <span class="notification-count">3</span>
+              <div class="notification-dropdown">
+                <div class="notification-header">
+                  <div class="notification-title">Thông báo</div>
+                  <div class="notification-clear">Đánh dấu đã đọc tất cả</div>
+                </div>
+                <div class="notification-list">
+                  <!-- Notifications will be loaded here -->
+                </div>
+              </div>
+            </div>
+
+            <div class="user-menu">
+              <div class="user-info">
                 <div class="admin-avatar">
-                    <i class="fas fa-user"></i>
+                  <i class="fas fa-user"></i>
                 </div>
-                <div class="admin-info">
-                    <div class="admin-name">Admin</div>
-                    <div class="admin-role">Quản trị hệ thống</div>
-                </div>
-            </div>
-            
-            <div class="toggle-sidebar">
-                <i class="fas fa-chevron-left"></i>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="header-left">
-                    <div class="header-title">Quản Lý Khách Hàng</div>
-                    <div class="breadcrumb">
-                        <div class="breadcrumb-item">
-                            <i class="fas fa-home"></i>
-                            <a href="index.html">Trang chủ</a>
-                        </div>
-                        <div class="breadcrumb-item active">Khách hàng</div>
-                    </div>
-                </div>
-                
-                <div class="header-right">
-                    <div class="search-box">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" id="customerSearch" placeholder="Tìm kiếm khách hàng...">
-                    </div>
-                    
-                    <div class="notifications">
-                        <i class="fas fa-bell notification-icon"></i>
-                        <span class="notification-count">3</span>
-                        <div class="notification-dropdown">
-                            <div class="notification-header">
-                                <div class="notification-title">Thông báo</div>
-                                <div class="notification-clear">Đánh dấu đã đọc tất cả</div>
-                            </div>
-                            <div class="notification-list">
-                                <!-- Notifications will be loaded here -->
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="user-menu">
-                        <div class="user-info">
-                            <div class="admin-avatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div>
-                                <div class="user-name">Nguyen Van An</div>
-                                <div class="user-role">Quản lý</div>
-                            </div>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="user-dropdown">
-                            <div class="user-dropdown-item">
-                                <i class="fas fa-user"></i>
-                                <span>Hồ sơ cá nhân</span>
-                            </div>
-                            <div class="user-dropdown-item">
-                                <i class="fas fa-cog"></i>
-                                <span>Cài đặt tài khoản</span>
-                            </div>
-                            <div class="user-dropdown-divider"></div>
-                            <div class="user-dropdown-item logout-btn">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <span>Đăng xuất</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Content -->
-            <div class="content">
-                <!-- Page Header -->
-                <div class="page-header">
-                    <div>
-                        <div class="page-title">Quản Lý Khách Hàng</div>
-                        <div class="page-subtitle">Quản lý thông tin khách hàng và lịch sử mua hàng</div>
-                    </div>
-                    <div class="page-actions">
-                        <button class="btn btn-outline" onclick="exportToExcel()">
-                            <i class="fas fa-file-export"></i> Xuất Excel
-                        </button>
-                        <button class="btn btn-primary" onclick="openModal('addCustomerModal')">
-                            <i class="fas fa-user-plus"></i> Thêm khách hàng
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Stats Cards -->
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #4361ee, #4cc9f0);">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="statTotalCustomers">8</h3>
-                            <p>Tổng khách hàng</p>
-                        </div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #7209b7, #f72585);">
-                            <i class="fas fa-crown"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="statVIPCustomers">2</h3>
-                            <p>Khách hàng VIP</p>
-                        </div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #ff9e00, #ffd166);">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="statNewCustomers">2</h3>
-                            <p>Khách hàng mới </p>
-                        </div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon" style="background: linear-gradient(135deg, #06d6a0, #118ab2);">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="statTotalRevenue">785 triệu</h3>
-                            <p>Doanh thu từ KH</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Customers Table -->
-                <div class="table-container">
-                    <div class="table-header">
-                        <div class="table-title">Danh sách khách hàng</div>
-                        <div class="table-actions">
-                            <div class="table-filters">
-                                <select class="filter-select" id="customerTypeFilter">
-                                    <option value="">Tất cả loại KH</option>
-                                    <option value="vip">VIP</option>
-                                    <option value="regular">Thường</option>
-                                    <option value="new">Mới</option>
-                                </select>
-                                <!-- <select class="filter-select" id="customerStatusFilter">
-                                    <option value="">Tất cả trạng thái</option>
-                                    <option value="active">Đang hoạt động</option>
-                                    <option value="inactive">Không hoạt động</option>
-                                </select> -->
-                            </div>
-                            <button class="btn btn-outline btn-sm" onclick="resetFilters()">
-                                <i class="fas fa-redo"></i> Đặt lại
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="table-responsive">
-                        <table id="customersTable">
-                            <thead>
-                                <tr>
-                                    <th>Mã KH</th>
-                                    <th>Họ tên</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Email</th>
-                                    <th>Loại KH</th>
-                                    <th>Tổng đơn</th>
-                                    <th>Tổng chi tiêu</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- 8 khách hàng mẫu -->
-                                <tr data-customer='{"MaKH":"KH001","HoTen":"Nguyen Van Khach","SoDienThoai":"0990000001","Email":"khach1@gmail.com","DiaChi":"Go Vap, HCM","LoaiKH":"vip","TrangThai":"active","TongDon":15,"TongChiTieu":125000000,"NgayThamGia":"2023-01-15","NgaySinh":"1990-05-15","GioiTinh":"Nam","NguonKH":"website","GhiChu":"Khách hàng thân thiết"}'>
-                                    <td><strong>KH001</strong></td>
-                                    <td>
-                                        <div class="customer-name">
-                                            Nguyen Van Khach
-                                            <i class="fas fa-crown text-warning ms-1" title="VIP"></i>
-                                        </div>
-                                    </td>
-                                    <td>0990000001</td>
-                                    <td>khach1@gmail.com</td>
-                                    <td>
-                                        <span class="customer-type vip">VIP</span>
-                                    </td>
-                                    <td>15</td>
-                                    <td><strong>125,000,000 ₫</strong></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCustomerDetail('KH001')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editCustomer('KH001')">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteCustomer('KH001')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr data-customer='{"MaKH":"KH002","HoTen":"Tran Thi Mua","SoDienThoai":"0990000002","Email":"mua2@gmail.com","DiaChi":"Tan Binh, HCM","LoaiKH":"vip","TrangThai":"active","TongDon":8,"TongChiTieu":67500000,"NgayThamGia":"2023-03-20","NgaySinh":"1995-08-22","GioiTinh":"Nu","NguonKH":"walkin","GhiChu":"Thích sản phẩm Apple"}'>
-                                    <td><strong>KH002</strong></td>
-                                    <td>
-                                        <div class="customer-name">
-                                            Tran Thi Mua
-                                            <i class="fas fa-crown text-warning ms-1" title="VIP"></i>
-                                        </div>
-                                    </td>
-                                    <td>0990000002</td>
-                                    <td>mua2@gmail.com</td>
-                                    <td>
-                                        <span class="customer-type vip">VIP</span>
-                                    </td>
-                                    <td>8</td>
-                                    <td><strong>67,500,000 ₫</strong></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCustomerDetail('KH002')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editCustomer('KH002')">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteCustomer('KH002')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr data-customer='{"MaKH":"KH003","HoTen":"Le Van Sam","SoDienThoai":"0990000003","Email":"sam3@gmail.com","DiaChi":"Quan 3, HCM","LoaiKH":"regular","TrangThai":"active","TongDon":22,"TongChiTieu":215000000,"NgayThamGia":"2022-11-05","NgaySinh":"1985-12-10","GioiTinh":"Nam","NguonKH":"referral","GhiChu":"Khách hàng doanh nghiệp"}'>
-                                    <td><strong>KH003</strong></td>
-                                    <td>
-                                        <div class="customer-name">
-                                            Le Van Sam
-                                        </div>
-                                    </td>
-                                    <td>0990000003</td>
-                                    <td>sam3@gmail.com</td>
-                                    <td>
-                                        <span class="customer-type regular">Thường</span>
-                                    </td>
-                                    <td>22</td>
-                                    <td><strong>215,000,000 ₫</strong></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCustomerDetail('KH003')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editCustomer('KH003')">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteCustomer('KH003')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr data-customer='{"MaKH":"KH004","HoTen":"Pham Thi Tieu","SoDienThoai":"0990000004","Email":"tieu4@gmail.com","DiaChi":"Quan 1, HCM","LoaiKH":"new","TrangThai":"active","TongDon":3,"TongChiTieu":15000000,"NgayThamGia":"2024-02-10","NgaySinh":"1998-03-18","GioiTinh":"Nu","NguonKH":"facebook","GhiChu":"Khách hàng mới"}'>
-                                    <td><strong>KH004</strong></td>
-                                    <td>
-                                        <div class="customer-name">
-                                            Pham Thi Tieu
-                                        </div>
-                                    </td>
-                                    <td>0990000004</td>
-                                    <td>tieu4@gmail.com</td>
-                                    <td>
-                                        <span class="customer-type new">Mới</span>
-                                    </td>
-                                    <td>3</td>
-                                    <td><strong>15,000,000 ₫</strong></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCustomerDetail('KH004')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editCustomer('KH004')">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteCustomer('KH004')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr data-customer='{"MaKH":"KH005","HoTen":"Hoang Van Dung","SoDienThoai":"0990000005","Email":"dung5@gmail.com","DiaChi":"Binh Thanh, HCM","LoaiKH":"regular","TrangThai":"active","TongDon":12,"TongChiTieu":98500000,"NgayThamGia":"2023-07-15","NgaySinh":"1992-09-30","GioiTinh":"Nam","NguonKH":"website","GhiChu":"Thường mua sản phẩm tầm trung"}'>
-                                    <td><strong>KH005</strong></td>
-                                    <td>
-                                        <div class="customer-name">
-                                            Hoang Van Dung
-                                        </div>
-                                    </td>
-                                    <td>0990000005</td>
-                                    <td>dung5@gmail.com</td>
-                                    <td>
-                                        <span class="customer-type regular">Thường</span>
-                                    </td>
-                                    <td>12</td>
-                                    <td><strong>98,500,000 ₫</strong></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCustomerDetail('KH005')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="action-btn edit-btn" title="Sửa" onclick="editCustomer('KH005')">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="action-btn delete-btn" title="Xóa" onclick="deleteCustomer('KH005')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="pagination-container" id="pagination" ></div>
-                    </div>
-                </div>
-
-                <!-- Customer Segmentation & Care -->
-                <!-- <div class="widgets-container">
-                    <div class="widget">
-                        <div class="widget-header">
-                            <div class="widget-title">Phân khúc khách hàng</div>
-                            <div class="widget-actions">
-                                <button class="btn btn-sm btn-outline" onclick="openModal('segmentCustomersModal')">
-                                    <i class="fas fa-filter"></i> Tạo phân khúc
-                                </button>
-                            </div>
-                        </div>
-                        <div class="widget-content">
-                            <div class="segmentation-chart">
-                                <div id="segmentationChart">
-                                    <div style="text-align: center; padding: 20px;">
-                                        <i class="fas fa-chart-pie fa-3x text-muted"></i>
-                                        <p class="text-muted mt-2">Biểu đồ phân khúc khách hàng</p>
-                                        <div class="mt-3">
-                                            <span class="badge bg-primary me-2">VIP: 2</span>
-                                            <span class="badge bg-success me-2">Thường: 3</span>
-                                            <span class="badge bg-info">Mới: 2</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="widget">
-                        <div class="widget-header">
-                            <div class="widget-title">Khách hàng cần chăm sóc</div>
-                            <button class="btn btn-sm btn-warning" onclick="sendCustomerCare()">
-                                <i class="fas fa-bullhorn"></i> Gửi tin nhắn
-                            </button>
-                        </div>
-                        <div class="widget-content">
-                            <div class="customer-care-list">
-                                <div class="care-customer-item">
-                                    <div class="care-customer-header">
-                                        <div class="customer-name">Ngo Van Tra</div>
-                                        <div class="days-ago">
-                                            85 ngày không mua hàng
-                                        </div>
-                                    </div>
-                                    <div class="care-customer-info">
-                                        <div class="phone">0990000007</div>
-                                        <div class="total-spent">28,500,000 ₫</div>
-                                    </div>
-                                    <div class="care-customer-actions">
-                                        <button class="btn btn-sm btn-outline" onclick="sendCustomerMessage('KH007')">
-                                            <i class="fas fa-envelope"></i> Nhắn tin
-                                        </button>
-                                        <button class="btn btn-sm btn-outline" onclick="callCustomer('0990000007')">
-                                            <i class="fas fa-phone"></i> Gọi điện
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="care-customer-item">
-                                    <div class="care-customer-header">
-                                        <div class="customer-name">Le Van Sam</div>
-                                        <div class="days-ago">
-                                            45 ngày không mua hàng
-                                        </div>
-                                    </div>
-                                    <div class="care-customer-info">
-                                        <div class="phone">0990000003</div>
-                                        <div class="total-spent">215,000,000 ₫</div>
-                                    </div>
-                                    <div class="care-customer-actions">
-                                        <button class="btn btn-sm btn-outline" onclick="sendCustomerMessage('KH003')">
-                                            <i class="fas fa-envelope"></i> Nhắn tin
-                                        </button>
-                                        <button class="btn btn-sm btn-outline" onclick="callCustomer('0990000003')">
-                                            <i class="fas fa-phone"></i> Gọi điện
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- Customer Lifetime Value -->
-                <div class="table-container">
-                    <div class="table-header">
-                        <div class="table-title">Khách hàng giá trị cao nhất</div>
-                        <div class="table-actions">
-                            <select class="filter-select" id="clvPeriod">
-                                <option value="month">Tháng này</option>
-                                <option value="quarter">Quý này</option>
-                                <option value="year">Năm nay</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Khách hàng</th>
-                                    <th>Số đơn hàng</th>
-                                    <th>Giá trị đơn TB</th>
-                                    <th>Tần suất mua</th>
-                                    <th>Lifetime Value</th>
-                                </tr>
-                            </thead>
-                            <tbody id="clvTableBody">
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <div class="clv-customer">
-                                            <div class="name">Le Van Sam</div>
-                                            <div class="id">KH003</div>
-                                        </div>
-                                    </td>
-                                    <td>22</td>
-                                    <td>9,772,727 ₫</td>
-                                    <td>1.5 đơn/tháng</td>
-                                    <td><strong>215,000,000 ₫</strong></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>
-                                        <div class="clv-customer">
-                                            <div class="name">Nguyen Van Khach</div>
-                                            <div class="id">KH001</div>
-                                        </div>
-                                    </td>
-                                    <td>15</td>
-                                    <td>8,333,333 ₫</td>
-                                    <td>1.0 đơn/tháng</td>
-                                    <td><strong>125,000,000 ₫</strong></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>
-                                        <div class="clv-customer">
-                                            <div class="name">Hoang Van Dung</div>
-                                            <div class="id">KH005</div>
-                                        </div>
-                                    </td>
-                                    <td>12</td>
-                                    <td>8,208,333 ₫</td>
-                                    <td>1.3 đơn/tháng</td>
-                                    <td><strong>98,500,000 ₫</strong></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>
-                                        <div class="clv-customer">
-                                            <div class="name">Tran Thi Mua</div>
-                                            <div class="id">KH002</div>
-                                        </div>
-                                    </td>
-                                    <td>8</td>
-                                    <td>8,437,500 ₫</td>
-                                    <td>0.6 đơn/tháng</td>
-                                    <td><strong>67,500,000 ₫</strong></td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>
-                                        <div class="clv-customer">
-                                            <div class="name">Do Thi Xai</div>
-                                            <div class="id">KH006</div>
-                                        </div>
-                                    </td>
-                                    <td>6</td>
-                                    <td>7,250,000 ₫</td>
-                                    <td>0.8 đơn/tháng</td>
-                                    <td><strong>43,500,000 ₫</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer class="footer">
                 <div>
-                    &copy; 2024 MobileStore Pro. Phiên bản 2.0.0
+                  <div class="user-name">Nguyen Van An</div>
+                  <div class="user-role">Quản lý</div>
                 </div>
-                <div class="footer-links">
-                    <a href="#" class="footer-link">Trợ giúp</a>
-                    <a href="#" class="footer-link">Điều khoản</a>
-                    <a href="#" class="footer-link">Bảo mật</a>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="user-dropdown">
+                <div class="user-dropdown-item">
+                  <i class="fas fa-user"></i>
+                  <span>Hồ sơ cá nhân</span>
                 </div>
-            </footer>
+                <div class="user-dropdown-item">
+                  <i class="fas fa-cog"></i>
+                  <span>Cài đặt tài khoản</span>
+                </div>
+                <div class="user-dropdown-divider"></div>
+                <div class="user-dropdown-item logout-btn">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span>Đăng xuất</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content">
+          <!-- Page Header -->
+          <div class="page-header">
+            <div>
+              <div class="page-title">Quản Lý Khách Hàng</div>
+              <div class="page-subtitle">
+                Quản lý thông tin khách hàng và lịch sử mua hàng
+              </div>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-outline" id="btnExport">
+                <i class="fas fa-file-export"></i> Xuất Excel
+              </button>
+              <button class="btn btn-primary" id="btnOpenAddModal">
+                <i class="fas fa-user-plus"></i> Thêm khách hàng
+              </button>
+            </div>
+          </div>
+
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div
+                class="stat-icon"
+                style="background: linear-gradient(135deg, #4361ee, #4cc9f0)"
+              >
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="statTotalCustomers">8</h3>
+                <p>Tổng khách hàng</p>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div
+                class="stat-icon"
+                style="background: linear-gradient(135deg, #7209b7, #f72585)"
+              >
+                <i class="fas fa-crown"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="statVIPCustomers">2</h3>
+                <p>Khách hàng VIP</p>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div
+                class="stat-icon"
+                style="background: linear-gradient(135deg, #ff9e00, #ffd166)"
+              >
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="statNewCustomers">2</h3>
+                <p>Khách hàng mới</p>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div
+                class="stat-icon"
+                style="background: linear-gradient(135deg, #06d6a0, #118ab2)"
+              >
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="statTotalRevenue">785 triệu</h3>
+                <p>Doanh thu từ KH</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customers Table -->
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Danh sách khách hàng</div>
+              <div class="table-actions">
+                <div class="table-filters">
+                  <select class="filter-select" id="customerTypeFilter">
+                    <option value="">Tất cả loại KH</option>
+                    <option value="vip">VIP</option>
+                    <option value="regular">Thường</option>
+                    <option value="new">Mới</option>
+                  </select>
+
+                </div>
+                <button class="btn btn-outline btn-sm" id="btnResetFilters">
+                  <i class="fas fa-redo"></i> Đặt lại
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table id="customersTable">
+                <thead>
+                  <tr>
+                    <th>Mã KH</th>
+                    <th>Họ tên</th>
+                    <th>Số điện thoại</th>
+                    <th>Email</th>
+                    <th>Loại KH</th>
+                    <th>Tổng đơn</th>
+                    <th>Tổng chi tiêu</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <div class="pagination-container" id="pagination"></div>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Khách hàng giá trị cao nhất</div>
+              <div class="table-actions">
+                <select class="filter-select" id="clvPeriod">
+                  <option value="month">Tháng này</option>
+                  <option value="quarter">Quý này</option>
+                  <option value="year">Năm nay</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Khách hàng</th>
+                    <th>Số đơn hàng</th>
+                    <th>Giá trị đơn TB</th>
+                    <th>Tần suất mua</th>
+                    <th>Lifetime Value</th>
+                  </tr>
+                </thead>
+                <tbody id="clvTableBody">
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+          <div>&copy; 2024 MobileStore Pro. Phiên bản 2.0.0</div>
+          <div class="footer-links">
+            <a href="#" class="footer-link">Trợ giúp</a>
+            <a href="#" class="footer-link">Điều khoản</a>
+            <a href="#" class="footer-link">Bảo mật</a>
+          </div>
+        </footer>
+      </div>
     </div>
 
     <!-- Modal: Thêm khách hàng -->
     <div class="modal" id="addCustomerModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">Thêm khách hàng mới</div>
-                <button class="close-modal" onclick="closeModal('addCustomerModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="addCustomerForm">
-                    <div class="form-section">
-                        <div class="form-section-title">
-                            <i class="fas fa-id-card"></i> Thông tin cá nhân
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label required">Mã khách hàng</label>
-                                <input type="text" class="form-control" id="addMaKH" name="MaKH" required 
-                                       placeholder="VD: KH009" pattern="[A-Z0-9]+" maxlength="20">
-                                <small class="form-text text-muted">Chỉ chấp nhận chữ in hoa và số</small>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label required">Họ và tên</label>
-                                <input type="text" class="form-control" name="HoTen" required 
-                                       placeholder="Nhập họ và tên">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label required">Số điện thoại</label>
-                                <input type="tel" class="form-control" name="SoDienThoai" required 
-                                       placeholder="Nhập số điện thoại">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="Email" 
-                                       placeholder="Nhập email">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Địa chỉ</label>
-                            <textarea class="form-control" name="DiaChi" rows="2" 
-                                      placeholder="Nhập địa chỉ"></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <div class="form-section-title">
-                            <i class="fas fa-chart-line"></i> Thông tin phân loại
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Loại khách hàng</label>
-                                <select class="form-control form-select" name="LoaiKH">
-                                    <option value="regular">Thường</option>
-                                    <option value="vip">VIP</option>
-                                    <option value="new">Mới</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Nguồn khách hàng</label>
-                                <select class="form-control form-select" name="NguonKH">
-                                    <option value="walkin">Trực tiếp</option>
-                                    <option value="website">Website</option>
-                                    <option value="facebook">Facebook</option>
-                                    <option value="referral">Giới thiệu</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Ngày sinh</label>
-                                <input type="date" class="form-control" name="NgaySinh">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Giới tính</label>
-                                <select class="form-control form-select" name="GioiTinh">
-                                    <option value="">Chọn giới tính</option>
-                                    <option value="Nam">Nam</option>
-                                    <option value="Nu">Nu</option>
-                                    <option value="Khac">Khac</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <div class="form-section-title">
-                            <i class="fas fa-cog"></i> Tùy chọn khác
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Ghi chú</label>
-                            <textarea class="form-control" name="GhiChu" rows="3" 
-                                      placeholder="Ghi chú về khách hàng..."></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-primary" onclick="saveCustomer()">
-                            <i class="fas fa-save"></i> Lưu khách hàng
-                        </button>
-                        <button type="button" class="btn btn-outline" onclick="closeModal('addCustomerModal')">Hủy</button>
-                    </div>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Thêm khách hàng mới</div>
+          <button class="close-modal">&times;</button>
         </div>
+        <div class="modal-body">
+          <form id="addCustomerForm">
+            <div class="form-section">
+              <div class="form-section-title">
+                <i class="fas fa-id-card"></i> Thông tin cá nhân
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label ">Mã khách hàng</label>
+                  <input
+                      type="text"
+                      class="form-control"
+                      id="addMaKH"
+                      name="MaKH"
+                      placeholder="Để trống để tự động sinh mã (VD: KH009)"
+                      pattern="[A-Z0-9]+"
+                      maxlength="20"
+                  />
+                  
+                  <small class="form-text text-muted">
+                      Có thể để trống. Nếu nhập: chỉ dùng chữ in hoa và số
+                  </small>
+                </div>
+                <div class="form-group">
+                  <label class="form-label required">Họ và tên</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="HoTen"
+                    required
+                    placeholder="Nhập họ và tên"
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required">Số điện thoại</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    name="SoDienThoai"
+                    required
+                    placeholder="Nhập số điện thoại"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    name="Email"
+                    placeholder="Nhập email"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Địa chỉ</label>
+                <textarea
+                  class="form-control"
+                  name="DiaChi"
+                  rows="2"
+                  placeholder="Nhập địa chỉ"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">
+                <i class="fas fa-chart-line"></i> Thông tin phân loại
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Loại khách hàng</label>
+                  <select class="form-control form-select" name="LoaiKH">
+                    <option value="regular">Thường</option>
+                    <option value="vip">VIP</option>
+                    <option value="new">Mới</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nguồn khách hàng</label>
+                  <select class="form-control form-select" name="NguonKH">
+                    <option value="walkin">Trực tiếp</option>
+                    <option value="website">Website</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="referral">Giới thiệu</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Ngày sinh</label>
+                  <input type="date" class="form-control" name="NgaySinh" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Giới tính</label>
+                  <select class="form-control form-select" name="GioiTinh">
+                    <option value="">Chọn giới tính</option>
+                    <option value="Nam">Nam</option>
+                    <option value="Nu">Nu</option>
+                    <option value="Khac">Khac</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">
+                <i class="fas fa-cog"></i> Tùy chọn khác
+              </div>
+              <div class="form-group">
+                <label class="form-label">Ghi chú</label>
+                <textarea
+                  class="form-control"
+                  name="GhiChu"
+                  rows="3"
+                  placeholder="Ghi chú về khách hàng..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="btnSaveCustomer"
+              >
+                <i class="fas fa-save"></i> Lưu khách hàng
+              </button>
+              <button type="button" class="btn btn-outline btn-close-modal">
+                Hủy
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
 
     <!-- Modal: Sửa khách hàng -->
     <div class="modal" id="editCustomerModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">Chỉnh sửa khách hàng</div>
-                <button class="close-modal" onclick="closeModal('editCustomerModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="editCustomerForm">
-                    <input type="hidden" name="MaKH" id="editMaKH">
-
-                    <div class="form-section">
-                        <div class="form-section-title">
-                            <i class="fas fa-id-card"></i> Thông tin cá nhân
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Mã khách hàng</label>
-                                <input type="text" class="form-control" id="displayMaKH" readonly disabled>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label required">Họ và tên</label>
-                                <input type="text" class="form-control" name="HoTen" required 
-                                       placeholder="Nhập họ và tên">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label required">Số điện thoại</label>
-                                <input type="tel" class="form-control" name="SoDienThoai" required 
-                                       placeholder="Nhập số điện thoại">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="Email" 
-                                       placeholder="Nhập email">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Địa chỉ</label>
-                            <textarea class="form-control" name="DiaChi" rows="2" 
-                                      placeholder="Nhập địa chỉ"></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <div class="form-section-title">
-                            <i class="fas fa-chart-line"></i> Thông tin phân loại
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Loại khách hàng</label>
-                                <select class="form-control form-select" name="LoaiKH">
-                                    <option value="regular">Thường</option>
-                                    <option value="vip">VIP</option>
-                                    <option value="new">Mới</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Nguồn khách hàng</label>
-                                <select class="form-control form-select" name="NguonKH">
-                                    <option value="walkin">Trực tiếp</option>
-                                    <option value="website">Website</option>
-                                    <option value="facebook">Facebook</option>
-                                    <option value="referral">Giới thiệu</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">Ngày sinh</label>
-                                <input type="date" class="form-control" name="NgaySinh">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Giới tính</label>
-                                <select class="form-control form-select" name="GioiTinh">
-                                    <option value="">Chọn giới tính</option>
-                                    <option value="Nam">Nam</option>
-                                    <option value="Nu">Nữ</option>
-                                    <option value="Khac">Khác</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <div class="form-section-title">
-                            <i class="fas fa-cog"></i> Tùy chọn khác
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Ghi chú</label>
-                            <textarea class="form-control" name="GhiChu" rows="3" 
-                                      placeholder="Ghi chú về khách hàng..."></textarea>
-                        </div>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-primary" onclick="updateCustomer()">
-                            <i class="fas fa-save"></i> Cập nhật
-                        </button>
-                        <button type="button" class="btn" onclick="closeModal('editCustomerModal')">Hủy</button>
-                    </div>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Chỉnh sửa khách hàng</div>
+          <button class="close-modal">&times;</button>
         </div>
+        <div class="modal-body">
+          <form id="editCustomerForm">
+            <input type="hidden" name="MaKH" id="editMaKH" />
+
+            <div class="form-section">
+              <div class="form-section-title">
+                <i class="fas fa-id-card"></i> Thông tin cá nhân
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Mã khách hàng</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="displayMaKH"
+                    readonly
+                    disabled
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label required">Họ và tên</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="HoTen"
+                    required
+                    placeholder="Nhập họ và tên"
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label required">Số điện thoại</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    name="SoDienThoai"
+                    required
+                    placeholder="Nhập số điện thoại"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    name="Email"
+                    placeholder="Nhập email"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Địa chỉ</label>
+                <textarea
+                  class="form-control"
+                  name="DiaChi"
+                  rows="2"
+                  placeholder="Nhập địa chỉ"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">
+                <i class="fas fa-chart-line"></i> Thông tin phân loại
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Loại khách hàng</label>
+                  <select class="form-control form-select" name="LoaiKH">
+                    <option value="regular">Thường</option>
+                    <option value="vip">VIP</option>
+                    <option value="new">Mới</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Nguồn khách hàng</label>
+                  <select class="form-control form-select" name="NguonKH">
+                    <option value="walkin">Trực tiếp</option>
+                    <option value="website">Website</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="referral">Giới thiệu</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Ngày sinh</label>
+                  <input type="date" class="form-control" name="NgaySinh" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Giới tính</label>
+                  <select class="form-control form-select" name="GioiTinh">
+                    <option value="">Chọn giới tính</option>
+                    <option value="Nam">Nam</option>
+                    <option value="Nu">Nữ</option>
+                    <option value="Khac">Khác</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">
+                <i class="fas fa-cog"></i> Tùy chọn khác
+              </div>
+              <div class="form-group">
+                <label class="form-label">Ghi chú</label>
+                <textarea
+                  class="form-control"
+                  name="GhiChu"
+                  rows="3"
+                  placeholder="Ghi chú về khách hàng..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="btnUpdateCustomer"
+              >
+                <i class="fas fa-save"></i> Cập nhật
+              </button>
+              <button type="button" class="btn btn-outline btn-close-modal">
+                Hủy
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
 
     <!-- Modal: Xem chi tiết khách hàng -->
     <div class="modal" id="viewCustomerModal">
-        <div class="modal-content" style="max-width: 700px;">
-            <div class="modal-header">
-                <div class="modal-title">Chi tiết khách hàng</div>
-                <button class="close-modal" onclick="closeModal('viewCustomerModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="customerDetailContent">
-                    <!-- Customer details will be loaded here -->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="editCurrentCustomer()">
-                    <i class="fas fa-edit"></i> Chỉnh sửa
-                </button>
-                <button type="button" class="btn" onclick="closeModal('viewCustomerModal')">Đóng</button>
-            </div>
+      <div class="modal-content" style="max-width: 700px">
+        <div class="modal-header">
+          <div class="modal-title">Chi tiết khách hàng</div>
+          <button class="close-modal">&times;</button>
         </div>
+        <div class="modal-body">
+          <div id="customerDetailContent">
+            <!-- Customer details will be loaded here -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            id="btnEditCurrentCustomer"
+          >
+            <i class="fas fa-edit"></i> Chỉnh sửa
+          </button>
+          <button type="button" class="btn btn-secondary btn-close-modal">
+            Đóng
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Modal: Phân khúc khách hàng -->
     <div class="modal" id="segmentCustomersModal">
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <div class="modal-title">Tạo phân khúc khách hàng</div>
-                <button class="close-modal" onclick="closeModal('segmentCustomersModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="segmentForm">
-                    <div class="form-group">
-                        <label class="form-label required">Tên phân khúc</label>
-                        <input type="text" class="form-control" name="segmentName" required 
-                               placeholder="VD: Khách hàng VIP mua iPhone">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Tiêu chí phân khúc</label>
-                        <div class="segment-criteria">
-                            <div class="criterion">
-                                <select class="form-control" name="criteriaField">
-                                    <option value="totalSpent">Tổng chi tiêu</option>
-                                    <option value="orderCount">Số lượng đơn hàng</option>
-                                    <option value="customerType">Loại khách hàng</option>
-                                </select>
-                                <select class="form-control" name="criteriaOperator">
-                                    <option value=">">Lớn hơn</option>
-                                    <option value="<">Nhỏ hơn</option>
-                                    <option value="=">Bằng</option>
-                                </select>
-                                <input type="text" class="form-control" name="criteriaValue" 
-                                       placeholder="Giá trị">
-                            </div>
-                        </div>
-                        
-                        <button type="button" class="btn btn-sm btn-outline" onclick="addCriterion()">
-                            <i class="fas fa-plus"></i> Thêm tiêu chí
-                        </button>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Mô tả phân khúc</label>
-                        <textarea class="form-control" name="segmentDescription" rows="3" 
-                                  placeholder="Mô tả về phân khúc này..."></textarea>
-                    </div>
-                    
-                    <div class="preview-section">
-                        <h6>Xem trước kết quả: <span id="previewCount">0</span> khách hàng</h6>
-                        <button type="button" class="btn btn-sm btn-outline" onclick="previewSegment()">
-                            <i class="fas fa-eye"></i> Xem trước
-                        </button>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-primary" onclick="createSegment()">
-                            <i class="fas fa-save"></i> Tạo phân khúc
-                        </button>
-                        <button type="button" class="btn" onclick="closeModal('segmentCustomersModal')">Hủy</button>
-                    </div>
-                </form>
-            </div>
+      <div class="modal-content" style="max-width: 600px">
+        <div class="modal-header">
+          <div class="modal-title">Tạo phân khúc khách hàng</div>
+          <button class="close-modal">&times;</button>
         </div>
-    </div>
+        <div class="modal-body">
+          <form id="segmentForm">
+            <div class="form-group">
+              <label class="form-label required">Tên phân khúc</label>
+              <input
+                type="text"
+                class="form-control"
+                name="segmentName"
+                required
+                placeholder="VD: Khách hàng VIP mua iPhone"
+              />
+            </div>
 
-    <!-- Scripts -->
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/script.js"></script>
-    <!-- <script>
-        // Biến lưu trữ khách hàng hiện tại đang xem
-        let currentCustomer = null;
-
-        // Các hàm JavaScript
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            if (modalId === 'addCustomerModal') {
-                document.getElementById('addCustomerForm').reset();
-            }
-        }
-
-        function resetFilters() {
-            document.getElementById('customerTypeFilter').value = '';
-            document.getElementById('customerStatusFilter').value = '';
-            document.getElementById('customerSearch').value = '';
-            filterTable();
-        }
-
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('vi-VN', {
-                style: 'currency',
-                currency: 'VND'
-            }).format(amount);
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('vi-VN');
-        }
-
-        // Lấy thông tin khách hàng từ data attribute
-        function getCustomerByCode(customerCode) {
-            const row = document.querySelector(`tr[data-customer*='"MaKH":"${customerCode}"']`);
-            if (row) {
-                return JSON.parse(row.getAttribute('data-customer'));
-            }
-            return null;
-        }
-
-        // Xem chi tiết khách hàng
-        function viewCustomerDetail(customerCode) {
-            const customer = getCustomerByCode(customerCode);
-            if (!customer) {
-                alert('Không tìm thấy khách hàng!');
-                return;
-            }
-
-            currentCustomer = customer;
-
-            const detailContent = document.getElementById('customerDetailContent');
-            detailContent.innerHTML = `
-                <div class="customer-detail">
-                    <div class="customer-header mb-4">
-                        <h3>${customer.HoTen}</h3>
-                        <div class="text-muted">Mã: ${customer.MaKH}</div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="detail-section">
-                                <h5><i class="fas fa-id-card"></i> Thông tin liên hệ</h5>
-                                <table class="detail-table">
-                                    <tr>
-                                        <td><strong>Số điện thoại:</strong></td>
-                                        <td>${customer.SoDienThoai}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Email:</strong></td>
-                                        <td>${customer.Email || '-'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Địa chỉ:</strong></td>
-                                        <td>${customer.DiaChi || '-'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Ngày sinh:</strong></td>
-                                        <td>${customer.NgaySinh ? formatDate(customer.NgaySinh) : '-'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Giới tính:</strong></td>
-                                        <td>${customer.GioiTinh || '-'}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <div class="detail-section">
-                                <h5><i class="fas fa-chart-line"></i> Thống kê mua hàng</h5>
-                                <table class="detail-table">
-                                    <tr>
-                                        <td><strong>Tổng đơn hàng:</strong></td>
-                                        <td>${customer.TongDon}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Tổng chi tiêu:</strong></td>
-                                        <td>${formatCurrency(customer.TongChiTieu)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Ngày tham gia:</strong></td>
-                                        <td>${formatDate(customer.NgayThamGia)}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Loại KH:</strong></td>
-                                        <td>${customer.LoaiKH === 'vip' ? 'VIP' : customer.LoaiKH === 'new' ? 'Mới' : 'Thường'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Trạng thái:</strong></td>
-                                        <td>${customer.TrangThai === 'active' ? 'Đang hoạt động' : 'Không hoạt động'}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-section">
-                        <h5><i class="fas fa-info-circle"></i> Thông tin bổ sung</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <table class="detail-table">
-                                    <tr>
-                                        <td><strong>Nguồn khách hàng:</strong></td>
-                                        <td>${customer.NguonKH || '-'}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    ${customer.GhiChu ? `
-                    <div class="detail-section">
-                        <h5><i class="fas fa-sticky-note"></i> Ghi chú</h5>
-                        <div class="customer-notes">
-                            ${customer.GhiChu}
-                        </div>
-                    </div>
-                    ` : ''}
-                </div>
-            `;
-
-            openModal('viewCustomerModal');
-        }
-
-        // Chỉnh sửa khách hàng từ modal xem chi tiết
-        function editCurrentCustomer() {
-            if (currentCustomer) {
-                editCustomer(currentCustomer.MaKH);
-            }
-        }
-
-        // Sửa khách hàng
-        function editCustomer(customerCode) {
-            const customer = getCustomerByCode(customerCode);
-            if (!customer) {
-                alert('Không tìm thấy khách hàng!');
-                return;
-            }
-
-            // Điền thông tin vào form chỉnh sửa
-            document.getElementById('editMaKH').value = customer.MaKH;
-            document.getElementById('displayMaKH').value = customer.MaKH;
-            document.querySelector('#editCustomerForm input[name="HoTen"]').value = customer.HoTen;
-            document.querySelector('#editCustomerForm input[name="SoDienThoai"]').value = customer.SoDienThoai;
-            document.querySelector('#editCustomerForm input[name="Email"]').value = customer.Email || '';
-            document.querySelector('#editCustomerForm textarea[name="DiaChi"]').value = customer.DiaChi || '';
-            document.querySelector('#editCustomerForm select[name="LoaiKH"]').value = customer.LoaiKH;
-            document.querySelector('#editCustomerForm select[name="NguonKH"]').value = customer.NguonKH || '';
-
-            // Format date for input type="date"
-            if (customer.NgaySinh) {
-                const date = new Date(customer.NgaySinh);
-                const formattedDate = date.toISOString().split('T')[0];
-                document.querySelector('#editCustomerForm input[name="NgaySinh"]').value = formattedDate;
-            }
-
-            document.querySelector('#editCustomerForm select[name="GioiTinh"]').value = customer.GioiTinh || '';
-            document.querySelector('#editCustomerForm textarea[name="GhiChu"]').value = customer.GhiChu || '';
-
-            // Đóng modal xem chi tiết nếu đang mở
-            closeModal('viewCustomerModal');
-            openModal('editCustomerModal');
-        }
-
-        // Cập nhật khách hàng
-        function updateCustomer() {
-            const form = document.getElementById('editCustomerForm');
-            const formData = new FormData(form);
-            const customerCode = formData.get('MaKH');
-
-            // Lấy giá trị từ form
-            const updatedCustomer = {
-                MaKH: customerCode,
-                HoTen: formData.get('HoTen'),
-                SoDienThoai: formData.get('SoDienThoai'),
-                Email: formData.get('Email'),
-                DiaChi: formData.get('DiaChi'),
-                LoaiKH: formData.get('LoaiKH'),
-                NguonKH: formData.get('NguonKH'),
-                NgaySinh: formData.get('NgaySinh'),
-                GioiTinh: formData.get('GioiTinh'),
-                GhiChu: formData.get('GhiChu'),
-                TrangThai: 'active'
-            };
-
-            // Cập nhật dữ liệu trong bảng
-            const row = document.querySelector(`tr[data-customer*='"MaKH":"${customerCode}"']`);
-            if (row) {
-                // Cập nhật data attribute
-                const oldData = JSON.parse(row.getAttribute('data-customer'));
-                const newData = { ...oldData, ...updatedCustomer };
-                row.setAttribute('data-customer', JSON.stringify(newData));
-
-                // Cập nhật hiển thị trong bảng
-                const customerNameCell = row.cells[1];
-                customerNameCell.querySelector('.customer-name').innerHTML = `
-                    ${updatedCustomer.HoTen}
-                    ${updatedCustomer.LoaiKH === 'vip' ? '<i class="fas fa-crown text-warning ms-1" title="VIP"></i>' : ''}
-                `;
-
-                // Cập nhật số điện thoại
-                row.cells[2].textContent = updatedCustomer.SoDienThoai;
-
-                // Cập nhật email
-                row.cells[3].textContent = updatedCustomer.Email || '';
-
-                // Cập nhật loại khách hàng
-                const typeCell = row.cells[4];
-                let typeText = 'Thường';
-                let typeClass = 'regular';
-                if (updatedCustomer.LoaiKH === 'vip') {
-                    typeText = 'VIP';
-                    typeClass = 'vip';
-                } else if (updatedCustomer.LoaiKH === 'new') {
-                    typeText = 'Mới';
-                    typeClass = 'new';
-                }
-                typeCell.innerHTML = `<span class="customer-type ${typeClass}">${typeText}</span>`;
-
-                // Giữ nguyên thông tin tổng đơn và tổng chi tiêu
-                // Các ô 5 và 6 giữ nguyên giá trị cũ
-            }
-
-            alert('Đã cập nhật khách hàng thành công!');
-            closeModal('editCustomerModal');
-            updateStats();
-        }
-
-        // Lưu khách hàng mới
-        function saveCustomer() {
-            const form = document.getElementById('addCustomerForm');
-            const formData = new FormData(form);
-
-            // Validate
-            if (!formData.get('MaKH') || !formData.get('HoTen') || !formData.get('SoDienThoai')) {
-                alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
-                return;
-            }
-
-            const newCustomer = {
-                MaKH: formData.get('MaKH'),
-                HoTen: formData.get('HoTen'),
-                SoDienThoai: formData.get('SoDienThoai'),
-                Email: formData.get('Email'),
-                DiaChi: formData.get('DiaChi'),
-                LoaiKH: formData.get('LoaiKH'),
-                NguonKH: formData.get('NguonKH'),
-                NgaySinh: formData.get('NgaySinh'),
-                GioiTinh: formData.get('GioiTinh'),
-                GhiChu: formData.get('GhiChu'),
-                TrangThai: 'active',
-                TongDon: 0,
-                TongChiTieu: 0,
-                NgayThamGia: new Date().toISOString().split('T')[0]
-            };
-
-            // Kiểm tra mã khách hàng đã tồn tại chưa
-            if (getCustomerByCode(newCustomer.MaKH)) {
-                alert('Mã khách hàng đã tồn tại!');
-                return;
-            }
-
-            // Thêm hàng mới vào bảng
-            const tableBody = document.querySelector('#customersTable tbody');
-            const newRow = document.createElement('tr');
-            newRow.setAttribute('data-customer', JSON.stringify(newCustomer));
-
-            const typeText = newCustomer.LoaiKH === 'vip' ? 'VIP' : 
-                           newCustomer.LoaiKH === 'new' ? 'Mới' : 'Thường';
-            const typeClass = newCustomer.LoaiKH;
-
-            newRow.innerHTML = `
-                <td><strong>${newCustomer.MaKH}</strong></td>
-                <td>
-                    <div class="customer-name">
-                        ${newCustomer.HoTen}
-                        ${newCustomer.LoaiKH === 'vip' ? '<i class="fas fa-crown text-warning ms-1" title="VIP"></i>' : ''}
-                    </div>
-                </td>
-                <td>${newCustomer.SoDienThoai}</td>
-                <td>${newCustomer.Email || ''}</td>
-                <td>
-                    <span class="customer-type ${typeClass}">${typeText}</span>
-                </td>
-                <td>0</td>
-                <td><strong>0 ₫</strong></td>
-                <td>
-                    <div class="action-buttons">
-                        <button class="action-btn view-btn" title="Xem chi tiết" onclick="viewCustomerDetail('${newCustomer.MaKH}')">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="action-btn edit-btn" title="Sửa" onclick="editCustomer('${newCustomer.MaKH}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="action-btn delete-btn" title="Xóa" onclick="deleteCustomer('${newCustomer.MaKH}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </td>
-            `;
-
-            tableBody.appendChild(newRow);
-
-            // Cập nhật số liệu thống kê
-            updateStats();
-
-            alert('Đã thêm khách hàng mới thành công!');
-            closeModal('addCustomerModal');
-            form.reset();
-        }
-
-        // Xóa khách hàng
-        function deleteCustomer(customerCode) {
-            if (!confirm(`Bạn có chắc chắn muốn xóa khách hàng ${customerCode}?`)) {
-                return;
-            }
-
-            const row = document.querySelector(`tr[data-customer*='"MaKH":"${customerCode}"']`);
-            if (row) {
-                row.style.opacity = '0.5';
-                setTimeout(() => {
-                    row.remove();
-                    updateStats();
-                    alert('Đã xóa khách hàng thành công!');
-                }, 300);
-            }
-        }
-
-        // Cập nhật thống kê
-        function updateStats() {
-            const rows = document.querySelectorAll('#customersTable tbody tr');
-            const totalCustomers = rows.length;
-
-            let vipCount = 0;
-            let newCount = 0;
-            let totalRevenue = 0;
-
-            rows.forEach(row => {
-                const customer = JSON.parse(row.getAttribute('data-customer'));
-                totalRevenue += customer.TongChiTieu;
-                if (customer.LoaiKH === 'vip') {
-                    vipCount++;
-                }
-                if (customer.LoaiKH === 'new') {
-                    newCount++;
-                }
-            });
-
-            // Cập nhật thống kê
-            document.getElementById('statTotalCustomers').textContent = totalCustomers;
-            document.getElementById('statVIPCustomers').textContent = vipCount;
-            document.getElementById('statNewCustomers').textContent = newCount;
-            document.getElementById('statTotalRevenue').textContent = 
-                formatCurrency(totalRevenue).replace('₫', '');
-        }
-
-        // Lọc bảng
-        function filterTable() {
-            const typeFilter = document.getElementById('customerTypeFilter').value;
-            const statusFilter = document.getElementById('customerStatusFilter').value;
-            const searchInput = document.getElementById('customerSearch').value.toLowerCase();
-            const rows = document.querySelectorAll('#customersTable tbody tr');
-
-            rows.forEach(row => {
-                const customer = JSON.parse(row.getAttribute('data-customer'));
-                const rowType = customer.LoaiKH;
-                const rowStatus = customer.TrangThai;
-                const searchText = customer.HoTen.toLowerCase() + ' ' + 
-                                 customer.MaKH.toLowerCase() + ' ' + 
-                                 customer.SoDienThoai.toLowerCase() + ' ' + 
-                                 (customer.Email || '').toLowerCase();
-
-                const isTypeMatch = !typeFilter || rowType === typeFilter;
-                const isStatusMatch = !statusFilter || rowStatus === statusFilter;
-                const isSearchMatch = !searchInput || searchText.includes(searchInput);
-
-                if (isTypeMatch && isStatusMatch && isSearchMatch) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-
-        // Các hàm cho phân khúc và chăm sóc khách hàng
-        function sendCustomerMessage(customerCode) {
-            const customer = getCustomerByCode(customerCode);
-            if (customer) {
-                alert(`Đã gửi tin nhắn đến ${customer.HoTen} (${customer.SoDienThoai})`);
-            }
-        }
-
-        function callCustomer(phone) {
-            alert(`Đang gọi điện cho số: ${phone}`);
-        }
-
-        function sendCustomerCare() {
-            alert('Đã gửi tin nhắn chăm sóc đến tất cả khách hàng cần chăm sóc');
-        }
-
-        function addCriterion() {
-            const criteriaContainer = document.querySelector('.segment-criteria');
-            const newCriterion = document.createElement('div');
-            newCriterion.className = 'criterion mt-2';
-            newCriterion.innerHTML = `
-                <select class="form-control" name="criteriaField">
+            <div class="form-group">
+              <label class="form-label">Tiêu chí phân khúc</label>
+              <div class="segment-criteria">
+                <div class="criterion">
+                  <select class="form-control" name="criteriaField">
                     <option value="totalSpent">Tổng chi tiêu</option>
                     <option value="orderCount">Số lượng đơn hàng</option>
                     <option value="customerType">Loại khách hàng</option>
-                </select>
-                <select class="form-control" name="criteriaOperator">
+                  </select>
+                  <select class="form-control" name="criteriaOperator">
                     <option value=">">Lớn hơn</option>
                     <option value="<">Nhỏ hơn</option>
                     <option value="=">Bằng</option>
-                </select>
-                <input type="text" class="form-control" name="criteriaValue" placeholder="Giá trị">
-                <button type="button" class="btn btn-sm btn-danger" onclick="this.parentElement.remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            criteriaContainer.appendChild(newCriterion);
-        }
+                  </select>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="criteriaValue"
+                    placeholder="Giá trị"
+                  />
+                </div>
+              </div>
 
-        function previewSegment() {
-            // Hiển thị xem trước
-            document.getElementById('previewCount').textContent = '3';
-            alert('Xem trước: 3 khách hàng phù hợp với tiêu chí');
-        }
+              <button
+                type="button"
+                class="btn btn-sm btn-outline"
+                id="btnAddCriterion"
+              >
+                <i class="fas fa-plus"></i> Thêm tiêu chí
+              </button>
+            </div>
 
-        function createSegment() {
-            alert('Đã tạo phân khúc khách hàng thành công!');
-            closeModal('segmentCustomersModal');
-        }
+            <div class="form-group">
+              <label class="form-label">Mô tả phân khúc</label>
+              <textarea
+                class="form-control"
+                name="segmentDescription"
+                rows="3"
+                placeholder="Mô tả về phân khúc này..."
+              ></textarea>
+            </div>
 
-        // Xử lý sự kiện khi DOM tải xong
-        document.addEventListener('DOMContentLoaded', function () {
-            // Xử lý tìm kiếm
-            const searchInput = document.getElementById('customerSearch');
-            if (searchInput) {
-                searchInput.addEventListener('input', filterTable);
-            }
+            <div class="preview-section">
+              <h6>
+                Xem trước kết quả: <span id="previewCount">0</span> khách hàng
+              </h6>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline"
+                id="btnPreviewSegment"
+              >
+                <i class="fas fa-eye"></i> Xem trước
+              </button>
+            </div>
 
-            // Xử lý bộ lọc
-            document.getElementById('customerTypeFilter').addEventListener('change', filterTable);
-            document.getElementById('customerStatusFilter').addEventListener('change', filterTable);
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="btnCreateSegment"
+              >
+                <i class="fas fa-save"></i> Tạo phân khúc
+              </button>
+              <button type="button" class="btn btn-outline btn-close-modal">
+                Hủy
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
-            // Xử lý đóng modal khi click bên ngoài
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.addEventListener('click', function (e) {
-                    if (e.target === this) {
-                        this.style.display = 'none';
-                    }
-                });
-            });
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/script.js"></script>
 
-            // Cập nhật thống kê ban đầu
-            updateStats();
-        });
-
-        // Xuất Excel (chức năng mẫu)
-        function exportToExcel() {
-            alert('Chức năng xuất Excel đang được phát triển!');
-        }
-    </script> -->
     <script src="js/QLKhachHang.js"></script>
+    <script>
+      // Hàm đăng xuất
+      function logout() {
+        localStorage.clear(); // Xóa sạch token và info
+        window.location.href = "/login";
+      }
 
-</body>
+      document.addEventListener("DOMContentLoaded", function () {
+        // 1. Lấy thông tin từ LocalStorage
+        const role = localStorage.getItem("userRole");
+        const username = localStorage.getItem("username");
+
+        // 2. Hiển thị tên người dùng vào Sidebar
+        if (username) {
+          document.getElementById("current-username").innerText = username;
+        }
+
+        // 3. Xử lý phân quyền hiển thị (Ẩn menu nếu không phải Admin)
+        // Lưu ý: role 1 là Admin (theo file roles.js của bạn)
+        if (role != "1") {
+          // Đổi chức vụ hiển thị
+          document.getElementById("current-role-name").innerText = "Nhân viên";
+
+          // Tìm và ẩn các mục có class 'admin-only'
+          const adminElements = document.querySelectorAll(".admin-only");
+          adminElements.forEach(function (el) {
+            el.style.display = "none";
+          });
+
+          // Chặn truy cập trang Dashboard nếu lỡ vào
+          if (window.location.pathname.includes("TongQuanHeThong")) {
+            window.location.href = "/QLDonHang";
+          }
+        } else {
+          document.getElementById("current-role-name").innerText =
+            "Quản trị viên";
+        }
+      });
+    </script>
+  </body>
 </html>

@@ -3,6 +3,24 @@ $(document).ready(function () {
     // 1. CẤU HÌNH & KHỞI TẠO
     // ==========================================
     const API_URL = "/api/KhachHangs";
+
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+        alert("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!");
+        window.location.href = "/login";
+        return;
+    }
+
+    $.ajaxSetup({
+        headers: { 'Authorization': 'Bearer ' + token },
+        error: function(jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status === 401 || jqXHR.status === 403) {
+                alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại.");
+                window.location.href = "/login";
+            }
+        }
+    });
+    
     const PAGE_SIZE = 10;
     let currentPage = 1;
     let searchTimeout = null;
@@ -169,13 +187,13 @@ $(document).ready(function () {
                     <td><strong>${tongChiTieu}</strong></td>
                     <td>
                         <div class="action-buttons">
-                            <button class="action-btn view-btn" onclick="viewCustomerDetail('${kh.MaKH}')" title="Xem chi tiết">
+                            <button class="action-btn view-btn" data-id="${kh.MaKH}" title="Xem chi tiết">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="action-btn edit-btn" onclick="editCustomer('${kh.MaKH}')" title="Sửa">
+                            <button class="action-btn edit-btn" data-id="${kh.MaKH}" title="Sửa">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="action-btn delete-btn" onclick="deleteCustomer('${kh.MaKH}')" title="Xóa">
+                            <button class="action-btn delete-btn" data-id="${kh.MaKH}" title="Xóa">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -240,10 +258,20 @@ $(document).ready(function () {
         let formData = new FormData(document.getElementById('addCustomerForm'));
         let data = Object.fromEntries(formData.entries());
 
-        // Validate cơ bản
-        if (!data.MaKH || !data.HoTen || !data.SoDienThoai) {
-            alert('Vui lòng nhập Mã KH, Họ tên và SĐT!');
+        // Validate cơ bản (Chỉ bắt buộc Họ tên và SĐT)
+        if (!data.HoTen || !data.SoDienThoai) {
+            alert('Vui lòng nhập Họ tên và Số điện thoại!');
             return;
+        }
+
+        // --- SỬA LỖI 1: Xử lý Mã Khách Hàng ---
+        // Nếu người dùng không nhập mã (để trống), ta xóa trường MaKH đi 
+        // để Backend tự động sinh mã (tránh gửi chuỗi rỗng "" gây lỗi logic)
+        if (!data.MaKH || data.MaKH.trim() === "") {
+            delete data.MaKH;
+        } else {
+            // Nếu có nhập, trim bỏ khoảng trắng thừa
+            data.MaKH = data.MaKH.trim().toUpperCase();
         }
 
         $.ajax({
@@ -251,12 +279,22 @@ $(document).ready(function () {
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
-            success: function () {
-                alert('Thêm khách hàng thành công!');
+            // --- SỬA LỖI 2: Thêm tham số 'response' vào hàm success ---
+            success: function (response) {
+                // Kiểm tra xem response có trả về MaKH không, nếu không thì hiện "mới"
+                let newId = (response && response.MaKH) ? response.MaKH : "mới";
+                
+                alert(`Thêm khách hàng ${newId} thành công!`);
+                
+                // Đóng modal và reset form
                 window.closeModal('addCustomerModal');
-                fetchData(1); // Reload
+                
+                // Load lại dữ liệu trang 1 ngay lập tức
+                fetchData(1); 
             },
             error: function (err) {
+                console.error(err);
+                // Lấy thông báo lỗi từ backend trả về (ví dụ: Trùng mã KH)
                 let msg = err.responseJSON?.message || 'Lỗi hệ thống';
                 alert('Thêm thất bại: ' + msg);
             }
@@ -342,19 +380,16 @@ $(document).ready(function () {
 
     // --- CHỨC NĂNG XEM CHI TIẾT & LỊCH SỬ MUA HÀNG ---
     window.viewCustomerDetail = function (maKH) {
-        // 1. Gọi API lấy thông tin chi tiết và lịch sử đơn hàng
-        // API này được định nghĩa trong controller: getOrders -> /KhachHangs/:MaKH/DonHang
         $.ajax({
             url: `${API_URL}/${maKH}/DonHang`,
             method: 'GET',
             success: function (response) {
-                // Response: { KhachHang: {...}, LichSuMuaHang: [...] }
                 const kh = response.KhachHang;
                 const orders = response.LichSuMuaHang || [];
 
-                window.currentViewingCustomer = kh; // Lưu lại để dùng cho nút Sửa
+                window.currentViewingCustomer = kh;
 
-                // Render Thông tin chung
+                // Render HTML
                 let infoHtml = `
                     <div class="customer-detail">
                         <div class="customer-header mb-4">
@@ -382,7 +417,7 @@ $(document).ready(function () {
                                         <strong>Tổng chi tiêu:</strong> ${formatCurrency(orders.reduce((sum, ord) => sum + (Number(ord.TongTien) || 0), 0))}
                                     </div>
                                     <div class="mt-2">
-                                        <button class="btn btn-sm btn-outline-success" onclick="exportCustomerExcel('${kh.MaKH}')">
+                                        <button class="btn btn-sm btn-outline-success btn-export-history" data-id="${kh.MaKH}">
                                             <i class="fas fa-file-excel"></i> Xuất lịch sử mua hàng
                                         </button>
                                     </div>
@@ -398,28 +433,29 @@ $(document).ready(function () {
                                         <tr>
                                             <th>Mã HĐ</th>
                                             <th>Ngày lập</th>
-                                            <th>Sản phẩm</th>
                                             <th>Tổng tiền</th>
                                             <th>Trạng thái</th>
+                                            <th>Thao tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         ${orders.length === 0 ? '<tr><td colspan="5" class="text-center">Chưa có đơn hàng nào</td></tr>' :
                         orders.map(order => {
-                            // Lấy danh sách tên sản phẩm trong đơn (giới hạn hiển thị)
-                            let productNames = order.ChiTietSanPham
-                                ? order.ChiTietSanPham.map(sp => `${sp.TenSanPham} (x${sp.SoLuong})`).join(', ')
-                                : 'Chi tiết...';
-
                             return `
-                                            <tr>
-                                                <td><a href="#" class="text-primary">${order.MaHD}</a></td>
-                                                <td>${formatDate(order.NgayLap)}</td>
-                                                <td><small>${productNames}</small></td>
-                                                <td>${formatCurrency(order.TongTien)}</td>
-                                                <td><span class="badge bg-${order.TrangThai === 'HoanThanh' ? 'success' : 'warning'}">${order.TrangThai}</span></td>
-                                            </tr>
-                                            `;
+                                <tr>
+                                    <td><a href="#" class="text-primary">${order.MaHD}</a></td>
+                                    <td>${formatDate(order.NgayLap)}</td>
+                                    <td>${formatCurrency(order.TongTien)}</td>
+                                    <td><span class="badge bg-${order.TrangThai === 'HoanThanh' ? 'success' : 'warning'}">${order.TrangThai}</span></td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn view-btn btn-view-order" data-id="${order.MaHD}" title="Xem chi tiết">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `;
                         }).join('')
                     }
                                     </tbody>
@@ -432,8 +468,10 @@ $(document).ready(function () {
                 $('#customerDetailContent').html(infoHtml);
                 window.openModal('viewCustomerModal');
             },
-            error: function () {
-                alert('Không thể tải chi tiết khách hàng!');
+            error: function (xhr) {
+                // Nếu lỗi 403 nghĩa là chưa sửa file routes/api.js
+                if(xhr.status === 403) alert('Bạn không có quyền xem lịch sử đơn hàng của khách này!');
+                else alert('Không thể tải chi tiết khách hàng!');
             }
         });
     }
@@ -447,17 +485,48 @@ $(document).ready(function () {
     }
 
     // --- CHỨC NĂNG XUẤT EXCEL ---
-    // 1. Xuất toàn bộ danh sách
-    window.exportToExcel = function () {
-        if (confirm("Xuất danh sách tất cả khách hàng ra Excel?")) {
-            window.location.href = `${API_URL}/Export/Excel`;
-        }
-    }
+    // --- HÀM DÙNG CHUNG ĐỂ TẢI FILE CÓ TOKEN ---
+async function downloadFileWithToken(url, fileName) {
+    const token = localStorage.getItem('accessToken');
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
 
-    // 2. Xuất chi tiết 1 khách hàng
-    window.exportCustomerExcel = function (maKH) {
-        window.location.href = `${API_URL}/${maKH}/Export/Excel`;
+        if (!response.ok) {
+            if (response.status === 401) alert("Hết phiên đăng nhập!");
+            else alert("Lỗi khi tải file!");
+            return;
+        }
+
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    } catch (err) {
+        console.error(err);
+        alert("Lỗi kết nối server!");
     }
+}
+
+// 1. Xuất toàn bộ danh sách
+window.exportToExcel = function () {
+    if (confirm("Xuất danh sách tất cả khách hàng ra Excel?")) {
+        const dateStr = new Date().toISOString().slice(0, 10);
+        downloadFileWithToken(`${API_URL}/Export/Excel`, `DS_KhachHang_${dateStr}.xlsx`);
+    }
+}
+
+// 2. Xuất chi tiết 1 khách hàng (Lịch sử mua hàng)
+window.exportCustomerExcel = function (maKH) {
+    // Không cần confirm vì user đã bấm nút nhỏ
+    downloadFileWithToken(`${API_URL}/${maKH}/Export/Excel`, `LichSu_MuaHang_${maKH}.xlsx`);
+}
 
     // ==========================================
     // 6. LOAD THỐNG KÊ (Stats Cards)
@@ -511,4 +580,120 @@ $(document).ready(function () {
     window.previewSegment = function () {
         $('#previewCount').text(Math.floor(Math.random() * 10)); // Random số liệu demo
     }
+
+    window.resetFilters = function() {
+        $('#customerSearch').val('');
+        $('#customerTypeFilter').val('');
+        // $('#customerStatusFilter').val(''); // Nếu có dùng
+        fetchData(1);
+    };
+
+    // ==========================================
+    // 8. BẮT SỰ KIỆN CLICK (THAY THẾ ONCLICK HTML)
+    // ==========================================
+
+        // Các nút tĩnh
+        $('#btnExport').click(function() { window.exportToExcel(); });
+        $('#btnOpenAddModal').click(function() { window.openModal('addCustomerModal'); });
+        $('#btnResetFilters').click(function() { window.resetFilters(); });
+
+        // Các nút trong Modal
+        $('#btnSaveCustomer').click(function() { window.saveCustomer(); });
+        $('#btnUpdateCustomer').click(function() { window.updateCustomer(); });
+        $('#btnEditCurrentCustomer').click(function() { window.editCurrentCustomer(); });
+
+        // Nút Đóng Modal (Tự động đóng khi click vào class .close-modal HOẶC .btn-close-modal)
+        // .close-modal: Dùng cho nút X
+        // .btn-close-modal: Dùng cho nút thường (Đóng/Hủy)
+        $(document).on('click', '.close-modal, .btn-close-modal', function() {
+            let modalId = $(this).closest('.modal').attr('id');
+            if (modalId) window.closeModal(modalId);
+        });
+
+        // Các nút động trong bảng (Xem/Sửa/Xóa)
+        $(document).on('click', '.view-btn', function() {
+            let id = $(this).data('id');
+            window.viewCustomerDetail(id);
+        });
+
+        $(document).on('click', '.edit-btn', function() {
+            let id = $(this).data('id');
+            window.editCustomer(id);
+        });
+
+        $(document).on('click', '.delete-btn', function() {
+            let id = $(this).data('id');
+            window.deleteCustomer(id);
+        });
+
+        // 6. Xử lý các nút BÊN TRONG Modal Chi Tiết (Sinh ra động)
+        
+        // Nút "Xuất lịch sử mua hàng"
+        $(document).on('click', '.btn-export-history', function() {
+            let id = $(this).data('id');
+            window.exportCustomerExcel(id);
+        });
+
+        // Nút "Xem chi tiết đơn hàng" (trong bảng lịch sử)
+        $(document).on('click', '.btn-view-order', function() {
+            let maHD = $(this).data('id');
+            alert("Tính năng xem chi tiết đơn hàng " + maHD + " đang phát triển!"); 
+            // Hoặc gọi hàm window.viewOrderDetail(maHD) nếu bạn đã có
+        });
+
+        // 1. Xử lý Đăng xuất (Cho cả nút ở Sidebar và Header)
+        $('.logout-btn').click(function() {
+            localStorage.clear();
+            window.location.href = "/login";
+        });
+
+        // 2. Các chức năng trong Modal Phân Khúc
+        
+        // Nút Thêm tiêu chí
+        $('#btnAddCriterion').click(function() {
+            const template = `
+                <div class="criterion mt-2">
+                    <select class="form-control" name="criteriaField">
+                        <option value="totalSpent">Tổng chi tiêu</option>
+                        <option value="orderCount">Số lượng đơn hàng</option>
+                        <option value="customerType">Loại khách hàng</option>
+                    </select>
+                    <select class="form-control" name="criteriaOperator">
+                        <option value=">">Lớn hơn</option>
+                        <option value="<">Nhỏ hơn</option>
+                        <option value="=">Bằng</option>
+                    </select>
+                    <input type="text" class="form-control" name="criteriaValue" placeholder="Giá trị">
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-remove-criteria" style="margin-left: 5px;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            $('.segment-criteria').append(template);
+        });
+
+        // Nút Xóa tiêu chí (Nút con sinh ra động)
+        $(document).on('click', '.btn-remove-criteria', function() {
+            $(this).closest('.criterion').remove();
+        });
+
+        // Nút Xem trước
+        $('#btnPreviewSegment').click(function() {
+            // Giả lập random số lượng khách
+            $('#previewCount').text(Math.floor(Math.random() * 50) + 1);
+        });
+
+        // Nút Tạo phân khúc
+        $('#btnCreateSegment').click(function() {
+            const name = $('input[name="segmentName"]').val();
+            if(!name) { alert("Vui lòng nhập tên phân khúc!"); return; }
+            
+            alert("Đã tạo phân khúc: " + name);
+            window.closeModal('segmentCustomersModal');
+        });
+
+        // 3. Mở Modal Phân khúc (Nếu chưa có nút này ở HTML thì thêm id="btnOpenSegment" vào nút mở)
+        $('#btnOpenSegment').click(function(){
+            window.openModal('segmentCustomersModal');
+        });
 });

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý cửa hàng - Đăng nhập</title>
+    
+    <link rel="stylesheet" href="/css/style_loginQT.css">
+    
+    <script src="https://kit.fontawesome.com/e06076012c.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <section class="bgimg main">
+        <form id="adminLoginForm">
+            <div class="title">Đăng nhập Quản Trị</div>
+            
+            <div class="inp">
+                <label for="tk"><i class="fas fa-user"></i></label>
+                <input type="text" id="username" placeholder="Nhập tên đăng nhập..." required>
+            </div>
+            
+            <div class="inp">
+                <label for="mk"><i class="fas fa-lock"></i></label>
+                <input type="password" id="password" placeholder="Nhập mật khẩu..." required>
+            </div>
+            
+            <div class="miss-pass">
+                <a href="/admin/quen-mat-khau">Quên mật khẩu?</a>
+            </div>
+            
+            <input type="submit" value="Đăng nhập">
+        </form>
+    </section>
+
+    <script src="/js/login.js"></script>
+</body>
+</html>

@@ -1,4 +1,7 @@
 import { HoaDonRepository } from "../repositories/hoadon.repository.js";
+import { CartRepository } from "../repositories/cart.repository.js";
+import { ChiTietHoaDonRepository } from "../repositories/chitiethd.repository.js";
+import { KhachHangRepository } from "../repositories/khachhang.ropository.js";
 import { HoaDonDTO } from "../dtos/hoadon/hoadon.dto.js";
 import { logger } from "../config/logger.js";
 
@@ -12,29 +15,25 @@ export const HoaDonService = {
   getHoaDonByMa: async (MaHD) => {
     logger.info(`Service: Getting HoaDon by Ma ${MaHD}`);
     const hoaDon = await HoaDonRepository.getByMa(MaHD);
-
-    if (!hoaDon) {
-      logger.warn(`Service Warning: HoaDon ${MaHD} not found`);
-      throw new Error("HoaDon not found");
-    }
-    const result = new HoaDonDTO(hoaDon);
-
-    // 3. THỦ THUẬT: Gán bù lại 2 trường này vào kết quả trả về
-    // JavaScript cho phép gán thêm thuộc tính động vào object
-    result.TenKhachHang = hoaDon.TenKhachHang || "";
-    result.TenNhanVien = hoaDon.TenNhanVien || "";
-    return result;
+    if (!hoaDon) throw new Error("HoaDon not found");
+    return new HoaDonDTO(hoaDon);
   },
 
-  // Phân trang
-  
-  getPaginatedInvoices: async (page, search,status, payment) => {
+  getPaginatedInvoices: async (page, search, trangThai, phuongThuc) => {
     const pageSize = 10;
     const offset = (page - 1) * pageSize;
-    // Gọi repo với tham số search
-    const result = await HoaDonRepository.getPaginated(offset, pageSize, search,status, payment);
+    
+    // Truyền thêm trangThai và phuongThuc xuống Repository
+    const result = await HoaDonRepository.getPaginated(
+      offset,
+      pageSize,
+      search,
+      trangThai,
+      phuongThuc
+    );
+
     return {
-      data: result.data,
+      data: result.data, // Có thể map DTO nếu cần: result.data.map(x => new HoaDonDTO(x))
       pagination: {
         totalItems: result.total,
         totalPages: Math.ceil(result.total / pageSize),
@@ -43,90 +42,138 @@ export const HoaDonService = {
     };
   },
 
-  // ---  Lấy thống kê số lượng đơn ---
   getOrderCounts: async () => {
     return await HoaDonRepository.getOrderCounts();
   },
 
-  // Thống kê doanh thu
-  // getRevenueStats: async (year) => {
-  //   const currentYear = year || new Date().getFullYear();
-  //   return await HoaDonRepository.getMonthlyRevenue(currentYear);
-  // },
-
-  // Thống kê doanh thu (theo năm hoặc theo tháng+năm)
-getRevenueStats: async (year, month) => {
-  const now = new Date();
-  const y = year || now.getFullYear();
-
-  // 👉 Nếu có nhập tháng → thống kê theo tháng + năm
-  if (month) {
-    return await HoaDonRepository.getRevenueByMonthYear(month, y);
-  }
-
-  // 👉 Nếu chỉ nhập năm (hoặc không nhập gì)
-  return await HoaDonRepository.getMonthlyRevenueByYear(y);
-},
-
+  getRevenueStats: async (year, month) => {
+    const now = new Date();
+    const y = year || now.getFullYear();
+    if (month) {
+      return await HoaDonRepository.getRevenueByMonthYear(month, y);
+    }
+    return await HoaDonRepository.getMonthlyRevenueByYear(y);
+  },
 
   filterInvoicesByDate: async (startDate, endDate) => {
     logger.info(`Service: Filtering invoices from ${startDate} to ${endDate}`);
-    const invoices = await HoaDonRepository.filterByDate(startDate, endDate);
-    
-  
-    return invoices; 
+    return await HoaDonRepository.filterByDate(startDate, endDate);
   },
 
-// Hàm xử lý logic cho Top Bán Chạy
   getTopSellingStats: async (month, year) => {
-    // 1. Logic mặc định: Nếu không truyền, lấy thời gian hiện tại
     const today = new Date();
-    
-    // Nếu month không có, lấy tháng hiện tại (JS getMonth chạy từ 0-11 nên phải +1)
-    const queryMonth = month ? parseInt(month) : (today.getMonth() + 1);
-    
-    // Nếu year không có, lấy năm hiện tại
+    const queryMonth = month ? parseInt(month) : today.getMonth() + 1;
     const queryYear = year ? parseInt(year) : today.getFullYear();
 
-    logger.info(`Service: Getting Top Selling Products for ${queryMonth}/${queryYear}`);
-
-    // 2. Gọi Repository
-    const result = await HoaDonRepository.getTopSellingProducts(queryMonth, queryYear);
-    
-    // 3. Trả về kèm thông tin thời gian để Frontend dễ hiển thị tiêu đề
+    const result = await HoaDonRepository.getTopSellingProducts(
+      queryMonth,
+      queryYear
+    );
     return {
       time: { month: queryMonth, year: queryYear },
-      data: result
+      data: result,
     };
   },
 
-  createHoaDon: async (dto) => {
-    logger.info(`Service: Creating new HoaDon ${dto.MaHD}`);
-    const created = await HoaDonRepository.create(dto);
-    return new HoaDonDTO(created);
+  // --- SỬA LOGIC TẠO HÓA ĐƠN ---
+  createHoaDon: async (userId, dto) => {
+    logger.info(`Service: Processing Order. UserID: ${userId}`);
+
+    // TRƯỜNG HỢP 1: ADMIN TẠO ĐƠN (Có gửi MaKH và MaNV)
+    if (dto.MaKH) {
+      // Nếu Admin tạo, dto thường đã có đủ info, nhưng cần đảm bảo MaHD
+      if (!dto.MaHD) {
+        dto.MaHD = await HoaDonRepository.generateId();
+      }
+      const newInvoice = await HoaDonRepository.create(dto);
+      return new HoaDonDTO(newInvoice);
+    }
+
+    // TRƯỜNG HỢP 2: KHÁCH HÀNG MUA ONLINE (dto chưa có MaKH)
+
+    // 1. Kiểm tra giỏ hàng
+    const cartItems = await CartRepository.getCartByUserId(userId);
+    if (!cartItems || cartItems.length === 0) {
+      throw new Error("Giỏ hàng trống, không thể tạo đơn hàng!");
+    }
+
+    // 2. Tìm hồ sơ khách hàng
+    let currentCustomer = await KhachHangRepository.getByAccount(userId);
+    if (!currentCustomer) {
+      throw new Error(
+        "Lỗi dữ liệu: Tài khoản chưa liên kết thông tin khách hàng."
+      );
+    }
+
+    // 3. Cập nhật thông tin khách (nếu form gửi lên có thay đổi)
+    const updateData = {};
+    if (!currentCustomer.DiaChi && dto.DiaChiGiaoHang)
+      updateData.DiaChi = dto.DiaChiGiaoHang;
+    // Kiểm tra kỹ hơn để tránh update null vào DB
+    if (dto.NgaySinh) updateData.NgaySinh = dto.NgaySinh;
+    if (dto.GioiTinh) updateData.GioiTinh = dto.GioiTinh;
+
+    if (Object.keys(updateData).length > 0) {
+      await KhachHangRepository.update(currentCustomer.MaKH, {
+        ...currentCustomer,
+        ...updateData,
+      });
+      currentCustomer = { ...currentCustomer, ...updateData };
+    }
+
+    // 4. Tính toán Tổng Tiền từ Giỏ hàng (Bảo mật)
+    let calculatedTotal = 0;
+    cartItems.forEach((item) => {
+      calculatedTotal += item.GiaBan * item.SoLuong;
+    });
+
+    // 5. [QUAN TRỌNG] Tạo object dữ liệu Hóa Đơn đầy đủ
+    // Sinh mã tự động
+    const newMaHD = await HoaDonRepository.generateId();
+
+    const orderData = {
+      MaHD: newMaHD,
+      MaKH: currentCustomer.MaKH,
+      MaNV: null, // Khách mua online ko có nhân viên
+      NgayLap: new Date(), // Thời gian hiện tại
+      TongTien: calculatedTotal,
+      TrangThai: "ChoXuLy",
+      // Lấy phương thức thanh toán từ DTO gửi lên, mặc định là Tiền mặt
+      PhuongThucThanhToan: dto.PhuongThucThanhToan || "TienMat",
+      GhiChu: dto.GhiChu || "Đặt hàng trực tuyến",
+    };
+
+    // 6. Lưu Hóa Đơn
+    const newInvoice = await HoaDonRepository.create(orderData);
+
+    // 7. Lưu Chi Tiết
+    for (const item of cartItems) {
+      await ChiTietHoaDonRepository.create({
+        MaHD: newMaHD,
+        MaSP: item.MaSP,
+        SoLuong: item.SoLuong,
+        DonGia: item.GiaBan,
+      });
+    }
+
+    // 8. Xóa giỏ hàng
+    await CartRepository.clearCart(userId);
+
+    // Trả về DTO
+    return new HoaDonDTO(newInvoice);
   },
 
   updateHoaDon: async (MaHD, dto) => {
-    logger.info(`Service: Updating HoaDon ${MaHD}`);
-
     const existing = await HoaDonRepository.getByMa(MaHD);
-    if (!existing) {
-      logger.warn(`Service Warning: Cannot update. HoaDon ${MaHD} not found`);
-      throw new Error("HoaDon not found");
-    }
+    if (!existing) throw new Error("HoaDon not found");
 
     const updated = await HoaDonRepository.update(MaHD, dto);
     return new HoaDonDTO(updated);
   },
 
   deleteHoaDon: async (MaHD) => {
-    logger.info(`Service: Deleting HoaDon ${MaHD}`);
-
     const existing = await HoaDonRepository.getByMa(MaHD);
-    if (!existing) {
-      logger.warn(`Service Warning: Cannot delete. HoaDon ${MaHD} not found`);
-      throw new Error("HoaDon not found");
-    }
+    if (!existing) throw new Error("HoaDon not found");
 
     await HoaDonRepository.delete(MaHD);
     return { message: "HoaDon deleted successfully" };

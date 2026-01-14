@@ -1,6 +1,8 @@
 import { NhanVienRepository } from "../repositories/nhanvien.repository.js";
+import { TaiKhoanRepository } from "../repositories/taikhoan.repository.js";
 import { NhanVienDTO } from "../dtos/nhanvien/nhanvien.dto.js"; // Giả sử file dto tên này
 import { logger } from "../config/logger.js";
+import bcrypt from "bcryptjs";
 import ExcelJS from "exceljs";
 export const NhanVienService = {
   getAllNhanViens: async () => {
@@ -32,24 +34,43 @@ export const NhanVienService = {
     const offset = (page - 1) * pageSize; // Tính vị trí bắt đầu
 
     logger.info(`Service: Pagination NhanVien - Page ${page}`);
-    
-    const { nhanViens, totalItems } = await NhanVienRepository.getPaginated(offset, pageSize);
+
+    const { nhanViens, totalItems } = await NhanVienRepository.getPaginated(
+      offset,
+      pageSize
+    );
 
     return {
-      data: nhanViens.map((u) => new NhanVienDTO(u)), 
+      data: nhanViens.map((u) => new NhanVienDTO(u)),
       pagination: {
         totalItems: totalItems,
-        totalPages: Math.ceil(totalItems / pageSize), 
+        totalPages: Math.ceil(totalItems / pageSize),
         currentPage: page,
-        pageSize: pageSize
-      }
+        pageSize: pageSize,
+      },
     };
   },
 
   createNhanVien: async (dto) => {
-    logger.info(`Service: Creating new NhanVien ${dto.MaNV}`);
-    const created = await NhanVienRepository.create(dto);
-    return new NhanVienDTO(created);
+    logger.info(`Service: Creating new NhanVien (with Account)`);
+
+    if (dto.password) {
+      const salt = bcrypt.genSaltSync(10);
+      // Tạo trường password_hash để Repository sử dụng
+      dto.password_hash = bcrypt.hashSync(dto.password, salt);
+    }
+
+    // Gọi Transaction bên TaiKhoanRepository để tạo cả 2 bảng cùng lúc
+    // dto lúc này chứa cả: username, password, role_id, HoTen, ...
+    const created = await TaiKhoanRepository.createEmployee(dto);
+
+    // Trả về dữ liệu đã tạo
+    return {
+      MaNV: created.user_ref_id || "NEW_NV",
+      TenDangNhap: created.username,
+      HoTen: dto.name || dto.HoTen,
+      ChucVu: dto.job_title || dto.ChucVu,
+    };
   },
 
   updateNhanVien: async (MaNV, dto) => {
@@ -70,55 +91,95 @@ export const NhanVienService = {
 
     const existing = await NhanVienRepository.getByMa(MaNV);
     if (!existing) {
-      logger.warn(`Service Warning: Cannot delete. NhanVien ${MaNV} not found`);
       throw new Error("NhanVien not found");
     }
 
+    // BƯỚC 1: Xóa Tài khoản liên kết trước (Nếu có)
+    await TaiKhoanRepository.deleteByUserRef(MaNV);
+
+    // BƯỚC 2: Xóa Nhân viên
     await NhanVienRepository.delete(MaNV);
-    return { message: "NhanVien deleted successfully" };
+
+    return { message: "NhanVien and Account deleted successfully" };
   },
 
-  // THỐNG KÊ HIỆU SUẤT NHÂN VIÊN theo thời gian nhập vào 
+  resetPassword: async (MaNV, newPassword) => {
+    logger.info(`Service: Resetting password for NhanVien ${MaNV}`);
+
+    // 1. Kiểm tra nhân viên có tồn tại không
+    const nv = await NhanVienRepository.getByMa(MaNV);
+    if (!nv) throw new Error("Nhân viên không tồn tại");
+
+    // 2. Tìm tài khoản của nhân viên này
+    // (Dùng hàm getByUserRef bạn đã thêm vào TaiKhoanRepository ở tin nhắn trước)
+    const account = await TaiKhoanRepository.getByUserRef(MaNV);
+
+    if (!account) {
+      throw new Error("Nhân viên này chưa có tài khoản hệ thống");
+    }
+
+    // 3. Hash mật khẩu mới
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(newPassword, salt);
+
+    // 4. Update mật khẩu vào bảng TaiKhoan
+    // (Dùng hàm update của TaiKhoanRepository)
+    await TaiKhoanRepository.update(account.MaTK, { MatKhau: hash });
+
+    return true;
+  },
+
+  // THỐNG KÊ HIỆU SUẤT NHÂN VIÊN theo thời gian nhập vào
   analyzePerformance: async (startDate, endDate) => {
     // 1. Xử lý logic ngày tháng mặc định (Nếu user không gửi lên)
     // Mặc định lấy ngày đầu tháng này đến hiện tại
     const today = new Date();
-    
+
     let start = startDate;
     let end = endDate;
 
     if (!start) {
       const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-      start = firstDay.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+      start = firstDay.toISOString().split("T")[0]; // Format: YYYY-MM-DD
     }
 
     if (!end) {
       // Để đảm bảo lấy hết ngày hôm nay, ta nên set time là cuối ngày hoặc đơn giản lấy ngày mai
       // Ở đây lấy string YYYY-MM-DD
-      end = today.toISOString().split('T')[0];
+      end = today.toISOString().split("T")[0];
     }
-    
+
     // Nếu endDate người dùng gửi lên dạng '2024-12-31', để lấy trọn vẹn ngày đó ta nên thêm giờ vào SQL
     // Cách đơn giản nhất cho string là nối thêm giờ cuối ngày
-    const formattedEnd = end.includes(':') ? end : `${end} 23:59:59`;
-    const formattedStart = start.includes(':') ? start : `${start} 00:00:00`;
+    const formattedEnd = end.includes(":") ? end : `${end} 23:59:59`;
+    const formattedStart = start.includes(":") ? start : `${start} 00:00:00`;
 
-    logger.info(`Service: Analyzing Performance ${formattedStart} -> ${formattedEnd}`);
+    logger.info(
+      `Service: Analyzing Performance ${formattedStart} -> ${formattedEnd}`
+    );
 
-    const stats = await NhanVienRepository.getPerformanceStats(formattedStart, formattedEnd);
+    const stats = await NhanVienRepository.getPerformanceStats(
+      formattedStart,
+      formattedEnd
+    );
 
     // 2. Tính toán thêm (Ranking)
-    const totalRevenueAll = stats.reduce((sum, item) => sum + Number(item.TongDoanhThu), 0);
+    const totalRevenueAll = stats.reduce(
+      (sum, item) => sum + Number(item.TongDoanhThu),
+      0
+    );
 
     return {
       period: { from: start, to: end },
-      totalRevenueAllEmployees: totalRevenueAll,// Tổng doanh thu tất cả nhân viên(cửa hàng)
-      data: stats.map(nv => ({
+      totalRevenueAllEmployees: totalRevenueAll, // Tổng doanh thu tất cả nhân viên(cửa hàng)
+      data: stats.map((nv) => ({
         ...nv,
-        TyLeDongGop: totalRevenueAll > 0 
-          ? ((Number(nv.TongDoanhThu) / totalRevenueAll) * 100).toFixed(2) + '%' 
-          : '0%'
-      }))
+        TyLeDongGop:
+          totalRevenueAll > 0
+            ? ((Number(nv.TongDoanhThu) / totalRevenueAll) * 100).toFixed(2) +
+              "%"
+            : "0%",
+      })),
     };
   },
 
@@ -139,21 +200,24 @@ export const NhanVienService = {
       { header: "Lương CB", key: "LuongCoBan", width: 15 },
       { header: "Ngày Vào", key: "NgayVaoLam", width: 15 },
     ];
-    
+
     // Format Header đậm
     worksheet.getRow(1).font = { bold: true };
 
-    employees.forEach(emp => {
+    employees.forEach((emp) => {
       worksheet.addRow({
         ...emp,
-        NgaySinh: emp.NgaySinh ? new Date(emp.NgaySinh).toLocaleDateString("vi-VN") : "",
-        NgayVaoLam: emp.NgayVaoLam ? new Date(emp.NgayVaoLam).toLocaleDateString("vi-VN") : ""
+        NgaySinh: emp.NgaySinh
+          ? new Date(emp.NgaySinh).toLocaleDateString("vi-VN")
+          : "",
+        NgayVaoLam: emp.NgayVaoLam
+          ? new Date(emp.NgayVaoLam).toLocaleDateString("vi-VN")
+          : "",
       });
     });
 
     return workbook;
   },
-
   getDashboardStats: async () => {
     logger.info("Service: Getting dashboard stats");
     const stats = await NhanVienRepository.getDashboardStats();
@@ -164,28 +228,27 @@ export const NhanVienService = {
       avgPerformance = (stats.ordersCompleted / stats.ordersTotal) * 100;
     }
 
- 
     return {
       TongNhanVien: Number(stats.totalEmployees || 0),
-      TongLuong: Number(stats.totalSalary || 0),    // Ép về số để frontend chia không bị NaN
-      DoanhSoThang: Number(stats.monthSales || 0),  // Ép về số
-      HieuSuatTrungBinh: avgPerformance.toFixed(1)
+      TongLuong: Number(stats.totalSalary || 0), // Ép về số để frontend chia không bị NaN
+      DoanhSoThang: Number(stats.monthSales || 0), // Ép về số
+      HieuSuatTrungBinh: avgPerformance.toFixed(1),
     };
   },
 
   getTopEmployeesByRevenue: async (limit) => {
     // Mặc định lấy top 5 nếu không truyền limit
     const topLimit = limit ? parseInt(limit) : 5;
-    
+
     const result = await NhanVienRepository.getTopRevenue(topLimit);
-    
+
     // Trả về dữ liệu, ép kiểu số cho chắc chắn
-    return result.map(emp => ({
-        MaNV: emp.MaNV,
-        HoTen: emp.HoTen,
-        ChucVu: emp.ChucVu,
-        SoDonHang: Number(emp.SoDonHang),
-        TongDoanhThu: Number(emp.TongDoanhThu)
+    return result.map((emp) => ({
+      MaNV: emp.MaNV,
+      HoTen: emp.HoTen,
+      ChucVu: emp.ChucVu,
+      SoDonHang: Number(emp.SoDonHang),
+      TongDoanhThu: Number(emp.TongDoanhThu),
     }));
   },
 };

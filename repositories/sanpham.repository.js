@@ -1,6 +1,17 @@
 import { pool } from "../config/database.js";
 import { logger } from "../config/logger.js";
 
+const generateNextId = async (connection, table, column, prefix) => {
+  const query = `SELECT ${column} FROM ${table} ORDER BY LENGTH(${column}) DESC, ${column} DESC LIMIT 1`;
+  const [rows] = await connection.query(query);
+  let nextId = 1;
+  if (rows.length > 0) {
+    const lastCode = rows[0][column];
+    const lastNumber = parseInt(lastCode.replace(/\D/g, ''));
+    if (!isNaN(lastNumber)) nextId = lastNumber + 1;
+  }
+  return prefix + String(nextId).padStart(3, '0');
+};
 
 export const SanPhamRepository = {
   getAll: async () => {
@@ -112,19 +123,23 @@ export const SanPhamRepository = {
 
   
   create: async ({ MaSP, TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap, MoTa,HinhAnh}) => {
-    logger.info(`Repository: Creating SanPham ${MaSP}`);
+    const db = await pool;
+    const newId = MaSP || await generateNextId(db, 'SanPham', 'MaSP', 'SP');
+
+    logger.info(`Repository: Creating SanPham ${newId}`);
     try {
-      const db = await pool;
       await db.query(
-        "INSERT INTO SanPham ( MaSP, TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap, MoTa ,HinhAnh) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)",
-        [ MaSP, TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap, MoTa,HinhAnh ]
+        "INSERT INTO SanPham (MaSP, TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap, MoTa, HinhAnh) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [newId, TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap, MoTa, HinhAnh]
       );
-      return {  MaSP, TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap, MoTa,HinhAnh  };
+      return { MaSP: newId, TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap, MoTa, HinhAnh };
     } catch (err) {
       logger.error("Repository Error: create failed", err);
       throw err;
     }
   },
+
+
 
   update: async (MaSP, {TenSanPham, MaDM, MaNCC, GiaBan, SoLuongTon, NgayNhap, MoTa,HinhAnh}) => {
     logger.info(`Repository: Updating SanPham ${MaSP}`);

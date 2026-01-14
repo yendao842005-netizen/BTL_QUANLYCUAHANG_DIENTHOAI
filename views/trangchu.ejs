@@ -65,8 +65,12 @@
                             <li style="border-right: 1px solid var(--text-color); padding-right: 10px;" id="auth-options1"><a class="hover"
                                     href="/dangki">Đăng kí</a></li>
                             <li id="auth-options"><a class="hover" href="/dangnhap">Đăng nhập</a></li>
-                            <li style="display: none;cursor: pointer;" onclick="logout()" id="logout-option"><a href="#"><i class="fa-solid fa-user" ></i> đăng xuất</a></li>
-                            <script src="js/dangkidangnhapdxuat.js"></script>
+                            <li style="display: none;" id="logout-option">
+                                <a href="javascript:void(0)" id="btn-logout">
+                                    <i class="fa-solid fa-user"></i> Đăng xuất
+                                </a>
+                            </li>
+                            <script src="/js/auth_header.js"></script>
                         </ul>
                         
                     </div>
@@ -115,7 +119,7 @@
     
                     <div class="giohang">
                         <a href="/giohang"><i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
-                            <span class="notice">3</span>
+                            <span class="notice" style="display: none;">0</span>
                         </a>
                     </div>
     
@@ -296,142 +300,13 @@
                         <div class="img_giamgia">
                             <img src="img/img trang chu/giamgia.png" alt="Giảm giá tết">
                         </div>
-                        <div class="sanpham_giamgia">
-                            <div class="sanpham_giamgia1">
-                                <div class="anh_sanpham">
-                                    <a href="">
-                                        <img src="img/img trang chu/redmi.jpg" alt="Xiaomi Redmi A3 4GB 128GB">
-                                        <p class="name_sanpham">Xiaomi Redmi A3 4GB</p>
-                                    </a>
-
-                                </div>
-
-                                <div class="thongtin_sp">
-                                    <div class="soluongban">
-
-                                        <p
-                                            style="color: white ;display: flex;justify-content: center;line-height: 22px;">
-                                            <i class="fa-solid fa-fire"
-                                                style="color: #F47F26; font-size: 23px; position: absolute;left: 0;"></i>Đã
-                                            bán 0/5 suất
-                                        </p>
-                                    </div>
-                                    <div class="gia_giamgia">
-                                        <div class="gia">
-                                            <p>
-                                            <h3>2.490.000 đ</h3>
-                                            </p>
-                                            <div style="color: #666;">
-                                                <span
-                                                    style="text-decoration: line-through;padding-right: 5px;">2.999.000
-                                                    đ </span> <span>-17%</span>
-                                            </div>
-                                        </div>
-                                        <button class="btn">Sắp diễn ra</button>
-                                    </div>
-                                </div>
-
+            
+                        <div class="sanpham_giamgia" id="list-giam-gia">
+                            
+                            <div style="text-align: center; width: 100%; color: white; padding: 20px;">
+                                <i class="fas fa-spinner fa-spin"></i> Đang tải sản phẩm...
                             </div>
-                            <div class="sanpham_giamgia1">
-                                <div class="anh_sanpham">
-                                    <a href="">
-                                        <img src="img/img trang chu/sámung1.jpg"
-                                            alt="Xiaomi Redmi A3 4GB 128GB">
-                                        <p class="name_sanpham">Samsung Galaxy A04s</p>
-                                    </a>
-
-                                </div>
-                                <div class="thongtin_sp">
-                                    <div class="soluongban">
-
-                                        <p
-                                            style="color: white ;display: flex;justify-content: center;line-height: 22px;">
-                                            <i class="fa-solid fa-fire"
-                                                style="color: #F47F26; font-size: 23px; position: absolute;left: 0;"></i>Đã
-                                            bán 0/5 suất
-                                        </p>
-                                    </div>
-                                    <div class="gia_giamgia">
-                                        <div class="gia">
-                                            <p>
-                                            <h3>2.490.000 đ</h3>
-                                            </p>
-                                            <div style="color: #666;">
-                                                <span
-                                                    style="text-decoration: line-through;padding-right: 5px;">2.999.000
-                                                    đ </span> <span>-17%</span>
-                                            </div>
-                                        </div>
-                                        <button class="btn">Sắp diễn ra</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sanpham_giamgia1">
-                                <div class="anh_sanpham">
-                                    <a href="">
-                                        <img src="img/img trang chu/honor.jpg" alt="Xiaomi Redmi A3 4GB 128GB">
-                                        <p class="name_sanpham">Honor X7b 8GB 256GB</p>
-                                    </a>
-
-                                </div>
-                                <div class="thongtin_sp">
-                                    <div class="soluongban">
-
-                                        <p
-                                            style="color: white ;display: flex;justify-content: center;line-height: 22px;">
-                                            <i class="fa-solid fa-fire"
-                                                style="color: #F47F26; font-size: 23px; position: absolute;left: 0;"></i>Đã
-                                            bán 0/5 suất
-                                        </p>
-                                    </div>
-                                    <div class="gia_giamgia">
-                                        <div class="gia">
-                                            <p>
-                                            <h3>2.490.000 đ</h3>
-                                            </p>
-                                            <div style="color: #666;">
-                                                <span
-                                                    style="text-decoration: line-through; padding-right: 5px;">2.999.000
-                                                    đ </span> <span>-17%</span>
-                                            </div>
-                                        </div>
-                                        <button class="btn">Sắp diễn ra</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sanpham_giamgia1">
-                                <div class="anh_sanpham">
-                                    <a href="">
-                                        <img src="img/img trang chu/readmi.jpg" alt="Xiaomi Redmi A3 4GB 128GB">
-                                        <p class="name_sanpham">Readmi C61 4GB</p>
-                                    </a>
-
-                                </div>
-                                <div class="thongtin_sp">
-                                    <div class="soluongban">
-
-                                        <p
-                                            style="color: white ;display: flex;justify-content: center;line-height: 22px;">
-                                            <i class="fa-solid fa-fire"
-                                                style="color: #F47F26; font-size: 23px; position: absolute;left: 0;"></i>Đã
-                                            bán 0/5 suất
-                                        </p>
-                                    </div>
-                                    <div class="gia_giamgia">
-                                        <div class="gia">
-                                            <p>
-                                            <h3>2.490.000 đ</h3>
-                                            </p>
-                                            <div style="color: #666;">
-                                                <span
-                                                    style="text-decoration: line-through; padding-right: 5px;">2.999.000
-                                                    đ</span> <span> -17%</span>
-                                            </div>
-                                        </div>
-                                        <button class="btn">Sắp diễn ra</button>
-                                    </div>
-                                </div>
-                            </div>
+            
                         </div>
                     </div>
                 </div>
@@ -468,449 +343,27 @@
             <div class="nd5">
                 <div class="container">
                     <div class="inner-wrap5">
-                        <div class="Điện thoại" style="margin-bottom: 10px;">
-
+                        <div class="title-section" style="margin-bottom: 10px;">
                             <h2>Món quà ý nghĩa</h2>
                         </div>
-                        <div class="spmr">
-                            
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href="/chitietsp"><img src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="/chitietsp" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/2024_3_19_638464669526032000_samsung-galaxy-a55-xanh-png-1.png"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/honor_200_5g_trang_5_56db4af3b6.jpg"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/honor_x5b_xanh_3_07413a1fe9.jpg"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/honor_x9c_tim_5_0ac40e3956.png"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
+                        <div class="spmr" id="gift-list">
+                            <div style="width:100%; text-align:center">Đang tải...</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="nd5">
-                <div class="container">
-                    <div class="inner-wrap5">
-                        <div class="Điện thoại" style="margin-bottom: 10px;">
-
-                            <h2>Sản phẩm mới ra</h2>
-                        </div>
-                        <div class="spmr">
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/oppo_a3_tim_5_a81a5f4bf7.jpg"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/oppo_reno12_f_green_800b5588d2.png"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/oppo_reno13_f_5g_xam_4_40988633f5.png"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/poco_m6_pro_003aba177e (1).png"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/samsung_galaxy_a06_blue_black_1_46d3694f11.png"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+            <div class="nd5"> <div class="container">
+                <div class="inner-wrap5">
+                    <div class="title-section" style="margin-bottom: 10px;">
+                        <h2>Sản phẩm mới ra</h2>
+                    </div>
+                    <div class="spmr" id="new-arrival-list">
+                        <div style="width:100%; text-align:center">Đang tải...</div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
             <div class="nd6">
@@ -940,221 +393,11 @@
             <div class="nd5">
                 <div class="container">
                     <div class="inner-wrap5">
-                        <div class="Điện thoại" style="margin-bottom: 10px;">
-
+                        <div class="title-section" style="margin-bottom: 10px;">
                             <h2>Sản phẩm đã xem</h2>
                         </div>
-                        <div class="spmr">
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/samsung_galaxy_m55_den_4_d7f9674500.jpg"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/samsung_galaxy_s24_ultra_2f8a5ee174.png"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/samsung_galaxy_z_flip4_567aa5d37e.jpg"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang sp/xiaomi_14t_pro_blue_1_5f61c0cb50.png"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="spmr1">
-                                <div class="img_spmr1">
-                                    <div class="img1" style="padding-top: 15px; padding-left: 5px">
-                                        <a href=""><img src="img/img trang chu/iphone_16_pro_max_bda3030b4b.png"
-                                                alt="iphone16"></a>
-                                    </div>
-                                    <div class="img2">
-                                        <img style="height: 185px;padding-left: 8px;padding-top: 3px;"
-                                            src="img/img trang chu/ip161.png" alt="">
-                                    </div>
-                                </div>
-                                <div class="thongtin_spmr1">
-                                    <div class="tragop">
-                                        Trả góp 0%
-                                    </div>
-                                    <div class="tt">
-                                        <p style="    margin-bottom: 0;
-                                        text-decoration: line-through;
-                                        font-size: 13px;
-                                        color: #6F7280;">34.990.000 đ</p>
-                                        <h3 style="    margin-bottom: 8px;font-size: 18px; color: var(--text-color);">
-                                            33.890.000 đ</h3>
-                                        <p style="    margin-top: 0px;
-                                        color: #059568;
-                                        font-size: 12px;">Giảm 1.100.000 đ</p>
-                                        <p><a href="" style="color: var(--text-color);">iPhone 16 Pro Max 256GB</a></p>
-                                    </div>
-                                    <div class="color-options">
-                                        <div class="color1"></div>
-                                        <div class="color2"></div>
-                                        <div class="color3"></div>
-
-                                    </div>
-
-                                    <div class="storage-options">
-                                        <button class="selected">256 GB</button>
-                                        <button>512 GB</button>
-                                        <button>1 TB</button>
-                                    </div>
-
-                                </div>
-                            </div>
+                        <div class="spmr" id="viewed-list">
+                            <div style="width:100%; text-align:center">Đang tải...</div>
                         </div>
                     </div>
                 </div>
@@ -1274,9 +517,13 @@
 
 
     </div>
-    <script src="js/index.js"></script>
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <script src="js/giohang.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/auth_header.js"></script>
+    <script src="/js/giohang.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="/js/trangchu.js"></script>
 </body>
 
 </html>

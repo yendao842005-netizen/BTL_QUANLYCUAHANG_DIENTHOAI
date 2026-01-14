@@ -1,6 +1,17 @@
 import { pool } from "../config/database.js";
 import { logger } from "../config/logger.js";
 
+const generateNextId = async (connection, table, column, prefix) => {
+  const query = `SELECT ${column} FROM ${table} ORDER BY LENGTH(${column}) DESC, ${column} DESC LIMIT 1`;
+  const [rows] = await connection.query(query);
+  let nextId = 1;
+  if (rows.length > 0) {
+    const lastNumber = parseInt(rows[0][column].replace(/\D/g, '')); 
+    if (!isNaN(lastNumber)) nextId = lastNumber + 1;
+  }
+  return prefix + String(nextId).padStart(3, '0');
+};
+
 export const KhachHangRepository = {
   getAll: async () => {
     logger.info("Repository: Fetching all KhachHang");
@@ -18,7 +29,17 @@ export const KhachHangRepository = {
     logger.info(`Repository: Fetching KhachHang with MaKH ${MaKH}`);
     try {
       const db = await pool;
-      const [rows] = await db.query("SELECT * FROM KhachHang WHERE MaKH = ?", [MaKH]);
+      const query = `
+        SELECT 
+            kh.*, 
+            COUNT(hd.MaHD) as TongDon, 
+            COALESCE(SUM(hd.TongTien), 0) as TongChiTieu
+        FROM KhachHang kh
+        LEFT JOIN HoaDon hd ON kh.MaKH = hd.MaKH
+        WHERE kh.MaKH = ?
+        GROUP BY kh.MaKH
+      `;
+      const [rows] = await db.query(query, [MaKH]);
       return rows[0];
     } catch (err) {
       logger.error(`Repository Error: getByMa failed for MaKH ${MaKH}`, err);
@@ -123,15 +144,64 @@ export const KhachHangRepository = {
     }
   },
     
-  create: async ({ MaKH, HoTen, SoDienThoai, DiaChi, Email ,NgaySinh,GioiTinh}) => {
-    logger.info(`Repository: Creating KhachHang ${MaKH}`);
+  getByAccount: async (MaTK) => {
+    logger.info(`Repository: Finding Customer linked to Account: ${MaTK}`);
     try {
       const db = await pool;
+
+      // BƯỚC 1: Tìm Mã Khách Hàng trong bảng Tài Khoản trước
+      // Dùng TRIM() cho MaTK đề phòng token gửi lên có rác
+      const queryTK = "SELECT MaKH FROM TaiKhoan WHERE MaTK = ?";
+      const [tkRows] = await db.query(queryTK, [String(MaTK).trim()]);
+
+      // Nếu không tìm thấy tài khoản
+      if (tkRows.length === 0) {
+        logger.error(`Repository Error: Account ${MaTK} not found in DB`);
+        return null;
+      }
+      
+      let linkedMaKH = tkRows[0].MaKH;
+      
+      // Nếu tài khoản có tồn tại nhưng cột MaKH lại NULL
+      if (!linkedMaKH) {
+         logger.warn(`Repository: Account ${MaTK} found but MaKH column is NULL`);
+         return null;
+      }
+
+      // Chuẩn hóa chuỗi MaKH (Xóa dấu cách thừa, xuống dòng...)
+      linkedMaKH = String(linkedMaKH).trim();
+      logger.info(`Repository: Linked MaKH found: '${linkedMaKH}'`); 
+
+      // BƯỚC 2: Dùng MaKH đã làm sạch để tìm trong bảng Khách Hàng
+      const queryKH = "SELECT * FROM KhachHang WHERE MaKH = ?";
+      const [khRows] = await db.query(queryKH, [linkedMaKH]); 
+      
+      if (khRows.length === 0) {
+        logger.error(`Repository: MaKH '${linkedMaKH}' exists in TaiKhoan but NOT in KhachHang table!`);
+        return null;
+      }
+
+      return khRows[0];
+    } catch (err) {
+      logger.error(`Repository Error: getByAccount failed for MaTK ${MaTK}`, err);
+      throw err;
+    }
+  },
+
+  create: async ({ MaKH, HoTen, SoDienThoai, DiaChi, Email, NgaySinh, GioiTinh }) => {
+    const db = await pool; 
+    
+    // Logic: Nếu KHÔNG truyền MaKH vào -> Tự sinh (Cho trường hợp tạo ở trang Admin)
+    // Nếu CÓ truyền MaKH (từ Service Hóa Đơn) -> Dùng luôn mã đó
+    const newId = MaKH || await generateNextId(db, 'KhachHang', 'MaKH', 'KH');
+
+    logger.info(`Repository: Creating KhachHang ${newId}`);
+    try {
       await db.query(
         "INSERT INTO KhachHang (MaKH, HoTen, SoDienThoai, DiaChi, Email, NgaySinh, GioiTinh) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        [MaKH, HoTen, SoDienThoai, DiaChi, Email,NgaySinh,GioiTinh]
+        [newId, HoTen, SoDienThoai, DiaChi, Email, NgaySinh, GioiTinh]
       );
-      return { MaKH, HoTen };
+      return { MaKH: newId, HoTen };
     } catch (err) {
       logger.error("Repository Error: create KhachHang failed", err);
       throw err;

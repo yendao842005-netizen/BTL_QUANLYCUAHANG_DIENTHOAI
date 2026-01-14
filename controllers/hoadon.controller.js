@@ -5,6 +5,7 @@ import { HoaDonService } from "../services/hoadon.service.js";
 import { validateCreateHoaDon } from "../validators/hoadon/create-hoadon.validator.js";
 import { validateUpdateHoaDon } from "../validators/hoadon/update-hoadon.validator.js";
 
+import ExcelJS from "exceljs";
 import { logger } from "../config/logger.js";
 
 export const HoaDonController = {
@@ -36,14 +37,25 @@ export const HoaDonController = {
   getPaginated: async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 1;
-      const search = req.query.search || ""; // Lấy từ khóa tìm kiếm
-      const status = req.query.status || "";   // Lấy tham số status
-      const payment = req.query.payment || ""; // Lấy tham số payment
-      logger.info(`Controller: GET /HoaDons/PhanTrang?page=${page}&search=${search}`);
+      const search = req.query.search || "";
       
-      const result = await HoaDonService.getPaginatedInvoices(page, search,status, payment);
+      // [MỚI] Lấy tham số lọc từ URL
+      const trangThai = req.query.trangThai || "";
+      const phuongThuc = req.query.phuongThuc || "";
+
+      // Truyền xuống Service
+      const result = await HoaDonService.getPaginatedInvoices(
+        page, 
+        search, 
+        trangThai, 
+        phuongThuc
+      );
+      
       res.json(result);
-    } catch (err) { res.status(500).json({ message: err.message }); }
+    } catch (err) {
+      logger.error("Controller Error: getPaginatedInvoices failed", err);
+      res.status(500).json({ message: err.message });
+    }
   },
 
   // --- API MỚI: Thống kê số lượng đơn hàng (Dashboard) ---
@@ -110,12 +122,66 @@ getStats: async (req, res) => {
       res.status(500).json({ message: err.message });
     }
   },
+  exportExcel: async (req, res) => {
+    try {
+      logger.info("Controller: Exporting HoaDon to Excel");
+      
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Danh sách đơn hàng");
+
+      // Tạo cột cho Excel
+      worksheet.columns = [
+        { header: "Mã HĐ", key: "MaHD", width: 10 },
+        { header: "Khách hàng", key: "MaKH", width: 20 },
+        { header: "Ngày lập", key: "NgayLap", width: 15 },
+        { header: "Tổng tiền", key: "TongTien", width: 15 },
+        { header: "Trạng thái", key: "TrangThai", width: 15 },
+        { header: "Thanh toán", key: "PhuongThucThanhToan", width: 15 },
+        { header: "Ghi chú", key: "GhiChu", width: 30 },
+      ];
+
+      // Lấy dữ liệu
+      const hoaDons = await HoaDonService.getAllHoaDons(); 
+
+      // Ghi dữ liệu vào các dòng
+      hoaDons.forEach((hd) => {
+        worksheet.addRow({
+          MaHD: hd.MaHD,
+          MaKH: hd.TenKhachHang || hd.MaKH, 
+          NgayLap: hd.NgayLap ? new Date(hd.NgayLap).toLocaleDateString('vi-VN') : '',
+          TongTien: hd.TongTien,
+          TrangThai: hd.TrangThai,
+          PhuongThucThanhToan: hd.PhuongThucThanhToan,
+          GhiChu: hd.GhiChu
+        });
+      });
+
+      // Thiết lập Header để trình duyệt tải file về
+      res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      res.setHeader("Content-Disposition", "attachment; filename=DanhSach_DonHang.xlsx");
+
+      await workbook.xlsx.write(res);
+      res.end();
+    } catch (err) {
+      logger.error("Controller Error: exportExcel failed", err);
+      res.status(500).json({ message: "Lỗi xuất file Excel" });
+    }
+  },
+
   create: async (req, res) => {
     try {
       logger.info("Controller: POST /HoaDons");
+      
+      // Lấy UserID từ token (Middleware authenticate đã gán vào req.user)
+      const userId = req.user.MaTK || req.user.id;
+
+      // Validate dữ liệu gửi lên (Địa chỉ, SĐT...)
       const validatedData = validateCreateHoaDon(req.body);
       const dto = new CreateHoaDonDTO(validatedData);
-      const HoaDon = await HoaDonService.createHoaDon(dto);
+
+      // Gọi Service với userId để lấy giỏ hàng của người đó
+      const HoaDon = await HoaDonService.createHoaDon(userId, dto);
+      
       res.status(201).json(HoaDon);
     } catch (err) {
       logger.error("Controller Error: create failed", err);

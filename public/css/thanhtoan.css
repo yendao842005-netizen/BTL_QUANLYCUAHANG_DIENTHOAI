@@ -43,12 +43,14 @@
 .nhaptt .emsdt .email,.nhaptt .emsdt .sdt{
     width: calc(50% - 10px);
 
-    input{
+    input, select {
         width: 100%;
         padding: 10px;
-        border:  1px #B3B3B3 solid;
-        border-radius: 5px; 
-        
+        border: 1px #B3B3B3 solid; /* Màu viền đậm giống hệt các ô khác */
+        border-radius: 5px;
+        background-color: white;
+        height: 42px; /* Thêm chiều cao cố định để 2 ô bằng nhau chằn chặn */
+        outline: none;
     }
 }
 

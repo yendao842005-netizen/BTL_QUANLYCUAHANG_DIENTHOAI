@@ -4,27 +4,48 @@
 const DASHBOARD_API_URL = "/api/Dashboard/TongQuan";
 const API_CHART_URL = "/api/Dashboard/Vebieudo";
 
+let revenueChartInstance = null;      // Biến giữ biểu đồ Doanh thu
+let topProductsChartInstance = null;  // Biến giữ biểu đồ Top sản phẩm
+let categoryChartInstance = null;     // Biến giữ biểu đồ Danh mục
+
 //Tổng quan hệ thống đầu trang 
 // ==========================================
 // 2. HÀM GỌI API & XỬ LÝ DỮ LIỆU (Core)
 // ==========================================
+function getToken() {
+    return localStorage.getItem("accessToken");
+}
+
+// Hàm hỗ trợ tạo Header có chứa Token
+function getAuthHeaders() {
+    const token = getToken();
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` // Quan trọng nhất: Gửi chìa khóa lên Server
+    };
+}
+
+// 1. Cập nhật hàm loadDashboardStats
 async function loadDashboardStats() {
     try {
-        // Gọi API lấy dữ liệu
-        const response = await fetch(DASHBOARD_API_URL);
+        const response = await fetch(DASHBOARD_API_URL, {
+            method: 'GET',
+            headers: getAuthHeaders() // <--- THÊM DÒNG NÀY
+        });
 
-        if (!response.ok) {
-            throw new Error("Lỗi khi gọi API Dashboard");
+        if (response.status === 401 || response.status === 403) {
+            alert("Phiên đăng nhập hết hạn hoặc bạn không có quyền xem trang này.");
+            window.location.href = "/login"; // Đá về trang đăng nhập
+            return;
         }
 
-        const data = await response.json();
+        if (!response.ok) throw new Error("Lỗi khi gọi API Dashboard");
 
-        // Sau khi có dữ liệu, gọi hàm render để vẽ lên giao diện
+        const data = await response.json();
         renderDashboard(data);
 
     } catch (error) {
         console.error("Lỗi:", error);
-        // Có thể hiển thị thông báo lỗi lên giao diện nếu cần
     }
 }
 
@@ -143,40 +164,31 @@ function formatCurrency(amount) {
 // ==========================================
 // 3. LOGIC TẢI & VẼ BIỂU ĐỒ (CHARTS)
 // ==========================================
-async function loadCharts() {
+async function loadCharts(year) {
     try {
-        const response = await fetch(API_CHART_URL);
+        // Nếu không truyền year, mặc định là 2025 (để test dữ liệu bạn vừa nhập)
+        const selectedYear = year || 2025; 
+        
+        // Gọi API kèm tham số year
+        const response = await fetch(`${API_CHART_URL}?year=${selectedYear}`, {
+            method: 'GET',
+            headers: getAuthHeaders()
+        });
+
+        if (response.status === 401 || response.status === 403) return;
+
         const data = await response.json();
 
-        // Kiểm tra dữ liệu trả về (theo cấu trúc tiếng Việt mới)
         if (data.DuLieuBieuDo) {
             const bieuDo = data.DuLieuBieuDo;
-
-            // 1. Vẽ biểu đồ Doanh thu
             if (bieuDo.DoanhThu && bieuDo.DoanhThu.MangDuLieu) {
                 drawRevenueChart(bieuDo.DoanhThu.MangDuLieu);
             }
-
-            // 2. Vẽ biểu đồ Top SP
-            if (bieuDo.SanPhamBanChay) {
-                drawTopProductsChart({
-                    labels: bieuDo.SanPhamBanChay.DanhSachTen,
-                    data: bieuDo.SanPhamBanChay.MangSoLuong
-                });
-            }
-
-            // 3. Vẽ biểu đồ Danh mục
-            if (bieuDo.CoCauDanhMuc) {
-                drawCategoryChart({
-                    labels: bieuDo.CoCauDanhMuc.DanhSachTen,
-                    data: bieuDo.CoCauDanhMuc.MangSoLuong
-                });
-            }
-            // 4. Vẽ bảng Đơn hàng gần đây (Mới)
-            if (data.DonHangGanDay) {
-                renderRecentOrders(data.DonHangGanDay);
-            }
-
+            // ... (Giữ nguyên phần vẽ biểu đồ bên dưới) ...
+            if (bieuDo.DoanhThu && bieuDo.DoanhThu.MangDuLieu) drawRevenueChart(bieuDo.DoanhThu.MangDuLieu);
+            if (bieuDo.SanPhamBanChay) drawTopProductsChart({ labels: bieuDo.SanPhamBanChay.DanhSachTen, data: bieuDo.SanPhamBanChay.MangSoLuong });
+            if (bieuDo.CoCauDanhMuc) drawCategoryChart({ labels: bieuDo.CoCauDanhMuc.DanhSachTen, data: bieuDo.CoCauDanhMuc.MangSoLuong });
+            if (data.DonHangGanDay) renderRecentOrders(data.DonHangGanDay);
         }
     } catch (error) {
         console.error("Lỗi tải biểu đồ:", error);
@@ -189,12 +201,17 @@ function drawRevenueChart(revenueData) {
     if (!canvas) return; // Kiểm tra nếu không có thẻ canvas thì bỏ qua
     const ctx = canvas.getContext('2d');
 
+    // QUAN TRỌNG: Hủy biểu đồ cũ nếu đã tồn tại
+    if (revenueChartInstance) {
+        revenueChartInstance.destroy();
+    }
+
     // Tạo gradient
     let gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(67, 97, 238, 0.2)');
     gradient.addColorStop(1, 'rgba(67, 97, 238, 0.0)');
 
-    new Chart(ctx, {
+    revenueChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
@@ -241,6 +258,12 @@ function drawTopProductsChart(chartData) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
+    // --- ĐOẠN CODE QUAN TRỌNG CẦN THÊM ---
+    if (topProductsChartInstance) {
+        topProductsChartInstance.destroy(); // Hủy biểu đồ cũ nếu có
+    }
+
+
     // 1. Tạo Gradient màu cho từng cột (Hiệu ứng chuyển màu từ đậm sang nhạt)
     // Blue
     let gradBlue = ctx.createLinearGradient(0, 0, 0, 400);
@@ -267,7 +290,7 @@ function drawTopProductsChart(chartData) {
     gradTeal.addColorStop(0, 'rgba(6, 214, 160, 1)');
     gradTeal.addColorStop(1, 'rgba(6, 214, 160, 0.2)');
 
-    new Chart(ctx, {
+    topProductsChartInstance = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: chartData.labels,
@@ -335,7 +358,13 @@ function drawCategoryChart(chartData) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
-    new Chart(ctx, {
+    // --- ĐOẠN CODE QUAN TRỌNG CẦN THÊM ---
+    if (categoryChartInstance) {
+        categoryChartInstance.destroy();
+    }
+
+
+    categoryChartInstance = new Chart(ctx, {
         type: 'doughnut',
         data: {
             labels: chartData.labels,
@@ -356,6 +385,8 @@ function drawCategoryChart(chartData) {
         }
     });
 }
+
+
 // --- HÀM VẼ BẢNG ĐƠN HÀNG GẦN ĐÂY ---
 function renderRecentOrders(orders) {
     const tableBody = document.querySelector('.widget-content tbody');
@@ -422,8 +453,34 @@ function renderRecentOrders(orders) {
 // --- HÀM XỬ LÝ TẢI FILE ---
 function exportReport() {
     if (confirm("Bạn có muốn tải xuống báo cáo tổng quan hệ thống không?")) {
-        // Gọi API để trình duyệt tự tải file về
-        window.location.href = "/api/Dashboard/Export";
+        const token = getToken();
+        // Với việc tải file, ta không dùng fetch đơn giản được nếu API yêu cầu Header.
+        // Cách đơn giản nhất cho GET request có Auth là dùng thư viện hoặc fetch + blob.
+        // Nhưng tạm thời API export của bạn là GET link trực tiếp. 
+        // Nếu API export cũng bắt authenticate, bạn cần dùng fetch để tải blob:
+        
+        fetch("/api/Dashboard/Export", {
+            headers: getAuthHeaders()
+        })
+        .then(response => {
+            if (response.status === 401) {
+                 alert("Không có quyền tải báo cáo!"); 
+                 return null;
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            if(!blob) return;
+            // Tạo link ảo để tải về
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `BaoCao_TongQuan_${new Date().toISOString().slice(0,10)}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(err => console.error("Lỗi tải file:", err));
     }
 }
 // ==========================================
@@ -442,4 +499,25 @@ document.addEventListener('DOMContentLoaded', () => {
             exportReport();
         });
     }
+});
+
+// 3. Thêm sự kiện bắt nút chọn Năm (Thêm vào cuối file hoặc trong DOMContentLoaded)
+document.addEventListener('DOMContentLoaded', () => {
+    // Tìm thẻ select
+    const yearSelect = document.querySelector('.filter-select'); // Class này đang ở file HTML của bạn
+    
+    if (yearSelect) {
+        // Đặt mặc định chọn 2025
+        yearSelect.value = "2025"; 
+
+        // Khi người dùng chọn năm khác -> Gọi lại API
+        yearSelect.addEventListener('change', function() {
+            const selectedYear = this.value.replace("Năm ", ""); // Lọc chữ "Năm " nếu value là "Năm 2025"
+            loadCharts(selectedYear);
+        });
+    }
+
+    // Load lần đầu với năm 2025
+    loadDashboardStats();
+    loadCharts(2025); 
 });

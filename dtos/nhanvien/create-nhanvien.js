@@ -1,5 +1,11 @@
 export class CreateNhanVienDTO {
-  constructor({ MaNV, HoTen, NgaySinh, GioiTinh, SoDienThoai, Email, DiaChi, ChucVu, LuongCoBan, NgayVaoLam }) {
+  constructor({ MaNV, HoTen, NgaySinh, GioiTinh, SoDienThoai, Email, DiaChi, ChucVu, LuongCoBan, NgayVaoLam, username, password, role_id }) {
+    // 1. Thông tin tài khoản 
+    this.username = username;
+    this.password = password;
+    this.role_id = role_id;
+
+    // 2. Thông tin nhân viên
     this.MaNV = MaNV;
     this.HoTen = HoTen;
     this.NgaySinh = NgaySinh;
@@ -10,5 +16,5 @@ export class CreateNhanVienDTO {
     this.ChucVu = ChucVu;
     this.LuongCoBan = LuongCoBan;
     this.NgayVaoLam = NgayVaoLam;
-  }
+ }
 }

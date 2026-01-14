@@ -97,52 +97,52 @@ export const DashboardService = {
   },
 
  // Hàm này dùng cho API: /api/Dashboard/TongQuan
-  Vebieudo: async () => {
-    // Lấy năm hiện tại
-    const currentYear = new Date().getFullYear();
+ Vebieudo: async (inputYear) => {
+  // Nếu có inputYear thì dùng, không thì lấy năm nay
+  const currentYear = inputYear || new Date().getFullYear(); 
+  
+  // Các phần dưới giữ nguyên, chỉ thay đổi chỗ gọi Repository:
+  const [doanhThuNam, topSanPham, thongKeDanhMuc, donHangMoi] = await Promise.all([
+    DashboardRepository.getMonthlyRevenue(currentYear), // Đã truyền đúng năm được chọn
+    DashboardRepository.getTopSellingProducts(),
+    DashboardRepository.getCategorySalesStats(),
+    DashboardRepository.getRecentOrders1()
+  ]);
 
-    // Gọi song song 3 hàm lấy dữ liệu từ DB
-    const [doanhThuNam, topSanPham, thongKeDanhMuc,donHangMoi] = await Promise.all([
-      DashboardRepository.getMonthlyRevenue(2025), // Nên dùng biến currentYear thay vì fix cứng 2025
-      DashboardRepository.getTopSellingProducts(),
-      DashboardRepository.getCategorySalesStats(),
-      DashboardRepository.getRecentOrders1() // <--- THÊM MỚI
-    ]);
+  // 1. Xử lý Doanh thu 12 tháng
+  const mangDoanhThu = Array(12).fill(0);
+  doanhThuNam.forEach(item => {
+    // item.Thang từ 1-12 => index 0-11
+    if (item.Thang >= 1 && item.Thang <= 12) {
+        mangDoanhThu[item.Thang - 1] = parseInt(item.DoanhThu); 
+    }
+  });
 
-    // 1. Xử lý Doanh thu 12 tháng (Tạo mảng 12 số 0, có tháng nào thì điền vào tháng đó)
-    const mangDoanhThu = Array(12).fill(0);
-    doanhThuNam.forEach(item => {
-      // item.Thang từ 1-12, index mảng từ 0-11
-      mangDoanhThu[item.Thang - 1] = parseInt(item.DoanhThu); 
-    });
+  // 2. Xử lý Top Sản phẩm
+  const tenSanPhamTop = topSanPham.map(p => p.TenSanPham);
+  const soLuongBanTop = topSanPham.map(p => Number(p.SoLuongBan));
 
-    // 2. Xử lý Top Sản phẩm
-    const tenSanPhamTop = topSanPham.map(p => p.TenSanPham);
-    const soLuongBanTop = topSanPham.map(p => p.SoLuongBan);
+  // 3. Xử lý Danh mục
+  const tenDanhMuc = thongKeDanhMuc.map(c => c.TenDanhMuc);
+  const soLuongTheoDanhMuc = thongKeDanhMuc.map(c => Number(c.TongSoLuong));
 
-    // 3. Xử lý Danh mục
-    const tenDanhMuc = thongKeDanhMuc.map(c => c.TenDanhMuc);
-    const soLuongTheoDanhMuc = thongKeDanhMuc.map(c => c.TongSoLuong);
-
-    return {
-      // Cấu trúc dữ liệu tiếng Việt dễ hiểu
-      DuLieuBieuDo: {
-        DoanhThu: { 
-            MangDuLieu: mangDoanhThu // Mảng 12 số doanh thu
-        },
-        SanPhamBanChay: { 
-            DanhSachTen: tenSanPhamTop, // Mảng tên SP
-            MangSoLuong: soLuongBanTop  // Mảng số lượng bán
-        },
-        CoCauDanhMuc: { 
-            DanhSachTen: tenDanhMuc,    // Mảng tên danh mục
-            MangSoLuong: soLuongTheoDanhMuc // Mảng số lượng
-        }
+  return {
+    DuLieuBieuDo: {
+      DoanhThu: { 
+          MangDuLieu: mangDoanhThu 
       },
-      // 2. Dữ liệu Đơn hàng gần đây (Mới)
-      DonHangGanDay: donHangMoi
-    };
-  },
+      SanPhamBanChay: { 
+          DanhSachTen: tenSanPhamTop,
+          MangSoLuong: soLuongBanTop
+      },
+      CoCauDanhMuc: { 
+          DanhSachTen: tenDanhMuc,
+          MangSoLuong: soLuongTheoDanhMuc
+      }
+    },
+    DonHangGanDay: donHangMoi
+  };
+},
 
     // --- HÀM MỚI: XUẤT EXCEL ---
   exportDashboardToExcel: async () => {

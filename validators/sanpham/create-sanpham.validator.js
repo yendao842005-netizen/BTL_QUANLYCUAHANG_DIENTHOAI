@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const createSanPhamSchema = z.object({
-  MaSP: z.string({ required_error: "MaSP là bắt buộc" }).max(20),
+  MaSP: z.string().max(20).optional(),
   TenSanPham: z.string({ required_error: "TenSanPham là bắt buộc" }).max(255),
   MaDM: z.string().max(20).optional().nullable(),
   MaNCC: z.string().max(20).optional().nullable(),

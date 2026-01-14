@@ -63,8 +63,12 @@
                             <li style="border-right: 1px solid var(--text-color); padding-right: 10px;" id="auth-options1"><a class="hover"
                                     href="/dangki">Đăng kí</a></li>
                             <li id="auth-options"><a class="hover" href="/dangnhap">Đăng nhập</a></li>
-                            <li style="display: none;cursor: pointer;" onclick="logout()" id="logout-option"><a href="#"><i class="fa-solid fa-user" ></i> đăng xuất</a></li>
-                            <script src="js/dangkidangnhapdxuat.js"></script>
+                            <li style="display: none;" id="logout-option">
+                                <a href="javascript:void(0)" id="btn-logout">
+                                    <i class="fa-solid fa-user"></i> Đăng xuất
+                                </a>
+                            </li>
+                            <script src="/js/auth_header.js"></script>
                         </ul>
                         
                     </div>
@@ -113,7 +117,7 @@
     
                     <div class="giohang">
                         <a href="/giohang"><i class="fa-solid fa-cart-shopping" style="color: #000;"></i>
-                            <span class="notice"  >3</span>
+                            <span class="notice" style="display: none;">0</span>
                         
                         </a>
                     </div>
@@ -157,7 +161,7 @@
 
 
         <!-- main -->
-        <div class="main">
+        <!--<div class="main">
 
             <div class="nd1">
                 <div class="container">
@@ -254,7 +258,7 @@
                                     onclick="addToCart({id:'01',image:'img/img trang chi tiet sp/iphone titan1.png', price:500, name:'iPhone 16 Pro'})"
                                     >
                                     Mua ngay </button>
-                                <!-- <script src="js/giohang.js"></script> -->
+
                             </div>
                         </div>
                     </div>
@@ -650,8 +654,252 @@
             </div>
         </div>
 
-    </div>
+    </div>-->
+    <div class="main">
+        <div class="nd1">
+            <div class="container">
+                <div class="tieude">
+                    <p>
+                        <a href="/trangchu" class="trangchu">Trang chủ</a> / 
+                        <a href="/sanpham" class="trangchu">Sản phẩm</a> / 
+                        <span id="breadcrumb-name">iPhone 16 Pro</span>
+                    </p>
+                </div>
+    
+                <div class="chitietsp">
 
+                    <div class="chitietsp1">
+                        <button class="pre_btn"><i class="fa-solid fa-chevron-left"></i></button>
+                        <div class="slide_list" id="slider-container">
+                            <img class="img_chitietsp" src="img/img trang chi tiet sp/iphone titan1.png" alt="">
+                        </div>
+                        <button class="next_btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+
+                    <div class="chitietsp2">
+                        <div class="tieude2">
+                            <h1 id="product-name">iPhone 16 Pro</h1>
+                            <p>
+                                <span class="nd_tieude2" id="product-code">No.00911086</span> 
+                                <span class="nd_tieude2"><i style="color: #F5CD4B;" class="fa-solid fa-star"></i>5</span>
+                                <span class="nd_tieude2">12 đánh giá</span>
+                            </p>
+                            <div style="font-size: 18px;">
+                                <h3 id="product-price">Giá: 33.890.000 đ</h3>
+                            </div>
+                            <p id="product-stock" style="color: #28a745; margin-top: 10px;">Kho: Sẵn hàng</p>
+                        </div>
+
+                        <div class="dungluong">
+                            <span class="label">Dung lượng</span>
+                            <div class="options">
+                                <button class="option">128 GB</button>
+                                <button class="option">256 GB</button>
+                                <button class="option">512 GB</button>
+                            </div>
+                        </div>
+                        <div class="ip16_color">
+                            <div class="dungluong">
+                                <span class="label">Màu sắc</span>
+                                <div class="options">
+                                    <div class="thaydoitheomau">
+                                        <button class="option selected">Titan Sa Mạc</button>
+                                        <button class="option">Titan Trắng</button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mua">
+                            <button id="btn-buy-now" 
+                                    style="width: 100%; height: 100%; display: block; background-color: #000; color: white; border: #000; cursor: pointer;">
+                                Mua ngay 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="thongsokythuat" style="background-color: white;">
+                    <h2 style="padding: 5px 10px;">Thông số kỹ thuật</h2>
+                    <div class="specifications">
+                        <h2>Thông tin hàng hóa</h2>
+                        <table>
+                            <tr>
+                                <td>Xuất xứ</td>
+                                <td>Việt nam</td>
+                            </tr>
+                            <tr>
+                                <td>Thời điểm ra mắt</td>
+                                <td>09/2024</td>
+                            </tr>
+                            <tr>
+                                <td>Thời gian bảo hành</td>
+                                <td>12 tháng</td>
+                            </tr>
+                        </table>
+                        <h2>Thiết kế & Trọng lượng</h2>
+                        <table>
+                            <tr>
+                                <td>Kích thước</td>
+                                <td>163 × 77.6 × 8.25 mm</td>
+                            </tr>
+                            <tr>
+                                <td>Trọng lượng sản phẩm</td>
+                                <td>227 g</td>
+                            </tr>
+                            <tr>
+                                <td>Chuẩn kháng nước / Bụi bẩn</td>
+                                <td>IP68</td>
+                            </tr>
+                            <tr>
+                                <td>Chất liệu</td>
+                                <td>Khung máy: Titanium</td>
+                            </tr>
+                        </table>
+                        <h2>Bộ xử lý</h2>
+                        <table>
+                            <tr>
+                                <td>Phiên bản CPU</td>
+                                <td>Apple A18 Pro</td>
+                            </tr>
+                            <tr>
+                                <td>Loại CPU</td>
+                                <td>6 - Core</td>
+                            </tr>
+                            <tr>
+                                <td>Số nhân</td>
+                                <td>6</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="thongtinsp">
+                        <h2 style="padding: 5px 10px">Thông tin sản phẩm</h2>
+                        <div class="motasp">
+                            <h2>Mô tả sản phẩm</h2>
+                            <div class="imgmtsp">
+                                <img src="img/img trang chi tiet sp/1.jpg" alt="">
+                                <p>iPhone 16 series với 4 phiên bản: iPhone 16, iPhone 16 Plus, iPhone 16 Pro và
+                                    iPhone 16 Pro Max đều có sự nâng cấp đáng kể, trong đó đáng chú ý là nút điều
+                                    khiển camera mới, hệ thống camera tiên tiến, hiệu suất và thời lượng pin vượt
+                                    trội. Trong đó <b>iPhone 16</b> là dòng tiêu chuẩn với thiết kế trẻ trung và
+                                    thời
+                                    thượng cùng cấu hình mượt mà, giá bán phải chăng nhất. iPhone 16 Plus sở hữu
+                                    ngoài màn hình lớn và thời lượng sử dụng pin dài hơn bản iPhone 16 thường. Trong
+                                    đó, đánh dấu bước nhảy vọt về thời lượng pin và sở hữu chip A18 Pro xuất sắc,
+                                    <b>iPhone 16 Pro Max</b> là siêu phẩm đem lại trải nghiệm vượt trội trên mọi
+                                    khía cạnh.
+                                    Sản phẩm gây ấn tượng với viền màn hình siêu mỏng, được trang bị nút Điều Khiển
+                                    Camera mới và có bộ tính năng Apple Intelligence cực kỳ tiện dụng.
+                                </p>
+
+
+                                <p style="margin-bottom: 0px;"><b>iPhone 16 series có mấy phiên bản? </b></p>
+                                <p>
+                                    Như đã nói ở trên, dòng iPhone 16 series có 4 phiên bản, đối với mỗi phiên bản
+                                    lại có nhiều tùy chọn màu sắc và bộ nhớ khác nhau. Các phiên bản chính của
+                                    iPhone 16 series bao gồm:
+                                </p>
+                                <ul style="text-align: left; width: 100%;margin-top: 0px;">
+                                    <li> iPhone 16: Chiếc iPhone 16 giá tốt nhất.</li>
+                                    <li> iPhone 16 Plus: Phiên bản màn hình và thời lượng pin lớn hơn iPhone 16.
+                                    </li>
+                                    <li> iPhone 16 Pro: Dòng iPhone thiết kế nhỏ gọn với những tính năng cao cấp
+                                        nhất.</li>
+                                    <li> iPhone 16 Pro Max: Chiếc iPhone màn hình lớn nhất, cao cấp nhất.</li>
+                                </ul>
+                                <p style="margin-bottom: 0px;margin-top: 0px;"><b>iPhone 16 Pro Max có gì mới?</b>
+                                </p>
+                                <p style="margin-bottom: 0px;"><b>Vẻ đẹp sang trọng của khung vỏ Titan</b></p>
+                                <p>Gây ấn tượng bởi kiểu dáng thanh lịch, iPhone 16 Pro Max có cấu trúc khung vỏ
+                                    được chế tác kỳ công từ chất liệu Titan Cấp 5 siêu bền và siêu nhẹ. Ngoài ra,
+                                    Apple cũng cải tiến cấu trúc tản nhiệt bên trong thân máy để duy trì hiệu suất
+                                    tốt hơn 20% so với thế hệ cũ, đem đến cho người dùng một thiết bị vừa sang
+                                    trọng, vừa mạnh mẽ.
+
+                                    Ngoài khả năng chống nước và chống bụi đáng kinh ngạc, iPhone 16 Pro Max còn đạt
+                                    đến chuẩn mực mới về độ bền khi sử dụng chất liệu Ceramic Shield bảo vệ cực tốt
+                                    cho màn hình. Sản phẩm lên kệ với các tùy chọn màu sang trọng gồm: Titan Đen,
+                                    Titan Trắng, Titan Tự Nhiên và Titan Sa Mạc. </p>
+                                <img src="img/img trang chi tiet sp/2.jpg" alt="">
+                                <p style="margin-bottom: 0px;"><b>Nhiếp ảnh linh hoạt với nút Điều Khiển Camera </b>
+                                </p>
+                                <p>Nút Điều Khiển Camera ở cạnh phải iPhone 16 Pro Max là tính năng hoàn toàn mới,
+                                    cho phép chúng ta dễ dàng kích hoạt tác vụ chụp ảnh hoặc quay phim. Bạn chỉ cần
+                                    vuốt nhẹ ngón tay trên nút bấm này là có thể tinh chỉnh các chức năng nhiếp ảnh
+                                    như: phơi sáng, độ sâu trường ảnh, chuyển đổi giữa các ống kính hoặc thu phóng
+                                    kỹ thuật số...
+
+                                    Đây là yếu tố thể hiện sự tinh tế của Apple trong việc nâng cao trải nghiệm quay
+                                    chụp. Mặt ngoài của Nút Điều Khiển Camera được hoàn thiện bằng tinh thể
+                                    sapphire, cho trải nghiệm vuốt chạm mịn màng. Cảm biến bên trong nút bấm sẽ nhận
+                                    diện lực nhấn mạnh/nhẹ từ ngón tay nhằm mô phỏng cơ chế phản hồi, tạo cảm giác
+                                    như đang chụp ảnh bằng camera DSLR.
+
+                                </p>
+                                <img src="img/img trang chi tiet sp/4.jpg" alt="">
+                                <p style="margin-bottom: 0px;"><b>Thể hiện đẳng cấp quay video chuyên nghiệp</b></p>
+                                <p>Cầm iPhone 16 Pro Max trên tay, trải nghiệm quay phim của bạn sẽ được đưa lên tầm
+                                    cao mới. Sự kết hợp linh hoạt giữa camera Fusion 48MP, chip A18 Pro cùng cảm
+                                    biến quad-pixel tạo điều kiện để người dùng quay video chất lượng 4K Dolby
+                                    Vision ở tốc độ 120 fps.
+
+                                    Hệ thống bốn micro chuẩn studio sẽ lọc tạp âm hiệu quả để đạt chất lượng thu âm
+                                    tốt nhất cho video của bạn. Đặc biệt, iPhone 16 Pro Max còn cung cấp thêm chức
+                                    năng quay video với Âm Thanh Không Gian, khiến cho thanh âm được diễn đạt đã tai
+                                    hơn khi bạn thưởng thức bằng tai nghe AirPods.</p>
+                                <img src="img/img trang chi tiet sp/3.jpg" alt="">
+                                <p style="margin-bottom: 0px;"><b>Mua iPhone 16 Pro Max chính hãng tại Mobile Shop
+                                        có lợi thế gì?</b></p>
+                                <p>FPT Shop chính là địa chỉ uy tín hàng đầu khi mua iPhone 16 Pro Max nói riêng và
+                                    sản phẩm Apple nói chung. FPT Shop luôn là nơi có sản phẩm chính hãng sớm nhất,
+                                    nguồn cung dồi dào để bạn tha hồ lựa chọn. Đặc biệt, các hệ thống bán lẻ như FPT
+                                    Shop sẽ nhanh chóng triển khai chương trình đặt mua iPhone 16 Pro Max, mang đến
+                                    nhiều ưu đãi hấp dẫn cho khách hàng. Đăng ký nhận thông tin và đặt trước iPhone
+                                    16 không chỉ giúp bạn có cơ hội sở hữu thiết bị sớm mà còn nhận được các phần
+                                    quà giá trị đi kèm từ các chuỗi cửa hàng.
+
+                                    Hiện có rất nhiều ưu đãi lớn, chính sách bảo hành tốt dành cho khách hàng đặt
+                                    trước dòng iPhone 16 Pro Max như ưu đãi đến 3 triệu; bảo hành 2 năm; đặc quyền 1
+                                    đổi 1; trả góp đến 24 tháng.</p>
+                                <p style="margin-top: 0px;">Việc đặt mua iPhone 16 Pro Max tại FPT Shop không chỉ
+                                    đảm bảo bạn là một trong những người đầu tiên sở hữu sản phẩm, mà còn được hưởng
+                                    nhiều lợi ích:</p>
+                                <ul style="text-align: left; width: 100%;margin-top: 0px;">
+                                    <li> <b>Bảo hành chính hãng:</b> Mobile Shop là đại lý ủy quyền của Apple tại
+                                        Việt Nam, nên bạn hoàn toàn yên tâm về nguồn gốc sản phẩm và chế độ bảo
+                                        hành.</li>
+                                    <li> <b>Ưu đãi hấp dẫn:</b> Khi đặt trước, khách hàng thường nhận được nhiều ưu
+                                        đãi như phụ kiện, giảm giá, hoặc các phần quà giá trị.
+                                    </li>
+                                    <li> <b>Hỗ trợ trả góp:</b> Mobile Shop cung cấp các chương trình mua hàng trả
+                                        góp với lãi suất 0%, giúp bạn dễ dàng tiếp cận với iPhone 16 Pro Max mà
+                                        không lo về chi phí.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+
+                
+                </div>
+        </div>
+
+        <div class="nd5">
+            <div class="container">
+                <div class="inner-wrap5">
+                    <div style="margin-bottom: 10px;display: flex;justify-content: space-between;">
+                        <h2>Sản phẩm tương tự</h2>
+                        <h2 style="font-size: 18px;"><a href="/sanpham">Xem tất cả <i class="fa-solid fa-arrow-right"></i></a></h2>
+                    </div>
+                    
+                    <div class="spmr" id="similar-products-list" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-start;">
+                        <p>Đang tải sản phẩm...</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- footer -->
@@ -729,9 +977,10 @@
 
         </div>
     </footer>
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <script src="js/giohang.js"></script>
-    <script src="js/chitietsp.js"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/auth_header.js"></script>
+    <script src="/js/giohang.js"></script>
+    <script src="/js/chitietsp.js"></script>
     
     </div>
 </body>

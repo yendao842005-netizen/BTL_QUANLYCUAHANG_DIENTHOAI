@@ -1,100 +1,165 @@
+// js/thanhtoan.js
 
+// Biến lưu giỏ hàng
+var list = [];
 
+$(document).ready(function () {
+  // 1. Kiểm tra đăng nhập & Header
+  if (typeof checkLoginStatus === "function") {
+    checkLoginStatus();
+  }
 
-function addToCart(item) {
-    // debugger;
-    item.quantity = 1;
-    console.log(item.quantity);
-    var list;
-    if (localStorage.getItem('cart') == null) {
-        list = [item];
-    } else {
-        list = JSON.parse(localStorage.getItem('cart')) || [];
-        let ok = true;
-        for (let x of list) {
-            if (x.id == item.id) {
-                x.quantity += 1;
-                ok = false;
-                break;
-            }
+  // 2. Load thông tin giỏ hàng & khách hàng
+  LoadData();
+});
+
+async function LoadData() {
+  const token = localStorage.getItem("accessToken");
+  if (!token) {
+    alert("Vui lòng đăng nhập để thanh toán!");
+    window.location.href = "/dangnhap";
+    return;
+  }
+
+  try {
+    // --- A. LẤY GIỎ HÀNG ---
+    const cartRes = await fetch("/api/cart", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (cartRes.ok) {
+      const result = await cartRes.json();
+      list = result.data || [];
+      if (list.length === 0) {
+        alert("Giỏ hàng trống! Quay lại mua sắm nhé.");
+        window.location.href = "/sanpham";
+        return;
+      }
+      renderOrderSummary(); // Vẽ bảng tóm tắt
+    }
+
+    // --- B. LẤY THÔNG TIN KHÁCH HÀNG (Tự động điền) ---
+    // Gọi API lấy thông tin user hiện tại (Giả sử bạn có API này)
+    // Nếu chưa có API riêng, có thể lấy tạm username từ localStorage hoặc bỏ qua
+    /* const userRes = await fetch('/api/auth/me', { ... });
+        if(userRes.ok) {
+            const user = await userRes.json();
+            $('#name').val(user.HoTen);
+            $('#email').val(user.Email);
+            $('#sdt').val(user.SoDienThoai);
+            $('#diachi').val(user.DiaChi);
         }
-        if (ok) {
-            list.push(item);
-        }
-    }
-    localStorage.setItem('cart', JSON.stringify(list));
-    
-    alert("Đã thêm giỏ hàng thành công!");
-    LoadData();
+        */
+  } catch (error) {
+    console.error("Lỗi tải trang thanh toán:", error);
+  }
 }
-var list = JSON.parse(localStorage.getItem('cart'));
-function LoadData() {
-    var str = "";
-    var t = 0;
-    var sl = 0;
-    for (x of list) {
-        t += x.price * x.quantity;
-        sl+=x.quantity;
-        str += `<tr>
-                                            <td><img width="70px" src="`+ x.image + `" alt=""></td>
-                                            <td>`+ x.name + `</td>
-                                            <td>x` + x.quantity + `</td>
-                                            <td>`+ x.price + `đ</td>
-                                        </tr>
-                 `;
-    }
-    document.getElementById("listsp").innerHTML = str;
-    $("#spTong").text(t + "đ");
-    $("#tTong").text(t + "đ");
-    
 
+function renderOrderSummary() {
+  let str = "";
+  let total = 0;
 
- 
+  for (let x of list) {
+    // Tính tiền: Dùng tên trường khớp với DTO Backend (DonGia, SoLuong...)
+    let itemTotal = x.DonGia * x.SoLuong;
+    total += itemTotal;
+
+    // Ảnh
+    let imgUrl =
+      x.HinhAnh && !x.HinhAnh.startsWith("http")
+        ? `img/img trang sp/${x.HinhAnh}`
+        : x.HinhAnh || "img/no-image.png";
+
+    str += `
+        <tr>
+            <td><img width="50px" src="${imgUrl}" alt="${x.TenSanPham}"></td>
+            <td style="padding-left: 10px;">${x.TenSanPham}</td>
+            <td style="text-align: center;">x${x.SoLuong}</td>
+            <td style="text-align: right;">${formatMoney(itemTotal)}</td>
+        </tr>`;
+  }
+
+  document.getElementById("listsp").innerHTML = str;
+  $("#spTong").text(formatMoney(total));
+  $("#tTong").text(formatMoney(total));
 }
-function Thanhtoan(){
-    let isValid = true;
-     // Lấy giá trị các trường nhập
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const tel = document.getElementById("sdt").value.trim();
-    const diachi = document.getElementById("diachi").value.trim();
 
-    // Xóa lỗi cũ
+// --- XỬ LÝ THANH TOÁN ---
+async function Thanhtoan() {
+    const token = localStorage.getItem('accessToken');
+    
+    // 1. Lấy dữ liệu từ giao diện
+    const address = $("#diachi").val().trim();
+    const paymentMethod = $("input[name='mucgia']:checked").next('label').text().trim();
+    const dob = $("#ngaysinh").val();   // Lấy ngày sinh
+    const gender = $("#gioitinh").val(); // Lấy giới tính ("" hoặc "Nam", "Nu", "Khac")
 
-    document.getElementById("nameError").innerText = "";
-    document.getElementById("emailError").innerText = "";
-    document.getElementById("sdtError").innerText = "";
-    document.getElementById("diachiError").innerText = "";
-
-    //kiểm tra từng th
-    if (email === "" || !email.includes("@")) {
-        document.getElementById("emailError").innerText = "Email không hợp lệ.";
-        isValid = false;
-    }
-
-    if (name === "" ) {
-        document.getElementById("nameError").innerText = "Họ tên không hợp lệ.";
-        isValid = false;
-    }
-    if (tel === "" || tel.length > 10 || !/^0\d{9}$/.test(tel)) {
-        document.getElementById("sdtError").innerText = "Sdt không hợp lệ.";
-        isValid = false;
-    }
-    if (diachi === "" ) {
-        document.getElementById("diachiError").innerText = "Địa chỉ không hợp lệ.";
-        isValid = false;
-    }
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
-    if (cart.length === 0) {
-        alert("Giỏ hàng trống! Vui lòng thêm sản phẩm vào giỏ hàng.");
+    // 2. Validate cơ bản (Chỉ bắt buộc địa chỉ)
+    $(".error").text(""); 
+    if (address === "") {
+        $("#diachiError").text("Vui lòng nhập địa chỉ nhận hàng.");
         return; 
     }
-    else if (isValid) {
-        alert("Thanhh toán thành công");
-        localStorage.setItem('cart', null);
-        location.reload();
-        window.location.href="/index.html";
-    }
 
+    if (confirm("Xác nhận đặt hàng?")) {
+        try {
+            // 3. [QUAN TRỌNG] Tạo đối tượng dữ liệu (Payload)
+            // Chỉ đưa vào những thông tin CẦN THIẾT
+            const payload = {
+                DiaChiGiaoHang: address,
+                PhuongThucThanhToan: mapPaymentMethod(paymentMethod),
+                GhiChu: "Khách đặt hàng qua Web"
+            };
+
+            // 4. [FIX LỖI] Chỉ thêm Ngày sinh nếu có nhập
+            if (dob && dob !== "") {
+                payload.NgaySinh = dob;
+            }
+
+            // 5. [FIX LỖI] Chỉ thêm Giới tính nếu có chọn (khác rỗng)
+            if (gender && gender !== "") {
+                payload.GioiTinh = gender;
+            }
+
+            // Gửi dữ liệu đi
+            const response = await fetch('/api/HoaDons', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(payload) // Gửi payload đã lọc sạch lỗi
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("🎉 Đặt hàng thành công! Mã đơn: " + data.MaHD);
+                list = []; // Xóa giỏ hàng tạm
+                window.location.href = "/trangchu"; 
+            } else {
+                // Hiển thị lỗi rõ ràng hơn
+                const msg = data.message || (data.errors ? JSON.stringify(data.errors) : "Lỗi đặt hàng");
+                alert("Lỗi: " + msg);
+            }
+
+        } catch (error) {
+            console.error("Lỗi hệ thống:", error);
+            alert("Không thể kết nối đến máy chủ.");
+        }
+    }
 }
-LoadData();
+
+// Hàm phụ trợ: Map tên phương thức thanh toán sang ENUM DB
+function mapPaymentMethod(text) {
+  if (text.includes("ngân hàng")) return "ChuyenKhoan";
+  if (text.includes("Ví")) return "The"; // Hoặc 'Ví' nếu DB có
+  return "TienMat"; // Mặc định COD
+}
+
+function formatMoney(amount) {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(amount);
+}

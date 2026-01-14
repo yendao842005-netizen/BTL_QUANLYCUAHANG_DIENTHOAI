@@ -1,6 +1,18 @@
 import { pool } from "../config/database.js";
 import { logger } from "../config/logger.js";
 
+const generateNextId = async (connection, table, column, prefix) => {
+  const query = `SELECT ${column} FROM ${table} ORDER BY LENGTH(${column}) DESC, ${column} DESC LIMIT 1`;
+  const [rows] = await connection.query(query);
+  let nextId = 1;
+  if (rows.length > 0) {
+    const lastCode = rows[0][column]; 
+    const lastNumber = parseInt(lastCode.replace(/\D/g, '')); 
+    if (!isNaN(lastNumber)) nextId = lastNumber + 1;
+  }
+  return prefix + String(nextId).padStart(3, '0');
+};
+
 export const NhaCungCapRepository = {
   getAll: async () => {
     logger.info("Repository: Fetching all NhaCungCap");
@@ -114,14 +126,16 @@ export const NhaCungCapRepository = {
   },
 
   create: async ({ MaNCC, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi }) => {
-    logger.info(`Repository: Creating NhaCungCap ${MaNCC}`);
+    const db = await pool;
+    const newId = MaNCC || await generateNextId(db, 'NhaCungCap', 'MaNCC', 'NCC');
+
+    logger.info(`Repository: Creating NhaCungCap ${newId}`);
     try {
-      const db = await pool;
       await db.query(
         "INSERT INTO NhaCungCap (MaNCC, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi) VALUES (?, ?, ?, ?, ?)",
-        [MaNCC, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi]
+        [newId, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi]
       );
-      return { MaNCC, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi };
+      return { MaNCC: newId, TenNhaCungCap, NguoiLienHe, SoDienThoai, DiaChi };
     } catch (err) {
       logger.error("Repository Error: create NhaCungCap failed", err);
       throw err;

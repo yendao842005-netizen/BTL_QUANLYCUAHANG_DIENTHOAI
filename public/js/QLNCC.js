@@ -3,6 +3,24 @@ $(document).ready(function () {
     // 1. CẤU HÌNH & KHỞI TẠO
     // ==========================================
     const API_URL = "/api/NhaCungCaps";
+
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+        alert("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!");
+        window.location.href = "/login";
+        return;
+    }
+
+    $.ajaxSetup({
+        headers: { 'Authorization': 'Bearer ' + token },
+        error: function(jqXHR, textStatus, errorThrown) {
+            if (jqXHR.status === 401 || jqXHR.status === 403) {
+                alert("Phiên làm việc hết hạn. Vui lòng đăng nhập lại.");
+                window.location.href = "/login";
+            }
+        }
+    });
+    
     const PAGE_SIZE = 10;
     let currentPage = 1;
     let searchTimeout = null;
@@ -250,9 +268,9 @@ $(document).ready(function () {
         let formData = new FormData(document.getElementById('addSupplierForm'));
         let data = Object.fromEntries(formData.entries());
 
-        // Validate
-        if (!data.MaNCC || !data.TenNhaCungCap || !data.NguoiLienHe || !data.SoDienThoai) {
-            alert('Vui lòng điền đầy đủ các trường bắt buộc!');
+        // Chỉ bắt buộc Tên NCC và Số điện thoại (tùy nghiệp vụ của bạn)
+        if (!data.TenNhaCungCap || !data.SoDienThoai) {
+            alert('Vui lòng nhập Tên nhà cung cấp và Số điện thoại!');
             return;
         }
 
@@ -439,9 +457,63 @@ $(document).ready(function () {
     // --- CÁC CHỨC NĂNG KHÁC ---
 
     // Export Excel
-    window.exportToExcel = function () {
-        if(confirm('Xuất danh sách Nhà cung cấp ra Excel?')) {
-            window.location.href = `${API_URL}/Export/Excel`;
+    window.exportToExcel = async function () {
+        if (!confirm('Xuất danh sách Nhà cung cấp ra Excel?')) return;
+    
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            alert("Bạn chưa đăng nhập!");
+            return;
+        }
+    
+        // Hiển thị loading trên nút (nếu muốn)
+        const btn = $('.page-actions .btn-outline');
+        const originalText = btn.html();
+        btn.html('<i class="fas fa-spinner fa-spin"></i> Đang tải...');
+        btn.prop('disabled', true);
+    
+        try {
+            const response = await fetch(`${API_URL}/Export/Excel`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + token, // Quan trọng: Gửi Token ở đây
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (response.status === 401) {
+                alert("Phiên đăng nhập hết hạn!");
+                window.location.href = "/login";
+                return;
+            }
+    
+            if (response.status === 404) {
+                alert("Chưa có chức năng xuất Excel ở Server (Lỗi 404)!");
+                return;
+            }
+    
+            if (!response.ok) throw new Error("Lỗi Server khi xuất file");
+    
+            // Xử lý tải file
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            // Tạo tên file có ngày tháng
+            const dateStr = new Date().toISOString().slice(0, 10);
+            a.download = `DanhSach_NhaCungCap_${dateStr}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+    
+        } catch (error) {
+            console.error("Lỗi xuất Excel:", error);
+            alert("Không thể xuất file. Vui lòng thử lại sau!");
+        } finally {
+            // Trả lại nút bấm bình thường
+            btn.html(originalText);
+            btn.prop('disabled', false);
         }
     }
 

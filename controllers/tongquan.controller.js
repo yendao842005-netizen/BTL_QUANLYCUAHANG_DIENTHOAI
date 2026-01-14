@@ -33,9 +33,13 @@ export const DashboardController = {
 
   Vebieudo: async (req, res) => {
     try {
-      const data = await DashboardService.Vebieudo();
+      // Lấy năm từ query param, nếu không có thì lấy năm hiện tại
+      const year = req.query.year || new Date().getFullYear(); 
+      
+      const data = await DashboardService.Vebieudo(year); // Truyền year vào Service
       res.json(data);
     } catch (err) {
+      console.error("Lỗi API Vebieudo:", err);
       res.status(500).json({ message: err.message });
     }
   },

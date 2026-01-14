@@ -38,47 +38,47 @@
             <div class="logo">
                 <a href="/trangchu"><img src="img/img trang chu/logo1.png" alt="Logo"></a>
             </div>
-            <h2>SIGN UP</h2>
-            <form>
+            <h2>ĐĂNG KÝ</h2> <form>
                 <div class="form-group">
-                    <input type="text" id="username" placeholder="Enter your username">
+                    <input type="text" id="fullname" placeholder="Nhập họ và tên đầy đủ">
+                    <div class="error" id="fullnameError"></div>
+                </div>
+            
+                <div class="form-group">
+                    <input type="text" id="username" placeholder="Nhập tên đăng nhập">
                     <div class="error" id="usernameError"></div>
                 </div>
+            
                 <div class="form-group">
-
-                    <input type="email" id="email" placeholder="Enter your email">
-                    <div class="error" id="emailError"></div>
-                </div>
-                <div class="form-group">
-
-                    <input type="password" id="password" placeholder="Enter your password">
+                    <input type="password" id="password" placeholder="Nhập mật khẩu">
                     <div class="error" id="passwordError"></div>
                 </div>
-                <div class="form-group">
 
-                    <input type="tel" id="phone" placeholder="Enter your phone number">
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Nhập email của bạn">
+                    <div class="error" id="emailError"></div>
+                </div>
+            
+                
+            
+                <div class="form-group">
+                    <input type="tel" id="phone" placeholder="Nhập số điện thoại">
                     <div class="error" id="phoneError"></div>
                 </div>
-                <div class="form-group">
-
-                    <input type="text" id="verification" placeholder="Enter the verification code">
-                    <div class="error" id="verificationError"></div>
-
-                </div>
-
-                <button type="button" class="login-button" onclick="validateForm1()">Sign up</button>
+            
+                <button type="button" class="login-button" onclick="validateForm1()">Đăng ký</button>
             </form>
-
+        
             <div class="social-login">
-                <p>Or sign up with</p>
+                <p>Hoặc đăng ký bằng</p>
                 <div class="social-buttons">
-                    <button> <i class="fa-brands fa-google" style="margin-right: 3px;"></i>Google</button>
-                    <button><i class="fa-brands fa-facebook" style="margin-right: 3px;"></i> Facebook</button>
+                    <button><i class="fa-brands fa-google" style="margin-right: 3px;"></i>Google</button>
+                    <button><i class="fa-brands fa-facebook" style="margin-right: 3px;"></i>Facebook</button>
                 </div>
             </div>
-
+        
             <div class="cta">
-                <p>Don’t have an account? <a href="/dangnhap" style="    color: #8DA4CD;">Login</a></p>
+                <p>Đã có tài khoản? <a href="/dangnhap" style="color: #8DA4CD;">Đăng nhập</a></p>
             </div>
         </div>
     </div>
